@@ -1,0 +1,18 @@
+Dataset positive अनुपात: train=4.4%, dev=4.4%, test=4.4%
+Dev set पर अधिकतम F1 से चुना गया threshold: tau* = 0.26
+
+Classifier (Test set)          TP   FP   FN   TN     Acc    Prec  Recall      F1
+Always-0 dummy baseline         0    0   50 1076  0.9556   0.000   0.000   0.000
+Linear LogReg (tau = 0.50)      5    4   45 1072  0.9565   0.556   0.100   0.169
+Poly-3 LogReg (tau = 0.50)     13    5   37 1071  0.9627   0.722   0.260   0.382
+Poly-3 LogReg (tau* = 0.26)    25   27   25 1049  0.9538   0.481   0.500   0.490
+
+Test ROC-AUC -> Linear: 0.9158 | Poly-3 (trapezoid): 0.9444 | P(s+ > s-): 0.9444
+
+Learning curves (log-loss):   m     Lin(train/dev)      Poly-3(train/dev)
+                            120    0.1150 / 0.1571      0.0742 / 0.2708
+                            240    0.1464 / 0.1480      0.1193 / 0.1568
+                            480    0.1214 / 0.1478      0.0971 / 0.1361
+                            960    0.1317 / 0.1466      0.1136 / 0.1273
+                           1600    0.1332 / 0.1457      0.1161 / 0.1254
+                           2249    0.1322 / 0.1453      0.1161 / 0.1245

@@ -1,0 +1,21 @@
+=== भाग A: 3-Class Iris पर Softmax Regression ===
+iter    train CE loss    train accuracy
+   0           1.0986             30.8%
+  10           0.4803             85.8%
+  50           0.2563             95.0%
+ 150           0.1573             95.0%
+ 349           0.1150             95.8%
+
+2 petal features -> train acc: 95.8%,  test acc: 96.7%,  test CE: 0.0763
+सभी 4 features   -> train acc: 97.5%,  test acc: 96.7%,  test CE: 0.0820
+
+तीनों classes के एक-एक test फूल पर Softmax probabilities [setosa, versicolor, virginica]:
+  test # 1: p = [0.999, 0.001, 0.000] (sum=1.00) -> pred: setosa     (सच: setosa)
+  test # 5: p = [0.009, 0.961, 0.030] (sum=1.00) -> pred: versicolor (सच: versicolor)
+  test # 0: p = [0.000, 0.006, 0.994] (sum=1.00) -> pred: virginica  (सच: virginica)
+
+=== भाग B: 2-Class Subsets पर Perceptron ===
+Setosa vs Versicolor (separable): प्रति epoch गलतियाँ = [7, 0]
+  -> 2 epochs में शून्य गलतियों पर रुक गया, accuracy = 100.0%
+Versicolor vs Virginica (overlap): 15 epochs में गलतियाँ = [56, 48, 45, 35, 37, 25, 27, 27, 27, 27, 27, 25, 25, 25, 24]
+  -> Overlapping data पर Perceptron कभी 0 गलतियों पर शांत नहीं होता।

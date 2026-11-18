@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<title>CS229 Machine Learning हिंदी में</title>
+<link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
+<style>
+@page { size: A4; margin: 16mm 13mm 17mm 13mm;
+        @bottom-center { content: counter(page); font: 9pt "Helvetica Neue", sans-serif; color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Kohinoor Devanagari", "Devanagari Sangam MN", "Helvetica Neue", sans-serif;
+       font-size: 10.6pt; line-height: 1.72; color: #111827; margin: 0; }
+body.screen { max-width: 900px; margin: 0 auto; padding: 24px 28px 80px; font-size: 16px; background: #fff; }
+h1, h2, h3, h4 { line-height: 1.35; break-after: avoid; }
+h2 { font-size: 13.5pt; margin: 1.3em 0 0.4em; color: #1e3a8a; }
+h3 { font-size: 11.5pt; margin: 1.1em 0 0.3em; color: #1f2937; }
+p { margin: 0.45em 0; orphans: 2; widows: 2; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+li { margin: 0.18em 0; }
+a { color: #1d4ed8; text-decoration: none; }
+code { font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace; font-size: 0.88em;
+       background: #f1f5f9; padding: 0.08em 0.3em; border-radius: 3px; }
+blockquote { margin: 0.7em 0; padding: 0.5em 0.9em; border-left: 4px solid #2563eb; background: #eff6ff;
+             border-radius: 0 6px 6px 0; break-inside: avoid; }
+blockquote p { margin: 0.2em 0; }
+table { border-collapse: collapse; margin: 0.7em 0; width: 100%; font-size: 0.93em; break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 0.3em 0.6em; text-align: left; vertical-align: top; }
+th { background: #eef2ff; }
+.math-display { display: block; margin: 0.55em 0; overflow-x: auto; break-inside: avoid; }
+.katex { font-size: 1.04em; }
+
+.cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center;
+         break-after: page; }
+body.screen .cover { height: auto; padding: 70px 0 50px; }
+.cover .kicker { letter-spacing: 0.22em; font-size: 10pt; color: #2563eb; font-weight: 700; }
+.cover h1 { font-size: 34pt; margin: 0.25em 0 0.1em; color: #111827; }
+.cover .sub { font-size: 15pt; color: #374151; }
+.cover .pill { display: inline-block; margin: 2.2em auto 0; padding: 0.5em 1.4em; border-radius: 999px;
+               background: #1e3a8a; color: #fff; font-size: 11.5pt; }
+.cover .note { margin-top: 3em; font-size: 9.5pt; color: #6b7280; }
+
+.front { break-after: page; }
+.toc ol { list-style: none; padding: 0; margin: 0.4em 0; }
+.toc li { display: flex; gap: 0.7em; padding: 0.22em 0; border-bottom: 1px dotted #cbd5e1; }
+.toc .n { flex: 0 0 5.6em; color: #2563eb; font-weight: 700; }
+
+.chapter { break-before: page; }
+.ch-head { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 14px 18px;
+           border-radius: 10px; margin-bottom: 0.9em; break-inside: avoid; }
+.ch-head .n { font-size: 9.5pt; letter-spacing: 0.18em; opacity: 0.85; font-weight: 700; }
+.ch-head h1 { font-size: 17.5pt; margin: 0.1em 0 0; }
+.part { display: flex; align-items: center; gap: 0.6em; margin: 1.5em 0 0.6em; padding-bottom: 0.25em;
+        border-bottom: 2px solid #1e3a8a; break-after: avoid; }
+.part .tag { background: #1e3a8a; color: #fff; border-radius: 5px; padding: 0.05em 0.6em; font-size: 9.5pt;
+             font-weight: 700; }
+.part h2 { margin: 0; font-size: 14pt; }
+
+.anim { border: 1px solid #e5e7eb; border-radius: 9px; padding: 8px 7px 6px; margin: 0.8em 0;
+        break-inside: avoid; background: #fff; }
+.anim-head { font-weight: 700; margin-bottom: 0.3em; }
+.anim-head .badge { background: #ea580c; color: #fff; border-radius: 4px; padding: 0.05em 0.5em;
+                    font-size: 9pt; margin-right: 0.5em; }
+.frames { display: flex; gap: 3px; }
+.frames figure { margin: 0; flex: 1; text-align: center; }
+.frames img { width: 100%; display: block; border: 1px solid #eef0f3; border-radius: 5px; }
+.frames figcaption { font-size: 8pt; color: #6b7280; line-height: 1.3; margin-top: 1px; }
+.anim .gif { display: block; margin: 0 auto; width: 480px; max-width: 100%; }
+.anim .caption { font-size: 0.95em; margin: 0.4em 0 0.15em; }
+.anim .file { font-size: 8pt; color: #6b7280; font-family: "SF Mono", Menlo, monospace; }
+
+.code { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.code pre, pre.output { margin: 0; font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace;
+                        font-size: 8.3pt; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+body.screen .code pre, body.screen pre.output { font-size: 13px; }
+pre.output { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.label { font-size: 9pt; font-weight: 700; color: #475569; margin: 1em 0 0.2em; break-after: avoid; }
+.result-img { display: block; max-width: 88%; margin: 0.6em auto; border: 1px solid #e5e7eb; border-radius: 6px;
+              break-inside: avoid; }
+.run { font-size: 0.93em; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #ffffcc }
+.code { background: #f0f0f0; }
+.code .c { color: #60A0B0; font-style: italic } /* Comment */
+.code .err { border: 1px solid #F00 } /* Error */
+.code .k { color: #007020; font-weight: bold } /* Keyword */
+.code .o { color: #666 } /* Operator */
+.code .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #007020 } /* Comment.Preproc */
+.code .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F00 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #888 } /* Generic.Output */
+.code .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #04D } /* Generic.Traceback */
+.code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code .kp { color: #007020 } /* Keyword.Pseudo */
+.code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #902000 } /* Keyword.Type */
+.code .m { color: #40A070 } /* Literal.Number */
+.code .s { color: #4070A0 } /* Literal.String */
+.code .na { color: #4070A0 } /* Name.Attribute */
+.code .nb { color: #007020 } /* Name.Builtin */
+.code .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code .no { color: #60ADD5 } /* Name.Constant */
+.code .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code .ne { color: #007020 } /* Name.Exception */
+.code .nf { color: #06287E } /* Name.Function */
+.code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code .nv { color: #BB60D5 } /* Name.Variable */
+.code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code .w { color: #BBB } /* Text.Whitespace */
+.code .mb { color: #40A070 } /* Literal.Number.Bin */
+.code .mf { color: #40A070 } /* Literal.Number.Float */
+.code .mh { color: #40A070 } /* Literal.Number.Hex */
+.code .mi { color: #40A070 } /* Literal.Number.Integer */
+.code .mo { color: #40A070 } /* Literal.Number.Oct */
+.code .sa { color: #4070A0 } /* Literal.String.Affix */
+.code .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code .sc { color: #4070A0 } /* Literal.String.Char */
+.code .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #4070A0 } /* Literal.String.Double */
+.code .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code .sx { color: #C65D09 } /* Literal.String.Other */
+.code .sr { color: #235388 } /* Literal.String.Regex */
+.code .s1 { color: #4070A0 } /* Literal.String.Single */
+.code .ss { color: #517918 } /* Literal.String.Symbol */
+.code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code .fm { color: #06287E } /* Name.Function.Magic */
+.code .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
+</head><body class="print">
+<section class="cover"><div class="kicker">STANFORD CS229 SCHEDULE &middot; SELF-STUDY GUIDE</div><h1>Machine Learning<br>हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह एक self-study guide है जो CS229 के public syllabus के क्रम पर चलती है। यह Stanford का official material नहीं है।</div></section>
+<section class="front"><h2>यह guide कैसे पढ़ें</h2>
+<p>यह guide Stanford CS229 (Machine Learning) के syllabus के क्रम में चलती है: Lecture 1 से Lecture 20 तक। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<table>
+<thead>
+<tr>
+<th>भाग</th>
+<th>क्या है</th>
+<th>कैसे इस्तेमाल करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>भाग 1: Theory</strong></td>
+<td>Idea, notation, maths और algorithm, हिंदी में</td>
+<td>पहले इसे धीरे-धीरे पढ़ें। Equations को कागज़ पर खुद लिखकर देखें।</td>
+</tr>
+<tr>
+<td><strong>भाग 2: 3D Animations</strong></td>
+<td>हर chapter में कम से कम 5 animations</td>
+<td>PDF में हर animation के तीन still frames हैं (शुरुआत, बीच में, अंत)। चलती animation देखने के लिए नीचे बताई files खोलें।</td>
+</tr>
+<tr>
+<td><strong>भाग 3: Python Example</strong></td>
+<td>NumPy से शुरू से लिखा एक चलने वाला example, उसके output के साथ</td>
+<td>Code को खुद चलाएँ, फिर numbers बदलकर देखें कि क्या बदलता है।</td>
+</tr>
+</tbody>
+</table>
+<p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
+<h2>चलती animations कहाँ हैं</h2>
+<ul>
+<li><strong><code>CS229_Hindi_Animated.html</code></strong> (इसी folder में): इसे browser में खोलें। यह यही पूरी guide है, पर इसमें सारी animations चलती हैं।</li>
+<li><strong><code>cs229_hindi/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
+</ul>
+<h2>Code कैसे चलाएँ</h2>
+<p>हर chapter का code <code>cs229_hindi/chapters/&lt;chapter&gt;/example.py</code> में है। Terminal में इसी folder से:</p>
+<pre><code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L02_linear_regression/example.py
+</code></pre>
+<p>Animations का code उसी folder की <code>anims.py</code> में है। पूरी guide दोबारा बनाने के लिए: <code>cs229_hindi/.venv/bin/python cs229_hindi/build.py</code></p>
+<h2>पहले से क्या आना चाहिए</h2>
+<ul>
+<li><strong>Linear Algebra:</strong> vectors, matrices, matrix multiplication, transpose, inverse, eigenvalues / eigenvectors।</li>
+<li><strong>Probability:</strong> random variable, expectation, variance, conditional probability, Bayes rule, Gaussian distribution।</li>
+<li><strong>Calculus:</strong> derivative, partial derivative, gradient, chain rule।</li>
+<li><strong>Python:</strong> NumPy arrays की बुनियादी समझ।</li>
+</ul>
+<h2>पूरे course में चलने वाला notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}, y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वाँ training example: input और target</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या (या input का dimension)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span>, <span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>model के parameters</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis: model का prediction</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(J(\theta)\)</span></td>
+<td>cost function जिसे minimize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\ell(\theta)\)</span></td>
+<td>log-likelihood जिसे maximize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span></td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\nabla_\theta\)</span></td>
+<td><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span></td>
+<td>mean <span class="math-inline">\(\mu\)</span> और covariance <span class="math-inline">\(\Sigma\)</span> वाला Gaussian</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(:=\)</span></td>
+<td>"दाएँ की value बाएँ में रख दो" (assignment)</td>
+</tr>
+</tbody>
+</table><h2>विषय-सूची</h2><div class="toc"><ol><li><span class="n">Lecture 9</span><a href="#L09_tree_ensembles">Decision Trees और Ensemble Methods</a></li></ol></div></section>
+<section class="chapter" id="L09_tree_ensembles">
+<div class="ch-head"><div class="n">LECTURE 9</div><h1>Decision Trees और Ensemble Methods</h1></div>
+<div class="part"><span class="tag">भाग 1</span><h2>Theory</h2></div>
+<blockquote>
+<p><strong>इस lecture में:</strong> Decision Trees में recursive splitting, classification के impurity measures (misclassification error, Gini index और cross-entropy), information gain, Regression Trees, trees को regularize करने के तरीके (depth, leaf size, pruning), correlated predictors के औसत का variance (<span class="math-inline">\(\rho\sigma^2 + \frac{1-\rho}{M}\sigma^2\)</span>), Bagging और Out-of-Bag (OOB) error, Random Forests, AdaBoost का पूरा step-by-step algorithm और exponential loss से उसका रिश्ता, और Gradient Boosting में residuals fit करना।</p>
+</blockquote>
+<h2>1. एक line में idea</h2>
+<p>Linear models पूरे input space पर एक ही formula लगाते हैं। <strong>Decision Tree</strong> इसके उलट काम करता है: वह हाँ-ना वाले सीधे सवाल पूछ-पूछकर input space को छोटे-छोटे बक्सों (regions) में काट देता है और हर बक्से में एक सरल जवाब (जैसे औसत या बहुमत) दे देता है। अकेला गहरा tree बहुत लचीला होता है पर थोड़ा सा data बदलते ही बुरी तरह बदल जाता है (<strong>high variance</strong>)। <strong>Ensemble methods</strong> सैकड़ों trees को मिलाकर इस कमज़ोरी को ताकत में बदल देते हैं: <strong>Bagging</strong> और <strong>Random Forests</strong> अलग-अलग trees का औसत लेकर variance घटाते हैं, जबकि <strong>Boosting</strong> (AdaBoost, Gradient Boosting) एक के बाद एक छोटे trees जोड़कर पिछली गलतियों को सुधारता है और bias घटाता है।</p>
+<h2>2. Decision Trees: Setup और Recursive Splitting</h2>
+<p>मान लीजिए हमारे पास <span class="math-inline">\(m\)</span> training examples <span class="math-inline">\((x^{(1)}, y^{(1)}), \dots, (x^{(m)}, y^{(m)})\)</span> हैं, जहाँ हर <span class="math-inline">\(x^{(i)} \in \mathbb{R}^n\)</span> में <span class="math-inline">\(n\)</span> features हैं। एक decision tree पूरे feature space को <span class="math-inline">\(J\)</span> अलग-अलग (disjoint) क्षेत्रों <span class="math-inline">\(R_1, R_2, \dots, R_J\)</span> में बाँट देता है, जिन्हें <strong>leaves</strong> (पत्ते) कहते हैं। हर leaf <span class="math-inline">\(R_r\)</span> में model एक स्थिर मान <span class="math-inline">\(c_r\)</span> देता है:</p>
+<p><span class="math-display">\[h(x) = \sum_{r=1}^{J} c_r \,\mathbf{1}\{x \in R_r\}\]</span></p>
+<p>जहाँ <span class="math-inline">\(\mathbf{1}\{\cdot\}\)</span> indicator function है (शर्त सच हो तो <span class="math-inline">\(1\)</span>, वरना <span class="math-inline">\(0\)</span>)। सारे संभव बक्सों में से सबसे अच्छा बँटवारा ढूँढना computationally असंभव (NP-hard) है। इसलिए <strong>CART (Classification and Regression Trees)</strong> एक <strong>greedy top-down</strong> तरीका अपनाता है, जिसे <strong>recursive binary splitting</strong> कहते हैं।</p>
+<p>शुरुआत पूरे data वाले एक अकेले क्षेत्र <span class="math-inline">\(R\)</span> (root node) से होती है। हर कदम पर हम एक feature <span class="math-inline">\(j \in \{1, \dots, n\}\)</span> और एक threshold <span class="math-inline">\(t \in \mathbb{R}\)</span> चुनते हैं, जो <span class="math-inline">\(R\)</span> को दो axis-aligned हिस्सों में काटता है:</p>
+<p><span class="math-display">\[R_{\text{left}}(j, t) = \{x \in R : x_j \le t\}, \qquad R_{\text{right}}(j, t) = \{x \in R : x_j &gt; t\}\]</span></p>
+<p>चूँकि हर कटाई किसी एक coordinate axis के लंबवत (<span class="math-inline">\(x_j = t\)</span>) होती है, 2D में क्षेत्र आयत (rectangles) बनते हैं और 3D में डिब्बे (axis-aligned boxes)। हम वह जोड़ी <span class="math-inline">\((j, t)\)</span> चुनते हैं जिससे नीचे परिभाषित loss या impurity सबसे ज़्यादा घटे, और फिर यही काम <span class="math-inline">\(R_{\text{left}}\)</span> और <span class="math-inline">\(R_{\text{right}}\)</span> पर अलग-अलग दोहराते हैं।</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(R\)</span>, <span class="math-inline">\(R_{\text{left}}\)</span>, <span class="math-inline">\(R_{\text{right}}\)</span></td>
+<td>वर्तमान node और split के बाद बने बाएँ व दाएँ child regions</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(|R|\)</span></td>
+<td>क्षेत्र <span class="math-inline">\(R\)</span> में आने वाले training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\hat{p}_k(R)\)</span></td>
+<td>क्षेत्र <span class="math-inline">\(R\)</span> में class <span class="math-inline">\(k\)</span> के examples का अनुपात</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(L(R)\)</span></td>
+<td>क्षेत्र <span class="math-inline">\(R\)</span> की impurity (अशुद्धता) नापने वाला function</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(M\)</span></td>
+<td>ensemble में मिलाए गए कुल trees (या weak learners) की संख्या</td>
+</tr>
+</tbody>
+</table>
+<h2>3. Classification Trees: Misclassification, Gini और Cross-Entropy</h2>
+<p>मान लीजिए <span class="math-inline">\(y \in \{1, \dots, K\}\)</span> में <span class="math-inline">\(K\)</span> classes हैं। किसी क्षेत्र <span class="math-inline">\(R\)</span> में class <span class="math-inline">\(k\)</span> का अनुपात है:</p>
+<p><span class="math-display">\[\hat{p}_k = \frac{1}{|R|} \sum_{x^{(i)} \in R} \mathbf{1}\{y^{(i)} = k\}\]</span></p>
+<p>अगर <span class="math-inline">\(R\)</span> एक leaf बनता है, तो हम बहुमत वाली class <span class="math-inline">\(c_R = \arg\max_k \hat{p}_k\)</span> predict करते हैं। पर split चुनते समय हमें नापना होता है कि क्षेत्र <span class="math-inline">\(R\)</span> कितना "मिलावटी" (impure) है। अगर सारे examples एक ही class के हों (<span class="math-inline">\(\hat{p}_k = 1\)</span>), तो impurity <span class="math-inline">\(0\)</span> होनी चाहिए; अगर सारी classes बराबर बँटी हों, तो impurity सबसे ज़्यादा होनी चाहिए। इसके तीन मुख्य पैमाने हैं:</p>
+<p><span class="math-display">\[\begin{aligned}
+\text{Misclassification error:} \quad &amp; L_{\text{mis}}(R) = 1 - \max_{k} \hat{p}_k \\
+\text{Gini index:} \quad &amp; L_{\text{Gini}}(R) = \sum_{k=1}^{K} \hat{p}_k (1 - \hat{p}_k) = 1 - \sum_{k=1}^{K} \hat{p}_k^2 \\
+\text{Cross-entropy (Entropy):} \quad &amp; L_{\text{ent}}(R) = -\sum_{k=1}^{K} \hat{p}_k \log_2 \hat{p}_k \qquad (0 \log_2 0 = 0)
+\end{aligned}\]</span></p>
+<p>दो classes (<span class="math-inline">\(K = 2\)</span>) के लिए अगर पहली class की प्रायिकता <span class="math-inline">\(p = \hat{p}_1\)</span> लिखें, तो ये तीनों बन जाते हैं: <span class="math-inline">\(L_{\text{mis}}(p) = 1 - \max(p, 1-p)\)</span>, <span class="math-inline">\(L_{\text{Gini}}(p) = 2p(1-p)\)</span>, और <span class="math-inline">\(L_{\text{ent}}(p) = -p\log_2 p - (1-p)\log_2(1-p)\)</span>।</p>
+<h3>Information Gain और Misclassification की समस्या</h3>
+<p>किसी split <span class="math-inline">\((j, t)\)</span> की अच्छाई हम <strong>Information Gain</strong> (या impurity reduction) से नापते हैं:</p>
+<p><span class="math-display">\[\mathrm{IG}(R, j, t) = L(R) - \frac{|R_{\text{left}}|}{|R|} L(R_{\text{left}}) - \frac{|R_{\text{right}}|}{|R|} L(R_{\text{right}})\]</span></p>
+<p>जब <span class="math-inline">\(L = L_{\text{ent}}\)</span> हो तो इसे शास्त्रीय रूप से information gain कहते हैं, और <span class="math-inline">\(L = L_{\text{Gini}}\)</span> हो तो Gini gain। हर node पर हम सभी features <span class="math-inline">\(j\)</span> और सभी संभव thresholds <span class="math-inline">\(t\)</span> (training values के बीच के midpoints) पर <span class="math-inline">\(\mathrm{IG}(R, j, t)\)</span> निकालकर सबसे बड़े gain वाला split चुनते हैं।</p>
+<p>एक ज़रूरी सवाल: जब अंत में हमें accuracy ही चाहिए, तो split चुनते समय सीधे <span class="math-inline">\(L_{\text{mis}}\)</span> क्यों नहीं लगाते? एक छोटे उदाहरण से कारण साफ़ हो जाता है। मान लीजिए <span class="math-inline">\(R\)</span> में class 1 के <span class="math-inline">\(70\)</span> और class 0 के <span class="math-inline">\(30\)</span> examples हैं (<span class="math-inline">\(L_{\text{mis}}(R) = 0.30\)</span>)। एक split से बाईं ओर <span class="math-inline">\((50, 30)\)</span> और दाईं ओर <span class="math-inline">\((20, 0)\)</span> मिलते हैं। दायाँ हिस्सा <strong>पूरी तरह शुद्ध</strong> हो गया है! फिर भी दोनों हिस्सों में बहुमत अभी भी class 1 का ही है, इसलिए weighted misclassification error है:</p>
+<p><span class="math-display">\[\frac{80}{100}\left(\frac{30}{80}\right) + \frac{20}{100}(0) = 0.30 = L_{\text{mis}}(R) \quad\Longrightarrow\quad \mathrm{IG}_{\text{mis}} = 0\]</span></p>
+<p><span class="math-inline">\(L_{\text{mis}}(p)\)</span> दोनों तरफ़ (<span class="math-inline">\(p &lt; 0.5\)</span> और <span class="math-inline">\(p &gt; 0.5\)</span>) सीधी रेखा है, strictly concave नहीं। इसलिए जब दोनों children में बहुमत वही रहे, <span class="math-inline">\(L_{\text{mis}}\)</span> को कोई सुधार दिखता ही नहीं और tree बढ़ना बंद कर सकता है। इसके उलट <span class="math-inline">\(L_{\text{Gini}}(p)\)</span> और <span class="math-inline">\(L_{\text{ent}}(p)\)</span> <strong>strictly concave</strong> हैं: Jensen's inequality से जब भी दोनों children के अनुपात अलग होंगे, <span class="math-inline">\(\mathrm{IG} &gt; 0\)</span> मिलेगा और शुद्ध leaf बनाने वाले split को इनाम मिलेगा। व्यवहार में Gini और cross-entropy बहुत मिलते-जुलते trees बनाते हैं; pruning के समय <span class="math-inline">\(L_{\text{mis}}\)</span> इस्तेमाल करना ठीक रहता है।</p>
+<h2>4. Regression Trees</h2>
+<p>जब target <span class="math-inline">\(y^{(i)} \in \mathbb{R}\)</span> continuous हो, तो हम squared error को loss बनाते हैं। किसी क्षेत्र <span class="math-inline">\(R_r\)</span> में अगर हम स्थिर मान <span class="math-inline">\(c_r\)</span> predict करें, तो उस क्षेत्र का squared error है <span class="math-inline">\(S(c_r) = \sum_{x^{(i)} \in R_r} (y^{(i)} - c_r)^2\)</span>। सबसे अच्छा <span class="math-inline">\(c_r\)</span> निकालने के लिए derivative को zero रखें:</p>
+<p><span class="math-display">\[\frac{d S}{d c_r} = -2 \sum_{x^{(i)} \in R_r} \left(y^{(i)} - c_r\right) = 0 \quad\Longrightarrow\quad \hat{c}_r = \frac{1}{|R_r|} \sum_{x^{(i)} \in R_r} y^{(i)}\]</span></p>
+<p>यानी हर leaf का सबसे अच्छा prediction बस उसके अंदर गिरने वाले training targets का <strong>sample mean</strong> है। इसलिए क्षेत्र <span class="math-inline">\(R\)</span> की impurity उसके अंदर का variance है, और सबसे अच्छा split <span class="math-inline">\((j, t)\)</span> वह है जो दोनों हिस्सों के कुल squared error को सबसे छोटा करे:</p>
+<p><span class="math-display">\[\min_{j,\, t} \left[ \sum_{x^{(i)} \in R_{\text{left}}(j, t)} \left(y^{(i)} - \hat{c}_{\text{left}}\right)^2 + \sum_{x^{(i)} \in R_{\text{right}}(j, t)} \left(y^{(i)} - \hat{c}_{\text{right}}\right)^2 \right]\]</span></p>
+<p>इस तरह बना function <span class="math-inline">\(h(x)\)</span> एक सीढ़ीदार (piecewise-constant) सतह होता है। Splits बढ़ने पर ये सीढ़ियाँ महीन होती जाती हैं और किसी भी smooth function के करीब पहुँच सकती हैं।</p>
+<h2>5. Trees को Regularize करना</h2>
+<p>अगर हम तब तक काटते रहें जब तक हर leaf में सिर्फ़ एक example न बचे, तो training error <span class="math-inline">\(0\)</span> हो जाएगा पर tree हर छोटे से noise को रट लेगा (<strong>severe overfitting</strong>)। इसे रोकने के मुख्य तरीके ये हैं:</p>
+<ul>
+<li><strong>Maximum depth (<code>max_depth</code>):</strong> root से किसी भी leaf तक के सवालों की संख्या सीमित कर दें।</li>
+<li><strong>Minimum leaf size (<code>min_samples_leaf</code>):</strong> कोई split तभी मंज़ूर करें जब बाएँ और दाएँ दोनों हिस्सों में कम से कम <span class="math-inline">\(s_{\min}\)</span> examples बचें। इससे बहुत छोटे, noisy बक्से नहीं बनते।</li>
+<li><strong>Cost-complexity pruning (weakest-link pruning):</strong> कई बार शुरुआत में एक मामूली सा दिखने वाला split आगे चलकर बहुत शानदार दूसरा split खोल देता है (जैसे XOR में पहला कट कोई gain नहीं देता, पर दूसरा कट सब साफ़ कर देता है)। जल्दी रुकने से ऐसे splits छूट जाते हैं। इसलिए बेहतर तरीका है कि पहले एक बड़ा tree <span class="math-inline">\(T_0\)</span> उगाएँ, और फिर उसे पीछे से छाँटकर (prune करके) ऐसा subtree <span class="math-inline">\(T \subset T_0\)</span> चुनें जो नीचे दिए गए penalized cost को minimize करे:</li>
+</ul>
+<p><span class="math-display">\[R_\alpha(T) = \sum_{r=1}^{|T|} \sum_{x^{(i)} \in R_r} \ell\left(y^{(i)}, \hat{c}_r\right) + \alpha |T|\]</span></p>
+<p>यहाँ <span class="math-inline">\(|T|\)</span> subtree के leaves की संख्या है और <span class="math-inline">\(\alpha \ge 0\)</span> regularization parameter है (ठीक Lecture 8 के <span class="math-inline">\(\lambda\)</span> जैसा)। <span class="math-inline">\(\alpha = 0\)</span> पूरा बड़ा tree रखता है; <span class="math-inline">\(\alpha\)</span> बढ़ाने पर छोटे फ़ायदे वाली शाखाएँ कटती जाती हैं। सबसे अच्छा <span class="math-inline">\(\alpha\)</span> cross validation से चुनते हैं।</p>
+<h2>6. Ensembles और Correlated Predictors का Variance</h2>
+<p>गहरे decision trees का <strong>bias कम</strong> होता है पर <strong>variance बहुत ज़्यादा</strong> होता है। क्या हम कई noisy पर कम-bias वाले models का औसत लेकर variance घटा सकते हैं? आइए इसकी सटीक गणित देखें।</p>
+<p>मान लीजिए किसी तय test बिंदु <span class="math-inline">\(x\)</span> पर हमारे पास <span class="math-inline">\(M\)</span> अलग-अलग पर एक जैसे बंटन (identically distributed) वाले random predictions <span class="math-inline">\(Z_1, Z_2, \dots, Z_M\)</span> हैं। हर एक का mean <span class="math-inline">\(\mu\)</span>, variance <span class="math-inline">\(\mathrm{Var}(Z_b) = \sigma^2\)</span>, और किन्हीं भी दो अलग predictions (<span class="math-inline">\(b \neq b&#x27;\)</span>) के बीच pairwise correlation <span class="math-inline">\(\mathrm{Corr}(Z_b, Z_{b&#x27;}) = \rho\)</span> है, यानी <span class="math-inline">\(\mathrm{Cov}(Z_b, Z_{b&#x27;}) = \rho\sigma^2\)</span>। इनके औसत <span class="math-inline">\(\bar{Z} = \frac{1}{M}\sum_{b=1}^{M} Z_b\)</span> का expectation <span class="math-inline">\(E[\bar{Z}] = \mu\)</span> है (यानी <strong>bias बिल्कुल नहीं बदलता</strong>)। अब <span class="math-inline">\(\bar{Z}\)</span> का variance निकालते हैं:</p>
+<p><span class="math-display">\[\begin{aligned}
+\mathrm{Var}\!\left(\frac{1}{M}\sum_{b=1}^{M} Z_b\right) &amp;= \frac{1}{M^2} \mathrm{Var}\!\left(\sum_{b=1}^{M} Z_b\right) \\
+&amp;= \frac{1}{M^2} \left( \sum_{b=1}^{M} \mathrm{Var}(Z_b) + \sum_{b=1}^{M}\sum_{b&#x27; \neq b} \mathrm{Cov}(Z_b, Z_{b&#x27;}) \right) \\
+&amp;= \frac{1}{M^2} \left( M\sigma^2 + M(M - 1)\rho\sigma^2 \right) \\
+&amp;= \frac{\sigma^2}{M} + \frac{M - 1}{M}\rho\sigma^2 = \rho\sigma^2 + \frac{1 - \rho}{M}\sigma^2
+\end{aligned}\]</span></p>
+<p>यह एक बेहद महत्वपूर्ण formula है:</p>
+<p><span class="math-display">\[\mathrm{Var}(\bar{Z}) = \rho\sigma^2 + \frac{1 - \rho}{M}\sigma^2\]</span></p>
+<p>इसके दो हिस्से ध्यान से देखिए:</p>
+<ol>
+<li>जब हम ensemble का आकार <span class="math-inline">\(M\)</span> बढ़ाते हैं (<span class="math-inline">\(M \to \infty\)</span>), तो दूसरा हिस्सा <span class="math-inline">\(\frac{1-\rho}{M}\sigma^2 \to 0\)</span> हो जाता है। अगर सब models पूरी तरह independent हों (<span class="math-inline">\(\rho = 0\)</span>), तो variance <span class="math-inline">\(\sigma^2 / M\)</span> के हिसाब से शून्य तक गिर सकता है।</li>
+<li>पहला हिस्सा <span class="math-inline">\(\rho\sigma^2\)</span> <strong><span class="math-inline">\(M\)</span> पर निर्भर ही नहीं करता</strong>! अगर सारे trees आपस में बहुत मिलते-जुलते हैं (<span class="math-inline">\(\rho\)</span> बड़ा है), तो हज़ारों trees जोड़ने पर भी variance <span class="math-inline">\(\rho\sigma^2\)</span> से नीचे नहीं जाएगा। Bagging और Random Forests की पूरी कहानी पहले <span class="math-inline">\(M\)</span> बढ़ाकर दूसरा term मारने और फिर <span class="math-inline">\(\rho\)</span> घटाकर पहला term छोटा करने की है।</li>
+</ol>
+<h2>7. Bagging, Out-of-Bag Error और Random Forests</h2>
+<h3>Bagging (Bootstrap Aggregating)</h3>
+<p>असल में हमारे पास सिर्फ़ <strong>एक</strong> training set <span class="math-inline">\(S\)</span> है, तो <span class="math-inline">\(M\)</span> अलग trees कहाँ से लाएँ? हम <span class="math-inline">\(S\)</span> से <strong>with replacement</strong> (एक example चुनकर वापस झोले में डालते हुए) <span class="math-inline">\(m\)</span> examples खींचकर एक नया <strong>bootstrap sample</strong> <span class="math-inline">\(S^{*b}\)</span> बनाते हैं। यही काम <span class="math-inline">\(M\)</span> बार करके <span class="math-inline">\(S^{*1}, \dots, S^{*M}\)</span> बनाते हैं और हर एक पर बिना छाँटे गहरा tree <span class="math-inline">\(\hat{h}_b\)</span> सिखाते हैं।</p>
+<ul>
+<li><strong>Regression में:</strong> अंतिम जवाब औसत है: <span class="math-inline">\(\hat{h}_{\text{bag}}(x) = \frac{1}{M}\sum_{b=1}^{M} \hat{h}_b(x)\)</span>।</li>
+<li><strong>Classification में:</strong> अंतिम जवाब सभी <span class="math-inline">\(M\)</span> trees का <strong>majority vote</strong> है (या उनकी predicted probabilities का औसत)।</li>
+</ul>
+<p>अकेले tree की तीखी सीढ़ियाँ औसत लेने पर चिकनी हो जाती हैं। ध्यान दें कि <span class="math-inline">\(M\)</span> बढ़ाने से bagging <strong>overfit नहीं करता</strong>, बस test error एक सीमा पर जाकर रुक जाता है।</p>
+<h3>Out-of-Bag (OOB) Error</h3>
+<p>एक bootstrap sample <span class="math-inline">\(S^{*b}\)</span> बनाते समय किसी खास example <span class="math-inline">\((x^{(i)}, y^{(i)})\)</span> के एक बार के चुनाव में <strong>न</strong> आने की प्रायिकता <span class="math-inline">\(1 - \frac{1}{m}\)</span> है। <span class="math-inline">\(m\)</span> स्वतंत्र चुनावों में उसके एक बार भी न चुने जाने की प्रायिकता है:</p>
+<p><span class="math-display">\[P\left((x^{(i)}, y^{(i)}) \notin S^{*b}\right) = \left(1 - \frac{1}{m}\right)^m \xrightarrow{m \to \infty} e^{-1} \approx 0.368\]</span></p>
+<p>यानी हर tree औसतन लगभग <span class="math-inline">\(63.2\%\)</span> अनोखे examples देखता है और लगभग <strong><span class="math-inline">\(36.8\%\)</span> examples बाहर छूट जाते हैं</strong> (इन्हें <strong>Out-of-Bag</strong> या OOB examples कहते हैं)। अब हर training example <span class="math-inline">\(i\)</span> के लिए सिर्फ़ उन्हीं लगभग <span class="math-inline">\(0.368 M\)</span> trees का औसत/वोट लें जिन्होंने <span class="math-inline">\(i\)</span> को training में <strong>नहीं</strong> देखा। इस तरह सारे <span class="math-inline">\(m\)</span> बिंदुओं पर निकला error <strong>OOB error</strong> कहलाता है। यह बिना अलग से <span class="math-inline">\(k\)</span>-fold चलाए लगभग मुफ़्त में cross-validation जैसा सटीक generalization अंदाज़ा दे देता है।</p>
+<h3>Random Forests: <span class="math-inline">\(\rho\)</span> को कैसे घटाएँ?</h3>
+<p>Bagging में एक दिक़्क़त बची रहती है। मान लीजिए data में एक-दो बहुत ताकतवर features हैं। तब लगभग हर bootstrap sample में सबसे ऊपर के splits उन्हीं एक-दो features पर होंगे। नतीजा यह कि सारे <span class="math-inline">\(M\)</span> trees दिखने में काफ़ी एक जैसे होंगे, उनके बीच correlation <span class="math-inline">\(\rho\)</span> बड़ा रहेगा, और <span class="math-inline">\(\rho\sigma^2\)</span> की दीवार variance को ज़्यादा गिरने नहीं देगी।</p>
+<p><strong>Random Forest</strong> में एक छोटा पर जादुई बदलाव किया जाता है: हर tree के <strong>हर split पर</strong>, सारे <span class="math-inline">\(n\)</span> features पर खोजने से पहले हम बिना replacement के <strong>सिर्फ़ <span class="math-inline">\(k\)</span> random features</strong> का एक नया उपसमुच्चय चुनते हैं, और सर्वश्रेष्ठ split सिर्फ़ उन्हीं <span class="math-inline">\(k\)</span> features के अंदर ढूँढते हैं।</p>
+<ul>
+<li>Classification में आम पसंद <span class="math-inline">\(k = \lfloor \sqrt{n} \rfloor\)</span> है, और regression में <span class="math-inline">\(k = \lfloor n / 3 \rfloor\)</span>। (जब <span class="math-inline">\(k = n\)</span> रखें, तो यह वापस साधारण Bagging बन जाता है।)</li>
+<li>कई splits में सबसे दबंग feature उन <span class="math-inline">\(k\)</span> चुने हुए नामों में होता ही नहीं, इसलिए दूसरे काम के features को भी मौका मिलता है। इससे अलग-अलग trees के बीच correlation <span class="math-inline">\(\rho\)</span> तेज़ी से गिरता है और <span class="math-inline">\(\rho\sigma^2\)</span> छोटा होने से ensemble कहीं बेहतर generalize करता है।</li>
+</ul>
+<h2>8. Boosting और AdaBoost Step by Step</h2>
+<p>Bagging में सारे गहरे trees समानांतर (in parallel) बनते हैं ताकि variance घटे। <strong>Boosting</strong> ठीक उल्टी दिशा से चलता है: हम बहुत सरल, उच्च-bias वाले <strong>weak learners</strong> (जैसे सिर्फ़ एक split वाले <strong>decision stumps</strong>, जिनकी depth <span class="math-inline">\(1\)</span> है) लेते हैं और उन्हें <strong>एक के बाद एक (sequentially)</strong> सिखाते हैं। हर नया model उन examples पर ज़्यादा ध्यान देता है जिन पर पिछले models ने गलती की थी।</p>
+<h3>AdaBoost Algorithm</h3>
+<p>मान लीजिए binary classification है और सुविधा के लिए labels <span class="math-inline">\(y^{(i)} \in \{-1, +1\}\)</span> हैं। (कई किताबों में round index को <span class="math-inline">\(m\)</span> और classifier के weight को <span class="math-inline">\(\alpha_m\)</span> लिखते हैं; हमारे course notation में <span class="math-inline">\(m\)</span> examples की संख्या है, इसलिए हम round index को <span class="math-inline">\(t = 1, \dots, M\)</span> और उसके weight को <span class="math-inline">\(\alpha_t\)</span> लिखेंगे।)</p>
+<ol>
+<li><strong>शुरुआत:</strong> सभी <span class="math-inline">\(m\)</span> examples को बराबर sample weight दें: <span class="math-inline">\(w_i^{(1)} = \frac{1}{m}\)</span>, जहाँ <span class="math-inline">\(i = 1, \dots, m\)</span>।</li>
+<li>
+<p><strong>हर round <span class="math-inline">\(t = 1, 2, \dots, M\)</span> के लिए:</strong>
+   - वर्तमान weights <span class="math-inline">\(w^{(t)}\)</span> के साथ एक weak classifier <span class="math-inline">\(G_t(x) \in \{-1, +1\}\)</span> fit करें जो weighted classification error को minimize करे:</p>
+<p><span class="math-display">\[\mathrm{err}_t = \frac{\sum_{i=1}^{m} w_i^{(t)} \,\mathbf{1}\{y^{(i)} \neq G_t(x^{(i)})\}}{\sum_{i=1}^{m} w_i^{(t)}}\]</span></p>
+</li>
+</ol>
+<ul>
+<li>
+<p>इस weak learner की भरोसेमंदता (say / weight) <span class="math-inline">\(\alpha_t\)</span> निकालें:</p>
+<p><span class="math-display">\[\alpha_t = \frac{1}{2} \ln \left( \frac{1 - \mathrm{err}_t}{\mathrm{err}_t} \right)\]</span></p>
+</li>
+<li>
+<p>अगले round के लिए sample weights को update करें और फिर जोड़ <span class="math-inline">\(1\)</span> बनाने के लिए normalize करें (<span class="math-inline">\(Z_t\)</span> normalization factor है):</p>
+<p><span class="math-display">\[w_i^{(t+1)} := \frac{w_i^{(t)} \exp\!\left(-\alpha_t \, y^{(i)} G_t(x^{(i)})\right)}{Z_t}\]</span></p>
+</li>
+</ul>
+<ol start="3">
+<li><strong>अंतिम prediction:</strong> सभी <span class="math-inline">\(M\)</span> weak learners का <span class="math-inline">\(\alpha_t\)</span>-weighted बहुमत लें:</li>
+</ol>
+<p><span class="math-display">\[G(x) = \mathrm{sign}\!\left( \sum_{t=1}^{M} \alpha_t G_t(x) \right)\]</span></p>
+<p>इन सूत्रों का सहज अर्थ तुरंत समझ आता है:</p>
+<ul>
+<li>अगर weak learner सिक्का उछालने से थोड़ा भी बेहतर है (<span class="math-inline">\(\mathrm{err}_t &lt; 0.5\)</span>), तो <span class="math-inline">\(\frac{1 - \mathrm{err}_t}{\mathrm{err}_t} &gt; 1\)</span> और इसलिए <span class="math-inline">\(\alpha_t &gt; 0\)</span>। <span class="math-inline">\(\mathrm{err}_t\)</span> जितना छोटा होगा, <span class="math-inline">\(\alpha_t\)</span> उतना बड़ा होगा (आख़िरी वोट में उसकी आवाज़ उतनी भारी होगी)। <span class="math-inline">\(\mathrm{err}_t = 0.5\)</span> पर <span class="math-inline">\(\alpha_t = 0\)</span>।</li>
+<li>सही prediction पर <span class="math-inline">\(y^{(i)} G_t(x^{(i)}) = +1\)</span> होता है, इसलिए उस बिंदु का weight <span class="math-inline">\(e^{-\alpha_t} &lt; 1\)</span> से गुणा होकर <strong>घट</strong> जाता है। गलत prediction पर <span class="math-inline">\(y^{(i)} G_t(x^{(i)}) = -1\)</span> होता है, इसलिए उसका weight <span class="math-inline">\(e^{+\alpha_t} &gt; 1\)</span> से गुणा होकर <strong>बढ़</strong> जाता है। अगला weak learner <span class="math-inline">\(G_{t+1}\)</span> मजबूरन इन्हीं कठिन बिंदुओं को सुधारने की कोशिश करता है।</li>
+</ul>
+<h3><span class="math-inline">\(\alpha_t\)</span> का यही formula कहाँ से आया? (Exponential Loss)</h3>
+<p>AdaBoost असल में <strong>exponential loss</strong> <span class="math-inline">\(\ell_{\exp}(y, F(x)) = \exp(-y F(x))\)</span> पर <strong>forward stagewise additive modeling</strong> है। मान लीजिए <span class="math-inline">\(t - 1\)</span> steps तक हमने <span class="math-inline">\(F_{t-1}(x) = \sum_{s=1}^{t-1} \alpha_s G_s(x)\)</span> बना लिया है और पिछले हिस्से को छेड़े बिना नया पद <span class="math-inline">\(\alpha G(x)\)</span> जोड़कर <span class="math-inline">\(F_t(x) = F_{t-1}(x) + \alpha G(x)\)</span> बनाते हैं। कुल loss है:</p>
+<p><span class="math-display">\[J(\alpha, G) = \sum_{i=1}^{m} \exp\!\left(-y^{(i)}\big(F_{t-1}(x^{(i)}) + \alpha G(x^{(i)})\big)\right) = \sum_{i=1}^{m} \tilde{w}_i^{(t)} \exp\!\left(-\alpha y^{(i)} G(x^{(i)})\right)\]</span></p>
+<p>जहाँ <span class="math-inline">\(\tilde{w}_i^{(t)} = \exp(-y^{(i)} F_{t-1}(x^{(i)}))\)</span> बिना normalize किए sample weights हैं। सही (<span class="math-inline">\(y^{(i)} = G(x^{(i)})\)</span>) और गलत (<span class="math-inline">\(y^{(i)} \neq G(x^{(i)})\)</span>) बिंदुओं को अलग करें। मान लीजिए कुल भार <span class="math-inline">\(W = \sum_{i=1}^{m} \tilde{w}_i^{(t)}\)</span> और गलत बिंदुओं का भार <span class="math-inline">\(W_e = \sum_{y^{(i)} \neq G(x^{(i)})} \tilde{w}_i^{(t)}\)</span> है, ताकि <span class="math-inline">\(\mathrm{err}_t = W_e / W\)</span>। तब:</p>
+<p><span class="math-display">\[J(\alpha, G) = (W - W_e)e^{-\alpha} + W_e e^{\alpha} = e^{-\alpha} W + (e^{\alpha} - e^{-\alpha}) W_e\]</span></p>
+<p>पहली बात: किसी भी <span class="math-inline">\(\alpha &gt; 0\)</span> के लिए <span class="math-inline">\(e^{\alpha} - e^{-\alpha} &gt; 0\)</span> है, इसलिए सबसे अच्छा <span class="math-inline">\(G_t\)</span> वही है जो <span class="math-inline">\(W_e\)</span> (यानी weighted error <span class="math-inline">\(\mathrm{err}_t\)</span>) को minimize करे। दूसरी बात: <span class="math-inline">\(G_t\)</span> तय होने के बाद <span class="math-inline">\(\alpha\)</span> के सापेक्ष derivative शून्य रखें:</p>
+<p><span class="math-display">\[\frac{\partial J}{\partial \alpha} = -(W - W_e)e^{-\alpha} + W_e e^{\alpha} = 0 \quad\Longrightarrow\quad e^{2\alpha} = \frac{W - W_e}{W_e} = \frac{1 - \mathrm{err}_t}{\mathrm{err}_t}\]</span></p>
+<p>दोनों तरफ़ <span class="math-inline">\(\ln\)</span> लेकर <span class="math-inline">\(2\)</span> से भाग देते ही <span class="math-inline">\(\alpha_t = \frac{1}{2}\ln\frac{1 - \mathrm{err}_t}{\mathrm{err}_t}\)</span> निकल आता है, और <span class="math-inline">\(\tilde{w}_i^{(t+1)} = \exp(-y^{(i)} F_t(x^{(i)})) = \tilde{w}_i^{(t)} \exp(-\alpha_t y^{(i)} G_t(x^{(i)}))\)</span> ठीक AdaBoost का re-weighting नियम बन जाता है!</p>
+<h2>9. Gradient Boosting: Residuals को Fit करना</h2>
+<p>AdaBoost exponential loss से बँधा है, जो outliers के प्रति बहुत संवेदनशील होता है (बड़े नकारात्मक margin पर <span class="math-inline">\(e^{-yF(x)}\)</span> विस्फोटक रूप से बढ़ता है)। <strong>Gradient Boosting</strong> इसी additive विचार को <strong>किसी भी differentiable loss</strong> <span class="math-inline">\(\ell(y, F(x))\)</span> के लिए खोल देता है।</p>
+<p>सबसे सरल केस squared error <span class="math-inline">\(\ell(y, F) = \frac{1}{2}(y - F)^2\)</span> से समझें। शुरुआत एक constant model <span class="math-inline">\(F_0(x) = \bar{y}\)</span> से करें। अगर वर्तमान model <span class="math-inline">\(F_{t-1}(x)\)</span> है, तो हर बिंदु पर उसकी बची हुई गलती यानी <strong>residual</strong> है <span class="math-inline">\(r_{it} = y^{(i)} - F_{t-1}(x^{(i)})\)</span>। अगर हम इन residuals <span class="math-inline">\((x^{(i)}, r_{it})\)</span> पर एक छोटा regression tree <span class="math-inline">\(h_t(x)\)</span> fit कर दें, तो <span class="math-inline">\(F_{t-1}(x) + h_t(x) \approx F_{t-1}(x) + (y - F_{t-1}(x)) = y\)</span>!</p>
+<p>सामान्य loss <span class="math-inline">\(\ell(y, F)\)</span> के लिए हम function space में एक कदम Gradient Descent करते हैं। सदिश <span class="math-inline">\(\big(F(x^{(1)}), \dots, F(x^{(m)})\big)\)</span> के सापेक्ष loss की सबसे तेज़ गिरावट की दिशा <strong>negative gradient</strong> है, जिसे <strong>pseudo-residuals</strong> कहते हैं:</p>
+<p><span class="math-display">\[r_{it} = -\left[ \frac{\partial \,\ell\big(y^{(i)}, F(x^{(i)})\big)}{\partial \,F(x^{(i)})} \right]_{F = F_{t-1}}, \qquad i = 1, \dots, m\]</span></p>
+<p>ध्यान दें कि squared error <span class="math-inline">\(\frac{1}{2}(y - F)^2\)</span> के लिए <span class="math-inline">\(-\frac{\partial \ell}{\partial F} = y^{(i)} - F_{t-1}(x^{(i)})\)</span>, यानी pseudo-residual ठीक साधारण residual ही है! पूरा <strong>Gradient Boosted Trees</strong> algorithm इस प्रकार है:</p>
+<ol>
+<li><strong>शुरुआत:</strong> <span class="math-inline">\(F_0(x) = \arg\min_c \sum_{i=1}^{m} \ell(y^{(i)}, c)\)</span>।</li>
+<li>
+<p><strong>हर round <span class="math-inline">\(t = 1, \dots, M\)</span> के लिए:</strong>
+   - सभी <span class="math-inline">\(i = 1, \dots, m\)</span> के लिए pseudo-residuals <span class="math-inline">\(r_{it}\)</span> निकालें।
+   - Dataset <span class="math-inline">\(\{(x^{(i)}, r_{it})\}_{i=1}^{m}\)</span> पर एक उथला (shallow, जैसे depth <span class="math-inline">\(2\)</span> से <span class="math-inline">\(5\)</span> वाला) regression tree <span class="math-inline">\(h_t(x)\)</span> fit करें।
+   - एक छोटे <strong>learning rate (shrinkage)</strong> <span class="math-inline">\(\nu \in (0, 1]\)</span> के साथ model को update करें:</p>
+<p><span class="math-display">\[F_t(x) = F_{t-1}(x) + \nu \, h_t(x)\]</span></p>
+</li>
+<li>
+<p><strong>अंतिम model:</strong> <span class="math-inline">\(F_M(x) = F_0(x) + \nu \sum_{t=1}^{M} h_t(x)\)</span>।</p>
+</li>
+</ol>
+<p>छोटा <span class="math-inline">\(\nu\)</span> (जैसे <span class="math-inline">\(0.05\)</span> या <span class="math-inline">\(0.1\)</span>) हर कदम को संयमित रखता है ताकि कोई एक tree अकेले हावी न हो जाए; इसके बदले थोड़ा बड़ा <span class="math-inline">\(M\)</span> लेना पड़ता है, पर generalization काफ़ी सुधर जाता है। आधुनिक tabular ML के दिग्गज औज़ार (XGBoost, LightGBM, CatBoost) इसी ढाँचे में second-order (Newton) derivatives और तेज़ histogram splitting जोड़कर बने हैं।</p>
+<table>
+<thead>
+<tr>
+<th>गुण</th>
+<th>Bagging / Random Forest</th>
+<th>Boosting (AdaBoost / Gradient Boosting)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base trees कैसे होते हैं?</td>
+<td>गहरे, कम bias, उच्च variance</td>
+<td>उथले (stumps या depth 2 से 5), उच्च bias, कम variance</td>
+</tr>
+<tr>
+<td>Training कैसे चलती है?</td>
+<td>सारे trees एक-दूसरे से स्वतंत्र, parallel में</td>
+<td>एक के बाद एक (sequentially), पिछली गलतियों पर</td>
+</tr>
+<tr>
+<td>मुख्य निशाना क्या है?</td>
+<td><strong>Variance</strong> घटाना</td>
+<td><strong>Bias</strong> घटाना</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(M\)</span> बहुत बड़ा कर दें तो?</td>
+<td>Overfit नहीं करता, error स्थिर हो जाता है</td>
+<td>बहुत बड़ा <span class="math-inline">\(M\)</span> अंततः noise रटकर overfit कर सकता है</td>
+</tr>
+</tbody>
+</table>
+<h2>10. Practical बातें और आम गलतियाँ</h2>
+<ul>
+<li><strong>Decision trees को feature scaling की ज़रूरत नहीं होती।</strong> किसी feature को <span class="math-inline">\(100\)</span> से गुणा करने या कोई भी strictly monotonic बदलाव करने से बस split का threshold <span class="math-inline">\(t\)</span> बदल जाता है, पेड़ की बनावट और predictions वही रहते हैं।</li>
+<li><strong>Tabular data पर tree ensembles अक्सर पहली पसंद होते हैं।</strong> मिश्रित संख्यात्मक व categorical features, अलग-अलग scales और टेढ़ी-मेढ़ी interactions पर Random Forest और Gradient Boosting बिना ज़्यादा preprocessing के बहुत मज़बूत baseline देते हैं।</li>
+<li><strong>Extrapolation से सावधान रहें।</strong> हर regression tree का prediction training set के सबसे छोटे और सबसे बड़े <span class="math-inline">\(y^{(i)}\)</span> के बीच ही बँधा रहता है। इसलिए अगर test input training range के बाहर जा रहा हो (जैसे समय के साथ बढ़ता हुआ trend), तो अकेला या boosted tree भी बाहर सपाट (flat) जवाब ही देगा।</li>
+<li><strong>Noisy labels या भारी outliers में AdaBoost से बचें।</strong> Exponential loss गलत या गड़बड़ label वाले बिंदु का भार हर round में बेतहाशा बढ़ाता चला जाता है। ऐसे में Random Forest, या Huber / logistic loss के साथ Gradient Boosting कहीं सुरक्षित रहते हैं।</li>
+<li><strong>Hyperparameter tuning का फ़र्क समझें।</strong> Random Forest बिना ज़्यादा छेड़छाड़ के अच्छा चलता है (<span class="math-inline">\(M\)</span> बड़ा रखें, <span class="math-inline">\(k = \sqrt{n}\)</span> से शुरू करें)। Gradient Boosting अक्सर थोड़ी बेहतर सटीकता देता है, पर उसमें tree depth, learning rate <span class="math-inline">\(\nu\)</span> और rounds <span class="math-inline">\(M\)</span> (early stopping के साथ) को एक साथ सावधानी से चुनना पड़ता है।</li>
+</ul>
+<h2>11. खुद से पूछें</h2>
+<ol>
+<li>मान लीजिए किसी binary classification node पर <span class="math-inline">\(80\)</span> positive और <span class="math-inline">\(20\)</span> negative examples हैं। एक split बाएँ में <span class="math-inline">\((60, 20)\)</span> और दाएँ में <span class="math-inline">\((20, 0)\)</span> देता है। इस split के लिए <span class="math-inline">\(L_{\text{mis}}\)</span> और <span class="math-inline">\(L_{\text{Gini}}\)</span> दोनों से <span class="math-inline">\(\mathrm{IG}\)</span> निकालकर दिखाइए कि दोनों के फ़ैसले क्यों अलग हैं।</li>
+<li>Variance के सूत्र <span class="math-inline">\(\rho\sigma^2 + \frac{1-\rho}{M}\sigma^2\)</span> में अगर आप Random Forest में प्रति-split features की संख्या <span class="math-inline">\(k\)</span> को <span class="math-inline">\(n\)</span> से घटाकर <span class="math-inline">\(1\)</span> तक ले जाएँ, तो <span class="math-inline">\(\rho\)</span> और अकेले tree के variance/bias दोनों पर क्या असर पड़ेगा? बहुत छोटा <span class="math-inline">\(k\)</span> नुकसान क्यों कर सकता है?</li>
+<li>AdaBoost में अगर किसी round पर कोई weak learner गलती से <span class="math-inline">\(\mathrm{err}_t = 0.7\)</span> दे दे (यानी आधे से ज़्यादा गलत), तो <span class="math-inline">\(\alpha_t\)</span> का चिह्न क्या होगा और अंतिम वोट में उसके साथ क्या होगा?</li>
+</ol>
+<div class="part"><span class="tag">भाग 2</span><h2>3D Animations</h2></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 9.1</span>Regression tree refining surface</div><div class="frames"><figure><img src="anim/L09_1_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L09_1_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L09_1_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> स्लेटी जाली असली smooth function <span class="math-inline">\(h^\star(x_1, x_2)\)</span> है और काले बिंदु noisy training data हैं। शुरू में सिर्फ़ <span class="math-inline">\(1\)</span> leaf है, इसलिए prediction पूरे क्षेत्र पर एक सपाट औसत सतह है। हर कदम पर CART सबसे ज़्यादा squared error घटाने वाला axis-aligned split चुनता है और एक सीढ़ी को दो नई ऊँचाइयों में तोड़ देता है। जैसे-जैसे leaves बढ़ते हैं, यह सीढ़ीदार (piecewise-constant) सतह असली मुड़ी हुई सतह का आकार पकड़ती जाती है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L09_1.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 9.2</span>Axis-aligned splits in 3D space</div><div class="frames"><figure><img src="anim/L09_2_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L09_2_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L09_2_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ तीनों axes input features <span class="math-inline">\((x_1, x_2, x_3)\)</span> हैं और तीन रंग तीन classes दिखाते हैं। CART classification tree हर कदम पर सबसे ज़्यादा Gini impurity घटाने वाला feature <span class="math-inline">\(j\)</span> और threshold <span class="math-inline">\(t\)</span> चुनता है। हर नया split <span class="math-inline">\(x_j = t\)</span> एक सपाट दीवार की तरह अपने parent डिब्बे को दो छोटे axis-aligned डिब्बों में काटता है। कुछ ही splits में पूरा 3D घन लगभग शुद्ध रंग वाले बक्सों में बँट जाता है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L09_2.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 9.3</span>Bagging smooths jagged trees</div><div class="frames"><figure><img src="anim/L09_3_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L09_3_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L09_3_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> अकेला गहरा regression tree (<span class="math-inline">\(M = 1\)</span>) noisy बिंदुओं को रटने के चक्कर में बेहद उबड़-खाबड़ और सीढ़ीदार सतह बनाता है (high variance)। हर frame में हम एक नया bootstrap sample खींचकर उस पर उगाया गहरा tree औसत में जोड़ते हैं। जैसे-जैसे <span class="math-inline">\(M\)</span> बढ़ता है, अलग-अलग पेड़ों की बेतरतीब उछालें एक-दूसरे को काट देती हैं। औसत सतह चिकनी होकर स्लेटी जाली (<span class="math-inline">\(h^\star\)</span>) के करीब आ जाती है और test MSE साफ़ गिरता है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L09_3.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 9.4</span>AdaBoost sample weights growing</div><div class="frames"><figure><img src="anim/L09_4_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L09_4_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L09_4_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> फ़र्श (<span class="math-inline">\(z = 0\)</span>) पर दो मुड़ी हुई classes के बिंदु हैं और खड़ी डंडियों की ऊँचाई हर बिंदु का scaled sample weight <span class="math-inline">\(m \cdot w_i^{(t)}\)</span> दिखाती है। शुरू में सब डंडियाँ बराबर (<span class="math-inline">\(1\)</span>) हैं। हर round में एक सरल decision stump (टूटी रेखा) लगता है: जिन बिंदुओं पर गलती होती है (नारंगी), उनका weight <span class="math-inline">\(e^{+\alpha_t}\)</span> से उछलता है और आसान बिंदुओं का घटता है। फ़र्श पर काली boundary सारे stumps के <span class="math-inline">\(\alpha_t\)</span>-weighted वोट से मुड़कर पूरे डेटा को अलग कर देती है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L09_4.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 9.5</span>Boosting flattens residual surface</div><div class="frames"><figure><img src="anim/L09_5_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L09_5_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L09_5_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ ऊँचाई खुद target नहीं बल्कि बची हुई गलती यानी <strong>residual</strong> <span class="math-inline">\(y - F_t(x)\)</span> है, और बीच का स्लेटी समतल शून्य गलती (<span class="math-inline">\(z = 0\)</span>) दिखाता है। <span class="math-inline">\(t = 0\)</span> पर <span class="math-inline">\(F_0(x) = \bar{y}\)</span> है, इसलिए लाल पहाड़ और नीली घाटियाँ बहुत गहरी हैं। हर round में depth-2 का एक छोटा regression tree इन्हीं residuals पर fit होता है और <span class="math-inline">\(\nu h_t(x)\)</span> घटा देता है। देखते ही देखते पूरी residual सतह दबकर <span class="math-inline">\(z = 0\)</span> के सपाट तल पर बैठ जाती है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L09_5.gif</div></div>
+<div class="part"><span class="tag">भाग 3</span><h2>Python Example</h2></div>
+<p class="run">इसे खुद चलाएँ: <code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L09_tree_ensembles/example.py</code></p>
+<div class="code"><pre><span></span><span class="sd">"""Lecture 9 example: CART Tree (Gini), Bagging और AdaBoost शुरू से (सिर्फ़ NumPy).</span>
+
+<span class="sd">Two-moons dataset पर पहले Gini index से पूरा CART classification tree बनाते हैं और</span>
+<span class="sd">depth बढ़ने पर overfitting देखते हैं। फिर गहरे trees की Bagging (OOB accuracy सहित)</span>
+<span class="sd">और decision stumps पर AdaBoost चलाकर train और test accuracy की तुलना करते हैं।</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_moons</span>
+
+<span class="c1"># ---------- 1. Data: noisy two moons (250 train, 750 test) ----------</span>
+<span class="n">X_all</span><span class="p">,</span> <span class="n">y_all</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.30</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">X_tr</span><span class="p">,</span> <span class="n">y_tr</span> <span class="o">=</span> <span class="n">X_all</span><span class="p">[:</span><span class="mi">250</span><span class="p">],</span> <span class="n">y_all</span><span class="p">[:</span><span class="mi">250</span><span class="p">]</span>                  <span class="c1"># labels {0, 1}</span>
+<span class="n">X_te</span><span class="p">,</span> <span class="n">y_te</span> <span class="o">=</span> <span class="n">X_all</span><span class="p">[</span><span class="mi">250</span><span class="p">:],</span> <span class="n">y_all</span><span class="p">[</span><span class="mi">250</span><span class="p">:]</span>
+
+
+<span class="c1"># ---------- 2. CART Classification Tree (Gini impurity, सिर्फ़ NumPy) ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gini_of</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>                         <span class="c1"># K=2 के लिए 1 - p^2 - (1-p)^2 = 2p(1-p)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">best_gini_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""सभी features और midpoints पर सबसे बड़े Gini gain वाला split ढूँढें।"""</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">gini_of</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">parent_g</span><span class="p">,</span> <span class="n">best</span> <span class="o">=</span> <span class="n">gini_of</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="kc">None</span>
+    <span class="n">n_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">n_r</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-</span> <span class="n">n_l</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
+        <span class="n">xj</span><span class="p">,</span> <span class="n">yj</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">order</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">xj</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">xj</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">mask</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">l_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">yj</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">p_l</span><span class="p">,</span> <span class="n">p_r</span> <span class="o">=</span> <span class="n">l_pos</span> <span class="o">/</span> <span class="n">n_l</span><span class="p">,</span> <span class="p">(</span><span class="n">yj</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">l_pos</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_r</span>
+        <span class="n">w_gini</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="p">(</span><span class="n">n_l</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">p_l</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p_l</span><span class="p">)</span> <span class="o">+</span> <span class="n">n_r</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">p_r</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p_r</span><span class="p">))</span> <span class="o">/</span> <span class="n">m</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">w_gini</span><span class="p">))</span>
+        <span class="n">gain</span> <span class="o">=</span> <span class="n">parent_g</span> <span class="o">-</span> <span class="n">w_gini</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">gain</span> <span class="o">&gt;</span> <span class="mf">1e-12</span> <span class="ow">and</span> <span class="p">(</span><span class="n">best</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">gain</span> <span class="o">&gt;</span> <span class="n">best</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">best</span> <span class="o">=</span> <span class="p">(</span><span class="n">gain</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">xj</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">xj</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">best</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_cart</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="n">sp</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">max_depth</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">best_gini_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">"leaf"</span><span class="p">,</span> <span class="n">prob</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">thr</span> <span class="o">=</span> <span class="n">sp</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">thr</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s2">"node"</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">thr</span><span class="p">,</span> <span class="n">fit_cart</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">left</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">left</span><span class="p">],</span> <span class="n">max_depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">fit_cart</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">~</span><span class="n">left</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="o">~</span><span class="n">left</span><span class="p">],</span> <span class="n">max_depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">predict_prob_cart</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"leaf"</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">thr</span><span class="p">,</span> <span class="n">l_child</span><span class="p">,</span> <span class="n">r_child</span> <span class="o">=</span> <span class="n">node</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">thr</span><span class="p">,</span> <span class="n">predict_prob_cart</span><span class="p">(</span><span class="n">l_child</span><span class="p">,</span> <span class="n">X</span><span class="p">),</span> <span class="n">predict_prob_cart</span><span class="p">(</span><span class="n">r_child</span><span class="p">,</span> <span class="n">X</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">acc</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">y_true</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_hat</span> <span class="o">==</span> <span class="n">y_true</span><span class="p">))</span>
+
+
+<span class="c1"># ---------- 3. Bagging + Out-of-Bag (OOB) estimate ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_bagging</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n_trees</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">trees</span><span class="p">,</span> <span class="n">oob_sum</span><span class="p">,</span> <span class="n">oob_cnt</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_trees</span><span class="p">):</span>
+        <span class="n">boot</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">m</span><span class="p">)</span>              <span class="c1"># with replacement चुनाव</span>
+        <span class="n">tr</span> <span class="o">=</span> <span class="n">fit_cart</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">boot</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">boot</span><span class="p">],</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">)</span>
+        <span class="n">trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
+        <span class="n">oob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">oob</span><span class="p">[</span><span class="n">boot</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>                              <span class="c1"># लगभग 36.8% छूटे हुए examples</span>
+        <span class="n">oob_sum</span><span class="p">[</span><span class="n">oob</span><span class="p">]</span> <span class="o">+=</span> <span class="n">predict_prob_cart</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">X</span><span class="p">[</span><span class="n">oob</span><span class="p">])</span>
+        <span class="n">oob_cnt</span><span class="p">[</span><span class="n">oob</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">oob_cnt</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">trees</span><span class="p">,</span> <span class="n">acc</span><span class="p">((</span><span class="n">oob_sum</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">/</span> <span class="n">oob_cnt</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">predict_bagging_prob</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">predict_prob_cart</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trees</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="c1"># ---------- 4. AdaBoost with Decision Stumps (labels {-1, +1}) ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_adaboost</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y01</span><span class="p">,</span> <span class="n">n_rounds</span><span class="o">=</span><span class="mi">80</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y01</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="n">stumps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_rounds</span><span class="p">):</span>
+        <span class="n">best</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
+            <span class="n">thrs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">vals</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="n">vals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">]</span>
+            <span class="n">preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">j</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">thrs</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="n">err_pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">w</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">preds</span> <span class="o">!=</span> <span class="n">y</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">pol</span><span class="p">,</span> <span class="n">errs</span> <span class="ow">in</span> <span class="p">((</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">err_pos</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">err_pos</span><span class="p">)):</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">errs</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">best</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">errs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">best</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="n">best</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">errs</span><span class="p">[</span><span class="n">k</span><span class="p">]),</span> <span class="n">j</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">thrs</span><span class="p">[</span><span class="n">k</span><span class="p">]),</span> <span class="n">pol</span><span class="p">)</span>
+        <span class="n">err</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">thr</span><span class="p">,</span> <span class="n">pol</span> <span class="o">=</span> <span class="n">best</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-10</span><span class="p">)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">err</span><span class="p">)</span> <span class="o">/</span> <span class="n">err</span><span class="p">)</span>        <span class="c1"># weak learner का वोट weight</span>
+        <span class="n">w</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">thr</span><span class="p">,</span> <span class="n">pol</span><span class="p">,</span> <span class="o">-</span><span class="n">pol</span><span class="p">))</span>
+        <span class="n">w</span> <span class="o">/=</span> <span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">stumps</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">alpha</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">thr</span><span class="p">,</span> <span class="n">pol</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">stumps</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">adaboost_margin</span><span class="p">(</span><span class="n">stumps</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">thr</span><span class="p">,</span> <span class="n">pol</span><span class="p">,</span> <span class="o">-</span><span class="n">pol</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">thr</span><span class="p">,</span> <span class="n">pol</span> <span class="ow">in</span> <span class="n">stumps</span><span class="p">)</span>
+
+
+<span class="c1"># ---------- 5. प्रयोग और तुलना ----------</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"1) अकेला CART Tree (Gini): depth का असर"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"max_depth   train acc   test acc"</span><span class="p">)</span>
+<span class="n">cart_models</span> <span class="o">=</span> <span class="p">{</span><span class="n">d</span><span class="p">:</span> <span class="n">fit_cart</span><span class="p">(</span><span class="n">X_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">)}</span>
+<span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">cart_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">9d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">acc</span><span class="p">(</span><span class="n">predict_prob_cart</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">X_tr</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">y_tr</span><span class="p">)</span><span class="si">:</span><span class="s2">11.3f</span><span class="si">}</span><span class="s2"> "</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">acc</span><span class="p">(</span><span class="n">predict_prob_cart</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">X_te</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">y_te</span><span class="p">)</span><span class="si">:</span><span class="s2">10.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">bag_trees</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">fit_bagging</span><span class="p">(</span><span class="n">X_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">,</span> <span class="n">n_trees</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">2) Bagging (गहरे depth=15 trees): M बढ़ाने पर variance घटना"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"trees M     train acc   OOB acc    test acc"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">M</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
+    <span class="n">sub</span><span class="p">,</span> <span class="n">oob_m</span> <span class="o">=</span> <span class="n">fit_bagging</span><span class="p">(</span><span class="n">X_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">,</span> <span class="n">n_trees</span><span class="o">=</span><span class="n">M</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">M</span><span class="si">:</span><span class="s2">7d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">acc</span><span class="p">(</span><span class="n">predict_bagging_prob</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span><span class="w"> </span><span class="n">X_tr</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">y_tr</span><span class="p">)</span><span class="si">:</span><span class="s2">13.3f</span><span class="si">}</span><span class="s2"> "</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">oob_m</span><span class="si">:</span><span class="s2">9.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">acc</span><span class="p">(</span><span class="n">predict_bagging_prob</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span><span class="w"> </span><span class="n">X_te</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">y_te</span><span class="p">)</span><span class="si">:</span><span class="s2">11.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">stumps</span> <span class="o">=</span> <span class="n">fit_adaboost</span><span class="p">(</span><span class="n">X_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">,</span> <span class="n">n_rounds</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">3) AdaBoost (depth=1 decision stumps): M बढ़ाने पर bias घटना"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"rounds M    train acc   test acc"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">M</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">80</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">M</span><span class="si">:</span><span class="s2">8d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">acc</span><span class="p">(</span><span class="n">adaboost_margin</span><span class="p">(</span><span class="n">stumps</span><span class="p">[:</span><span class="n">M</span><span class="p">],</span><span class="w"> </span><span class="n">X_tr</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">y_tr</span><span class="p">)</span><span class="si">:</span><span class="s2">12.3f</span><span class="si">}</span><span class="s2"> "</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">acc</span><span class="p">(</span><span class="n">adaboost_margin</span><span class="p">(</span><span class="n">stumps</span><span class="p">[:</span><span class="n">M</span><span class="p">],</span><span class="w"> </span><span class="n">X_te</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">y_te</span><span class="p">)</span><span class="si">:</span><span class="s2">10.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 6. Decision boundaries का चित्र ----------</span>
+<span class="n">g1</span><span class="p">,</span> <span class="n">g2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">g1</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">g2</span><span class="o">.</span><span class="n">ravel</span><span class="p">()]</span>
+<span class="n">panels</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"Deep CART (depth=15)"</span><span class="p">,</span> <span class="n">predict_prob_cart</span><span class="p">(</span><span class="n">cart_models</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">G</span><span class="p">),</span>
+           <span class="n">acc</span><span class="p">(</span><span class="n">predict_prob_cart</span><span class="p">(</span><span class="n">cart_models</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">X_te</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">y_te</span><span class="p">)),</span>
+          <span class="p">(</span><span class="s2">"Bagging (50 deep trees)"</span><span class="p">,</span> <span class="n">predict_bagging_prob</span><span class="p">(</span><span class="n">bag_trees</span><span class="p">,</span> <span class="n">G</span><span class="p">),</span>
+           <span class="n">acc</span><span class="p">(</span><span class="n">predict_bagging_prob</span><span class="p">(</span><span class="n">bag_trees</span><span class="p">,</span> <span class="n">X_te</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">y_te</span><span class="p">)),</span>
+          <span class="p">(</span><span class="s2">"AdaBoost (80 stumps)"</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">adaboost_margin</span><span class="p">(</span><span class="n">stumps</span><span class="p">,</span> <span class="n">G</span><span class="p">))),</span>
+           <span class="n">acc</span><span class="p">(</span><span class="n">adaboost_margin</span><span class="p">(</span><span class="n">stumps</span><span class="p">,</span> <span class="n">X_te</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y_te</span><span class="p">))]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mf">3.9</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">prob</span><span class="p">,</span> <span class="n">te_a</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">panels</span><span class="p">):</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">prob</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">g1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"coolwarm"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.58</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">1.4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_te</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_te</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_te</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"coolwarm"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">\n</span><span class="s2">test acc = </span><span class="si">{</span><span class="n">te_a</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"x1"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"x2"</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"result.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+</pre></div>
+
+<div class="label">OUTPUT</div>
+<pre class="output">1) अकेला CART Tree (Gini): depth का असर
+max_depth   train acc   test acc
+        1       0.820      0.805
+        2       0.900      0.877
+        3       0.900      0.877
+        5       0.968      0.883
+       10       1.000      0.855
+       15       1.000      0.855
+
+2) Bagging (गहरे depth=15 trees): M बढ़ाने पर variance घटना
+trees M     train acc   OOB acc    test acc
+      1         0.952     0.867       0.873
+      5         0.984     0.858       0.873
+     15         0.992     0.892       0.888
+     50         0.996     0.904       0.892
+
+3) AdaBoost (depth=1 decision stumps): M बढ़ाने पर bias घटना
+rounds M    train acc   test acc
+       1        0.824      0.789
+       5        0.876      0.836
+      15        0.916      0.877
+      40        0.948      0.887
+      80        0.956      0.893</pre>
+<img class="result-img" src="examples/L09_tree_ensembles/result.png">
+</section>
+<script src="../vendor/katex/package/dist/katex.min.js"></script>
+<script src="../vendor/katex/package/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [{left: "\\[", right: "\\]", display: true}, {left: "\\(", right: "\\)", display: false}],
+  throwOnError: false, ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+});
+</script>
+</body></html>

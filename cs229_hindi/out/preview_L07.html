@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<title>CS229 Machine Learning हिंदी में</title>
+<link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
+<style>
+@page { size: A4; margin: 16mm 13mm 17mm 13mm;
+        @bottom-center { content: counter(page); font: 9pt "Helvetica Neue", sans-serif; color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Kohinoor Devanagari", "Devanagari Sangam MN", "Helvetica Neue", sans-serif;
+       font-size: 10.6pt; line-height: 1.72; color: #111827; margin: 0; }
+body.screen { max-width: 900px; margin: 0 auto; padding: 24px 28px 80px; font-size: 16px; background: #fff; }
+h1, h2, h3, h4 { line-height: 1.35; break-after: avoid; }
+h2 { font-size: 13.5pt; margin: 1.3em 0 0.4em; color: #1e3a8a; }
+h3 { font-size: 11.5pt; margin: 1.1em 0 0.3em; color: #1f2937; }
+p { margin: 0.45em 0; orphans: 2; widows: 2; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+li { margin: 0.18em 0; }
+a { color: #1d4ed8; text-decoration: none; }
+code { font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace; font-size: 0.88em;
+       background: #f1f5f9; padding: 0.08em 0.3em; border-radius: 3px; }
+blockquote { margin: 0.7em 0; padding: 0.5em 0.9em; border-left: 4px solid #2563eb; background: #eff6ff;
+             border-radius: 0 6px 6px 0; break-inside: avoid; }
+blockquote p { margin: 0.2em 0; }
+table { border-collapse: collapse; margin: 0.7em 0; width: 100%; font-size: 0.93em; break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 0.3em 0.6em; text-align: left; vertical-align: top; }
+th { background: #eef2ff; }
+.math-display { display: block; margin: 0.55em 0; overflow-x: auto; break-inside: avoid; }
+.katex { font-size: 1.04em; }
+
+.cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center;
+         break-after: page; }
+body.screen .cover { height: auto; padding: 70px 0 50px; }
+.cover .kicker { letter-spacing: 0.22em; font-size: 10pt; color: #2563eb; font-weight: 700; }
+.cover h1 { font-size: 34pt; margin: 0.25em 0 0.1em; color: #111827; }
+.cover .sub { font-size: 15pt; color: #374151; }
+.cover .pill { display: inline-block; margin: 2.2em auto 0; padding: 0.5em 1.4em; border-radius: 999px;
+               background: #1e3a8a; color: #fff; font-size: 11.5pt; }
+.cover .note { margin-top: 3em; font-size: 9.5pt; color: #6b7280; }
+
+.front { break-after: page; }
+.toc ol { list-style: none; padding: 0; margin: 0.4em 0; }
+.toc li { display: flex; gap: 0.7em; padding: 0.22em 0; border-bottom: 1px dotted #cbd5e1; }
+.toc .n { flex: 0 0 5.6em; color: #2563eb; font-weight: 700; }
+
+.chapter { break-before: page; }
+.ch-head { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 14px 18px;
+           border-radius: 10px; margin-bottom: 0.9em; break-inside: avoid; }
+.ch-head .n { font-size: 9.5pt; letter-spacing: 0.18em; opacity: 0.85; font-weight: 700; }
+.ch-head h1 { font-size: 17.5pt; margin: 0.1em 0 0; }
+.part { display: flex; align-items: center; gap: 0.6em; margin: 1.5em 0 0.6em; padding-bottom: 0.25em;
+        border-bottom: 2px solid #1e3a8a; break-after: avoid; }
+.part .tag { background: #1e3a8a; color: #fff; border-radius: 5px; padding: 0.05em 0.6em; font-size: 9.5pt;
+             font-weight: 700; }
+.part h2 { margin: 0; font-size: 14pt; }
+
+.anim { border: 1px solid #e5e7eb; border-radius: 9px; padding: 8px 7px 6px; margin: 0.8em 0;
+        break-inside: avoid; background: #fff; }
+.anim-head { font-weight: 700; margin-bottom: 0.3em; }
+.anim-head .badge { background: #ea580c; color: #fff; border-radius: 4px; padding: 0.05em 0.5em;
+                    font-size: 9pt; margin-right: 0.5em; }
+.frames { display: flex; gap: 3px; }
+.frames figure { margin: 0; flex: 1; text-align: center; }
+.frames img { width: 100%; display: block; border: 1px solid #eef0f3; border-radius: 5px; }
+.frames figcaption { font-size: 8pt; color: #6b7280; line-height: 1.3; margin-top: 1px; }
+.anim .gif { display: block; margin: 0 auto; width: 480px; max-width: 100%; }
+.anim .caption { font-size: 0.95em; margin: 0.4em 0 0.15em; }
+.anim .file { font-size: 8pt; color: #6b7280; font-family: "SF Mono", Menlo, monospace; }
+
+.code { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.code pre, pre.output { margin: 0; font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace;
+                        font-size: 8.3pt; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+body.screen .code pre, body.screen pre.output { font-size: 13px; }
+pre.output { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.label { font-size: 9pt; font-weight: 700; color: #475569; margin: 1em 0 0.2em; break-after: avoid; }
+.result-img { display: block; max-width: 88%; margin: 0.6em auto; border: 1px solid #e5e7eb; border-radius: 6px;
+              break-inside: avoid; }
+.run { font-size: 0.93em; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #ffffcc }
+.code { background: #f0f0f0; }
+.code .c { color: #60A0B0; font-style: italic } /* Comment */
+.code .err { border: 1px solid #F00 } /* Error */
+.code .k { color: #007020; font-weight: bold } /* Keyword */
+.code .o { color: #666 } /* Operator */
+.code .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #007020 } /* Comment.Preproc */
+.code .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F00 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #888 } /* Generic.Output */
+.code .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #04D } /* Generic.Traceback */
+.code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code .kp { color: #007020 } /* Keyword.Pseudo */
+.code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #902000 } /* Keyword.Type */
+.code .m { color: #40A070 } /* Literal.Number */
+.code .s { color: #4070A0 } /* Literal.String */
+.code .na { color: #4070A0 } /* Name.Attribute */
+.code .nb { color: #007020 } /* Name.Builtin */
+.code .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code .no { color: #60ADD5 } /* Name.Constant */
+.code .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code .ne { color: #007020 } /* Name.Exception */
+.code .nf { color: #06287E } /* Name.Function */
+.code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code .nv { color: #BB60D5 } /* Name.Variable */
+.code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code .w { color: #BBB } /* Text.Whitespace */
+.code .mb { color: #40A070 } /* Literal.Number.Bin */
+.code .mf { color: #40A070 } /* Literal.Number.Float */
+.code .mh { color: #40A070 } /* Literal.Number.Hex */
+.code .mi { color: #40A070 } /* Literal.Number.Integer */
+.code .mo { color: #40A070 } /* Literal.Number.Oct */
+.code .sa { color: #4070A0 } /* Literal.String.Affix */
+.code .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code .sc { color: #4070A0 } /* Literal.String.Char */
+.code .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #4070A0 } /* Literal.String.Double */
+.code .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code .sx { color: #C65D09 } /* Literal.String.Other */
+.code .sr { color: #235388 } /* Literal.String.Regex */
+.code .s1 { color: #4070A0 } /* Literal.String.Single */
+.code .ss { color: #517918 } /* Literal.String.Symbol */
+.code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code .fm { color: #06287E } /* Name.Function.Magic */
+.code .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
+</head><body class="print">
+<section class="cover"><div class="kicker">STANFORD CS229 SCHEDULE &middot; SELF-STUDY GUIDE</div><h1>Machine Learning<br>हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह एक self-study guide है जो CS229 के public syllabus के क्रम पर चलती है। यह Stanford का official material नहीं है।</div></section>
+<section class="front"><h2>यह guide कैसे पढ़ें</h2>
+<p>यह guide Stanford CS229 (Machine Learning) के syllabus के क्रम में चलती है: Lecture 1 से Lecture 20 तक। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<table>
+<thead>
+<tr>
+<th>भाग</th>
+<th>क्या है</th>
+<th>कैसे इस्तेमाल करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>भाग 1: Theory</strong></td>
+<td>Idea, notation, maths और algorithm, हिंदी में</td>
+<td>पहले इसे धीरे-धीरे पढ़ें। Equations को कागज़ पर खुद लिखकर देखें।</td>
+</tr>
+<tr>
+<td><strong>भाग 2: 3D Animations</strong></td>
+<td>हर chapter में कम से कम 5 animations</td>
+<td>PDF में हर animation के तीन still frames हैं (शुरुआत, बीच में, अंत)। चलती animation देखने के लिए नीचे बताई files खोलें।</td>
+</tr>
+<tr>
+<td><strong>भाग 3: Python Example</strong></td>
+<td>NumPy से शुरू से लिखा एक चलने वाला example, उसके output के साथ</td>
+<td>Code को खुद चलाएँ, फिर numbers बदलकर देखें कि क्या बदलता है।</td>
+</tr>
+</tbody>
+</table>
+<p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
+<h2>चलती animations कहाँ हैं</h2>
+<ul>
+<li><strong><code>CS229_Hindi_Animated.html</code></strong> (इसी folder में): इसे browser में खोलें। यह यही पूरी guide है, पर इसमें सारी animations चलती हैं।</li>
+<li><strong><code>cs229_hindi/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
+</ul>
+<h2>Code कैसे चलाएँ</h2>
+<p>हर chapter का code <code>cs229_hindi/chapters/&lt;chapter&gt;/example.py</code> में है। Terminal में इसी folder से:</p>
+<pre><code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L02_linear_regression/example.py
+</code></pre>
+<p>Animations का code उसी folder की <code>anims.py</code> में है। पूरी guide दोबारा बनाने के लिए: <code>cs229_hindi/.venv/bin/python cs229_hindi/build.py</code></p>
+<h2>पहले से क्या आना चाहिए</h2>
+<ul>
+<li><strong>Linear Algebra:</strong> vectors, matrices, matrix multiplication, transpose, inverse, eigenvalues / eigenvectors।</li>
+<li><strong>Probability:</strong> random variable, expectation, variance, conditional probability, Bayes rule, Gaussian distribution।</li>
+<li><strong>Calculus:</strong> derivative, partial derivative, gradient, chain rule।</li>
+<li><strong>Python:</strong> NumPy arrays की बुनियादी समझ।</li>
+</ul>
+<h2>पूरे course में चलने वाला notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}, y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वाँ training example: input और target</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या (या input का dimension)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span>, <span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>model के parameters</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis: model का prediction</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(J(\theta)\)</span></td>
+<td>cost function जिसे minimize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\ell(\theta)\)</span></td>
+<td>log-likelihood जिसे maximize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span></td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\nabla_\theta\)</span></td>
+<td><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span></td>
+<td>mean <span class="math-inline">\(\mu\)</span> और covariance <span class="math-inline">\(\Sigma\)</span> वाला Gaussian</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(:=\)</span></td>
+<td>"दाएँ की value बाएँ में रख दो" (assignment)</td>
+</tr>
+</tbody>
+</table><h2>विषय-सूची</h2><div class="toc"><ol><li><span class="n">Lecture 7</span><a href="#L07_svm_kernels">Support Vector Machines: Dual, Kernels और Soft Margin</a></li></ol></div></section>
+<section class="chapter" id="L07_svm_kernels">
+<div class="ch-head"><div class="n">LECTURE 7</div><h1>Support Vector Machines: Dual, Kernels और Soft Margin</h1></div>
+<div class="part"><span class="tag">भाग 1</span><h2>Theory</h2></div>
+<blockquote>
+<p><strong>इस lecture में:</strong> Optimal margin classifier का dual problem, inner products के ज़रिए prediction, feature maps और kernel trick (<span class="math-inline">\((x^T z)^2\)</span> का उदाहरण, polynomial और Gaussian/RBF kernels), Mercer's theorem, outliers और non-separable data के लिए soft-margin SVM (slack variables, <span class="math-inline">\(C\)</span>, box constraint और KKT cases), और SMO algorithm।</p>
+</blockquote>
+<h2>1. एक line में idea</h2>
+<p>पिछले lecture में हमने optimal margin classifier का Lagrangian लिखा था। इस lecture में जब हम उसका <strong>dual problem</strong> निकालते हैं, तो एक कमाल की बात सामने आती है: पूरे optimization और prediction में training points <span class="math-inline">\(x^{(i)}\)</span> कभी अकेले नहीं आते, वे सिर्फ़ आपसी <strong>inner products</strong> <span class="math-inline">\(\langle x^{(i)}, x^{(j)} \rangle\)</span> के रूप में आते हैं।</p>
+<p>इससे <strong>kernels</strong> का दरवाज़ा खुलता है। अगर मूल coordinates में सीधी रेखा से classes अलग न हो रहीं हों, तो हम inputs को किसी बहुत ऊँचे (यहाँ तक कि अनंत!) dimension वाले feature space में भेज सकते हैं, बिना वे महँगे features कभी हाथ से बनाए। फिर <strong>soft-margin SVM</strong> में थोड़े slack variables जोड़कर हम model को एकाध गलत या भटके हुए points (outliers) बर्दाश्त करना सिखाते हैं। अंत में <strong>SMO algorithm</strong> इसी dual को एक बार में दो variables चुनकर बहुत तेज़ी से हल कर देता है।</p>
+<h2>2. Setup और Notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)} \in \mathbb{R}^n\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वें training example के मूल input attributes (<span class="math-inline">\(n\)</span> संख्याएँ)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(y^{(i)} \in \{-1, +1\}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वें example का class label</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha_i \ge 0\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वें example के margin constraint का Lagrange multiplier</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\langle x, z \rangle = x^T z\)</span></td>
+<td>vectors <span class="math-inline">\(x\)</span> और <span class="math-inline">\(z\)</span> का inner product</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\phi(x)\)</span></td>
+<td>feature map, जो input <span class="math-inline">\(x\)</span> को नए (अक्सर ऊँचे dimension वाले) features में बदलता है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(K(x, z) = \phi(x)^T \phi(z)\)</span></td>
+<td>kernel function, यानी feature space में inner product</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\xi_i \ge 0\)</span></td>
+<td>slack variable: <span class="math-inline">\(i\)</span>-वें example को margin की पट्टी तोड़ने की छूट</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(C &gt; 0\)</span></td>
+<td>regularization parameter, जो चौड़े margin और कम गलतियों के बीच संतुलन रखता है</td>
+</tr>
+</tbody>
+</table>
+<h2>3. Optimal Margin Classifier का Dual Problem</h2>
+<p>Lecture 6 में separable data के लिए हमारा primal optimization problem था:</p>
+<p><span class="math-display">\[\min_{w, b}\ \frac{1}{2} \|w\|^2 \quad \text{s.t.} \quad y^{(i)}(w^T x^{(i)} + b) \ge 1, \quad i = 1, \dots, m\]</span></p>
+<p>प्रत्येक constraint को <span class="math-inline">\(g_i(w, b) = -y^{(i)}(w^T x^{(i)} + b) + 1 \le 0\)</span> लिखने पर generalized Lagrangian बना था:</p>
+<p><span class="math-display">\[\mathcal{L}(w, b, \alpha) = \frac{1}{2} \|w\|^2 - \sum_{i=1}^{m} \alpha_i \left[ y^{(i)}(w^T x^{(i)} + b) - 1 \right]\]</span></p>
+<p>Dual problem पाने के लिए हमें <span class="math-inline">\(\alpha\)</span> को स्थिर मानकर <span class="math-inline">\(\theta_{\mathcal{D}}(\alpha) = \min_{w, b} \mathcal{L}(w, b, \alpha)\)</span> निकालना है। इसके लिए <span class="math-inline">\(w\)</span> और <span class="math-inline">\(b\)</span> के सापेक्ष derivatives को zero रखते हैं।</p>
+<p><strong>Step 1 (<span class="math-inline">\(w\)</span> के सापेक्ष minimize करना):</strong></p>
+<p><span class="math-display">\[\nabla_w \mathcal{L}(w, b, \alpha) = w - \sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)} = 0 \quad\Longrightarrow\quad w = \sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)}\]</span></p>
+<p>यह समीकरण बहुत गहरा मतलब रखता है: सबसे अच्छा weight vector <span class="math-inline">\(w\)</span> हमेशा training vectors का एक linear combination होता है। और जिन points के लिए <span class="math-inline">\(\alpha_i = 0\)</span> है, उनका <span class="math-inline">\(w\)</span> बनाने में कोई हिस्सा ही नहीं है। पूरा hyperplane सिर्फ़ <span class="math-inline">\(\alpha_i &gt; 0\)</span> वाले <strong>support vectors</strong> पर टिका है।</p>
+<p><strong>Step 2 (<span class="math-inline">\(b\)</span> के सापेक्ष minimize करना):</strong></p>
+<p><span class="math-display">\[\frac{\partial}{\partial b} \mathcal{L}(w, b, \alpha) = -\sum_{i=1}^{m} \alpha_i y^{(i)} = 0 \quad\Longrightarrow\quad \sum_{i=1}^{m} \alpha_i y^{(i)} = 0\]</span></p>
+<p>अगर <span class="math-inline">\(\sum_{i=1}^{m} \alpha_i y^{(i)} \ne 0\)</span> हो, तो <span class="math-inline">\(b\)</span> को <span class="math-inline">\(+\infty\)</span> या <span class="math-inline">\(-\infty\)</span> की ओर ले जाकर <span class="math-inline">\(\mathcal{L}\)</span> को <span class="math-inline">\(-\infty\)</span> बनाया जा सकता है। इसलिए dual में यह एक ज़रूरी equality constraint बन जाता है।</p>
+<p><strong>Step 3 (वापस <span class="math-inline">\(\mathcal{L}\)</span> में रखना):</strong> ऊपर से <span class="math-inline">\(w = \sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)}\)</span> को <span class="math-inline">\(\mathcal{L}\)</span> में रखें और पदों को खोलें:</p>
+<p><span class="math-display">\[\mathcal{L}(w, b, \alpha) = \frac{1}{2} w^T w - w^T \left( \sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)} \right) - b \sum_{i=1}^{m} \alpha_i y^{(i)} + \sum_{i=1}^{m} \alpha_i\]</span></p>
+<p>यहाँ दूसरा पद <span class="math-inline">\(-w^T w\)</span> है और तीसरा पद <span class="math-inline">\(\sum_i \alpha_i y^{(i)} = 0\)</span> की वजह से शून्य हो जाता है। इसलिए <span class="math-inline">\(\frac{1}{2} w^T w - w^T w = -\frac{1}{2} w^T w\)</span> बचता है। अब <span class="math-inline">\(w^T w\)</span> में दोनों जोड़ लिख दें:</p>
+<p><span class="math-display">\[W(\alpha) = \sum_{i=1}^{m} \alpha_i - \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} y^{(i)} y^{(j)} \alpha_i \alpha_j \langle x^{(i)}, x^{(j)} \rangle\]</span></p>
+<p>यही हमारा <strong>dual objective</strong> <span class="math-inline">\(W(\alpha)\)</span> है। चूँकि यह <span class="math-inline">\(\alpha\)</span> में एक concave quadratic है, इसलिए हमारा <strong>dual optimization problem</strong> है:</p>
+<p><span class="math-display">\[\max_{\alpha}\ W(\alpha) = \sum_{i=1}^{m} \alpha_i - \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} y^{(i)} y^{(j)} \alpha_i \alpha_j \langle x^{(i)}, x^{(j)} \rangle\]</span></p>
+<p><span class="math-display">\[\text{s.t.} \quad \alpha_i \ge 0, \quad i = 1, \dots, m \qquad \text{और} \qquad \sum_{i=1}^{m} \alpha_i y^{(i)} = 0\]</span></p>
+<p>यहाँ primal convex है और Slater की शर्त पूरी होती है, इसलिए strong duality लागू होती है (<span class="math-inline">\(d^* = p^*\)</span>) और KKT conditions हल की गारंटी देती हैं। एक बार dual से optimal <span class="math-inline">\(\alpha^*\)</span> मिल जाए, तो <span class="math-inline">\(w^* = \sum_{i=1}^{m} \alpha_i^* y^{(i)} x^{(i)}\)</span> तुरंत निकल आता है। Intercept <span class="math-inline">\(b^*\)</span> तो और भी सीधा है: <span class="math-inline">\(w^*\)</span> से hyperplane की दिशा तय हो चुकी है, बस उसे दोनों classes के सबसे पास वाले points के ठीक बीच में बैठाना है:</p>
+<p><span class="math-display">\[b^* = -\frac{\max_{i:\, y^{(i)} = -1} w^{*T} x^{(i)} + \min_{i:\, y^{(i)} = 1} w^{*T} x^{(i)}}{2}\]</span></p>
+<p>(उसी बात को किसी एक support vector <span class="math-inline">\(\alpha_i^* &gt; 0\)</span> से भी लिख सकते हैं: उस पर active constraint <span class="math-inline">\(y^{(i)}(w^{*T} x^{(i)} + b^*) = 1\)</span> है, इसलिए <span class="math-inline">\(b^* = y^{(i)} - w^{*T} x^{(i)}\)</span>।)</p>
+<h3>सिर्फ़ Inner Products से Prediction</h3>
+<p>मान लीजिए कोई नया test point <span class="math-inline">\(x\)</span> आता है और हमें <span class="math-inline">\(w^T x + b\)</span> का चिह्न (sign) देखकर उसका class बताना है। अगर हम <span class="math-inline">\(w\)</span> का formula सीधे रख दें, तो हमें <span class="math-inline">\(w\)</span> को अलग से निकालने की भी ज़रूरत नहीं है:</p>
+<p><span class="math-display">\[w^T x + b = \left( \sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)} \right)^T x + b = \sum_{i=1}^{m} \alpha_i y^{(i)} \langle x^{(i)}, x \rangle + b\]</span></p>
+<p>इस छोटे से सूत्र में दो बड़े फ़ायदे छिपे हैं:</p>
+<ol>
+<li><strong>Sparse computation:</strong> ज़्यादातर training points के लिए <span class="math-inline">\(\alpha_i = 0\)</span> होता है। इसलिए नया prediction करते समय जोड़ सिर्फ़ गिने-चुने support vectors पर लगाना पड़ता है।</li>
+<li><strong>सिर्फ़ inner products:</strong> ध्यान दें कि dual objective <span class="math-inline">\(W(\alpha)\)</span>, <span class="math-inline">\(b^*\)</span> का सूत्र, और नया prediction, तीनों में input vectors कभी सीधे नहीं दिखते। वे सिर्फ़ जोड़ों के inner products <span class="math-inline">\(\langle x^{(i)}, x^{(j)} \rangle\)</span> और <span class="math-inline">\(\langle x^{(i)}, x \rangle\)</span> के रूप में आते हैं।</li>
+</ol>
+<h2>4. Kernels और Feature Maps</h2>
+<p>मान लीजिए मूल coordinates (<strong>attributes</strong>) <span class="math-inline">\(x \in \mathbb{R}^2\)</span> में नीली class अंदर एक गोले में है और लाल class बाहर के छल्ले (ring) में। 2D में कोई भी सीधी रेखा इन्हें अलग नहीं कर सकती। पर अगर आप एक <strong>feature map</strong> बनाएँ जो हर बिंदु को 3D में उठा दे:</p>
+<p><span class="math-display">\[\phi(x) = \begin{bmatrix} x_1 \\ x_2 \\ x_1^2 + x_2^2 \end{bmatrix}\]</span></p>
+<p>तो अंदर वाले बिंदुओं की ऊँचाई <span class="math-inline">\(x_1^2 + x_2^2\)</span> कम होगी और बाहर वाले बिंदुओं की ज़्यादा। 3D में एक सपाट plane उन्हें आराम से काटकर अलग कर देगा, और वापस 2D फ़र्श पर देखने पर वही plane एक गोल वृत्त (circle) जैसा दिखेगा।</p>
+<h3>Kernel Trick</h3>
+<p>अगर हम अपने SVM में मूल input <span class="math-inline">\(x\)</span> की जगह <span class="math-inline">\(\phi(x)\)</span> इस्तेमाल करना चाहें, तो पिछले section की वजह से पूरे algorithm में हमें बस हर <span class="math-inline">\(\langle x, z \rangle\)</span> की जगह <span class="math-inline">\(\langle \phi(x), \phi(z) \rangle\)</span> रखना है। इसी राशि को हम <strong>kernel</strong> कहते हैं:</p>
+<p><span class="math-display">\[K(x, z) = \phi(x)^T \phi(z)\]</span></p>
+<p>असली जादू यह है कि अक्सर <span class="math-inline">\(\phi(x)\)</span> बहुत बड़े dimension का होने की वजह से सीधे निकालने में बेहद महँगा होता है, जबकि <span class="math-inline">\(K(x, z)\)</span> का मान बेहद सस्ते में निकल आता है। तब हम <span class="math-inline">\(\phi(x)\)</span> को कभी बनाते ही नहीं; सीधे <span class="math-inline">\(K(x, z)\)</span> का उपयोग करके उसी ऊँचे feature space में linear SVM सीख लेते हैं। इसे <strong>kernel trick</strong> कहते हैं।</p>
+<h3>उदाहरण: <span class="math-inline">\(K(x, z) = (x^T z)^2\)</span></h3>
+<p>मान लीजिए <span class="math-inline">\(x, z \in \mathbb{R}^n\)</span> हैं और हम <span class="math-inline">\(K(x, z) = (x^T z)^2\)</span> लेते हैं। इसे खोलकर देखें:</p>
+<p><span class="math-display">\[K(x, z) = \left( \sum_{i=1}^{n} x_i z_i \right) \left( \sum_{j=1}^{n} x_j z_j \right) = \sum_{i=1}^{n} \sum_{j=1}^{n} (x_i x_j)(z_i z_j) = \phi(x)^T \phi(z)\]</span></p>
+<p>उदाहरण के लिए <span class="math-inline">\(n = 3\)</span> पर <span class="math-inline">\(\phi(x)\)</span> में सारे <span class="math-inline">\(3 \times 3 = 9\)</span> जोड़े आते हैं:</p>
+<p><span class="math-display">\[\phi(x) = \begin{bmatrix} x_1^2 &amp; x_1 x_2 &amp; x_1 x_3 &amp; x_2 x_1 &amp; x_2^2 &amp; x_2 x_3 &amp; x_3 x_1 &amp; x_3 x_2 &amp; x_3^2 \end{bmatrix}^T\]</span></p>
+<p>लागत की तुलना कीजिए। अगर आपके पास <span class="math-inline">\(n = 1{,}000\)</span> attributes हैं, तो <span class="math-inline">\(\phi(x)\)</span> में <span class="math-inline">\(n^2 = 10^6\)</span> संख्याएँ होंगी, यानी इसे बनाने और inner product लेने में <span class="math-inline">\(O(n^2)\)</span> समय और memory लगेगी। दूसरी तरफ़ <span class="math-inline">\(K(x, z) = (x^T z)^2\)</span> निकालने के लिए आप बस <span class="math-inline">\(x^T z\)</span> निकालते हैं (<span class="math-inline">\(O(n)\)</span> काम) और उस एक संख्या का square कर देते हैं! काम बिल्कुल वही हुआ, पर लागत <span class="math-inline">\(O(n^2)\)</span> से घटकर <span class="math-inline">\(O(n)\)</span> रह गई।</p>
+<p>अगर इसमें एक constant <span class="math-inline">\(c &gt; 0\)</span> जोड़ दें, यानी <span class="math-inline">\(K(x, z) = (x^T z + c)^2 = (x^T z)^2 + 2c(x^T z) + c^2\)</span>, तो <span class="math-inline">\(\phi(x)\)</span> में quadratic terms <span class="math-inline">\(x_i x_j\)</span> के साथ-साथ degree-1 के terms <span class="math-inline">\(\sqrt{2c}\, x_i\)</span> और constant <span class="math-inline">\(c\)</span> भी आ जाते हैं।</p>
+<h3>आम Kernels: Polynomial और Gaussian (RBF)</h3>
+<ul>
+<li><strong>Polynomial kernel:</strong> <span class="math-inline">\(K(x, z) = (x^T z + c)^d\)</span>। इसका <span class="math-inline">\(\phi(x)\)</span> उन सारे monomials से बनता है जिनकी कुल degree <span class="math-inline">\(d\)</span> तक है। इसका feature dimension <span class="math-inline">\(\binom{n + d}{d}\)</span> होता है (जो <span class="math-inline">\(d\)</span> बढ़ने पर बहुत तेज़ी से बढ़ता है), फिर भी <span class="math-inline">\(K(x, z)\)</span> हमेशा सिर्फ़ <span class="math-inline">\(O(n)\)</span> समय लेता है।</li>
+<li><strong>Gaussian या RBF (Radial Basis Function) kernel:</strong></li>
+</ul>
+<p><span class="math-display">\[K(x, z) = \exp\left( -\frac{\|x - z\|^2}{2\sigma^2} \right)\]</span></p>
+<p>कई libraries में <span class="math-inline">\(\gamma = \frac{1}{2\sigma^2}\)</span> रखकर इसे <span class="math-inline">\(\exp(-\gamma \|x - z\|^2)\)</span> लिखा जाता है। आप इसे similarity के पैमाने की तरह सोच सकते हैं: जब <span class="math-inline">\(x\)</span> और <span class="math-inline">\(z\)</span> एक ही point हों तो <span class="math-inline">\(K(x, z) = 1\)</span>, और जैसे-जैसे दूरी <span class="math-inline">\(\|x - z\|\)</span> बढ़ती है, यह तेज़ी से <span class="math-inline">\(0\)</span> की तरफ़ गिर जाता है। <span class="math-inline">\(\exp\)</span> की Taylor series में हर degree आती है, इसलिए RBF kernel एक <strong>infinite-dimensional</strong> feature map <span class="math-inline">\(\phi(x)\)</span> के बराबर है!</p>
+<p>Prediction सूत्र <span class="math-inline">\(f(x) = \sum_{i=1}^{m} \alpha_i y^{(i)} K(x^{(i)}, x) + b\)</span> को ज्यामितीय रूप से देखें: हर support vector <span class="math-inline">\(x^{(i)}\)</span> के ऊपर एक Gaussian पहाड़ी (<span class="math-inline">\(y^{(i)} = +1\)</span>) या गड्ढा (<span class="math-inline">\(y^{(i)} = -1\)</span>) रखा है, और कुल decision surface उन्हीं पहाड़ियों-गड्ढों का जोड़ है। Bandwidth <span class="math-inline">\(\sigma\)</span> इसका स्वभाव तय करता है:</p>
+<ul>
+<li><strong><span class="math-inline">\(\sigma\)</span> बहुत बड़ा:</strong> हर Gaussian बहुत चौड़ा और चपटा होता है। Surface बेहद चिकनी रहती है और बारीक मोड़ पकड़ नहीं पाती (<strong>underfitting</strong>, high bias)।</li>
+<li><strong><span class="math-inline">\(\sigma\)</span> बहुत छोटा:</strong> हर support vector के चारों ओर सुई जैसी नुकीली चोटी बन जाती है, और थोड़ी सी दूरी पर असर शून्य हो जाता है। Training points के छोटे-छोटे द्वीप बन जाते हैं: training error शून्य, पर नए data पर खराब प्रदर्शन (<strong>overfitting</strong>, high variance)।</li>
+</ul>
+<h3>Mercer's Theorem: कौन सा Function एक Valid Kernel है?</h3>
+<p>मान लीजिए आपने खुद कोई नया similarity function <span class="math-inline">\(K(x, z)\)</span> सोचा। आप कैसे जानेंगे कि इसके पीछे वाकई कोई feature map <span class="math-inline">\(\phi\)</span> छिपा है जिसके लिए <span class="math-inline">\(K(x, z) = \phi(x)^T \phi(z)\)</span> हो? उदाहरण के लिए <span class="math-inline">\(K(x, z) = -x^T z\)</span> एक valid kernel नहीं हो सकता, क्योंकि <span class="math-inline">\(x \ne 0\)</span> के लिए <span class="math-inline">\(K(x, x) = -\|x\|^2 &lt; 0\)</span> है, जबकि किसी भी असली <span class="math-inline">\(\phi\)</span> के लिए <span class="math-inline">\(\|\phi(x)\|^2 \ge 0\)</span> होना अनिवार्य है।</p>
+<p>मान लें <span class="math-inline">\(K\)</span> वाकई एक valid kernel है। कोई भी सीमित समूह <span class="math-inline">\(\{x^{(1)}, \dots, x^{(m)}\}\)</span> चुनें और <span class="math-inline">\(m \times m\)</span> आकार की <strong>kernel matrix (Gram matrix)</strong> <span class="math-inline">\(K\)</span> बनाएँ, जिसकी <span class="math-inline">\((i, j)\)</span> प्रविष्टि <span class="math-inline">\(K_{ij} = K(x^{(i)}, x^{(j)})\)</span> है। इसके दो गुण तुरंत दिखते हैं:</p>
+<ol>
+<li><strong>Symmetry:</strong> <span class="math-inline">\(K_{ij} = \phi(x^{(i)})^T \phi(x^{(j)}) = \phi(x^{(j)})^T \phi(x^{(i)}) = K_{ji}\)</span>।</li>
+<li><strong>Positive semi-definiteness:</strong> किसी भी vector <span class="math-inline">\(z \in \mathbb{R}^m\)</span> के लिए quadratic form देखें:</li>
+</ol>
+<p><span class="math-display">\[z^T K z = \sum_{i=1}^{m} \sum_{j=1}^{m} z_i K_{ij} z_j = \sum_{i=1}^{m} \sum_{j=1}^{m} z_i\, \phi(x^{(i)})^T \phi(x^{(j)})\, z_j = \left\| \sum_{i=1}^{m} z_i \phi(x^{(i)}) \right\|^2 \ge 0\]</span></p>
+<p>चूँकि किसी भी vector का squared norm कभी negative नहीं होता, इसलिए <span class="math-inline">\(z^T K z \ge 0\)</span> हमेशा सच है, यानी matrix <span class="math-inline">\(K\)</span> symmetric और positive semi-definite (<span class="math-inline">\(K \succeq 0\)</span>) है।</p>
+<p><strong>Mercer's theorem</strong> कहता है कि (हल्की शर्तों के साथ) इसका उल्टा भी सच है: कोई function <span class="math-inline">\(K(x, z)\)</span> एक valid kernel (यानी <strong>Mercer kernel</strong>) तभी और केवल तभी है जब points के हर सीमित समूह <span class="math-inline">\(\{x^{(1)}, \dots, x^{(m)}\}\)</span> के लिए उससे बनने वाली kernel matrix <span class="math-inline">\(K\)</span> symmetric और positive semi-definite हो। मतलब आपको <span class="math-inline">\(\phi(x)\)</span> ढूँढकर दिखाने की ज़रूरत ही नहीं है; बस positive semi-definiteness जाँचना काफ़ी है। यही गुण यह भी पक्का करता है कि SVM का dual objective <span class="math-inline">\(W(\alpha)\)</span> हमेशा concave रहे।</p>
+<h2>5. Soft-Margin SVM (<span class="math-inline">\(\ell_1\)</span> Regularization)</h2>
+<p>अब तक के hard-margin SVM में एक सख्त ज़िद थी: <strong>हर एक</strong> training example को margin के सही तरफ़ होना ही पड़ेगा (<span class="math-inline">\(y^{(i)}(w^T x^{(i)} + b) \ge 1\)</span>)। असली data में इससे दो बड़ी समस्याएँ आती हैं। पहली, noise के कारण दोनों classes थोड़ा घुल-मिल सकती हैं, और तब hard-margin QP का कोई feasible हल ही नहीं बचता। दूसरी, अगर data अलग हो भी रहा हो, तो भी बस एक अकेला भटका हुआ बिंदु (<strong>outlier</strong>) boundary को बुरी तरह घुमा सकता है और पूरे margin को पिचका सकता है।</p>
+<h3>Slack Variables और Parameter <span class="math-inline">\(C\)</span></h3>
+<p>इसका इलाज यह है कि हम हर example को <span class="math-inline">\(\xi_i \ge 0\)</span> जितनी छूट (slack) दे दें, लेकिन मुफ्त में नहीं: हर छूट पर <span class="math-inline">\(C \xi_i\)</span> का जुर्माना लगाएँ। नया primal problem बनता है:</p>
+<p><span class="math-display">\[\min_{w, b, \xi}\ \frac{1}{2} \|w\|^2 + C \sum_{i=1}^{m} \xi_i \quad \text{s.t.} \quad y^{(i)}(w^T x^{(i)} + b) \ge 1 - \xi_i, \quad \xi_i \ge 0, \quad i = 1, \dots, m\]</span></p>
+<p>इसे <strong><span class="math-inline">\(\ell_1\)</span>-regularized soft-margin SVM</strong> कहते हैं। <span class="math-inline">\(\xi_i\)</span> के मान से पता चलता है कि <span class="math-inline">\(i\)</span>-वाँ बिंदु कहाँ बैठा है:</p>
+<ul>
+<li><span class="math-inline">\(\xi_i = 0\)</span>: बिंदु ने कोई छूट नहीं ली; वह margin के बाहर या ठीक उसकी रेखा पर सुरक्षित है।</li>
+<li><span class="math-inline">\(0 &lt; \xi_i &lt; 1\)</span>: बिंदु margin की खाली पट्टी के अंदर आ गया है, पर अब भी decision boundary के सही तरफ़ है।</li>
+<li><span class="math-inline">\(\xi_i &gt; 1\)</span>: <span class="math-inline">\(y^{(i)}(w^T x^{(i)} + b) &lt; 0\)</span> हो गया है, यानी यह बिंदु गलत classify हो रहा है।</li>
+</ul>
+<p>Parameter <span class="math-inline">\(C &gt; 0\)</span> दो लक्ष्यों में संतुलन बिठाता है: छोटा <span class="math-inline">\(\|w\|^2\)</span> (यानी चौड़ा margin) बनाम छोटा <span class="math-inline">\(\sum_i \xi_i\)</span> (यानी कम उल्लंघन)। बहुत बड़ा <span class="math-inline">\(C\)</span> किसी भी गलती पर भारी जुर्माना लगाता है और hard-margin जैसा बर्ताव करता है; छोटा <span class="math-inline">\(C\)</span> इक्का-दुक्का outliers की परवाह किए बिना एक चौड़ा और शांत margin चुन लेता है।</p>
+<h3>Dual में Box Constraint कैसे आता है</h3>
+<p>अब हर example पर दो inequality constraints हैं, इसलिए दो गैर-ऋणात्मक multipliers <span class="math-inline">\(\alpha_i \ge 0\)</span> और <span class="math-inline">\(r_i \ge 0\)</span> लेकर Lagrangian लिखें:</p>
+<p><span class="math-display">\[\mathcal{L}(w, b, \xi, \alpha, r) = \frac{1}{2} \|w\|^2 + C \sum_{i=1}^{m} \xi_i - \sum_{i=1}^{m} \alpha_i \left[ y^{(i)}(w^T x^{(i)} + b) - 1 + \xi_i \right] - \sum_{i=1}^{m} r_i \xi_i\]</span></p>
+<p><span class="math-inline">\(w\)</span> और <span class="math-inline">\(b\)</span> के सापेक्ष derivatives को शून्य रखने पर ठीक पहले वाले परिणाम मिलते हैं: <span class="math-inline">\(w = \sum_{i=1}^{m} \alpha_i y^{(i)} x^{(i)}\)</span> और <span class="math-inline">\(\sum_{i=1}^{m} \alpha_i y^{(i)} = 0\)</span>। नया कदम <span class="math-inline">\(\xi_i\)</span> के सापेक्ष derivative है:</p>
+<p><span class="math-display">\[\frac{\partial}{\partial \xi_i} \mathcal{L} = C - \alpha_i - r_i = 0 \quad\Longrightarrow\quad r_i = C - \alpha_i\]</span></p>
+<p>दो बातें तुरंत साफ़ हो जाती हैं। पहली, Lagrangian में <span class="math-inline">\(\xi_i\)</span> के साथ आने वाला गुणांक <span class="math-inline">\((C - \alpha_i - r_i)\)</span> शून्य है, इसलिए सारे <span class="math-inline">\(\xi_i\)</span> गायब हो जाते हैं और dual objective <span class="math-inline">\(W(\alpha)\)</span> का रूप रत्ती भर भी नहीं बदलता! दूसरी, चूँकि dual में <span class="math-inline">\(r_i \ge 0\)</span> होना ज़रूरी है, इसलिए <span class="math-inline">\(C - \alpha_i \ge 0\)</span>, यानी <span class="math-inline">\(\alpha_i \le C\)</span>। इस तरह kernel <span class="math-inline">\(K\)</span> जोड़ने के बाद पूरा <strong>soft-margin dual</strong> बनता है:</p>
+<p><span class="math-display">\[\max_{\alpha}\ W(\alpha) = \sum_{i=1}^{m} \alpha_i - \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} y^{(i)} y^{(j)} \alpha_i \alpha_j K(x^{(i)}, x^{(j)})\]</span></p>
+<p><span class="math-display">\[\text{s.t.} \quad 0 \le \alpha_i \le C, \quad i = 1, \dots, m \qquad \text{और} \qquad \sum_{i=1}^{m} \alpha_i y^{(i)} = 0\]</span></p>
+<p>यहाँ <span class="math-inline">\(0 \le \alpha_i \le C\)</span> को <strong>box constraint</strong> कहते हैं, क्योंकि पूरा vector <span class="math-inline">\(\alpha\)</span> एक <span class="math-inline">\(m\)</span>-आयामी डिब्बे <span class="math-inline">\([0, C]^m\)</span> के अंदर कैद रहता है। यानी कोई एक outlier अकेले अपना <span class="math-inline">\(\alpha_i\)</span> अनंत तक बढ़ाकर hyperplane पर हावी नहीं हो सकता; उसका असर अधिक से अधिक <span class="math-inline">\(C\)</span> तक सीमित है।</p>
+<h3>KKT Complementary Slackness के तीन Cases</h3>
+<p>मान लें <span class="math-inline">\(f(x) = \sum_{j=1}^{m} \alpha_j y^{(j)} K(x^{(j)}, x) + b\)</span> हमारा decision score है। दोनों constraints के लिए KKT complementary slackness शर्तें हैं:</p>
+<p><span class="math-display">\[\alpha_i \left[ y^{(i)} f(x^{(i)}) - 1 + \xi_i \right] = 0 \qquad \text{और} \qquad r_i \xi_i = (C - \alpha_i)\xi_i = 0\]</span></p>
+<p>इन दो समीकरणों से हर training example इन तीन में से ठीक एक स्थिति में आता है:</p>
+<table>
+<thead>
+<tr>
+<th><span class="math-inline">\(\alpha_i\)</span> का मान</th>
+<th>KKT से निष्कर्ष</th>
+<th>बिंदु कहाँ है</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(\alpha_i = 0\)</span></td>
+<td><span class="math-inline">\(r_i = C &gt; 0 \implies \xi_i = 0\)</span>, इसलिए <span class="math-inline">\(y^{(i)} f(x^{(i)}) \ge 1\)</span></td>
+<td>Margin की पट्टी के बाहर या किनारे पर (non-support vector)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(0 &lt; \alpha_i &lt; C\)</span></td>
+<td><span class="math-inline">\(r_i &gt; 0 \implies \xi_i = 0\)</span>, और <span class="math-inline">\(\alpha_i &gt; 0 \implies y^{(i)} f(x^{(i)}) = 1\)</span></td>
+<td>ठीक margin की सीमा-रेखा पर (free support vector)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha_i = C\)</span></td>
+<td>पहला कोष्ठक शून्य, यानी <span class="math-inline">\(y^{(i)} f(x^{(i)}) = 1 - \xi_i \le 1\)</span></td>
+<td>Margin के भीतर घुसा हुआ या गलत तरफ़ (bounded support vector)</td>
+</tr>
+</tbody>
+</table>
+<p>ये तीन शर्तें ही यह जाँचने की कसौटी हैं कि हमारा numerical solver सही हल पर पहुँचा या नहीं। ध्यान दें कि threshold <span class="math-inline">\(b\)</span> निकालने के लिए <span class="math-inline">\(0 &lt; \alpha_i &lt; C\)</span> वाले free support vectors का इस्तेमाल किया जाता है, क्योंकि उन्हीं पर <span class="math-inline">\(y^{(i)} f(x^{(i)}) = 1\)</span> सटीक रूप से लागू होता है।</p>
+<h2>6. SMO (Sequential Minimal Optimization) Algorithm</h2>
+<p>हमें box <span class="math-inline">\([0, C]^m\)</span> और रेखीय समता <span class="math-inline">\(\sum_{i=1}^{m} \alpha_i y^{(i)} = 0\)</span> के अधीन <span class="math-inline">\(W(\alpha)\)</span> को maximize करना है। <strong>Coordinate ascent</strong> का सामान्य विचार बड़ा सरल होता है: एक बार में सिर्फ़ एक variable को optimize करो और बाकी सबको स्थिर रखो।</p>
+<p>पर SVM dual में हम सिर्फ़ <strong>एक</strong> <span class="math-inline">\(\alpha_1\)</span> को अकेले नहीं बदल सकते! कारण साफ़ है: समता की शर्त से</p>
+<p><span class="math-display">\[\alpha_1 y^{(1)} = -\sum_{i=2}^{m} \alpha_i y^{(i)}\]</span></p>
+<p>जैसे ही आप <span class="math-inline">\(\alpha_2, \dots, \alpha_m\)</span> को स्थिर करते हैं, <span class="math-inline">\(\alpha_1\)</span> का मान पूरी तरह जकड़ जाता है और ज़रा भी हिल नहीं सकता। इसलिए John Platt (1998) का <strong>SMO algorithm</strong> वह सबसे छोटा कदम उठाता है जो वाकई संभव है: हर iteration में <strong>दो</strong> multipliers चुनें (मान लें <span class="math-inline">\(\alpha_1\)</span> और <span class="math-inline">\(\alpha_2\)</span>), बाकी <span class="math-inline">\(\alpha_3, \dots, \alpha_m\)</span> को स्थिर रखें, और उन दोनों को एक साथ closed form में update कर दें।</p>
+<h3>Step-by-step दो-Alpha Update</h3>
+<p>मान लीजिए किसी कदम पर हमने जोड़ा <span class="math-inline">\((\alpha_1, \alpha_2)\)</span> चुना है (जिनके पुराने मान <span class="math-inline">\(\alpha_1^{\text{old}}, \alpha_2^{\text{old}}\)</span> हैं)।</p>
+<p><strong>Step 1 (रेखीय संबंध):</strong> समता की शर्त को स्थिर हिस्से <span class="math-inline">\(\zeta\)</span> के बराबर लिखें:</p>
+<p><span class="math-display">\[\alpha_1 y^{(1)} + \alpha_2 y^{(2)} = -\sum_{k=3}^{m} \alpha_k y^{(k)} = \zeta\]</span></p>
+<p>चूँकि <span class="math-inline">\((y^{(1)})^2 = 1\)</span> है, दोनों ओर <span class="math-inline">\(y^{(1)}\)</span> से गुणा करने पर <span class="math-inline">\(\alpha_1 = (\zeta - \alpha_2 y^{(2)}) y^{(1)}\)</span> मिलता है। ज्यामितीय रूप से <span class="math-inline">\((\alpha_1, \alpha_2)\)</span> पूरे वर्ग <span class="math-inline">\([0, C] \times [0, C]\)</span> में आज़ाद नहीं घूम सकते; उन्हें <span class="math-inline">\(45^\circ\)</span> के कोण वाले एक रेखाखंड (line segment) पर ही चलना पड़ता है।</p>
+<p><strong>Step 2 (Box से <span class="math-inline">\([L, H]\)</span> की सीमाएँ निकालना):</strong> <span class="math-inline">\(\alpha_1\)</span> और <span class="math-inline">\(\alpha_2\)</span> दोनों को <span class="math-inline">\([0, C]\)</span> के भीतर रखने से नए <span class="math-inline">\(\alpha_2\)</span> के संभव मान एक अंतराल <span class="math-inline">\([L, H]\)</span> में बँध जाते हैं:</p>
+<ul>
+<li>अगर <span class="math-inline">\(y^{(1)} \ne y^{(2)}\)</span> है (यानी <span class="math-inline">\(\alpha_1 - \alpha_2\)</span> स्थिर है):</li>
+</ul>
+<p><span class="math-display">\[L = \max\big(0,\ \alpha_2^{\text{old}} - \alpha_1^{\text{old}}\big), \qquad H = \min\big(C,\ C + \alpha_2^{\text{old}} - \alpha_1^{\text{old}}\big)\]</span></p>
+<ul>
+<li>अगर <span class="math-inline">\(y^{(1)} = y^{(2)}\)</span> है (यानी <span class="math-inline">\(\alpha_1 + \alpha_2\)</span> स्थिर है):</li>
+</ul>
+<p><span class="math-display">\[L = \max\big(0,\ \alpha_1^{\text{old}} + \alpha_2^{\text{old}} - C\big), \qquad H = \min\big(C,\ \alpha_1^{\text{old}} + \alpha_2^{\text{old}}\big)\]</span></p>
+<p><strong>Step 3 (1D Concave Quadratic का शिखर):</strong> जब आप <span class="math-inline">\(\alpha_1 = (\zeta - \alpha_2 y^{(2)}) y^{(1)}\)</span> को <span class="math-inline">\(W(\alpha)\)</span> में रखते हैं, तो <span class="math-inline">\(W\)</span> केवल एक चर <span class="math-inline">\(\alpha_2\)</span> का साधारण द्विघात <span class="math-inline">\(A \alpha_2^2 + B \alpha_2 + \text{const}\)</span> बन जाता है। वर्तमान model का prediction error <span class="math-inline">\(E_i = f(x^{(i)}) - y^{(i)}\)</span> और वक्रता <span class="math-inline">\(\eta = K_{11} + K_{22} - 2 K_{12}\)</span> लिखें। Mercer kernel के लिए आम तौर पर <span class="math-inline">\(\eta &gt; 0\)</span> होता है (यानी parabola नीचे की ओर खुलता है), और derivative शून्य रखने पर बिना सीमा वाला शिखर सीधे मिल जाता है:</p>
+<p><span class="math-display">\[\alpha_2^{\text{new, unclipped}} = \alpha_2^{\text{old}} + \frac{y^{(2)}(E_1 - E_2)}{\eta}\]</span></p>
+<p><strong>Step 4 (<span class="math-inline">\([L, H]\)</span> में Clip करना और <span class="math-inline">\(\alpha_1, b\)</span> का update):</strong> अगर यह शिखर अनुमत रेखाखंड <span class="math-inline">\([L, H]\)</span> से बाहर निकल जाए, तो concave होने के कारण सबसे ऊँचा वैध बिंदु ठीक कोने <span class="math-inline">\(L\)</span> या <span class="math-inline">\(H\)</span> पर ही होता है:</p>
+<p><span class="math-display">\[\alpha_2^{\text{new}} = \begin{cases} H &amp; \text{अगर } \alpha_2^{\text{new, unclipped}} &gt; H \\ \alpha_2^{\text{new, unclipped}} &amp; \text{अगर } L \le \alpha_2^{\text{new, unclipped}} \le H \\ L &amp; \text{अगर } \alpha_2^{\text{new, unclipped}} &lt; L \end{cases}\]</span></p>
+<p>इसके बाद समता से <span class="math-inline">\(\alpha_1^{\text{new}} = \alpha_1^{\text{old}} + y^{(1)} y^{(2)}(\alpha_2^{\text{old}} - \alpha_2^{\text{new}})\)</span> तुरंत निकल आता है। अंत में threshold <span class="math-inline">\(b\)</span> को update करते हैं: यदि <span class="math-inline">\(0 &lt; \alpha_1^{\text{new}} &lt; C\)</span> हो तो पहले बिंदु पर <span class="math-inline">\(y^{(1)} f(x^{(1)}) = 1\)</span> से <span class="math-inline">\(b_1\)</span> लें, यदि <span class="math-inline">\(0 &lt; \alpha_2^{\text{new}} &lt; C\)</span> हो तो दूसरे से <span class="math-inline">\(b_2\)</span> लें, और दोनों सीमाओं पर हों तो <span class="math-inline">\(\frac{b_1 + b_2}{2}\)</span> रख लें।</p>
+<p>यही चार छोटे कदम अलग-अलग जोड़ों पर तब तक दोहराए जाते हैं जब तक सारे <span class="math-inline">\(\alpha_i\)</span> एक छोटे tolerance (जैसे <span class="math-inline">\(10^{-3}\)</span>) के भीतर ऊपर वाली तीन KKT शर्तें पूरी न कर लें। Platt के पूरे SMO में जोड़े बेतरतीब नहीं चुने जाते: पहला चर वह चुना जाता है जो KKT शर्त सबसे बुरी तरह तोड़ रहा हो, और दूसरा वह जिसके लिए <span class="math-inline">\(|E_1 - E_2|\)</span> बड़ा हो ताकि <span class="math-inline">\(W(\alpha)\)</span> एक ही छलाँग में ज़्यादा ऊपर चढ़े। हर कदम इतना सस्ता है कि किसी बाहरी QP solver के बिना भी बड़े datasets तेज़ी से हल हो जाते हैं।</p>
+<h2>7. Practical बातें और आम गलतियाँ</h2>
+<ul>
+<li><strong>Kernel लगाने से पहले features को standardize करें:</strong> RBF kernel में <span class="math-inline">\(\|x - z\|^2 = \sum_{k=1}^{n} (x_k - z_k)^2\)</span> आता है। अगर एक attribute हज़ारों में हो और दूसरा <span class="math-inline">\(0\)</span> से <span class="math-inline">\(1\)</span> के बीच, तो बड़ा attribute दूरी पर पूरी तरह हावी हो जाता है। हमेशा training set के mean और standard deviation से features को scale करें।</li>
+<li><strong><span class="math-inline">\(C\)</span> और <span class="math-inline">\(\sigma\)</span> दोनों एक साथ cross-validation से चुनें:</strong> छोटा <span class="math-inline">\(\sigma\)</span> और बहुत बड़ा <span class="math-inline">\(C\)</span> मिलकर भयानक overfitting पैदा करते हैं। आम तौर पर दोनों parameters पर logarithmic grid (जैसे <span class="math-inline">\(0.01, 0.1, 1, 10, 100\)</span>) बनाकर cross-validation किया जाता है।</li>
+<li><strong>जब <span class="math-inline">\(n\)</span> बहुत बड़ा हो और <span class="math-inline">\(m\)</span> छोटा या मध्यम, तो Linear SVM आज़माएँ:</strong> जैसे text या genomics में जब पहले से <span class="math-inline">\(50{,}000\)</span> features हों, तो data ऊँचे space में लगभग linearly separable होता ही है। वहाँ RBF की जगह साधारण linear kernel (<span class="math-inline">\(K(x, z) = x^T z\)</span>) तेज़ भी चलता है और कम overfit करता है।</li>
+<li><strong>Kernel trick सिर्फ़ SVM की बपौती नहीं है:</strong> जिस भी algorithm को सिर्फ़ inner products <span class="math-inline">\(\langle x^{(i)}, x^{(j)} \rangle\)</span> के रूप में लिखा जा सके (जैसे Perceptron, Ridge Regression, या Kernel PCA), उसमें ठीक यही kernel trick काम करती है।</li>
+<li><strong><span class="math-inline">\(f(x)\)</span> सीधे probability नहीं है:</strong> SVM का output margin के सापेक्ष signed score देता है। यदि calibrated probabilities चाहिएँ, तो ऊपर से एक एकल-चर sigmoid (<span class="math-inline">\(P(y=1 \mid f) = \frac{1}{1 + \exp(A f + B)}\)</span>) अलग validation data पर fit किया जाता है, जिसे Platt scaling कहते हैं।</li>
+</ul>
+<h2>8. खुद से पूछें</h2>
+<ol>
+<li>मान लीजिए <span class="math-inline">\(x, z \in \mathbb{R}^2\)</span> हैं और <span class="math-inline">\(K(x, z) = (x^T z + 1)^2\)</span> है। 6 अवयवों वाला ऐसा एक स्पष्ट feature map <span class="math-inline">\(\phi(x)\)</span> लिखें जिसके लिए <span class="math-inline">\(K(x, z) = \phi(x)^T \phi(z)\)</span> हमेशा सच हो।</li>
+<li>Soft-margin SVM हल करने के बाद किसी बिंदु के लिए <span class="math-inline">\(\alpha_i = C\)</span> और slack <span class="math-inline">\(\xi_i = 0.4\)</span> मिला। क्या यह बिंदु सही classify हो रहा है या गलत, और margin तथा decision boundary के सापेक्ष यह कहाँ स्थित है?</li>
+<li>अगर RBF kernel में <span class="math-inline">\(\sigma \to 0\)</span> कर दिया जाए और <span class="math-inline">\(C\)</span> बड़ा हो, तो training पर kernel matrix <span class="math-inline">\(K\)</span> लगभग किस परिचित matrix जैसी दिखेगी? इसका training accuracy और अनदेखे test points की भविष्यवाणी पर क्या असर पड़ेगा?</li>
+</ol>
+<div class="part"><span class="tag">भाग 2</span><h2>3D Animations</h2></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 7.1</span>Feature Lift: <span class="math-inline">\(z = x_1^2 + x_2^2\)</span></div><div class="frames"><figure><img src="anim/L07_1_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L07_1_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L07_1_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> शुरू में अंदर का नीला समूह और बाहर का लाल छल्ला 2D फ़र्श (<span class="math-inline">\(z=0\)</span>) पर पड़े हैं, जहाँ कोई भी सीधी रेखा इन्हें अलग नहीं कर सकती। जैसे-जैसे feature map <span class="math-inline">\(\phi(x) = (x_1, x_2, x_1^2 + x_2^2)\)</span> सक्रिय होता है, हर बिंदु कटोरे जैसी सतह <span class="math-inline">\(z = x_1^2 + x_2^2\)</span> पर ऊपर उठता है। बाहर वाले लाल बिंदु ज़्यादा ऊँचे उठ जाते हैं और बीच में एक सपाट हरा separating plane आसानी से दोनों classes के बीच आ जाता है। फ़र्श पर उसी plane का कटाव एक गोल वृत्ताकार boundary बनाता है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L07_1.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 7.2</span>RBF Surface Built Bump by Bump</div><div class="frames"><figure><img src="anim/L07_2_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L07_2_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L07_2_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> RBF SVM का decision function <span class="math-inline">\(f(x) = \sum_i \alpha_i y^{(i)} K(x^{(i)}, x) + b\)</span> असल में support vectors पर रखे Gaussian bumps का जोड़ है। यहाँ पहले पूरा SMO चलाकर support vectors निकाले गए हैं, और फिर एक-एक करके हर support vector का bump जोड़ा जा रहा है। लाल बिंदु (<span class="math-inline">\(y=+1\)</span>) ऊपर की ओर पहाड़ी उठाते हैं और नीले बिंदु (<span class="math-inline">\(y=-1\)</span>) नीचे की ओर गड्ढा बनाते हैं। काले घेरे सक्रिय support vectors हैं और <span class="math-inline">\(z=0\)</span> पर काली रेखा बनती हुई non-linear decision boundary दिखाती है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L07_2.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 7.3</span>RBF <span class="math-inline">\(\sigma\)</span>: Underfit to Overfit</div><div class="frames"><figure><img src="anim/L07_3_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L07_3_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L07_3_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ एक ही noisy two-moons dataset पर RBF kernel की चौड़ाई <span class="math-inline">\(\sigma\)</span> को बड़े से बहुत छोटे तक घटाया जा रहा है। शुरू में बड़ा <span class="math-inline">\(\sigma\)</span> बहुत चौड़े bumps बनाता है, इसलिए surface लगभग चपटी रहती है और मुड़ी हुई सीमा नहीं पकड़ पाती (underfitting)। बीच के <span class="math-inline">\(\sigma \approx 0.65\)</span> पर चिकनी S-आकार की सीमा बनती है और test accuracy सबसे ऊपर होती है। अंत में बहुत छोटे <span class="math-inline">\(\sigma\)</span> पर हर बिंदु के ऊपर नुकीली सुई बन जाती है: लगभग सारे बिंदु support vectors बन जाते हैं और test accuracy गिर जाती है (overfitting)।</p><div class="file">चलती animation: cs229_hindi/out/anim/L07_3.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 7.4</span>Soft-Margin <span class="math-inline">\(C\)</span> Sweep with Outliers</div><div class="frames"><figure><img src="anim/L07_4_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L07_4_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L07_4_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> दो साफ समूहों के बीच तीन भटके हुए outliers डाल दिए गए हैं और linear soft-margin SVM में <span class="math-inline">\(C\)</span> को छोटे से बड़े तक बढ़ाया जा रहा है। छोटे <span class="math-inline">\(C\)</span> पर नीला plane <span class="math-inline">\(z = w^T x + b\)</span> शांत और कम ढलान वाला रहता है: फ़र्श पर दिखती margin की पट्टी चौड़ी रहती है और outliers पर नारंगी slack डंडियाँ <span class="math-inline">\(\xi_i &gt; 0\)</span> बर्दाश्त कर ली जाती हैं। जैसे ही <span class="math-inline">\(C\)</span> बहुत बड़ा होता है, गलती से बचने की ज़िद में plane बुरी तरह घूमकर खड़ी ढलान ले लेता है और पूरा margin पिचककर पतला हो जाता है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L07_4.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 7.5</span>SMO Path on Dual <span class="math-inline">\(W(\alpha_1,\alpha_2)\)</span></div><div class="frames"><figure><img src="anim/L07_5_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L07_5_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L07_5_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ 3-बिंदु वाले SVM (<span class="math-inline">\(y=(+1,+1,-1)\)</span>, समता से <span class="math-inline">\(\alpha_3=\alpha_1+\alpha_2\)</span>) का असली concave dual surface <span class="math-inline">\(W(\alpha_1,\alpha_2)\)</span> box <span class="math-inline">\([0, C]^2\)</span> के ऊपर दिखाया गया है। हर कदम में SMO एक जोड़ा चुनता है: <span class="math-inline">\((1,2)\)</span> चुनने पर बिंदु <span class="math-inline">\(45^\circ\)</span> की तिरछी रेखा पर चलता है, और <span class="math-inline">\((1,3)\)</span> या <span class="math-inline">\((2,3)\)</span> चुनने पर अक्ष के समांतर। नारंगी मेहराब वर्तमान 1D quadratic टुकड़ा <span class="math-inline">\([L, H]\)</span> है। जब बिना सीमा वाला शिखर वैध क्षेत्र से बाहर निकल जाता है, तो update किनारे <span class="math-inline">\(L\)</span> या <span class="math-inline">\(H\)</span> पर clip हो जाता है और धीरे-धीरे शिखर (हरा तारा) तक पहुँचता है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L07_5.gif</div></div>
+<div class="part"><span class="tag">भाग 3</span><h2>Python Example</h2></div>
+<p class="run">इसे खुद चलाएँ: <code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L07_svm_kernels/example.py</code></p>
+<div class="code"><pre><span></span><span class="sd">"""Lecture 7 example: Simplified SMO और RBF बनाम Linear Kernel शुरू से (NumPy).</span>
+
+<span class="sd">Noisy two-moons dataset पर soft-margin SVM dual को simplified SMO से हल करते हैं,</span>
+<span class="sd">Linear और RBF kernel की तुलना करते हैं, और sklearn SVC से मिलान जाँचते हैं।</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_moons</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># ---------- 1. Two-moons data और standardization (सिर्फ़ train statistics से) ----------</span>
+<span class="n">X_raw</span><span class="p">,</span> <span class="n">y01</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">220</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.20</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">y_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y01</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>             <span class="c1"># SVM के लिए labels {-1, +1}</span>
+<span class="n">perm</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_all</span><span class="p">))</span>
+<span class="n">tr</span><span class="p">,</span> <span class="n">te</span> <span class="o">=</span> <span class="n">perm</span><span class="p">[:</span><span class="mi">160</span><span class="p">],</span> <span class="n">perm</span><span class="p">[</span><span class="mi">160</span><span class="p">:]</span>
+<span class="n">mu</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">X_raw</span><span class="p">[</span><span class="n">tr</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">X_raw</span><span class="p">[</span><span class="n">tr</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_raw</span><span class="p">[</span><span class="n">tr</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span><span class="p">,</span> <span class="n">y_all</span><span class="p">[</span><span class="n">tr</span><span class="p">]</span>
+<span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_raw</span><span class="p">[</span><span class="n">te</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span><span class="p">,</span> <span class="n">y_all</span><span class="p">[</span><span class="n">te</span><span class="p">]</span>
+
+
+<span class="c1"># ---------- 2. Kernels और Dual Objective ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">linear_kernel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">X</span> <span class="o">@</span> <span class="n">Z</span><span class="o">.</span><span class="n">T</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rbf_kernel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.7</span><span class="p">):</span>
+    <span class="n">sq_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">X</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">Z</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">sq_dist</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">dual_objective</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">K</span><span class="p">):</span>
+    <span class="n">ay</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">y</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">ay</span> <span class="o">@</span> <span class="n">K</span> <span class="o">@</span> <span class="n">ay</span><span class="p">))</span>
+
+
+<span class="c1"># ---------- 3. Simplified Platt SMO शुरू से ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_smo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">kernel_fn</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">max_passes</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Box constraint 0 &lt;= alpha_i &lt;= C और sum(alpha_i y_i) = 0 के साथ dual maximize करें।"""</span>
+    <span class="n">local_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="n">kernel_fn</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">alpha</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="p">[]</span>
+    <span class="n">passes</span><span class="p">,</span> <span class="n">steps</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">passes</span> <span class="o">&lt;</span> <span class="n">max_passes</span> <span class="ow">and</span> <span class="n">steps</span> <span class="o">&lt;</span> <span class="n">max_steps</span><span class="p">:</span>
+        <span class="n">changed</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+            <span class="n">Ei</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">@</span> <span class="n">K</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">Ei</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">tol</span> <span class="ow">and</span> <span class="n">alpha</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">C</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">Ei</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="ow">and</span> <span class="n">alpha</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">)):</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">local_rng</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.8</span><span class="p">:</span>
+                <span class="n">diffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Ei</span> <span class="o">-</span> <span class="p">((</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">@</span> <span class="n">K</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">y</span><span class="p">))</span>
+                <span class="n">diffs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">diffs</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">local_rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="n">i</span> <span class="k">else</span> <span class="n">j</span>
+            <span class="n">Ej</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="o">@</span> <span class="n">K</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">ai_old</span><span class="p">,</span> <span class="n">aj_old</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">alpha</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">L</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">aj_old</span> <span class="o">-</span> <span class="n">ai_old</span><span class="p">)</span> <span class="k">if</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">ai_old</span> <span class="o">+</span> <span class="n">aj_old</span> <span class="o">-</span> <span class="n">C</span><span class="p">)</span>
+            <span class="n">H</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">C</span> <span class="o">+</span> <span class="n">aj_old</span> <span class="o">-</span> <span class="n">ai_old</span><span class="p">)</span> <span class="k">if</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">ai_old</span> <span class="o">+</span> <span class="n">aj_old</span><span class="p">)</span>
+            <span class="n">eta</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">K</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">H</span> <span class="o">-</span> <span class="n">L</span> <span class="o">&lt;</span> <span class="mf">1e-10</span> <span class="ow">or</span> <span class="n">eta</span> <span class="o">&lt;=</span> <span class="mf">1e-12</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">aj_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">aj_old</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ei</span> <span class="o">-</span> <span class="n">Ej</span><span class="p">)</span> <span class="o">/</span> <span class="n">eta</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">aj_new</span> <span class="o">-</span> <span class="n">aj_old</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">ai_new</span> <span class="o">=</span> <span class="n">ai_old</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">aj_old</span> <span class="o">-</span> <span class="n">aj_new</span><span class="p">)</span>
+            <span class="n">b1</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">Ei</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">ai_new</span> <span class="o">-</span> <span class="n">ai_old</span><span class="p">)</span> <span class="o">*</span> <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">aj_new</span> <span class="o">-</span> <span class="n">aj_old</span><span class="p">)</span> <span class="o">*</span> <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+            <span class="n">b2</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">Ej</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">ai_new</span> <span class="o">-</span> <span class="n">ai_old</span><span class="p">)</span> <span class="o">*</span> <span class="n">K</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">aj_new</span> <span class="o">-</span> <span class="n">aj_old</span><span class="p">)</span> <span class="o">*</span> <span class="n">K</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">b1</span> <span class="k">if</span> <span class="mf">0.0</span> <span class="o">&lt;</span> <span class="n">ai_new</span> <span class="o">&lt;</span> <span class="n">C</span> <span class="k">else</span> <span class="p">(</span><span class="n">b2</span> <span class="k">if</span> <span class="mf">0.0</span> <span class="o">&lt;</span> <span class="n">aj_new</span> <span class="o">&lt;</span> <span class="n">C</span> <span class="k">else</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">b1</span> <span class="o">+</span> <span class="n">b2</span><span class="p">))</span>
+            <span class="n">alpha</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">alpha</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">ai_new</span><span class="p">,</span> <span class="n">aj_new</span>
+            <span class="n">changed</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">steps</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dual_objective</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">K</span><span class="p">))</span>
+        <span class="n">passes</span> <span class="o">=</span> <span class="n">passes</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">changed</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"X"</span><span class="p">:</span> <span class="n">X</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span> <span class="s2">"alpha"</span><span class="p">:</span> <span class="n">alpha</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="n">b</span><span class="p">,</span> <span class="s2">"kernel"</span><span class="p">:</span> <span class="n">kernel_fn</span><span class="p">,</span> <span class="s2">"history"</span><span class="p">:</span> <span class="n">history</span><span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">predict_score</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">Z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">mod</span><span class="p">[</span><span class="s2">"alpha"</span><span class="p">]</span> <span class="o">*</span> <span class="n">mod</span><span class="p">[</span><span class="s2">"y"</span><span class="p">])</span> <span class="o">@</span> <span class="n">mod</span><span class="p">[</span><span class="s2">"kernel"</span><span class="p">](</span><span class="n">mod</span><span class="p">[</span><span class="s2">"X"</span><span class="p">],</span> <span class="n">Z</span><span class="p">)</span> <span class="o">+</span> <span class="n">mod</span><span class="p">[</span><span class="s2">"b"</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">acc_pct</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">scores</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">scores</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">==</span> <span class="n">y_true</span><span class="p">)</span>
+
+
+<span class="c1"># ---------- 4. Linear बनाम RBF SMO, और sklearn SVC से मिलान ----------</span>
+<span class="n">C_val</span><span class="p">,</span> <span class="n">sigma_val</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.70</span>
+<span class="n">rbf_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">:</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma_val</span><span class="p">)</span>
+<span class="n">lin_mod</span> <span class="o">=</span> <span class="n">fit_smo</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">linear_kernel</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C_val</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rbf_mod</span> <span class="o">=</span> <span class="n">fit_smo</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">rbf_fn</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C_val</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">svc</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">C_val</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s2">"rbf"</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">sigma_val</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Dataset: two-moons (train=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="si">}</span><span class="s2">, test=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span><span class="si">}</span><span class="s2">), C=</span><span class="si">{</span><span class="n">C_val</span><span class="si">}</span><span class="s2">, RBF sigma=</span><span class="si">{</span><span class="n">sigma_val</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Model                 Dual W(a)   Train Acc   Test Acc   Total SVs   Free / Bounded"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">mod</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">"Linear SMO (scratch)"</span><span class="p">,</span> <span class="n">lin_mod</span><span class="p">),</span> <span class="p">(</span><span class="s2">"RBF SMO (scratch)"</span><span class="p">,</span> <span class="n">rbf_mod</span><span class="p">)]:</span>
+    <span class="n">al</span> <span class="o">=</span> <span class="n">mod</span><span class="p">[</span><span class="s2">"alpha"</span><span class="p">]</span>
+    <span class="n">sv</span><span class="p">,</span> <span class="n">free</span><span class="p">,</span> <span class="n">bnd</span> <span class="o">=</span> <span class="n">al</span> <span class="o">&gt;</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="p">(</span><span class="n">al</span> <span class="o">&gt;</span> <span class="mf">1e-4</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">al</span> <span class="o">&lt;</span> <span class="n">C_val</span> <span class="o">-</span> <span class="mf">1e-4</span><span class="p">),</span> <span class="n">al</span> <span class="o">&gt;=</span> <span class="n">C_val</span> <span class="o">-</span> <span class="mf">1e-4</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;21</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">mod</span><span class="p">[</span><span class="s1">'history'</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">9.3f</span><span class="si">}</span><span class="s2">     </span><span class="si">{</span><span class="n">acc_pct</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span><span class="w"> </span><span class="n">predict_score</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span><span class="w"> </span><span class="n">X_train</span><span class="p">))</span><span class="si">:</span><span class="s2">6.1f</span><span class="si">}</span><span class="s2">%"</span>
+          <span class="sa">f</span><span class="s2">"    </span><span class="si">{</span><span class="n">acc_pct</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">predict_score</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span><span class="w"> </span><span class="n">X_test</span><span class="p">))</span><span class="si">:</span><span class="s2">6.1f</span><span class="si">}</span><span class="s2">%      </span><span class="si">{</span><span class="n">sv</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">4d</span><span class="si">}</span><span class="s2">       </span><span class="si">{</span><span class="n">free</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">bnd</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">&lt;3d</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'sklearn SVC (RBF)'</span><span class="si">:</span><span class="s2">&lt;21</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">'(ref)'</span><span class="si">:</span><span class="s2">&gt;9</span><span class="si">}</span><span class="s2">     </span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">svc</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="w"> </span><span class="n">y_train</span><span class="p">)</span><span class="si">:</span><span class="s2">6.1f</span><span class="si">}</span><span class="s2">%"</span>
+      <span class="sa">f</span><span class="s2">"    </span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">svc</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">6.1f</span><span class="si">}</span><span class="s2">%      </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">svc</span><span class="o">.</span><span class="n">support_</span><span class="p">)</span><span class="si">:</span><span class="s2">4d</span><span class="si">}</span><span class="s2">        -"</span><span class="p">)</span>
+<span class="n">agree</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">predict_score</span><span class="p">(</span><span class="n">rbf_mod</span><span class="p">,</span> <span class="n">X_test</span><span class="p">))</span> <span class="o">==</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">RBF SMO और sklearn test predictions में सहमति: </span><span class="si">{</span><span class="n">agree</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%,  sum(alpha_i y_i) = </span><span class="si">{</span><span class="n">rbf_mod</span><span class="p">[</span><span class="s1">'alpha'</span><span class="p">]</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">y_train</span><span class="si">:</span><span class="s2">+.2e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">RBF bandwidth sigma बदलने पर प्रभाव (C = 2.0):"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">sig</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">2.80</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">):</span>
+    <span class="n">m_s</span> <span class="o">=</span> <span class="n">fit_smo</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">sig</span><span class="p">:</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">C</span><span class="o">=</span><span class="n">C_val</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  sigma = </span><span class="si">{</span><span class="n">sig</span><span class="si">:</span><span class="s2">&lt;4.2f</span><span class="si">}</span><span class="s2"> -&gt; train = </span><span class="si">{</span><span class="n">acc_pct</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span><span class="w"> </span><span class="n">predict_score</span><span class="p">(</span><span class="n">m_s</span><span class="p">,</span><span class="w"> </span><span class="n">X_train</span><span class="p">))</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2">%, "</span>
+          <span class="sa">f</span><span class="s2">"test = </span><span class="si">{</span><span class="n">acc_pct</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">predict_score</span><span class="p">(</span><span class="n">m_s</span><span class="p">,</span><span class="w"> </span><span class="n">X_test</span><span class="p">))</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2">%, SVs = </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">m_s</span><span class="p">[</span><span class="s1">'alpha'</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">1e-4</span><span class="p">))</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 5. Decision boundaries और SMO convergence का चित्र ----------</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">11.2</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">))</span>
+<span class="n">gx</span><span class="p">,</span> <span class="n">gy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mi">140</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="mi">140</span><span class="p">))</span>
+<span class="n">grid_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">gx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">gy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()]</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">mod</span><span class="p">,</span> <span class="n">ttl</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lin_mod</span><span class="p">,</span> <span class="s2">"Linear Kernel SMO"</span><span class="p">),</span> <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rbf_mod</span><span class="p">,</span> <span class="s2">"RBF Kernel SMO (sigma=0.7)"</span><span class="p">)]:</span>
+    <span class="n">zz</span> <span class="o">=</span> <span class="n">predict_score</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">grid_pts</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">gx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">zz</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s2">"#dbeafe"</span><span class="p">,</span> <span class="s2">"#fee2e2"</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.65</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">zz</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s2">"#2563eb"</span><span class="p">,</span> <span class="s2">"#111827"</span><span class="p">,</span> <span class="s2">"#dc2626"</span><span class="p">],</span>
+               <span class="n">linestyles</span><span class="o">=</span><span class="p">[</span><span class="s2">"--"</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">,</span> <span class="s2">"--"</span><span class="p">],</span> <span class="n">linewidths</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">"#2563eb"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"y = -1"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"y = +1"</span><span class="p">)</span>
+    <span class="n">sv</span> <span class="o">=</span> <span class="n">mod</span><span class="p">[</span><span class="s2">"alpha"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1e-4</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">sv</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_train</span><span class="p">[</span><span class="n">sv</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">facecolors</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s2">"#111827"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">52</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"SV"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ttl</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">sv</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> SVs)"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"x1 (scaled)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"x2 (scaled)"</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"upper right"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rbf_mod</span><span class="p">[</span><span class="s2">"history"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#ea580c"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"RBF SMO W(alpha)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lin_mod</span><span class="p">[</span><span class="s2">"history"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#2563eb"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.6</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Linear SMO W(alpha)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"Dual Objective across SMO sweeps"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"SMO sweep"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"W(alpha)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mf">8.5</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"result.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+</pre></div>
+
+<div class="label">OUTPUT</div>
+<pre class="output">Dataset: two-moons (train=160, test=60), C=2.0, RBF sigma=0.7
+
+Model                 Dual W(a)   Train Acc   Test Acc   Total SVs   Free / Bounded
+Linear SMO (scratch)     95.344       87.5%      88.3%        65        24 / 41 
+RBF SMO (scratch)        40.161       97.5%      95.0%        46        29 / 17 
+sklearn SVC (RBF)         (ref)       96.9%      95.0%        38        -
+
+RBF SMO और sklearn test predictions में सहमति: 96.7%,  sum(alpha_i y_i) = +0.00e+00
+
+RBF bandwidth sigma बदलने पर प्रभाव (C = 2.0):
+  sigma = 2.80 -&gt; train =  86.9%, test =  88.3%, SVs = 67/160
+  sigma = 0.70 -&gt; train =  96.9%, test =  96.7%, SVs = 48/160
+  sigma = 0.08 -&gt; train =  99.4%, test =  88.3%, SVs = 155/160</pre>
+<img class="result-img" src="examples/L07_svm_kernels/result.png">
+</section>
+<script src="../vendor/katex/package/dist/katex.min.js"></script>
+<script src="../vendor/katex/package/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [{left: "\\[", right: "\\]", display: true}, {left: "\\(", right: "\\)", display: false}],
+  throwOnError: false, ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+});
+</script>
+</body></html>

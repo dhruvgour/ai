@@ -1,0 +1,20 @@
+A. Regression (polynomial model): model की complexity बढ़ाने का असर
+   degree  parameters  train error  test error
+        1           2       0.3058      0.4411
+        3           4       0.0308      0.0692
+        9          10       0.0214      0.0749
+       15          16       0.0142      0.1424
+   degree 1: दोनों errors बड़े (underfitting)।  degree 15: train error सबसे छोटा,
+   पर test error फिर बढ़ गया (overfitting)।  degree 3 सबसे अच्छा generalize करती है।
+
+B. Classification (k-NN): 140 training examples, 60 test examples
+   k    train accuracy  test accuracy
+   1             1.000          0.833
+   5             0.936          0.867
+   25            0.929          0.867
+   k = 1 training set को रट लेता है (100%), पर नए data पर सबसे कमज़ोर है।
+
+C. Clustering (k-means, k = 3): हर iteration पर J(c, mu)
+   986.8  722.8  716.6  715.4  710.6  698.4  593.7  214.8  157.5
+   मिले centroids   : (-0.21, -0.01)  ( 1.72,  3.60)  ( 4.11,  0.67)
+   असली centers     : ( 0.00,  0.00)  ( 2.00,  3.50)  ( 4.00,  0.50)

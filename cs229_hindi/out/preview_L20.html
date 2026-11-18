@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<title>CS229 Machine Learning हिंदी में</title>
+<link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
+<style>
+@page { size: A4; margin: 16mm 13mm 17mm 13mm;
+        @bottom-center { content: counter(page); font: 9pt "Helvetica Neue", sans-serif; color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Kohinoor Devanagari", "Devanagari Sangam MN", "Helvetica Neue", sans-serif;
+       font-size: 10.6pt; line-height: 1.72; color: #111827; margin: 0; }
+body.screen { max-width: 900px; margin: 0 auto; padding: 24px 28px 80px; font-size: 16px; background: #fff; }
+h1, h2, h3, h4 { line-height: 1.35; break-after: avoid; }
+h2 { font-size: 13.5pt; margin: 1.3em 0 0.4em; color: #1e3a8a; }
+h3 { font-size: 11.5pt; margin: 1.1em 0 0.3em; color: #1f2937; }
+p { margin: 0.45em 0; orphans: 2; widows: 2; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+li { margin: 0.18em 0; }
+a { color: #1d4ed8; text-decoration: none; }
+code { font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace; font-size: 0.88em;
+       background: #f1f5f9; padding: 0.08em 0.3em; border-radius: 3px; }
+blockquote { margin: 0.7em 0; padding: 0.5em 0.9em; border-left: 4px solid #2563eb; background: #eff6ff;
+             border-radius: 0 6px 6px 0; break-inside: avoid; }
+blockquote p { margin: 0.2em 0; }
+table { border-collapse: collapse; margin: 0.7em 0; width: 100%; font-size: 0.93em; break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 0.3em 0.6em; text-align: left; vertical-align: top; }
+th { background: #eef2ff; }
+.math-display { display: block; margin: 0.55em 0; overflow-x: auto; break-inside: avoid; }
+.katex { font-size: 1.04em; }
+
+.cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center;
+         break-after: page; }
+body.screen .cover { height: auto; padding: 70px 0 50px; }
+.cover .kicker { letter-spacing: 0.22em; font-size: 10pt; color: #2563eb; font-weight: 700; }
+.cover h1 { font-size: 34pt; margin: 0.25em 0 0.1em; color: #111827; }
+.cover .sub { font-size: 15pt; color: #374151; }
+.cover .pill { display: inline-block; margin: 2.2em auto 0; padding: 0.5em 1.4em; border-radius: 999px;
+               background: #1e3a8a; color: #fff; font-size: 11.5pt; }
+.cover .note { margin-top: 3em; font-size: 9.5pt; color: #6b7280; }
+
+.front { break-after: page; }
+.toc ol { list-style: none; padding: 0; margin: 0.4em 0; }
+.toc li { display: flex; gap: 0.7em; padding: 0.22em 0; border-bottom: 1px dotted #cbd5e1; }
+.toc .n { flex: 0 0 5.6em; color: #2563eb; font-weight: 700; }
+
+.chapter { break-before: page; }
+.ch-head { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 14px 18px;
+           border-radius: 10px; margin-bottom: 0.9em; break-inside: avoid; }
+.ch-head .n { font-size: 9.5pt; letter-spacing: 0.18em; opacity: 0.85; font-weight: 700; }
+.ch-head h1 { font-size: 17.5pt; margin: 0.1em 0 0; }
+.part { display: flex; align-items: center; gap: 0.6em; margin: 1.5em 0 0.6em; padding-bottom: 0.25em;
+        border-bottom: 2px solid #1e3a8a; break-after: avoid; }
+.part .tag { background: #1e3a8a; color: #fff; border-radius: 5px; padding: 0.05em 0.6em; font-size: 9.5pt;
+             font-weight: 700; }
+.part h2 { margin: 0; font-size: 14pt; }
+
+.anim { border: 1px solid #e5e7eb; border-radius: 9px; padding: 8px 7px 6px; margin: 0.8em 0;
+        break-inside: avoid; background: #fff; }
+.anim-head { font-weight: 700; margin-bottom: 0.3em; }
+.anim-head .badge { background: #ea580c; color: #fff; border-radius: 4px; padding: 0.05em 0.5em;
+                    font-size: 9pt; margin-right: 0.5em; }
+.frames { display: flex; gap: 3px; }
+.frames figure { margin: 0; flex: 1; text-align: center; }
+.frames img { width: 100%; display: block; border: 1px solid #eef0f3; border-radius: 5px; }
+.frames figcaption { font-size: 8pt; color: #6b7280; line-height: 1.3; margin-top: 1px; }
+.anim .gif { display: block; margin: 0 auto; width: 480px; max-width: 100%; }
+.anim .caption { font-size: 0.95em; margin: 0.4em 0 0.15em; }
+.anim .file { font-size: 8pt; color: #6b7280; font-family: "SF Mono", Menlo, monospace; }
+
+.code { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.code pre, pre.output { margin: 0; font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace;
+                        font-size: 8.3pt; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+body.screen .code pre, body.screen pre.output { font-size: 13px; }
+pre.output { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.label { font-size: 9pt; font-weight: 700; color: #475569; margin: 1em 0 0.2em; break-after: avoid; }
+.result-img { display: block; max-width: 88%; margin: 0.6em auto; border: 1px solid #e5e7eb; border-radius: 6px;
+              break-inside: avoid; }
+.run { font-size: 0.93em; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #ffffcc }
+.code { background: #f0f0f0; }
+.code .c { color: #60A0B0; font-style: italic } /* Comment */
+.code .err { border: 1px solid #F00 } /* Error */
+.code .k { color: #007020; font-weight: bold } /* Keyword */
+.code .o { color: #666 } /* Operator */
+.code .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #007020 } /* Comment.Preproc */
+.code .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F00 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #888 } /* Generic.Output */
+.code .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #04D } /* Generic.Traceback */
+.code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code .kp { color: #007020 } /* Keyword.Pseudo */
+.code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #902000 } /* Keyword.Type */
+.code .m { color: #40A070 } /* Literal.Number */
+.code .s { color: #4070A0 } /* Literal.String */
+.code .na { color: #4070A0 } /* Name.Attribute */
+.code .nb { color: #007020 } /* Name.Builtin */
+.code .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code .no { color: #60ADD5 } /* Name.Constant */
+.code .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code .ne { color: #007020 } /* Name.Exception */
+.code .nf { color: #06287E } /* Name.Function */
+.code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code .nv { color: #BB60D5 } /* Name.Variable */
+.code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code .w { color: #BBB } /* Text.Whitespace */
+.code .mb { color: #40A070 } /* Literal.Number.Bin */
+.code .mf { color: #40A070 } /* Literal.Number.Float */
+.code .mh { color: #40A070 } /* Literal.Number.Hex */
+.code .mi { color: #40A070 } /* Literal.Number.Integer */
+.code .mo { color: #40A070 } /* Literal.Number.Oct */
+.code .sa { color: #4070A0 } /* Literal.String.Affix */
+.code .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code .sc { color: #4070A0 } /* Literal.String.Char */
+.code .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #4070A0 } /* Literal.String.Double */
+.code .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code .sx { color: #C65D09 } /* Literal.String.Other */
+.code .sr { color: #235388 } /* Literal.String.Regex */
+.code .s1 { color: #4070A0 } /* Literal.String.Single */
+.code .ss { color: #517918 } /* Literal.String.Symbol */
+.code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code .fm { color: #06287E } /* Name.Function.Magic */
+.code .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
+</head><body class="print">
+<section class="cover"><div class="kicker">STANFORD CS229 SCHEDULE &middot; SELF-STUDY GUIDE</div><h1>Machine Learning<br>हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह एक self-study guide है जो CS229 के public syllabus के क्रम पर चलती है। यह Stanford का official material नहीं है।</div></section>
+<section class="front"><h2>यह guide कैसे पढ़ें</h2>
+<p>यह guide Stanford CS229 (Machine Learning) के syllabus के क्रम में चलती है: Lecture 1 से Lecture 20 तक। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<table>
+<thead>
+<tr>
+<th>भाग</th>
+<th>क्या है</th>
+<th>कैसे इस्तेमाल करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>भाग 1: Theory</strong></td>
+<td>Idea, notation, maths और algorithm, हिंदी में</td>
+<td>पहले इसे धीरे-धीरे पढ़ें। Equations को कागज़ पर खुद लिखकर देखें।</td>
+</tr>
+<tr>
+<td><strong>भाग 2: 3D Animations</strong></td>
+<td>हर chapter में कम से कम 5 animations</td>
+<td>PDF में हर animation के तीन still frames हैं (शुरुआत, बीच में, अंत)। चलती animation देखने के लिए नीचे बताई files खोलें।</td>
+</tr>
+<tr>
+<td><strong>भाग 3: Python Example</strong></td>
+<td>NumPy से शुरू से लिखा एक चलने वाला example, उसके output के साथ</td>
+<td>Code को खुद चलाएँ, फिर numbers बदलकर देखें कि क्या बदलता है।</td>
+</tr>
+</tbody>
+</table>
+<p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
+<h2>चलती animations कहाँ हैं</h2>
+<ul>
+<li><strong><code>CS229_Hindi_Animated.html</code></strong> (इसी folder में): इसे browser में खोलें। यह यही पूरी guide है, पर इसमें सारी animations चलती हैं।</li>
+<li><strong><code>cs229_hindi/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
+</ul>
+<h2>Code कैसे चलाएँ</h2>
+<p>हर chapter का code <code>cs229_hindi/chapters/&lt;chapter&gt;/example.py</code> में है। Terminal में इसी folder से:</p>
+<pre><code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L02_linear_regression/example.py
+</code></pre>
+<p>Animations का code उसी folder की <code>anims.py</code> में है। पूरी guide दोबारा बनाने के लिए: <code>cs229_hindi/.venv/bin/python cs229_hindi/build.py</code></p>
+<h2>पहले से क्या आना चाहिए</h2>
+<ul>
+<li><strong>Linear Algebra:</strong> vectors, matrices, matrix multiplication, transpose, inverse, eigenvalues / eigenvectors।</li>
+<li><strong>Probability:</strong> random variable, expectation, variance, conditional probability, Bayes rule, Gaussian distribution।</li>
+<li><strong>Calculus:</strong> derivative, partial derivative, gradient, chain rule।</li>
+<li><strong>Python:</strong> NumPy arrays की बुनियादी समझ।</li>
+</ul>
+<h2>पूरे course में चलने वाला notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}, y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वाँ training example: input और target</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या (या input का dimension)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span>, <span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>model के parameters</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis: model का prediction</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(J(\theta)\)</span></td>
+<td>cost function जिसे minimize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\ell(\theta)\)</span></td>
+<td>log-likelihood जिसे maximize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span></td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\nabla_\theta\)</span></td>
+<td><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span></td>
+<td>mean <span class="math-inline">\(\mu\)</span> और covariance <span class="math-inline">\(\Sigma\)</span> वाला Gaussian</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(:=\)</span></td>
+<td>"दाएँ की value बाएँ में रख दो" (assignment)</td>
+</tr>
+</tbody>
+</table><h2>विषय-सूची</h2><div class="toc"><ol><li><span class="n">Lecture 20</span><a href="#L20_wrapup_cnn">Wrap-up और Optional Topic: Convolutional Neural Networks</a></li></ol></div></section>
+<section class="chapter" id="L20_wrapup_cnn">
+<div class="ch-head"><div class="n">LECTURE 20</div><h1>Wrap-up और Optional Topic: Convolutional Neural Networks</h1></div>
+<div class="part"><span class="tag">भाग 1</span><h2>Theory</h2></div>
+<blockquote>
+<p><strong>इस lecture में:</strong> भाग A में पूरे CS229 सफ़र का सारांश: Lectures 2 से 19 का course map, बार-बार लौटने वाले छः बुनियादी ideas (Maximum Likelihood, Convexity, Bias बनाम Variance, Kernels, Latent Variables और EM, Bellman Equations), किसी नई problem के लिए सही algorithm चुनने की विधि, और आगे की पढ़ाई की दिशाएँ। भाग B में images के लिए <strong>Convolutional Neural Networks (CNNs)</strong>: fully-connected networks की सीमा, 2D convolution (filter, stride, padding, output size का सूत्र और उदाहरण), 3D volumes और parameter sharing, ReLU, Max और Average Pooling, आम CNN architecture, receptive field, और backpropagation से training।</p>
+</blockquote>
+<h2>1. एक line में idea</h2>
+<p>इस आख़िरी lecture के दो मकसद हैं। पहला, पीछे मुड़कर देखना कि अलग-अलग दिखने वाले लगभग बीस algorithms असल में पाँच-छः गहरे गणितीय विचारों के ही अलग-अलग रूप हैं। दूसरा, यह समझना कि जब input कोई तस्वीर हो, तो हर pixel को हर neuron से जोड़ने के बजाय <strong>छोटे खिसकते हुए filters (convolutions)</strong> और <strong>parameter sharing</strong> का इस्तेमाल करके हम हज़ारों गुना कम weights में दुनिया के सबसे ताकतवर vision models कैसे बना लेते हैं।</p>
+<h2>2. भाग A: Course Map (Lectures 2 से 19)</h2>
+<p>Lecture 1 में हमने Supervised, Unsupervised और Reinforcement Learning की बुनियाद रखी थी। उसके बाद के अठारह lectures का पूरा नक्शा एक नज़र में नीचे दिया है:</p>
+<table>
+<thead>
+<tr>
+<th>Lecture</th>
+<th>Topic</th>
+<th>मुख्य Algorithm</th>
+<th>Key Idea</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2</strong></td>
+<td>Linear Regression</td>
+<td>Batch GD, SGD, Normal Equations</td>
+<td>Gaussian noise मानने पर squared error घटाना ही Maximum Likelihood है</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Classification और Local Fit</td>
+<td>Logistic Regression, LWR, Perceptron, Newton's Method</td>
+<td>Sigmoid linear score को probability बनाता है; Newton curvature (<span class="math-inline">\(H^{-1}\)</span>) से तेज़ कूदता है</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>Generalized Linear Models</td>
+<td>Exponential Family, GLMs, Softmax Regression</td>
+<td>Response का distribution चुनते ही canonical link और convex log-loss अपने आप तय हो जाते हैं</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>Generative Learning</td>
+<td>GDA, Naive Bayes</td>
+<td><span class="math-inline">\(p(y \mid x)\)</span> सीधे सीखने के बजाय <span class="math-inline">\(p(x \mid y)\)</span> और <span class="math-inline">\(p(y)\)</span> सीखकर Bayes rule से पलटें</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td>Smoothing और Margins</td>
+<td>Laplace Smoothing, Hard-Margin SVM</td>
+<td>हर गिनती में <span class="math-inline">\(1\)</span> जोड़कर zero probability रोकें; सबसे चौड़े geometric margin वाला hyperplane चुनें</td>
+</tr>
+<tr>
+<td><strong>7</strong></td>
+<td>Non-linear SVMs</td>
+<td>Kernels, L1 Soft-Margin SVM, SMO</td>
+<td><span class="math-inline">\(K(x, z) = \langle \phi(x), \phi(z) \rangle\)</span> से बिना <span class="math-inline">\(\phi(x)\)</span> बनाए उच्च-आयामी space में boundary खींचें</td>
+</tr>
+<tr>
+<td><strong>8</strong></td>
+<td>Generalization Theory</td>
+<td>Ridge (L2), Lasso (L1), Cross-Validation</td>
+<td>Test error = Bias<span class="math-inline">\(^2\)</span> + Variance + Noise; regularization और validation सही complexity चुनते हैं</td>
+</tr>
+<tr>
+<td><strong>9</strong></td>
+<td>Trees और Ensembles</td>
+<td>Decision Trees, Bagging, Random Forests, Boosting</td>
+<td>समांतर औसत (bagging) variance घटाता है; क्रमिक सुधार (boosting) bias घटाता है</td>
+</tr>
+<tr>
+<td><strong>10</strong></td>
+<td>Neural Networks: Basics</td>
+<td>Multi-layer Perceptrons, Forward Propagation</td>
+<td>Non-linear hidden layers data को ऐसे मोड़ती हैं कि आख़िरी linear layer उसे बाँट सके</td>
+</tr>
+<tr>
+<td><strong>11</strong></td>
+<td>Neural Network Training</td>
+<td>Backpropagation, He/Xavier Init, Adam/Momentum</td>
+<td>Chain rule पीछे से आगे के intermediates दोबारा इस्तेमाल करके सारे gradients एक pass में निकालता है</td>
+</tr>
+<tr>
+<td><strong>12</strong></td>
+<td>ML Diagnostics</td>
+<td>Error Analysis, Ablation, Precision/Recall</td>
+<td>नया model लिखने से पहले learning curves से जाँचें कि असली रुकावट bias है, variance है या data</td>
+</tr>
+<tr>
+<td><strong>13</strong></td>
+<td>Clustering और Mixtures</td>
+<td>K-means, Mixture of Gaussians, EM</td>
+<td>छिपे cluster labels का पोस्टीरियर अंदाज़ा लगाएँ (E-step) और lower bound maximize करें (M-step)</td>
+</tr>
+<tr>
+<td><strong>14</strong></td>
+<td>High-Dimensional Density</td>
+<td>Factor Analysis (EM के साथ)</td>
+<td><span class="math-inline">\(m &lt; n\)</span> में भी कम-आयामी छिपे कारक <span class="math-inline">\(z \in \mathbb{R}^k\)</span> से <span class="math-inline">\(\Sigma = \Lambda\Lambda^T + \Psi\)</span> सीखें</td>
+</tr>
+<tr>
+<td><strong>15</strong></td>
+<td>Subspaces और Sources</td>
+<td>PCA, ICA</td>
+<td>PCA अधिकतम variance की orthogonal दिशाएँ ढूँढता है; ICA non-Gaussian स्वतंत्र स्रोत अलग करता है</td>
+</tr>
+<tr>
+<td><strong>16</strong></td>
+<td>Sequential Decisions</td>
+<td>MDPs, Bellman Equations</td>
+<td>किसी state की value तात्कालिक reward और अगली state की discounted expected value का जोड़ है</td>
+</tr>
+<tr>
+<td><strong>17</strong></td>
+<td>MDP Solvers</td>
+<td>Value Iteration, Policy Iteration, Fitted VI</td>
+<td>Bellman backup एक <span class="math-inline">\(\gamma\)</span>-contraction है जो <span class="math-inline">\(V^*\)</span> पर जाता है; continuous states में <span class="math-inline">\(V\)</span> को approximate करें</td>
+</tr>
+<tr>
+<td><strong>18</strong></td>
+<td>Model-Free RL</td>
+<td>Q-Learning, Value Function Approximation</td>
+<td>Transition <span class="math-inline">\(P_{sa}\)</span> जाने बिना अनुभव <span class="math-inline">\((s, a, r, s&#x27;)\)</span> के temporal-difference error से <span class="math-inline">\(Q^*\)</span> सीखें</td>
+</tr>
+<tr>
+<td><strong>19</strong></td>
+<td>Control और Policy Search</td>
+<td>LQR, DDP, LQG, REINFORCE</td>
+<td>रेखीय-द्विघात तंत्र में Riccati से सटीक control निकलता है; वरना सीधे <span class="math-inline">\(\nabla_\theta \mathbb{E}[\text{payoff}]\)</span> चढ़ें</td>
+</tr>
+</tbody>
+</table>
+<h2>3. पूरे Course को जोड़ने वाले छः बड़े Ideas</h2>
+<p>जब आप अलग-अलग chapters के formulas को एक साथ रखते हैं, तो बार-बार वही छः स्तंभ सामने आते हैं:</p>
+<ol>
+<li><strong>Maximum Likelihood Estimation (MLE):</strong> लगभग हर probabilistic model एक ही सवाल से शुरू होता है: <span class="math-inline">\(\hat{\theta} = \arg\max_\theta \sum_{i=1}^{m} \log p(\text{data}^{(i)}; \theta)\)</span>। Gaussian शोर मानने से Least Squares (Lecture 2), Bernoulli से Logistic cross-entropy (Lecture 3), Multinomial से Softmax loss (Lecture 4), और joint <span class="math-inline">\(p(x, y)\)</span> से GDA तथा Naive Bayes (Lecture 5) निकलते हैं। Regularization जोड़ना भी बस parameter पर Gaussian या Laplace prior लगाकर MAP अनुमान लेना है (Lecture 8)।</li>
+<li><strong>Convexity:</strong> यदि आपका cost function <span class="math-inline">\(J(\theta)\)</span> कटोरे जैसा convex है (या log-likelihood concave है), तो कोई भ्रामक local minimum नहीं होता और Gradient Descent या Newton's Method वैश्विक समाधान तक पहुँचते हैं। Linear Regression, Logistic Regression, GLMs और SVM का dual problem इसी सुरक्षित दुनिया में रहते हैं। इसके विपरीत Neural Networks, K-means और GMMs non-convex हैं: वहाँ random initialization और optimization की सावधानी निर्णायक हो जाती है।</li>
+<li><strong>Bias बनाम Variance का तराज़ू:</strong> बहुत सादा model असली रिश्ते को पकड़ नहीं पाता (high bias / underfitting), और ज़रूरत से ज़्यादा लचीला model training के शोर को ही नियम मान लेता है (high variance / overfitting)। Regularization parameter <span class="math-inline">\(\lambda\)</span>, polynomial degree, SVM का <span class="math-inline">\(C\)</span>, tree की गहराई, और neural network का आकार: ये सभी इसी तराज़ू को साधने के अलग-अलग बटन हैं।</li>
+<li><strong>Kernels और Representation:</strong> किसी कठिन problem को आसान बनाने का सबसे सुंदर रास्ता है input <span class="math-inline">\(x\)</span> को बेहतर निर्देशांकों <span class="math-inline">\(\phi(x)\)</span> में देखना। SVMs में kernel <span class="math-inline">\(K(x, z)\)</span> यह काम तयशुदा गणितीय अंतरंग गुणनफल से करता है (Lecture 7), PCA/ICA बिना labels के उपयोगी अक्ष खोजते हैं (Lecture 15), और Neural Networks तथा CNNs यही <span class="math-inline">\(\phi(x)\)</span> सीधे डेटा से सीख लेते हैं (Lectures 10, 20)।</li>
+<li><strong>Latent Variables और EM:</strong> जब डेटा के पीछे कोई अनदेखा कारण <span class="math-inline">\(z^{(i)}\)</span> छिपा हो (कौन सा cluster, या कौन सा छिपा factor), तो <span class="math-inline">\(\log \sum_z p(x, z; \theta)\)</span> सीधे हल नहीं होता। Jensen's inequality से निचला bound बनाकर E-step में <span class="math-inline">\(z\)</span> का posterior भरना और M-step में पूरा डेटा मानकर <span class="math-inline">\(\theta\)</span> सुधारना एक ऐसा साँचा है जो हर iteration में likelihood को गारंटी के साथ ऊपर ले जाता है (Lectures 13, 14)।</li>
+<li><strong>Bellman Equations:</strong> जब आज का action कल की दुनिया बदलता है, तब सभी भविष्य के कदमों का जोड़ एक छोटे स्व-संगत समीकरण <span class="math-inline">\(V^*(s) = R(s) + \gamma \max_a \mathbb{E}_{s&#x27;}[V^*(s&#x27;)]\)</span> में सिमट जाता है। Dynamic programming, Q-learning और LQR सब इसी एक समीकरण को अलग-अलग परिस्थितियों में हल करने के तरीके हैं (Lectures 16 से 19)।</li>
+</ol>
+<h2>4. किसी नई Problem के लिए Algorithm कैसे चुनें</h2>
+<p>असली दुनिया में सबसे बड़ी गलती है पहले दिन ही सबसे जटिल model लगा देना। Lecture 12 की भावना के अनुसार हमेशा एक तेज़, सरल baseline से शुरू करें, फिर नीचे के नक्शे से आगे बढ़ें:</p>
+<table>
+<thead>
+<tr>
+<th>परिस्थिति और Data का रूप</th>
+<th>पहली पसंद (Baseline)</th>
+<th>अगला ताकतवर कदम</th>
+<th>क्यों</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>कम examples (<span class="math-inline">\(m\)</span> छोटा), बहुत से features</td>
+<td>Naive Bayes / GDA या L2 Logistic</td>
+<td>Linear SVM</td>
+<td>कम parameters और मज़बूत prior overfitting से बचाते हैं</td>
+</tr>
+<tr>
+<td>सारणीबद्ध (tabular) डेटा, मध्यम से बड़ा <span class="math-inline">\(m\)</span></td>
+<td>Linear / Logistic Regression</td>
+<td>Gradient Boosted Trees या Random Forest</td>
+<td>विषम scales और non-linear feature interactions को बिना भारी tuning के पकड़ते हैं</td>
+</tr>
+<tr>
+<td>साफ़ non-linear boundary, मध्यम <span class="math-inline">\(m\)</span></td>
+<td>Logistic Regression</td>
+<td>RBF Kernel SVM या छोटा MLP</td>
+<td>Convex margin या सीखे हुए hidden features मोड़दार सीमा बनाते हैं</td>
+</tr>
+<tr>
+<td>असंरचित डेटा: तस्वीरें, आवाज़, लंबा पाठ</td>
+<td>सरल linear/pooled baseline</td>
+<td>CNN (तस्वीरों पर) या गहरे Neural Nets</td>
+<td>कच्चे pixels/signals से पदानुक्रमित (hierarchical) features खुद सीखते हैं</td>
+</tr>
+<tr>
+<td>बिना labels का डेटा: समूह या संपीड़न</td>
+<td>K-means या PCA</td>
+<td>GMM (soft clusters), Factor Analysis (<span class="math-inline">\(m &lt; n\)</span>), ICA</td>
+<td>ज़रूरत के मुताबिक गोलाकार झुंड, covariance ढाँचा या स्वतंत्र स्रोत मिलते हैं</td>
+</tr>
+<tr>
+<td>क्रमिक फ़ैसले और विलंबित reward</td>
+<td>ज्ञात मॉडल हो तो Value Iteration / LQR</td>
+<td>अनजान मॉडल हो तो Q-Learning या Policy Search</td>
+<td>State-action अनुभव या सटीक रैखिक dynamics से सीधे optimal policy सीखते हैं</td>
+</tr>
+</tbody>
+</table>
+<p>एक नियम हमेशा याद रखें: <strong>अच्छा डेटा और सही error analysis अक्सर चतुर algorithm से ज़्यादा फ़ायदा देते हैं।</strong> Validation curve देखकर तय करें कि आपको ज़्यादा features चाहिएँ (high bias का इलाज) या ज़्यादा डेटा और regularization (high variance का इलाज)।</p>
+<h2>5. इसके आगे क्या पढ़ें</h2>
+<p>CS229 ने आपको पूरे Machine Learning की मज़बूत नींव दे दी है। यहाँ से आगे चार प्रमुख रास्ते खुलते हैं:</p>
+<ul>
+<li><strong>Deep Learning की शाखाएँ:</strong> Computer Vision के लिए आधुनिक CNNs (ResNets, U-Net, Object Detection), भाषा और अनुक्रमों के लिए <strong>Sequence Models और Transformers</strong> (Attention तंत्र और Large Language Models), तथा नई तस्वीरें या डेटा बनाने के लिए Diffusion Models और VAEs।</li>
+<li><strong>Probabilistic Graphical Models:</strong> Bayesian Networks और Markov Random Fields, जहाँ सैकड़ों यादृच्छिक चरों के बीच सशर्त स्वतंत्रता को ग्राफ़ से लिखकर अनुमान लगाया जाता है।</li>
+<li><strong>Convex Optimization और Statistical Learning Theory:</strong> यह गहराई से समझना कि कौन से optimization algorithms कितनी तेज़ी से अभिसरण करते हैं, और सीमित डेटा से सीखने की सैद्धांतिक सीमाएँ (VC dimension, Rademacher complexity) क्या हैं।</li>
+<li><strong>Deep Reinforcement Learning और ML Systems:</strong> Q-learning और Policy Gradient को गहरे networks से जोड़ना, तथा बड़े मॉडलों को असली दुनिया में कुशलता, निष्पक्षता और भरोसे के साथ चलाना।</li>
+</ul>
+<hr />
+<h2>6. भाग B: Images पर Fully-Connected Networks क्यों अटक जाते हैं</h2>
+<p>अब हम एक वैकल्पिक पर बेहद प्रभावशाली विषय पर आते हैं: <strong>Convolutional Neural Networks (CNNs)</strong>। मान लीजिए आपके पास <span class="math-inline">\(1000 \times 1000\)</span> pixels की एक साधारण रंगीन (RGB) तस्वीर है। हर pixel में लाल, हरा और नीला तीन मान हैं, तो कुल inputs हुए <span class="math-inline">\(n = 1000 \times 1000 \times 3 = 3 \times 10^6\)</span>। यदि आप Lecture 10 वाला एक साधारण fully-connected network बनाएँ जिसकी पहली hidden layer में सिर्फ़ <span class="math-inline">\(1000\)</span> neurons हों, तो अकेले <span class="math-inline">\(W^{[1]}\)</span> में weights की संख्या होगी:</p>
+<p><span class="math-display">\[1000 \times (1000 \times 1000 \times 3) = 3 \times 10^9 \text{ parameters}\]</span></p>
+<p>तीन अरब weights सिर्फ़ पहली layer में! इतने विशाल matrix के दो तुरंत नुकसान हैं: पहला, विशाल memory और गिनती का खर्च; दूसरा, लाखों तस्वीरों के बाद भी भयानक overfitting।</p>
+<p>पर समस्या सिर्फ़ गिनती की नहीं, <strong>ज्यामिति</strong> की भी है। तस्वीर को मोड़कर <span class="math-inline">\(3 \times 10^6\)</span> लंबा एक सपाट vector बनाते ही हम यह भूल जाते हैं कि pixel <span class="math-inline">\((10, 10)\)</span> के ठीक बगल में <span class="math-inline">\((10, 11)\)</span> और <span class="math-inline">\((11, 10)\)</span> बैठे हैं। साथ ही तस्वीरों में दो स्वाभाविक गुण होते हैं:</p>
+<ul>
+<li><strong>Locality:</strong> किसी छोटे हिस्से का मतलब (जैसे कोई किनारी या कोना) सिर्फ़ आस-पास के पड़ोसी pixels को देखकर पता चल जाता है, कोसों दूर के कोने से नहीं।</li>
+<li><strong>Translation invariance / stationarity:</strong> जो पैटर्न ऊपरी बाएँ कोने में खड़ी किनारी या आँख पहचानता है, ठीक वही पैटर्न निचले दाएँ कोने में भी काम आना चाहिए।</li>
+</ul>
+<p>CNN इन दोनों गुणों को सीधे network की बनावट में पिरो देता है।</p>
+<h2>7. 2D Convolution: Filter, Stride, Padding और Output Size</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(X \in \mathbb{R}^{n_H \times n_W}\)</span></td>
+<td>एक-चैनल (grayscale) 2D input तस्वीर (सरलता के लिए <span class="math-inline">\(n_H = n_W = n\)</span>)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(W \in \mathbb{R}^{f \times f}\)</span></td>
+<td>छोटा खिसकने वाला <strong>filter</strong> या <strong>kernel</strong> (आमतौर पर <span class="math-inline">\(f = 3\)</span> या <span class="math-inline">\(5\)</span>), और <span class="math-inline">\(b \in \mathbb{R}\)</span> उसका bias</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(p\)</span></td>
+<td><strong>padding</strong>: चारों किनारों पर जोड़ी गई शून्यों (zeros) की पट्टियों की चौड़ाई</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(s\)</span></td>
+<td><strong>stride</strong>: हर कदम में filter कितने pixels आगे या नीचे खिसकता है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(Z \in \mathbb{R}^{n_{\text{out}} \times n_{\text{out}}}\)</span></td>
+<td>बाहर निकलने वाला <strong>feature map</strong> (activation से पहले)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Convolution कैसे काम करता है:</strong> हम छोटे <span class="math-inline">\(f \times f\)</span> filter <span class="math-inline">\(W\)</span> को तस्वीर के ऊपरी-बाएँ कोने पर रखते हैं, ढके हुए <span class="math-inline">\(f \times f\)</span> टुकड़े और <span class="math-inline">\(W\)</span> का element-दर-element गुणा करके जोड़ते हैं, और bias <span class="math-inline">\(b\)</span> मिला देते हैं। फिर filter को <span class="math-inline">\(s\)</span> कदम दाएँ खिसकाते हैं, और पंक्ति खत्म होने पर <span class="math-inline">\(s\)</span> कदम नीचे। Padded तस्वीर <span class="math-inline">\(\tilde{X}\)</span> पर स्थान <span class="math-inline">\((i, j)\)</span> (शून्य से गिनते हुए) का मान है:</p>
+<p><span class="math-display">\[Z_{i, j} = \sum_{u=0}^{f-1} \sum_{v=0}^{f-1} \tilde{X}_{i \cdot s + u,\; j \cdot s + v}\, W_{u, v} + b\]</span></p>
+<p><em>(तकनीकी टिप्पणी: शुद्ध गणित में convolution लिखते समय <span class="math-inline">\(W\)</span> को उल्टा पलटा जाता है, पर Deep Learning में बिना पलटे ऊपर लिखे <strong>cross-correlation</strong> को ही सर्वत्र convolution कहा जाता है, क्योंकि <span class="math-inline">\(W\)</span> तो डेटा से सीखा जाना है।)</em></p>
+<h3>Padding और Stride से Output Size का सूत्र</h3>
+<p>मान लीजिए मूल तस्वीर <span class="math-inline">\(n \times n\)</span> की है। चारों ओर <span class="math-inline">\(p\)</span> चौड़ाई की zero-padding लगाने से नई चौड़ाई <span class="math-inline">\(n + 2p\)</span> हो जाती है। पहला <span class="math-inline">\(f\)</span>-चौड़ा window बाएँ सिरे से <span class="math-inline">\(f\)</span> स्थान घेरता है, जिसके बाद दाईं तरफ़ <span class="math-inline">\((n + 2p) - f\)</span> pixels बचते हैं। हर छलाँग <span class="math-inline">\(s\)</span> pixels की है, इसलिए हम दाईं ओर अधिक से अधिक <span class="math-inline">\(\lfloor (n + 2p - f)/s \rfloor\)</span> बार खिसक सकते हैं। शुरुआती पहला स्थान जोड़ने पर output का आकार मिलता है:</p>
+<p><span class="math-display">\[n_{\text{out}} = \left\lfloor \frac{n + 2p - f}{s} \right\rfloor + 1\]</span></p>
+<p>ऊँचाई और चौड़ाई अलग हों तो यही सूत्र <span class="math-inline">\(n_H\)</span> और <span class="math-inline">\(n_W\)</span> पर अलग-अलग लगता है। Padding की दो प्रचलित शैलियाँ हैं:</p>
+<ul>
+<li><strong>Valid convolution (<span class="math-inline">\(p = 0\)</span>):</strong> कोई padding नहीं; हर layer के बाद <span class="math-inline">\(n_{\text{out}} = \lfloor (n - f)/s \rfloor + 1\)</span> घटता जाता है, और कोने वाले pixels सिर्फ़ एक बार देखे जाते हैं।</li>
+<li><strong>Same convolution:</strong> जब <span class="math-inline">\(s = 1\)</span> हो और <span class="math-inline">\(f\)</span> विषम हो, तब <span class="math-inline">\(p = \frac{f - 1}{2}\)</span> रखने से <span class="math-inline">\(n_{\text{out}} = n + (f - 1) - f + 1 = n\)</span> मिलता है, यानी output का आकार input के ठीक बराबर रहता है और किनारे वाले pixels की जानकारी भी नहीं दबती।</li>
+</ul>
+<p><strong>आकार के उदाहरण:</strong> यदि <span class="math-inline">\(32 \times 32\)</span> तस्वीर पर <span class="math-inline">\(f = 3, p = 1, s = 1\)</span> लगाएँ, तो <span class="math-inline">\(n_{\text{out}} = \lfloor (32 + 2 - 3)/1 \rfloor + 1 = 32\)</span>। यदि <span class="math-inline">\(f = 5, p = 0, s = 2\)</span> लगाएँ, तो <span class="math-inline">\(n_{\text{out}} = \lfloor (32 - 5)/2 \rfloor + 1 = \lfloor 13.5 \rfloor + 1 = 14\)</span>।</p>
+<h3>Worked Example: खड़ी किनारी (Vertical Edge) पकड़ना</h3>
+<p>एक <span class="math-inline">\(4 \times 4\)</span> तस्वीर <span class="math-inline">\(X\)</span> लें जिसका बायाँ आधा हिस्सा चमकीला (<span class="math-inline">\(10\)</span>) और दायाँ आधा हिस्सा अँधेरा (<span class="math-inline">\(0\)</span>) है, और उस पर <span class="math-inline">\(p = 0, s = 1, b = 0\)</span> के साथ <span class="math-inline">\(3 \times 3\)</span> vertical-edge filter <span class="math-inline">\(W\)</span> चलाएँ:</p>
+<p><span class="math-display">\[X = \begin{bmatrix} 10 &amp; 10 &amp; 0 &amp; 0 \\ 10 &amp; 10 &amp; 0 &amp; 0 \\ 10 &amp; 10 &amp; 0 &amp; 0 \\ 10 &amp; 10 &amp; 0 &amp; 0 \end{bmatrix}, \qquad W = \begin{bmatrix} 1 &amp; 0 &amp; -1 \\ 1 &amp; 0 &amp; -1 \\ 1 &amp; 0 &amp; -1 \end{bmatrix} \quad\Longrightarrow\quad Z = \begin{bmatrix} 30 &amp; 0 \\ 30 &amp; 0 \end{bmatrix}\]</span></p>
+<p>सूत्र से आकार <span class="math-inline">\(\lfloor (4 + 0 - 3)/1 \rfloor + 1 = 2\)</span>, यानी <span class="math-inline">\(2 \times 2\)</span> है। ऊपरी-बाएँ टुकड़े <span class="math-inline">\((i=0, j=0)\)</span> में बायाँ स्तंभ <span class="math-inline">\(10 \times 1\)</span> तीन बार जुड़ता है, बीच का <span class="math-inline">\(10 \times 0\)</span> शून्य हो जाता है, और दायाँ <span class="math-inline">\(0 \times (-1)\)</span> भी शून्य: <span class="math-inline">\(Z_{0, 0} = 10 + 10 + 10 = 30\)</span>। पर एक कदम दाएँ <span class="math-inline">\((i=0, j=1)\)</span> खिसकने पर बाएँ स्तंभ में <span class="math-inline">\(10\)</span> आता है और बीच तथा दाएँ में <span class="math-inline">\(0\)</span>: <span class="math-inline">\(Z_{0, 1} = (10+10+10)\cdot 1 + 0 - 0 = 30\)</span>! रुकिए, ज़रा ध्यान से जाँचें: <span class="math-inline">\(j=1\)</span> वाले <span class="math-inline">\(3 \times 3\)</span> टुकड़े के तीन स्तंभ <span class="math-inline">\(X\)</span> के स्तंभ <span class="math-inline">\(1, 2, 3\)</span> हैं, यानी <span class="math-inline">\([10, 0, 0]\)</span>। तब बायाँ स्तंभ <span class="math-inline">\((+1)\)</span> देता है <span class="math-inline">\(30\)</span> और दायाँ <span class="math-inline">\((-1)\)</span> देता है <span class="math-inline">\(0\)</span>, इसलिए असल में <span class="math-inline">\(Z_{0, 1} = 30\)</span> भी बड़ा आता है:</p>
+<p><span class="math-display">\[X = \begin{bmatrix} 10 &amp; 10 &amp; 0 &amp; 0 \\ 10 &amp; 10 &amp; 0 &amp; 0 \\ 10 &amp; 10 &amp; 0 &amp; 0 \\ 10 &amp; 10 &amp; 0 &amp; 0 \end{bmatrix} * \begin{bmatrix} 1 &amp; 0 &amp; -1 \\ 1 &amp; 0 &amp; -1 \\ 1 &amp; 0 &amp; -1 \end{bmatrix} = \begin{bmatrix} 30 &amp; 30 \\ 30 &amp; 30 \end{bmatrix}\]</span></p>
+<p>क्यों? क्योंकि <span class="math-inline">\(4 \times 4\)</span> तस्वीर के दोनों <span class="math-inline">\(3 \times 3\)</span> टुकड़ों के अंदर <span class="math-inline">\(10 \to 0\)</span> वाली छलाँग मौजूद है! यदि तस्वीर <span class="math-inline">\(6 \times 6\)</span> होती (तीन स्तंभ <span class="math-inline">\(10\)</span>, तीन स्तंभ <span class="math-inline">\(0\)</span>), तो <span class="math-inline">\(4 \times 4\)</span> feature map की पहली और आख़िरी column में <span class="math-inline">\(10 - 10 = 0\)</span> तथा <span class="math-inline">\(0 - 0 = 0\)</span> मिलता, और सिर्फ़ बीच की दो columns में <span class="math-inline">\(30\)</span> चमकता। और यदि उजाला दाएँ तथा अँधेरा बाएँ होता, तो जवाब <span class="math-inline">\(-30\)</span> आता, जिससे अंधेरे-से-उजाले और उजाले-से-अंधेरे का अंतर भी पकड़ा जाता है।</p>
+<h2>8. Channels, Volumes और Parameter Sharing</h2>
+<p>असली रंगीन तस्वीर सपाट matrix नहीं, एक 3D <strong>volume</strong> होती है जिसका आकार <span class="math-inline">\(n_H \times n_W \times n_C\)</span> है (RGB के लिए channels <span class="math-inline">\(n_C = 3\)</span>)। नियम सरल और सख़्त है: <strong>एक 3D filter की गहराई हमेशा input volume के channels <span class="math-inline">\(n_C\)</span> के बराबर होती है</strong>, यानी उसका आकार <span class="math-inline">\(f \times f \times n_C\)</span> होता है। वह एक ही बार में तीनों रंगों के घनाकार टुकड़े का गुणन-जोड़ करके एक संख्या निकालता है।</p>
+<p>एक अकेला filter सिर्फ़ एक तरह का लक्षण (जैसे खड़ी किनारी) खोज पाता है। इसलिए एक layer में हम <span class="math-inline">\(n&#x27;_C\)</span> अलग-अलग filters <span class="math-inline">\(W^{(1)}, \dots, W^{(n&#x27;_C)}\)</span> एक साथ चलाते हैं। <span class="math-inline">\(k\)</span>-वें filter का output map है:</p>
+<p><span class="math-display">\[Z_{i, j, k} = \sum_{u=0}^{f-1} \sum_{v=0}^{f-1} \sum_{c=0}^{n_C - 1} \tilde{X}_{i \cdot s + u,\; j \cdot s + v,\; c}\, W^{(k)}_{u, v, c} + b_k\]</span></p>
+<p>इन सभी <span class="math-inline">\(n&#x27;_C\)</span> दो-आयामी नक्शों को एक के पीछे एक रखने से नया 3D output volume बनता है जिसका आकार <span class="math-inline">\(n&#x27;_H \times n&#x27;_W \times n&#x27;_C\)</span> है, जहाँ <span class="math-inline">\(n&#x27;_H = \lfloor (n_H + 2p - f)/s \rfloor + 1\)</span> और <span class="math-inline">\(n&#x27;_W = \lfloor (n_W + 2p - f)/s \rfloor + 1\)</span>।</p>
+<h3>Parameter Sharing की बचत</h3>
+<p>हर filter में <span class="math-inline">\(f \cdot f \cdot n_C\)</span> weights और <span class="math-inline">\(1\)</span> bias होता है, और वही weights पूरी तस्वीर के हर <span class="math-inline">\((i, j)\)</span> स्थान पर साझा (share) होते हैं। इसलिए <span class="math-inline">\(n&#x27;_C\)</span> filters वाली पूरी convolutional layer में कुल सीखे जाने वाले parameters हैं:</p>
+<p><span class="math-display">\[\text{Parameters} = \left( f \cdot f \cdot n_C + 1 \right) n&#x27;_C\]</span></p>
+<p>गौर करें कि इस सूत्र में तस्वीर की ऊँचाई <span class="math-inline">\(n_H\)</span> और चौड़ाई <span class="math-inline">\(n_W\)</span> कहीं हैं ही नहीं! अपनी पुरानी <span class="math-inline">\(1000 \times 1000 \times 3\)</span> तस्वीर पर यदि हम <span class="math-inline">\(3 \times 3\)</span> के <span class="math-inline">\(n&#x27;_C = 32\)</span> filters लगाएँ, तो कुल parameters सिर्फ़ <span class="math-inline">\((3 \cdot 3 \cdot 3 + 1) \times 32 = 896\)</span> बनते हैं: तीन अरब (<span class="math-inline">\(3 \times 10^9\)</span>) के मुकाबले तीस लाख गुना से भी बड़ी बचत। साथ ही यह साझाकरण <strong>translation equivariance</strong> देता है: यदि तस्वीर में वस्तु दो कदम खिसक जाए, तो उसका feature map भी बिना नए weights सीखे बस दो कदम खिसक जाता है।</p>
+<h2>9. Non-linearity (ReLU) और Pooling Layers</h2>
+<p>Convolution एक शुद्ध linear संक्रिया है। यदि हम कई convolutions बिना activation के जोड़ दें, तो Lecture 10 की तरह वे सब मिलकर एक ही बड़े linear convolution में ढह जाएँगे। इसलिए हर convolution के तुरंत बाद हर तत्व पर <strong>ReLU</strong> लगाया जाता है:</p>
+<p><span class="math-display">\[A_{i, j, k} = \max(0,\, Z_{i, j, k})\]</span></p>
+<p>यह नकारात्मक प्रतिक्रियाओं को शून्य कर देता है और positive ढलान को <span class="math-inline">\(1\)</span> रखकर गहरे networks में gradients को ज़िंदा रखता है।</p>
+<p><strong>Pooling layer</strong> feature maps की स्थानिक ऊँचाई-चौड़ाई को छोटा (downsample) करती है। यह <span class="math-inline">\(f_p \times f_p\)</span> window और stride <span class="math-inline">\(s_p\)</span> (सबसे आम चुनाव <span class="math-inline">\(f_p = 2, s_p = 2\)</span>, जो ऊँचाई और चौड़ाई दोनों को आधा कर देता है) के साथ <strong>हर channel पर स्वतंत्र रूप से</strong> चलती है, इसलिए गहराई <span class="math-inline">\(n&#x27;_C\)</span> बिल्कुल नहीं बदलती:</p>
+<p><span class="math-display">\[P^{\max}_{i, j, k} = \max_{0 \le u, v &lt; f_p} A_{i \cdot s_p + u,\; j \cdot s_p + v,\; k}, \qquad P^{\text{avg}}_{i, j, k} = \frac{1}{f_p^2} \sum_{u=0}^{f_p-1} \sum_{v=0}^{f_p-1} A_{i \cdot s_p + u,\; j \cdot s_p + v,\; k}\]</span></p>
+<ul>
+<li><strong>Max Pooling</strong> पूछता है: "इस छोटे <span class="math-inline">\(2 \times 2\)</span> इलाके में यह किनारी या लक्षण कहीं भी मज़बूती से दिखा क्या?" यदि लक्षण एक pixel इधर-उधर खिसक भी जाए, तब भी अधिकतम मान लगभग वही रहता है, जिससे थोड़ा <strong>local translation invariance</strong> मिलता है।</li>
+<li><strong>Average Pooling</strong> पूरे इलाके का शांत औसत लेता है, और अक्सर आख़िरी convolutional block के अंत में पूरे नक्शे को एक संख्या में समेटने (<strong>Global Average Pooling</strong>) के काम आता है।</li>
+<li>सबसे ज़रूरी बात: <strong>किसी भी pooling layer में सीखने योग्य parameters शून्य (<span class="math-inline">\(0\)</span>) होते हैं।</strong></li>
+</ul>
+<h2>10. आम CNN Architecture, Receptive Field और Backpropagation</h2>
+<p>एक पारंपरिक CNN (जैसे LeNet-5 के वंशज) में <code>[Conv -&gt; ReLU -&gt; Pool]</code> के कई खंड एक के बाद एक लगते हैं। जैसे-जैसे आप अंदर जाते हैं, <strong>ऊँचाई और चौड़ाई छोटी होती जाती है और channels की गहराई बढ़ती जाती है</strong>: शुरुआती layers सरल edges पकड़ती हैं, बीच की layers कोने और बनावट (textures), और गहरी layers पूरे अंग या वस्तुओं के हिस्से। अंत में छोटे पर गहरे volume को एक सदिश में <strong>Flatten</strong> करके एक या दो Fully-Connected layers और <span class="math-inline">\(K\)</span>-class <strong>Softmax</strong> को दे दिया जाता है। <span class="math-inline">\(32 \times 32 \times 3\)</span> तस्वीर पर एक साफ़ उदाहरण देखें:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>विन्यास</th>
+<th>Output Shape</th>
+<th>Parameters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input</td>
+<td>RGB तस्वीर</td>
+<td><span class="math-inline">\(32 \times 32 \times 3\)</span></td>
+<td><span class="math-inline">\(0\)</span></td>
+</tr>
+<tr>
+<td>Conv1 + ReLU</td>
+<td><span class="math-inline">\(8\)</span> filters, <span class="math-inline">\(f=3, p=1, s=1\)</span></td>
+<td><span class="math-inline">\(32 \times 32 \times 8\)</span></td>
+<td><span class="math-inline">\((3\cdot 3\cdot 3 + 1)\cdot 8 = 224\)</span></td>
+</tr>
+<tr>
+<td>MaxPool1</td>
+<td><span class="math-inline">\(f_p=2, s_p=2\)</span></td>
+<td><span class="math-inline">\(16 \times 16 \times 8\)</span></td>
+<td><span class="math-inline">\(0\)</span></td>
+</tr>
+<tr>
+<td>Conv2 + ReLU</td>
+<td><span class="math-inline">\(16\)</span> filters, <span class="math-inline">\(f=3, p=1, s=1\)</span></td>
+<td><span class="math-inline">\(16 \times 16 \times 16\)</span></td>
+<td><span class="math-inline">\((3\cdot 3\cdot 8 + 1)\cdot 16 = 1168\)</span></td>
+</tr>
+<tr>
+<td>MaxPool2</td>
+<td><span class="math-inline">\(f_p=2, s_p=2\)</span></td>
+<td><span class="math-inline">\(8 \times 8 \times 16\)</span></td>
+<td><span class="math-inline">\(0\)</span></td>
+</tr>
+<tr>
+<td>Flatten + Softmax</td>
+<td><span class="math-inline">\(1024 \to 10\)</span> classes</td>
+<td><span class="math-inline">\(10\)</span></td>
+<td><span class="math-inline">\(1024 \cdot 10 + 10 = 10250\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>ध्यान दें कि दोनों spatial feature layers में कुल मिलाकर <span class="math-inline">\(1400\)</span> से भी कम weights लगे, जबकि ज़्यादातर weights अंत के छोटे fully-connected हिस्से में हैं!</p>
+<h3>Receptive Field: गहराई से दृष्टि कैसे चौड़ी होती है</h3>
+<p>Layer <span class="math-inline">\(l\)</span> के एक अकेले मान को तय करने में मूल तस्वीर का जितना बड़ा <span class="math-inline">\(r_l \times r_l\)</span> वर्ग हिस्सा योगदान देता है, उसे उस layer का <strong>receptive field</strong> कहते हैं। Input के लिए <span class="math-inline">\(r_0 = 1\)</span> है। यदि layer <span class="math-inline">\(j\)</span> का window आकार <span class="math-inline">\(f_j\)</span> और stride <span class="math-inline">\(s_j\)</span> हो, तो layer <span class="math-inline">\(l-1\)</span> पर एक कदम मूल तस्वीर पर संचयी छलाँग <span class="math-inline">\(S_{l-1} = \prod_{j=1}^{l-1} s_j\)</span> के बराबर होता है। इसलिए पुनरावर्ती सूत्र बनता है:</p>
+<p><span class="math-display">\[r_l = r_{l-1} + (f_l - 1) \prod_{j=1}^{l-1} s_j\]</span></p>
+<p>यदि <span class="math-inline">\(s = 1\)</span> वाली तीन <span class="math-inline">\(3 \times 3\)</span> conv layers लगातार लगाएँ, तो <span class="math-inline">\(r_1 = 3\)</span>, <span class="math-inline">\(r_2 = 5\)</span> और <span class="math-inline">\(r_3 = 7\)</span> हो जाता है: तीन छोटे <span class="math-inline">\(3 \times 3\)</span> filters मिलकर <span class="math-inline">\(7 \times 7\)</span> का इलाका देख लेते हैं, और वह भी <span class="math-inline">\(7^2 = 49\)</span> की जगह सिर्फ़ <span class="math-inline">\(3 \times 9 = 27\)</span> प्रति-चैनल weights तथा बीच में तीन non-linear ReLUs के साथ! ऊपर की तालिका में Pool1 (<span class="math-inline">\(f_2=2, s_2=2\)</span>) के बाद <span class="math-inline">\(r_2 = 3 + 1\cdot 1 = 4\)</span>, Conv2 (<span class="math-inline">\(f_3=3, s_2=2\)</span>) पर <span class="math-inline">\(r_3 = 4 + 2\cdot 2 = 8\)</span>, और Pool2 पर <span class="math-inline">\(r_4 = 8 + 1\cdot 2 = 10\)</span> हो जाता है। यही पिरामिड गहरे neurons को पूरी वस्तु देखने की क्षमता देता है।</p>
+<h3>Backpropagation से CNN की Training</h3>
+<p>हाथ से खड़ी या आड़ी किनारी के filters लिखने की ज़रूरत नहीं पड़ती; cross-entropy loss <span class="math-inline">\(\mathcal{L}\)</span> से <strong>backpropagation</strong> खुद सबसे उपयोगी filters सीख लेता है। पीछे लौटते समय chain rule तीन सरल नियमों से चलता है (जहाँ <span class="math-inline">\(dV\)</span> का अर्थ <span class="math-inline">\(\frac{\partial \mathcal{L}}{\partial V}\)</span> है):</p>
+<ol>
+<li><strong>ReLU के पार:</strong> जहाँ forward pass में <span class="math-inline">\(Z_{i, j, k} &gt; 0\)</span> था वहाँ <span class="math-inline">\(dZ_{i, j, k} = dA_{i, j, k}\)</span>, और जहाँ <span class="math-inline">\(Z_{i, j, k} \le 0\)</span> था वहाँ <span class="math-inline">\(dZ_{i, j, k} = 0\)</span>।</li>
+<li><strong>Pooling के पार:</strong> Max Pooling में forward pass के दौरान हर <span class="math-inline">\(f_p \times f_p\)</span> window के विजेता pixel <span class="math-inline">\((u^*, v^*)\)</span> का पता बचाकर रखा जाता है; पीछे आते समय <span class="math-inline">\(dP_{i, j, k}\)</span> का पूरा मान केवल उसी विजेता स्थान में जुड़ता है और बाकी स्थानों को <span class="math-inline">\(0\)</span> मिलता है। Average Pooling में <span class="math-inline">\(\frac{1}{f_p^2} dP_{i, j, k}\)</span> सभी <span class="math-inline">\(f_p^2\)</span> स्थानों में बराबर बँट जाता है।</li>
+<li><strong>Convolution के पार:</strong> क्योंकि एक ही weight <span class="math-inline">\(W^{(k)}_{u, v, c}\)</span> ने हर <span class="math-inline">\((i, j)\)</span> स्थान के output में <span class="math-inline">\(\tilde{X}_{i s + u,\; j s + v,\; c}\)</span> से गुणा किया था, multivariate chain rule से उसके सारे योगदान जुड़ जाते हैं:</li>
+</ol>
+<p><span class="math-display">\[\frac{\partial \mathcal{L}}{\partial W^{(k)}_{u, v, c}} = \sum_{i=0}^{n&#x27;_H - 1} \sum_{j=0}^{n&#x27;_W - 1} dZ_{i, j, k}\, \tilde{X}_{i \cdot s + u,\; j \cdot s + v,\; c}, \qquad \frac{\partial \mathcal{L}}{\partial b_k} = \sum_{i=0}^{n&#x27;_H - 1} \sum_{j=0}^{n&#x27;_W - 1} dZ_{i, j, k}\]</span></p>
+<p>और इससे पिछली layer तक संदेश पहुँचाने के लिए हर padded pixel को उन सभी windows से gradient वापस मिलता है जिनमें वह शामिल था:</p>
+<p><span class="math-display">\[\frac{\partial \mathcal{L}}{\partial \tilde{X}_{p, q, c}} = \sum_{k=1}^{n&#x27;_C} \sum_{i, j} \sum_{\substack{u, v:\; i s + u = p \\ j s + v = q}} dZ_{i, j, k}\, W^{(k)}_{u, v, c}\]</span></p>
+<p>जब <span class="math-inline">\(s = 1\)</span> हो, तो यह समीकरण असल में <span class="math-inline">\(dZ\)</span> का <span class="math-inline">\(180^\circ\)</span> घुमाए गए filter के साथ full convolution ही है! अंत में padding वाली बाहरी पट्टियाँ काटकर हटा देने से सटीक <span class="math-inline">\(dX\)</span> मिल जाता है, और SGD या Adam सारे filters को अपडेट कर देता है।</p>
+<h2>11. Practical बातें और आम गलतियाँ</h2>
+<ul>
+<li><strong>आकार <span class="math-inline">\((n + 2p - f)/s\)</span> का पूर्णांक होना जाँचें:</strong> यदि <span class="math-inline">\((n + 2p - f)\)</span> संख्या <span class="math-inline">\(s\)</span> से पूरी न कटे, तो दाएँ या नीचे के किनारे के कुछ pixels बिना पढ़े छूट जाते हैं। Architecture लिखते समय हर layer का <span class="math-inline">\((n_H, n_W, n_C)\)</span> कागज़ पर ज़रूर लिखें।</li>
+<li><strong>बड़े filters की जगह छोटे <span class="math-inline">\(3 \times 3\)</span> filters जोड़ें:</strong> एक <span class="math-inline">\(5 \times 5\)</span> या <span class="math-inline">\(7 \times 7\)</span> filter की तुलना में दो या तीन <span class="math-inline">\(3 \times 3\)</span> layers उतने ही बड़े receptive field को कम parameters और ज़्यादा non-linearity के साथ पकड़ती हैं।</li>
+<li><strong>Filter की गहराई भूलना सबसे आम गलती है:</strong> <span class="math-inline">\(64\)</span>-channel volume पर लगने वाला एक <span class="math-inline">\(3 \times 3\)</span> filter असल में <span class="math-inline">\(3 \times 3 \times 64\)</span> का घन है, सपाट <span class="math-inline">\(3 \times 3\)</span> वर्ग नहीं।</li>
+<li><strong>कम डेटा पर Data Augmentation और Transfer Learning आज़माएँ:</strong> तस्वीरों को थोड़ा खिसकाना, घुमाना या पलटना मुफ़्त में नए स्वाभाविक उदाहरण बनाता है; और बहुत छोटे dataset पर लाखों तस्वीरों पर पहले से प्रशिक्षित CNN की शुरुआती layers इस्तेमाल करना शून्य से सीखने से कहीं बेहतर चलता है।</li>
+<li><strong>नया जटिल model लिखने से पहले baseline रखें:</strong> भाग 3 के code में आप देखेंगे कि कच्चे pixels पर एक साधारण Softmax पहले एक ईमानदार पैमाना तय करता है, और फिर छोटा CNN स्थानिक ढाँचे का असली लाभ दिखाता है।</li>
+</ul>
+<h2>12. खुद से पूछें</h2>
+<ol>
+<li>एक <span class="math-inline">\(64 \times 64 \times 3\)</span> तस्वीर पर पहले <span class="math-inline">\(16\)</span> filters (<span class="math-inline">\(f = 3, p = 1, s = 1\)</span>) और फिर <span class="math-inline">\(2 \times 2\)</span> Max Pooling (<span class="math-inline">\(s_p = 2\)</span>) लगाई जाती है। बाहर निकलने वाले volume का आकार और इन दोनों layers के कुल सीखे जाने वाले parameters कितने हैं? यदि इसी आकार का output एक fully-connected layer से बनाया जाता तो कितने weights लगते?</li>
+<li>मान लीजिए हम लगातार दो <span class="math-inline">\(3 \times 3\)</span> convolutional layers (<span class="math-inline">\(s = 1, p = 0\)</span>) लगाते हैं और बीच से ReLU हटा देते हैं। दिखाइए कि यह जोड़ा एक अकेली <span class="math-inline">\(5 \times 5\)</span> linear convolutional layer के बराबर क्यों है, और उसका receptive field कितना है।</li>
+<li>पूरे course के परिप्रेक्ष्य में: यदि किसी classification model का training cross-entropy लगभग <span class="math-inline">\(0.01\)</span> है पर validation error <span class="math-inline">\(28\%\)</span> है, तो भाग A के छः बड़े ideas में से यहाँ कौन सी समस्या काम कर रही है, और CNN या सामान्य ML में आप इसे सुधारने के कौन से तीन उपाय करेंगे?</li>
+</ol>
+<div class="part"><span class="tag">भाग 2</span><h2>3D Animations</h2></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 20.1</span>Filter sliding to build feature map</div><div class="frames"><figure><img src="anim/L20_1_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L20_1_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L20_1_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> बाएँ फ़र्श पर <span class="math-inline">\(6 \times 6\)</span> input तस्वीर के खंभे हैं और उनके ऊपर नारंगी चौखट <span class="math-inline">\(3 \times 3\)</span> filter <span class="math-inline">\(W\)</span> है। हर कदम पर वही एक filter आगे खिसकता है, ढके हुए <span class="math-inline">\(3 \times 3\)</span> टुकड़े से गुणा-जोड़ करता है, और दाएँ तरफ़ <span class="math-inline">\(4 \times 4\)</span> feature map <span class="math-inline">\(Z\)</span> का संगत खंभा उभर आता है। जहाँ तस्वीर का पैटर्न filter की खड़ी किनारी से मेल खाता है वहाँ हरे-पीले ऊँचे खंभे उठते हैं। एक ही <span class="math-inline">\(9\)</span> weights सारे <span class="math-inline">\(16\)</span> स्थानों पर साझा होकर पूरा नक्शा भर देते हैं।</p><div class="file">चलती animation: cs229_hindi/out/anim/L20_1.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 20.2</span>Vertical-edge filter on a step edge</div><div class="frames"><figure><img src="anim/L20_2_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L20_2_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L20_2_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> नीली पारदर्शी चादर एक step-edge तस्वीर <span class="math-inline">\(X(x, y)\)</span> है: बाईं ओर ऊँचा उजाला (<span class="math-inline">\(1\)</span>) और <span class="math-inline">\(x = 0\)</span> पर अचानक नीचे अँधेरा (<span class="math-inline">\(0\)</span>)। हरा <span class="math-inline">\((+1)\)</span> और लाल <span class="math-inline">\((-1)\)</span> पट्टियों वाला vertical-edge kernel बाएँ से दाएँ गुज़रता है। जब दोनों पट्टियाँ सपाट हिस्से पर होती हैं तो <span class="math-inline">\(+1\)</span> और <span class="math-inline">\(-1\)</span> एक-दूसरे को काटकर response <span class="math-inline">\(0\)</span> देते हैं, पर ठीक ढलान <span class="math-inline">\(x = 0\)</span> पर नारंगी feature-map की ऊँची दीवार उभर आती है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L20_2.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 20.3</span>2x2 Max Pooling shrinks 4x4 to 2x2</div><div class="frames"><figure><img src="anim/L20_3_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L20_3_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L20_3_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ <span class="math-inline">\(4 \times 4\)</span> activation नक्शे को चार रंगीन <span class="math-inline">\(2 \times 2\)</span> इलाकों में बाँटा गया है (<span class="math-inline">\(f_p = 2, s_p = 2\)</span>)। पहले चरण में हर <span class="math-inline">\(2 \times 2\)</span> खिड़की के तीन छोटे खंभे पिघलकर शून्य हो जाते हैं और केवल सबसे ऊँचा विजेता खंभा बचता है। दूसरे चरण में चारों विजेता खंभे सिमटकर बीच में <span class="math-inline">\(2 \times 2\)</span> pooled नक्शा बना लेते हैं। बिना एक भी नया parameter सीखे स्थानिक आकार चौथाई रह गया और सबसे मज़बूत संकेत सुरक्षित बचे।</p><div class="file">चलती animation: cs229_hindi/out/anim/L20_3.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 20.4</span>CNN volumes: narrower and deeper</div><div class="frames"><figure><img src="anim/L20_4_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L20_4_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L20_4_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ पूरा CNN 3D volumes की शृंखला के रूप में दिख रहा है: हर पारदर्शी बक्से की ऊँचाई-चौड़ाई स्थानिक आकार <span class="math-inline">\(n_H \times n_W\)</span> है और मोटाई channels <span class="math-inline">\(n_C\)</span> है। बाएँ <span class="math-inline">\(32 \times 32 \times 3\)</span> की चौड़ी पर पतली RGB चादर से शुरू होकर हर <code>[Conv -&gt; Pool]</code> के बाद बक्सा ऊँचाई-चौड़ाई में सिकुड़ता जाता है और गहराई (<span class="math-inline">\(8 \to 16 \to 32 \to 64\)</span>) में मोटा होता जाता है। अंत में यह <span class="math-inline">\(10\)</span> class scores में बदल जाता है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L20_4.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 20.5</span>Receptive field widens as a pyramid</div><div class="frames"><figure><img src="anim/L20_5_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L20_5_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L20_5_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> चार क्षैतिज जाले CNN की चार क्रमिक layers हैं (<span class="math-inline">\(z = 0\)</span> पर <span class="math-inline">\(9 \times 9\)</span> input से लेकर <span class="math-inline">\(z = 3\)</span> पर गहरी layer तक, हर जगह <span class="math-inline">\(3 \times 3\)</span> filter और <span class="math-inline">\(s = 1\)</span>)। ऊपर के एक अकेले लाल neuron से नीचे झाँकने पर उसका प्रभाव-क्षेत्र हर कदम पर चौड़ा होता पिरामिड बनाता है: <span class="math-inline">\(1 \times 1 \to 3 \times 3 \to 5 \times 5 \to 7 \times 7\)</span>। अंत में जब ऊपरी neuron खिसकता है, तो नीचे <span class="math-inline">\(7 \times 7\)</span> का पूरा आधार एक साथ खिसकता है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L20_5.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 20.6</span>Stride and padding set output size</div><div class="frames"><figure><img src="anim/L20_6_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L20_6_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L20_6_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> एक ही <span class="math-inline">\(5 \times 5\)</span> तस्वीर और <span class="math-inline">\(3 \times 3\)</span> filter (<span class="math-inline">\(f = 3\)</span>) पर तीन विन्यास बारी-बारी से चलते हैं। पहले <strong>valid</strong> (<span class="math-inline">\(p = 0, s = 1\)</span>) से <span class="math-inline">\(3 \times 3\)</span> output बनता है। फिर चारों ओर नीली zero-padding पट्टी (<span class="math-inline">\(p = 1, s = 1\)</span>, यानी <strong>same</strong>) जोड़ते ही <span class="math-inline">\(7 \times 7\)</span> क्षेत्र पर खिसककर पूरा <span class="math-inline">\(5 \times 5\)</span> आकार सुरक्षित रहता है। अंत में <span class="math-inline">\(p = 0, s = 2\)</span> रखने पर खिड़की दो-दो कदम कूदती है और सिर्फ़ <span class="math-inline">\(2 \times 2\)</span> संक्षिप्त नक्शा देती है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L20_6.gif</div></div>
+<div class="part"><span class="tag">भाग 3</span><h2>Python Example</h2></div>
+<p class="run">इसे खुद चलाएँ: <code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L20_wrapup_cnn/example.py</code></p>
+<div class="code"><pre><span></span><span class="sd">"""Lecture 20 example: NumPy से 2D Convolution, Max Pooling और छोटा CNN (from-scratch backprop).</span>
+
+<span class="sd">1) load_digits के एक अंक पर हाथ से बने vertical और horizontal edge filters तथा 2x2 Max Pooling चलाते हैं।</span>
+<span class="sd">2) फिर एक छोटा CNN (Conv 3x3 -&gt; ReLU -&gt; 2x2 MaxPool -&gt; Softmax) पूरे from-scratch backpropagation से</span>
+<span class="sd">   सिखाते हैं (लगभग 5 सेकंड में, 20 s की सीमा से काफ़ी कम) और कच्चे pixels पर सिखाए Softmax से तुलना करते हैं।</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.lib.stride_tricks</span><span class="w"> </span><span class="kn">import</span> <span class="n">sliding_window_view</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_digits</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+
+
+<span class="c1"># ---------- 1. From-scratch 2D Convolution (s=1) और 2x2 Max Pooling ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">conv2d_forward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""X: (B, H, W), filters K: (C, f, f), bias b: (C,) -&gt; Z: (B, C, H_out, W_out)."""</span>
+    <span class="n">Xp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">pad</span><span class="p">,</span> <span class="n">pad</span><span class="p">),</span> <span class="p">(</span><span class="n">pad</span><span class="p">,</span> <span class="n">pad</span><span class="p">)))</span>
+    <span class="n">win</span> <span class="o">=</span> <span class="n">sliding_window_view</span><span class="p">(</span><span class="n">Xp</span><span class="p">,</span> <span class="n">K</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">"bhwuv,cuv-&gt;bchw"</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">pad</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">conv2d_backward</span><span class="p">(</span><span class="n">dZ</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">need_dx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Chain rule से dK, db और (चाहिए तो) 180-degree पलटे filter से सटीक dX।"""</span>
+    <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">),</span> <span class="n">win</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">pad</span> <span class="o">=</span> <span class="n">cache</span>
+    <span class="n">dK</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">"bchw,bhwuv-&gt;cuv"</span><span class="p">,</span> <span class="n">dZ</span><span class="p">,</span> <span class="n">win</span><span class="p">)</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">dZ</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">need_dx</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dK</span><span class="p">,</span> <span class="n">db</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">dZ_pad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">dZ</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">f</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">f</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="n">w_in</span> <span class="o">=</span> <span class="n">sliding_window_view</span><span class="p">(</span><span class="n">dZ_pad</span><span class="p">,</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">dXp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">"bchwuv,cuv-&gt;bhw"</span><span class="p">,</span> <span class="n">w_in</span><span class="p">,</span> <span class="n">K</span><span class="p">[:,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">dXp</span><span class="p">[:,</span> <span class="n">pad</span><span class="p">:</span><span class="n">pad</span> <span class="o">+</span> <span class="n">H</span><span class="p">,</span> <span class="n">pad</span><span class="p">:</span><span class="n">pad</span> <span class="o">+</span> <span class="n">W</span><span class="p">],</span> <span class="n">dK</span><span class="p">,</span> <span class="n">db</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">maxpool2x2_forward</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""A: (B, C, H, W) -&gt; P: (B, C, H/2, W/2), विजेता pixel का index बचाते हुए।"""</span>
+    <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">Af</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">W</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">W</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Af</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Af</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">maxpool2x2_backward</span><span class="p">(</span><span class="n">dP</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Gradient केवल forward pass के argmax विजेता स्थान को मिलता है।"""</span>
+    <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">),</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">cache</span>
+    <span class="n">dAf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">W</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">put_along_axis</span><span class="p">(</span><span class="n">dAf</span><span class="p">,</span> <span class="n">idx</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">dP</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dAf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">W</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">):</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">logits</span> <span class="o">-</span> <span class="n">logits</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">e</span> <span class="o">/</span> <span class="n">e</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="c1"># ---------- 2. Dataset और Edge Filters का प्रदर्शन ----------</span>
+<span class="n">digits</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">()</span>
+<span class="n">X_all</span><span class="p">,</span> <span class="n">y_all</span> <span class="o">=</span> <span class="n">digits</span><span class="o">.</span><span class="n">images</span> <span class="o">/</span> <span class="mf">16.0</span><span class="p">,</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span>
+<span class="n">perm</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_all</span><span class="p">))</span>
+<span class="n">X_tr</span><span class="p">,</span> <span class="n">y_tr</span> <span class="o">=</span> <span class="n">X_all</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]],</span> <span class="n">y_all</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]]</span>
+<span class="n">X_te</span><span class="p">,</span> <span class="n">y_te</span> <span class="o">=</span> <span class="n">X_all</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="mi">1000</span><span class="p">:</span><span class="mi">1500</span><span class="p">]],</span> <span class="n">y_all</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="mi">1000</span><span class="p">:</span><span class="mi">1500</span><span class="p">]]</span>
+
+<span class="n">k_vert</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]])</span>
+<span class="n">sample</span> <span class="o">=</span> <span class="n">X_te</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">edges</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">conv2d_forward</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">k_vert</span><span class="p">,</span> <span class="n">k_vert</span><span class="o">.</span><span class="n">T</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">pooled_edges</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">maxpool2x2_forward</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">edges</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Output size सूत्र जाँच: n=8, p=1, f=3, s=1 -&gt; conv </span><span class="si">{</span><span class="n">edges</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">edges</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"2x2 pool -&gt; </span><span class="si">{</span><span class="n">pooled_edges</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">pooled_edges</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sample digit '</span><span class="si">{</span><span class="n">y_te</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">': max vertical-edge = </span><span class="si">{</span><span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, "</span>
+      <span class="sa">f</span><span class="s2">"max horizontal-edge = </span><span class="si">{</span><span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 3. Tiny CNN: Forward, Backprop और Finite-difference जाँच ----------</span>
+<span class="n">K0</span><span class="p">,</span> <span class="n">b0</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">W0</span><span class="p">,</span> <span class="n">c0</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cnn_step</span><span class="p">(</span><span class="n">Xb</span><span class="p">,</span> <span class="n">yb</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">reg</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">backward</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">need_dx</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">Z</span><span class="p">,</span> <span class="n">c_conv</span> <span class="o">=</span> <span class="n">conv2d_forward</span><span class="p">(</span><span class="n">Xb</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">P</span><span class="p">,</span> <span class="n">c_pool</span> <span class="o">=</span> <span class="n">maxpool2x2_forward</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Z</span><span class="p">))</span>
+    <span class="n">flat</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Xb</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">flat</span> <span class="o">@</span> <span class="n">W</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yb</span><span class="p">)),</span> <span class="n">yb</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">))</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">K</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">W</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">backward</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="n">dlogits</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">dlogits</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yb</span><span class="p">)),</span> <span class="n">yb</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">1.0</span>
+    <span class="n">dlogits</span> <span class="o">/=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yb</span><span class="p">)</span>
+    <span class="n">dW</span><span class="p">,</span> <span class="n">dc</span> <span class="o">=</span> <span class="n">flat</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">dlogits</span> <span class="o">+</span> <span class="n">reg</span> <span class="o">*</span> <span class="n">W</span><span class="p">,</span> <span class="n">dlogits</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">dZ</span> <span class="o">=</span> <span class="n">maxpool2x2_backward</span><span class="p">((</span><span class="n">dlogits</span> <span class="o">@</span> <span class="n">W</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">c_pool</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">dX</span><span class="p">,</span> <span class="n">dK</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">conv2d_backward</span><span class="p">(</span><span class="n">dZ</span><span class="p">,</span> <span class="n">c_conv</span><span class="p">,</span> <span class="n">need_dx</span><span class="o">=</span><span class="n">need_dx</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="p">(</span><span class="n">dX</span><span class="p">,</span> <span class="n">dK</span> <span class="o">+</span> <span class="n">reg</span> <span class="o">*</span> <span class="n">K</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">dW</span><span class="p">,</span> <span class="n">dc</span><span class="p">)</span>
+
+
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="p">(</span><span class="n">dX_a</span><span class="p">,</span> <span class="n">dK_a</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="p">)</span> <span class="o">=</span> <span class="n">cnn_step</span><span class="p">(</span><span class="n">X_tr</span><span class="p">[:</span><span class="mi">6</span><span class="p">],</span> <span class="n">y_tr</span><span class="p">[:</span><span class="mi">6</span><span class="p">],</span> <span class="n">K0</span><span class="p">,</span> <span class="n">b0</span><span class="p">,</span> <span class="n">W0</span><span class="p">,</span> <span class="n">c0</span><span class="p">,</span> <span class="n">need_dx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="n">Kp</span><span class="p">,</span> <span class="n">Km</span> <span class="o">=</span> <span class="n">K0</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">K0</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span> <span class="n">Kp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">eps</span><span class="p">;</span> <span class="n">Km</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-=</span> <span class="n">eps</span>
+<span class="n">Xp</span><span class="p">,</span> <span class="n">Xm</span> <span class="o">=</span> <span class="n">X_tr</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">X_tr</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">();</span> <span class="n">Xp</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">+=</span> <span class="n">eps</span><span class="p">;</span> <span class="n">Xm</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">-=</span> <span class="n">eps</span>
+<span class="n">gK</span> <span class="o">=</span> <span class="p">(</span><span class="n">cnn_step</span><span class="p">(</span><span class="n">X_tr</span><span class="p">[:</span><span class="mi">6</span><span class="p">],</span> <span class="n">y_tr</span><span class="p">[:</span><span class="mi">6</span><span class="p">],</span> <span class="n">Kp</span><span class="p">,</span> <span class="n">b0</span><span class="p">,</span> <span class="n">W0</span><span class="p">,</span> <span class="n">c0</span><span class="p">,</span> <span class="n">backward</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="o">-</span> <span class="n">cnn_step</span><span class="p">(</span><span class="n">X_tr</span><span class="p">[:</span><span class="mi">6</span><span class="p">],</span> <span class="n">y_tr</span><span class="p">[:</span><span class="mi">6</span><span class="p">],</span> <span class="n">Km</span><span class="p">,</span> <span class="n">b0</span><span class="p">,</span> <span class="n">W0</span><span class="p">,</span> <span class="n">c0</span><span class="p">,</span> <span class="n">backward</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">eps</span><span class="p">)</span>
+<span class="n">gX</span> <span class="o">=</span> <span class="p">(</span><span class="n">cnn_step</span><span class="p">(</span><span class="n">Xp</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">[:</span><span class="mi">6</span><span class="p">],</span> <span class="n">K0</span><span class="p">,</span> <span class="n">b0</span><span class="p">,</span> <span class="n">W0</span><span class="p">,</span> <span class="n">c0</span><span class="p">,</span> <span class="n">backward</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="o">-</span> <span class="n">cnn_step</span><span class="p">(</span><span class="n">Xm</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">[:</span><span class="mi">6</span><span class="p">],</span> <span class="n">K0</span><span class="p">,</span> <span class="n">b0</span><span class="p">,</span> <span class="n">W0</span><span class="p">,</span> <span class="n">c0</span><span class="p">,</span> <span class="n">backward</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">eps</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Gradient check: |dK_err| = </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">dK_a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">gK</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">, |dX_err| = </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">dX_a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">gX</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 4. Training: Tiny CNN बनाम Raw-Pixel Softmax ----------</span>
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">K</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">K0</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">b0</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">W0</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">c0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">Ws</span><span class="p">,</span> <span class="n">bs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">64</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">cnn_acc_hist</span><span class="p">,</span> <span class="n">sm_acc_hist</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Epoch   CNN loss   CNN test acc   Softmax test acc"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">81</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_tr</span><span class="p">)),</span> <span class="mi">20</span><span class="p">):</span>
+        <span class="n">Xb</span><span class="p">,</span> <span class="n">yb</span> <span class="o">=</span> <span class="n">X_tr</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">y_tr</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">dK</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">dW</span><span class="p">,</span> <span class="n">dc</span><span class="p">)</span> <span class="o">=</span> <span class="n">cnn_step</span><span class="p">(</span><span class="n">Xb</span><span class="p">,</span> <span class="n">yb</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">K</span> <span class="o">-=</span> <span class="mf">0.35</span> <span class="o">*</span> <span class="n">dK</span><span class="p">;</span> <span class="n">b</span> <span class="o">-=</span> <span class="mf">0.35</span> <span class="o">*</span> <span class="n">db</span><span class="p">;</span> <span class="n">W</span> <span class="o">-=</span> <span class="mf">0.35</span> <span class="o">*</span> <span class="n">dW</span><span class="p">;</span> <span class="n">c</span> <span class="o">-=</span> <span class="mf">0.35</span> <span class="o">*</span> <span class="n">dc</span>
+        <span class="n">Xf</span> <span class="o">=</span> <span class="n">Xb</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Xb</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ps</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">Xf</span> <span class="o">@</span> <span class="n">Ws</span> <span class="o">+</span> <span class="n">bs</span><span class="p">);</span> <span class="n">ps</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yb</span><span class="p">)),</span> <span class="n">yb</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">1.0</span>
+        <span class="n">Ws</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">Xf</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">ps</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">yb</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-4</span> <span class="o">*</span> <span class="n">Ws</span><span class="p">);</span> <span class="n">bs</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ps</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">tr_loss</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cnn_step</span><span class="p">(</span><span class="n">X_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">backward</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">te_pred</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cnn_step</span><span class="p">(</span><span class="n">X_te</span><span class="p">,</span> <span class="n">y_te</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">backward</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">sm_pred</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_te</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_te</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">Ws</span> <span class="o">+</span> <span class="n">bs</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">cnn_acc_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">te_pred</span> <span class="o">==</span> <span class="n">y_te</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">sm_acc_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sm_pred</span> <span class="o">==</span> <span class="n">y_te</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ep</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">80</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ep</span><span class="si">:</span><span class="s2">5d</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">tr_loss</span><span class="si">:</span><span class="s2">8.4f</span><span class="si">}</span><span class="s2">      </span><span class="si">{</span><span class="n">cnn_acc_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">7.2f</span><span class="si">}</span><span class="s2">%           </span><span class="si">{</span><span class="n">sm_acc_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">7.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+<span class="n">X_shift</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">X_te</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="mi">8</span><span class="p">]</span>
+<span class="n">cnn_sh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cnn_step</span><span class="p">(</span><span class="n">X_shift</span><span class="p">,</span> <span class="n">y_te</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">backward</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">y_te</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">sm_sh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">X_shift</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_shift</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">Ws</span> <span class="o">+</span> <span class="n">bs</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y_te</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Training समय: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> s | CNN params: </span><span class="si">{</span><span class="n">K</span><span class="o">.</span><span class="n">size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">W</span><span class="o">.</span><span class="n">size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">, Softmax params: </span><span class="si">{</span><span class="n">Ws</span><span class="o">.</span><span class="n">size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bs</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Clean test accuracy  -&gt; Tiny CNN: </span><span class="si">{</span><span class="n">cnn_acc_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%  बनाम  Raw Softmax: </span><span class="si">{</span><span class="n">sm_acc_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"1-px shifted test    -&gt; Tiny CNN: </span><span class="si">{</span><span class="n">cnn_sh</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%  बनाम  Raw Softmax: </span><span class="si">{</span><span class="n">sm_sh</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% (pooling + sharing का लाभ)"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 5. Plots ----------</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">11.5</span><span class="p">,</span> <span class="mf">3.1</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"gray_r"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Input 8x8 ('</span><span class="si">{</span><span class="n">y_te</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">')"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"coolwarm"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Vertical-edge conv"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">pooled_edges</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"viridis"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"ReLU + 2x2 MaxPool"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cnn_acc_hist</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Tiny CNN (</span><span class="si">{</span><span class="n">cnn_acc_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sm_acc_hist</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Raw Softmax (</span><span class="si">{</span><span class="n">sm_acc_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"epoch"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"test accuracy (%)"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"CNN vs Softmax on digits"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"lower right"</span><span class="p">);</span> <span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"result.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+</pre></div>
+
+<div class="label">OUTPUT</div>
+<pre class="output">Output size सूत्र जाँच: n=8, p=1, f=3, s=1 -&gt; conv 8x8, 2x2 pool -&gt; 4x4
+Sample digit &#x27;4&#x27;: max vertical-edge = 2.81, max horizontal-edge = 3.00
+Gradient check: |dK_err| = 1.41e-11, |dX_err| = 8.60e-13
+
+Epoch   CNN loss   CNN test acc   Softmax test acc
+    1     1.4667        49.60%             80.20%
+   10     0.0934        97.00%             94.00%
+   25     0.0353        97.20%             95.00%
+   50     0.0222        97.00%             95.80%
+   80     0.0157        97.00%             95.60%
+
+Training समय: 5.41 s | CNN params: 1370, Softmax params: 650
+Clean test accuracy  -&gt; Tiny CNN: 97.00%  बनाम  Raw Softmax: 95.60%
+1-px shifted test    -&gt; Tiny CNN: 67.00%  बनाम  Raw Softmax: 42.60% (pooling + sharing का लाभ)</pre>
+<img class="result-img" src="examples/L20_wrapup_cnn/result.png">
+</section>
+<script src="../vendor/katex/package/dist/katex.min.js"></script>
+<script src="../vendor/katex/package/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [{left: "\\[", right: "\\]", display: true}, {left: "\\(", right: "\\)", display: false}],
+  throwOnError: false, ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+});
+</script>
+</body></html>

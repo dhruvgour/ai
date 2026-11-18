@@ -1,0 +1,24 @@
+भाग A: Multinomial Naive Bayes (|V| = 20, spam words = 25, ham words = 22)
+  Laplace probabilities का जोड़: spam = 1.0000, ham = 1.0000
+  word       c(spam) c(ham)   MLE(y=1) MLE(y=0)   Lap(y=1) Lap(y=0)
+  free            5      1      0.200    0.045      0.133    0.048
+  win             5      0      0.200    0.000      0.133    0.024
+  cash            4      0      0.160    0.000      0.111    0.024
+  team            0      3      0.000    0.136      0.022    0.095
+  meeting         0      2      0.000    0.091      0.022    0.071
+
+  Test संदेश                           MLE P(spam|x)   Laplace P(spam|x)
+  win free cash cash                         1.0000              0.9971
+  team project report                        0.0000              0.0221
+  free team lunch                            0.0000              0.1689
+  win prize at meeting                          nan              0.6693
+
+भाग B: Hard-Margin Linear SVM (SLSQP)
+  w = [0.7354, 0.7738],  b = 0.2508,  ||w|| = 1.0675
+  Geometric margin gamma = 1/||w|| = 0.9367  (slab width 2*gamma = 1.8735)
+  Strong duality check: primal p* = 0.569813,  dual d* = 0.569813
+  Support vectors (3 of 24 points, जहाँ y*(w^T x + b) = 1 और alpha_i > 0):
+    idx= 0  x=(-1.182, -0.493)  y=-1  func_margin=1.0000  alpha=0.5033
+    idx= 5  x=(-0.385, -1.250)  y=-1  func_margin=1.0000  alpha=0.0666
+    idx=12  x=( 0.201,  0.777)  y=+1  func_margin=1.0000  alpha=0.5698
+  Non-SV point (idx=18) को हिलाने पर ||w_new - w|| = 0.00e+00

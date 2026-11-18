@@ -1,0 +1,33 @@
+भाग A: GDA के सीखे parameters (m = 400)
+  phi = 0.357 (सच 0.4)   mu0 = [0.04 0.05] (सच [0. 0.])   mu1 = [2.04 1.54] (सच [2.  1.5])
+  Sigma = [[0.93, 0.59], [0.59, 1.16]] (सच [[1.0, 0.6], [0.6, 1.2]])
+
+Model                  theta0   theta1   theta2   test accuracy
+GDA (implied theta)     -2.86     1.96     0.30       0.8460
+Logistic Regression     -2.72     1.80     0.39       0.8464
+
+Test accuracy (600 trials का औसत)
+            Gaussian data         log-normal data
+     m      GDA   Logistic         GDA   Logistic
+     8    0.788    0.780       0.721    0.743
+    16    0.825    0.817       0.745    0.765
+    32    0.844    0.840       0.763    0.784
+   100    0.854    0.854       0.772    0.798
+  1000    0.859    0.859       0.769    0.810
+Gaussian data: कम m पर GDA आगे (assumption सही)। Log-normal data: Logistic आगे (ज़्यादा robust)।
+
+भाग B: Naive Bayes (19 शब्दों की vocabulary, phi_y = 0.5)
+word      phi_j|spam   phi_j|ham
+free           0.6         0.2
+win            0.6         0.0
+money          0.6         0.0
+lunch          0.0         0.4
+meeting        0.0         0.4
+
+message                        p(x,spam)   p(x,ham)   p(spam|x)
+win free money                  9.95e-03   0.00e+00      1.000
+report before lunch             0.00e+00   6.79e-04      0.000
+free lunch today                0.00e+00   6.79e-04      0.000
+win a prize at the meeting      0.00e+00   0.00e+00        nan
+आख़िरी message: 'win' कभी ham में नहीं दिखा और 'meeting' कभी spam में नहीं,
+इसलिए दोनों products 0 हैं और posterior 0/0 = nan है। हल: Laplace smoothing (Lecture 6)।

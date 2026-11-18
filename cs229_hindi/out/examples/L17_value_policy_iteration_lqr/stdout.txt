@@ -1,0 +1,15 @@
+=== 1. 4x3 Gridworld: Value Iteration बनाम Policy Iteration ===
+Value Iteration sweeps (tol=1e-10): 41  (सही pi* मिल गई sweep 12 पर)
+Policy Iteration outer rounds     : 3
+अधिकतम अंतर max |V_VI - V_PI|     : 5.21e-11
+क्या सभी live states पर pi समान है? : हाँ
+   +0.86 >   +0.90 >   +0.93 >   +1.00  
+   +0.82 ^      ####   +0.69 ^   -1.00  
+   +0.78 ^   +0.75 <   +0.71 <   +0.49 <
+
+=== 2. Finite-Horizon LQR: Double Integrator (T = 40, s0 = [3.0, -1.0]) ===
+शुरुआती feedback gain L_0         : [-2.003, -2.193]
+सैद्धांतिक optimal cost J_0*(s0)   : 41.17  (noise हिस्सा psi_0 = 1.56)
+LQR नियंत्रित औसत cost (2000 runs): 41.13 +- 0.05
+बिना नियंत्रण (a_t = 0) औसत cost  : 511.11
+अंतिम ||s_T|| का औसत (LQR बनाम 0): 0.178  बनाम  5.183

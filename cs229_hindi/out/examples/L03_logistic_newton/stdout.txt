@@ -1,0 +1,31 @@
+=== Logistic Regression: Newton's Method (प्रति iteration) ===
+iter    log-likelihood     gap (l* - l)
+   0     -110.90354889        4.40e+01
+   1      -72.21574790        5.34e+00
+   2      -67.38766866        5.15e-01
+   3      -66.88222580        9.18e-03
+   4      -66.87304609        3.90e-06
+   5      -66.87304219        7.39e-13
+   6      -66.87304219        1.42e-14
+   7      -66.87304219        0.00e+00
+
+=== Logistic Regression: Gradient Ascent (चुनिंदा iterations) ===
+iter    log-likelihood     gap (l* - l)
+   0     -110.90354889        4.40e+01
+   1      -90.24511212        2.34e+01
+   2      -81.29152650        1.44e+01
+   5      -72.07713226        5.20e+00
+  15      -67.48091338        6.08e-01
+  50      -66.87682585        3.78e-03
+ 100      -66.87327758        2.35e-04
+ 200      -66.87305204        9.86e-06
+
+Newton theta : [0.14481 1.11612 1.29256]
+Ascent theta : [0.14486 1.118   1.2909 ]
+Accuracy     : train = 78.8%,  test = 75.0%
+
+=== Locally Weighted Regression: अलग-अलग bandwidth tau पर MSE ===
+  tau = 3.0    MSE vs true curve = 0.4959   [underfit (लगभग सीधी रेखा)]
+  tau = 0.8    MSE vs true curve = 0.1730   [थोड़ा smooth]
+  tau = 0.28   MSE vs true curve = 0.0281   [संतुलित local fit]
+  tau = 0.06   MSE vs true curve = 0.0344   [overfit (शोर के पीछे)]

@@ -1,0 +1,13 @@
+Dataset: two-moons (train=160, test=60), C=2.0, RBF sigma=0.7
+
+Model                 Dual W(a)   Train Acc   Test Acc   Total SVs   Free / Bounded
+Linear SMO (scratch)     95.344       87.5%      88.3%        65        24 / 41 
+RBF SMO (scratch)        40.161       97.5%      95.0%        46        29 / 17 
+sklearn SVC (RBF)         (ref)       96.9%      95.0%        38        -
+
+RBF SMO और sklearn test predictions में सहमति: 96.7%,  sum(alpha_i y_i) = +0.00e+00
+
+RBF bandwidth sigma बदलने पर प्रभाव (C = 2.0):
+  sigma = 2.80 -> train =  86.9%, test =  88.3%, SVs = 67/160
+  sigma = 0.70 -> train =  96.9%, test =  96.7%, SVs = 48/160
+  sigma = 0.08 -> train =  99.4%, test =  88.3%, SVs = 155/160

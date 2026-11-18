@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<title>CS229 Machine Learning हिंदी में</title>
+<link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
+<style>
+@page { size: A4; margin: 16mm 13mm 17mm 13mm;
+        @bottom-center { content: counter(page); font: 9pt "Helvetica Neue", sans-serif; color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Kohinoor Devanagari", "Devanagari Sangam MN", "Helvetica Neue", sans-serif;
+       font-size: 10.6pt; line-height: 1.72; color: #111827; margin: 0; }
+body.screen { max-width: 900px; margin: 0 auto; padding: 24px 28px 80px; font-size: 16px; background: #fff; }
+h1, h2, h3, h4 { line-height: 1.35; break-after: avoid; }
+h2 { font-size: 13.5pt; margin: 1.3em 0 0.4em; color: #1e3a8a; }
+h3 { font-size: 11.5pt; margin: 1.1em 0 0.3em; color: #1f2937; }
+p { margin: 0.45em 0; orphans: 2; widows: 2; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+li { margin: 0.18em 0; }
+a { color: #1d4ed8; text-decoration: none; }
+code { font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace; font-size: 0.88em;
+       background: #f1f5f9; padding: 0.08em 0.3em; border-radius: 3px; }
+blockquote { margin: 0.7em 0; padding: 0.5em 0.9em; border-left: 4px solid #2563eb; background: #eff6ff;
+             border-radius: 0 6px 6px 0; break-inside: avoid; }
+blockquote p { margin: 0.2em 0; }
+table { border-collapse: collapse; margin: 0.7em 0; width: 100%; font-size: 0.93em; break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 0.3em 0.6em; text-align: left; vertical-align: top; }
+th { background: #eef2ff; }
+.math-display { display: block; margin: 0.55em 0; overflow-x: auto; break-inside: avoid; }
+.katex { font-size: 1.04em; }
+
+.cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center;
+         break-after: page; }
+body.screen .cover { height: auto; padding: 70px 0 50px; }
+.cover .kicker { letter-spacing: 0.22em; font-size: 10pt; color: #2563eb; font-weight: 700; }
+.cover h1 { font-size: 34pt; margin: 0.25em 0 0.1em; color: #111827; }
+.cover .sub { font-size: 15pt; color: #374151; }
+.cover .pill { display: inline-block; margin: 2.2em auto 0; padding: 0.5em 1.4em; border-radius: 999px;
+               background: #1e3a8a; color: #fff; font-size: 11.5pt; }
+.cover .note { margin-top: 3em; font-size: 9.5pt; color: #6b7280; }
+
+.front { break-after: page; }
+.toc ol { list-style: none; padding: 0; margin: 0.4em 0; }
+.toc li { display: flex; gap: 0.7em; padding: 0.22em 0; border-bottom: 1px dotted #cbd5e1; }
+.toc .n { flex: 0 0 5.6em; color: #2563eb; font-weight: 700; }
+
+.chapter { break-before: page; }
+.ch-head { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 14px 18px;
+           border-radius: 10px; margin-bottom: 0.9em; break-inside: avoid; }
+.ch-head .n { font-size: 9.5pt; letter-spacing: 0.18em; opacity: 0.85; font-weight: 700; }
+.ch-head h1 { font-size: 17.5pt; margin: 0.1em 0 0; }
+.part { display: flex; align-items: center; gap: 0.6em; margin: 1.5em 0 0.6em; padding-bottom: 0.25em;
+        border-bottom: 2px solid #1e3a8a; break-after: avoid; }
+.part .tag { background: #1e3a8a; color: #fff; border-radius: 5px; padding: 0.05em 0.6em; font-size: 9.5pt;
+             font-weight: 700; }
+.part h2 { margin: 0; font-size: 14pt; }
+
+.anim { border: 1px solid #e5e7eb; border-radius: 9px; padding: 8px 7px 6px; margin: 0.8em 0;
+        break-inside: avoid; background: #fff; }
+.anim-head { font-weight: 700; margin-bottom: 0.3em; }
+.anim-head .badge { background: #ea580c; color: #fff; border-radius: 4px; padding: 0.05em 0.5em;
+                    font-size: 9pt; margin-right: 0.5em; }
+.frames { display: flex; gap: 3px; }
+.frames figure { margin: 0; flex: 1; text-align: center; }
+.frames img { width: 100%; display: block; border: 1px solid #eef0f3; border-radius: 5px; }
+.frames figcaption { font-size: 8pt; color: #6b7280; line-height: 1.3; margin-top: 1px; }
+.anim .gif { display: block; margin: 0 auto; width: 480px; max-width: 100%; }
+.anim .caption { font-size: 0.95em; margin: 0.4em 0 0.15em; }
+.anim .file { font-size: 8pt; color: #6b7280; font-family: "SF Mono", Menlo, monospace; }
+
+.code { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.code pre, pre.output { margin: 0; font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace;
+                        font-size: 8.3pt; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+body.screen .code pre, body.screen pre.output { font-size: 13px; }
+pre.output { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.label { font-size: 9pt; font-weight: 700; color: #475569; margin: 1em 0 0.2em; break-after: avoid; }
+.result-img { display: block; max-width: 88%; margin: 0.6em auto; border: 1px solid #e5e7eb; border-radius: 6px;
+              break-inside: avoid; }
+.run { font-size: 0.93em; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #ffffcc }
+.code { background: #f0f0f0; }
+.code .c { color: #60A0B0; font-style: italic } /* Comment */
+.code .err { border: 1px solid #F00 } /* Error */
+.code .k { color: #007020; font-weight: bold } /* Keyword */
+.code .o { color: #666 } /* Operator */
+.code .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #007020 } /* Comment.Preproc */
+.code .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F00 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #888 } /* Generic.Output */
+.code .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #04D } /* Generic.Traceback */
+.code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code .kp { color: #007020 } /* Keyword.Pseudo */
+.code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #902000 } /* Keyword.Type */
+.code .m { color: #40A070 } /* Literal.Number */
+.code .s { color: #4070A0 } /* Literal.String */
+.code .na { color: #4070A0 } /* Name.Attribute */
+.code .nb { color: #007020 } /* Name.Builtin */
+.code .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code .no { color: #60ADD5 } /* Name.Constant */
+.code .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code .ne { color: #007020 } /* Name.Exception */
+.code .nf { color: #06287E } /* Name.Function */
+.code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code .nv { color: #BB60D5 } /* Name.Variable */
+.code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code .w { color: #BBB } /* Text.Whitespace */
+.code .mb { color: #40A070 } /* Literal.Number.Bin */
+.code .mf { color: #40A070 } /* Literal.Number.Float */
+.code .mh { color: #40A070 } /* Literal.Number.Hex */
+.code .mi { color: #40A070 } /* Literal.Number.Integer */
+.code .mo { color: #40A070 } /* Literal.Number.Oct */
+.code .sa { color: #4070A0 } /* Literal.String.Affix */
+.code .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code .sc { color: #4070A0 } /* Literal.String.Char */
+.code .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #4070A0 } /* Literal.String.Double */
+.code .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code .sx { color: #C65D09 } /* Literal.String.Other */
+.code .sr { color: #235388 } /* Literal.String.Regex */
+.code .s1 { color: #4070A0 } /* Literal.String.Single */
+.code .ss { color: #517918 } /* Literal.String.Symbol */
+.code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code .fm { color: #06287E } /* Name.Function.Magic */
+.code .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
+</head><body class="print">
+<section class="cover"><div class="kicker">STANFORD CS229 SCHEDULE &middot; SELF-STUDY GUIDE</div><h1>Machine Learning<br>हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह एक self-study guide है जो CS229 के public syllabus के क्रम पर चलती है। यह Stanford का official material नहीं है।</div></section>
+<section class="front"><h2>यह guide कैसे पढ़ें</h2>
+<p>यह guide Stanford CS229 (Machine Learning) के syllabus के क्रम में चलती है: Lecture 1 से Lecture 20 तक। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<table>
+<thead>
+<tr>
+<th>भाग</th>
+<th>क्या है</th>
+<th>कैसे इस्तेमाल करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>भाग 1: Theory</strong></td>
+<td>Idea, notation, maths और algorithm, हिंदी में</td>
+<td>पहले इसे धीरे-धीरे पढ़ें। Equations को कागज़ पर खुद लिखकर देखें।</td>
+</tr>
+<tr>
+<td><strong>भाग 2: 3D Animations</strong></td>
+<td>हर chapter में कम से कम 5 animations</td>
+<td>PDF में हर animation के तीन still frames हैं (शुरुआत, बीच में, अंत)। चलती animation देखने के लिए नीचे बताई files खोलें।</td>
+</tr>
+<tr>
+<td><strong>भाग 3: Python Example</strong></td>
+<td>NumPy से शुरू से लिखा एक चलने वाला example, उसके output के साथ</td>
+<td>Code को खुद चलाएँ, फिर numbers बदलकर देखें कि क्या बदलता है।</td>
+</tr>
+</tbody>
+</table>
+<p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
+<h2>चलती animations कहाँ हैं</h2>
+<ul>
+<li><strong><code>CS229_Hindi_Animated.html</code></strong> (इसी folder में): इसे browser में खोलें। यह यही पूरी guide है, पर इसमें सारी animations चलती हैं।</li>
+<li><strong><code>cs229_hindi/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
+</ul>
+<h2>Code कैसे चलाएँ</h2>
+<p>हर chapter का code <code>cs229_hindi/chapters/&lt;chapter&gt;/example.py</code> में है। Terminal में इसी folder से:</p>
+<pre><code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L02_linear_regression/example.py
+</code></pre>
+<p>Animations का code उसी folder की <code>anims.py</code> में है। पूरी guide दोबारा बनाने के लिए: <code>cs229_hindi/.venv/bin/python cs229_hindi/build.py</code></p>
+<h2>पहले से क्या आना चाहिए</h2>
+<ul>
+<li><strong>Linear Algebra:</strong> vectors, matrices, matrix multiplication, transpose, inverse, eigenvalues / eigenvectors।</li>
+<li><strong>Probability:</strong> random variable, expectation, variance, conditional probability, Bayes rule, Gaussian distribution।</li>
+<li><strong>Calculus:</strong> derivative, partial derivative, gradient, chain rule।</li>
+<li><strong>Python:</strong> NumPy arrays की बुनियादी समझ।</li>
+</ul>
+<h2>पूरे course में चलने वाला notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}, y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वाँ training example: input और target</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या (या input का dimension)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span>, <span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>model के parameters</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis: model का prediction</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(J(\theta)\)</span></td>
+<td>cost function जिसे minimize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\ell(\theta)\)</span></td>
+<td>log-likelihood जिसे maximize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span></td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\nabla_\theta\)</span></td>
+<td><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span></td>
+<td>mean <span class="math-inline">\(\mu\)</span> और covariance <span class="math-inline">\(\Sigma\)</span> वाला Gaussian</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(:=\)</span></td>
+<td>"दाएँ की value बाएँ में रख दो" (assignment)</td>
+</tr>
+</tbody>
+</table><h2>विषय-सूची</h2><div class="toc"><ol><li><span class="n">Lecture 17</span><a href="#L17_value_policy_iteration_lqr">Value Iteration, Policy Iteration, LQR और LQG</a></li></ol></div></section>
+<section class="chapter" id="L17_value_policy_iteration_lqr">
+<div class="ch-head"><div class="n">LECTURE 17</div><h1>Value Iteration, Policy Iteration, LQR और LQG</h1></div>
+<div class="part"><span class="tag">भाग 1</span><h2>Theory</h2></div>
+<blockquote>
+<p><strong>इस lecture में:</strong> Finite MDPs को हल करने वाले दो मुख्य algorithms (Value Iteration और Policy Iteration) और उनकी तुलना, data से counts गिनकर MDP का model सीखना, continuous states का discretization और curse of dimensionality, finite-horizon MDPs में backward dynamic programming, Linear Quadratic Regulation (LQR) में quadratic costs और Riccati recursion, noise से स्वतंत्र linear feedback policy <span class="math-inline">\(a_t = L_t s_t\)</span>, और अधूरी जानकारी (noisy observations) में Kalman filter व separation principle के साथ LQG।</p>
+</blockquote>
+<h2>1. एक line में idea</h2>
+<p>Lecture 16 में आपने देखा कि किसी MDP की सबसे अच्छी policy <span class="math-inline">\(\pi^*\)</span> निकालने की कुंजी optimal value function <span class="math-inline">\(V^*\)</span> है, जो Bellman optimality equation को संतुष्ट करता है। समस्या यह थी कि उस equation में <span class="math-inline">\(\max_a\)</span> आता है, इसलिए वह linear system नहीं रहती।</p>
+<p>इस lecture के दो बड़े हिस्से हैं। पहला: छोटे finite state set के लिए हम Bellman update को बार-बार चलाकर (<strong>Value Iteration</strong>) या evaluation और improvement की जोड़ी चलाकर (<strong>Policy Iteration</strong>) ठीक <span class="math-inline">\(V^*\)</span> और <span class="math-inline">\(\pi^*\)</span> निकाल सकते हैं। दूसरा: जब states continuous हों (जैसे robot या helicopter की position और velocity), तो grid बनाना <strong>curse of dimensionality</strong> में फँस जाता है; वहाँ अगर dynamics linear हों और cost quadratic हो (<strong>LQR / LQG</strong>), तो Riccati recursion और Kalman filter बिना किसी grid के exact optimal control दे देते हैं।</p>
+<h2>2. Tabular MDPs को हल करना: Value Iteration और Policy Iteration</h2>
+<p>याद दिला दें कि finite MDP <span class="math-inline">\((S, A, \{P_{sa}\}, \gamma, R)\)</span> में optimal value function <span class="math-inline">\(V^*\)</span> के लिए हर state <span class="math-inline">\(s \in S\)</span> पर यह शर्त लागू होती है:</p>
+<p><span class="math-display">\[V^*(s) = R(s) + \max_{a \in A}\, \gamma \sum_{s&#x27; \in S} P_{sa}(s&#x27;)\, V^*(s&#x27;)\]</span></p>
+<p>एक बार <span class="math-inline">\(V^*\)</span> मिल जाए, तो हर state के लिए सबसे अच्छा action तुरंत निकल आता है:</p>
+<p><span class="math-display">\[\pi^*(s) = \arg\max_{a \in A} \sum_{s&#x27; \in S} P_{sa}(s&#x27;)\, V^*(s&#x27;)\]</span></p>
+<p>अब सवाल यह है कि <span class="math-inline">\(V^*\)</span> या <span class="math-inline">\(\pi^*\)</span> तक पहुँचा कैसे जाए। इसके दो क्लासिक तरीके हैं।</p>
+<h3>Value Iteration</h3>
+<p>सबसे सीधा विचार यह है: Bellman optimality equation के बाएँ-दाएँ की बराबरी को एक <strong>assignment update</strong> बना दें।</p>
+<ol>
+<li>हर state <span class="math-inline">\(s \in S\)</span> के लिए <span class="math-inline">\(V(s) := 0\)</span> रखें।</li>
+<li>जब तक <span class="math-inline">\(V\)</span> converge न हो जाए, हर state <span class="math-inline">\(s\)</span> के लिए update करें:</li>
+</ol>
+<p><span class="math-display">\[V(s) := R(s) + \max_{a \in A}\, \gamma \sum_{s&#x27; \in S} P_{sa}(s&#x27;)\, V(s&#x27;)\]</span></p>
+<ol start="3">
+<li>अंत में <span class="math-inline">\(\pi(s) := \arg\max_{a \in A} \sum_{s&#x27;} P_{sa}(s&#x27;)\, V(s&#x27;)\)</span> निकाल लें।</li>
+</ol>
+<p>Step 2 को लागू करने के दो ढंग हैं:</p>
+<ul>
+<li><strong>Synchronous update:</strong> नया vector <span class="math-inline">\(V_{k+1}\)</span> पूरा का पूरा पुराने vector <span class="math-inline">\(V_k\)</span> से गिनें, और सब states एक साथ बदलें। इसे matrix-vector रूप में लिखना बहुत आसान है।</li>
+<li><strong>Asynchronous (in-place) update:</strong> states पर किसी क्रम में घूमें और जैसे ही किसी <span class="math-inline">\(s\)</span> का नया <span class="math-inline">\(V(s)\)</span> निकले, उसे तुरंत उसी array में लिख दें ताकि अगले state की गिनती ताज़ा मान इस्तेमाल कर सके।</li>
+</ul>
+<p>दोनों ही तरीकों में <span class="math-inline">\(V \to V^*\)</span> पक्का है। क्यों? मान लीजिए Bellman optimality operator को <span class="math-inline">\(B\)</span> कहें, यानी <span class="math-inline">\((BV)(s) = R(s) + \gamma \max_a \sum_{s&#x27;} P_{sa}(s&#x27;) V(s&#x27;)\)</span>। किसी भी दो functions <span class="math-inline">\(U\)</span> और <span class="math-inline">\(V\)</span> के लिए <span class="math-inline">\(\max_a f(a) - \max_a g(a) \le \max_a |f(a) - g(a)|\)</span> वाली असमानता लगाने पर मिलता है:</p>
+<p><span class="math-display">\[\max_{s \in S} |BV(s) - BU(s)| \le \gamma \max_{s \in S} |V(s) - U(s)|\]</span></p>
+<p>चूँकि <span class="math-inline">\(\gamma &lt; 1\)</span> है, <span class="math-inline">\(B\)</span> sup-norm में एक <strong><span class="math-inline">\(\gamma\)</span>-contraction</strong> है। और <span class="math-inline">\(V^*\)</span> इसका fixed point है (<span class="math-inline">\(BV^* = V^*\)</span>), इसलिए हर synchronous sweep में सबसे बड़ी गलती कम से कम <span class="math-inline">\(\gamma\)</span> गुना छोटी हो जाती है: <span class="math-inline">\(\max_s |V_k(s) - V^*(s)| \le \gamma^k \max_s |V_0(s) - V^*(s)|\)</span>। जैसे Lecture 16 के 4x3 gridworld में शुरू में सिर्फ़ <span class="math-inline">\(+1\)</span> और <span class="math-inline">\(-1\)</span> वाले terminal states गैर-शून्य होते हैं, और हर अगले sweep में उनकी जानकारी एक-एक कदम बाहर फैलती जाती है।</p>
+<h3>Policy Iteration</h3>
+<p>Value Iteration में <span class="math-inline">\(V\)</span> धीरे-धीरे <span class="math-inline">\(V^*\)</span> की ओर रेंगता है, जबकि सही policy <span class="math-inline">\(\pi^*\)</span> अक्सर <span class="math-inline">\(V\)</span> के पूरी तरह converge होने से बहुत पहले ही तय हो जाती है। Policy Iteration सीधे policy पर काम करता है:</p>
+<ol>
+<li>कोई भी शुरुआती policy <span class="math-inline">\(\pi\)</span> चुन लें।</li>
+<li>जब तक <span class="math-inline">\(\pi\)</span> बदलना बंद न कर दे, ये दो कदम दोहराएँ:
+   - <strong>(क) Policy Evaluation:</strong> वर्तमान <span class="math-inline">\(\pi\)</span> को स्थिर मानकर <span class="math-inline">\(V := V^\pi\)</span> निकालें। इसके लिए Lecture 16 वाला linear system <span class="math-inline">\((I - \gamma P^\pi) V = R\)</span> सीधे हल कर सकते हैं (या कुछ iterative sweeps चला सकते हैं)।
+   - <strong>(ख) Policy Improvement:</strong> हर state <span class="math-inline">\(s\)</span> में <span class="math-inline">\(V^\pi\)</span> के सापेक्ष greedy action चुनें:</li>
+</ol>
+<p><span class="math-display">\[\pi_{\text{new}}(s) := \arg\max_{a \in A} \sum_{s&#x27; \in S} P_{sa}(s&#x27;)\, V^\pi(s&#x27;)\]</span></p>
+<p>फिर <span class="math-inline">\(\pi := \pi_{\text{new}}\)</span> रखें।</p>
+<p>यह हमेशा सही <span class="math-inline">\(\pi^*\)</span> पर क्यों रुकता है? मान लीजिए पुराने <span class="math-inline">\(\pi\)</span> से नया <span class="math-inline">\(\pi_{\text{new}}\)</span> बना। परिभाषा से हर state <span class="math-inline">\(s\)</span> पर <span class="math-inline">\(\sum_{s&#x27;} P_{s\pi_{\text{new}}(s)}(s&#x27;) V^\pi(s&#x27;) \ge \sum_{s&#x27;} P_{s\pi(s)}(s&#x27;) V^\pi(s&#x27;)\)</span> है। दोनों तरफ़ <span class="math-inline">\(\gamma\)</span> से गुणा करके <span class="math-inline">\(R(s)\)</span> जोड़ें तो <span class="math-inline">\(R(s) + \gamma (P^{\pi_{\text{new}}} V^\pi)(s) \ge V^\pi(s)\)</span> मिलता है। इस असमानता को बार-बार आगे बढ़ाने पर साबित होता है कि <strong>हर state में</strong> <span class="math-inline">\(V^{\pi_{\text{new}}}(s) \ge V^\pi(s)\)</span> (monotonic improvement)। Finite MDP में कुल <span class="math-inline">\(|A|^{|S|}\)</span> ही policies संभव हैं, और जब <span class="math-inline">\(\pi_{\text{new}} = \pi\)</span> हो जाए तो <span class="math-inline">\(V^\pi\)</span> स्वयं Bellman optimality equation को संतुष्ट कर देता है, यानी <span class="math-inline">\(V^\pi = V^*\)</span> और <span class="math-inline">\(\pi = \pi^*\)</span>।</p>
+<h3>दोनों की तुलना: कब कौन-सा चुनें?</h3>
+<table>
+<thead>
+<tr>
+<th>पहलू</th>
+<th>Value Iteration</th>
+<th>Policy Iteration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>एक iteration का काम</td>
+<td>सस्ता sweep: <span class="math-inline">\(O(|A|\,|S|^2)\)</span></td>
+<td>महँगा exact evaluation: linear solve <span class="math-inline">\(O(|S|^3)\)</span></td>
+</tr>
+<tr>
+<td>कुल iterations</td>
+<td>ज़्यादा (<span class="math-inline">\(\gamma\)</span> 1 के पास हो तो सैकड़ों)</td>
+<td>बहुत कम (अक्सर 3 से 15 में खत्म)</td>
+</tr>
+<tr>
+<td>छोटा या मध्यम <span class="math-inline">\(|S|\)</span></td>
+<td>ठीक है</td>
+<td>बहुत तेज़ और exact</td>
+</tr>
+<tr>
+<td>बहुत बड़ा <span class="math-inline">\(|S|\)</span></td>
+<td>बेहतर, क्योंकि matrix inverse नहीं चाहिए</td>
+<td>Exact solve महँगा; तब कुछ sweeps ही करते हैं</td>
+</tr>
+</tbody>
+</table>
+<h2>3. जब Model पता न हो: Data से <span class="math-inline">\(P_{sa}\)</span> और <span class="math-inline">\(R\)</span> सीखना</h2>
+<p>असली दुनिया में कोई आपको <span class="math-inline">\(P_{sa}\)</span> की तालिका हाथ में नहीं पकड़ाता। पर अगर आप दुनिया (या simulator) में policy चलाकर अनुभव के टुकड़े (trajectories) इकट्ठे कर सकें:</p>
+<p><span class="math-display">\[s_0^{(j)} \xrightarrow{a_0^{(j)}} s_1^{(j)} \xrightarrow{a_1^{(j)}} s_2^{(j)} \dots\]</span></p>
+<p>तो <span class="math-inline">\(P_{sa}(s&#x27;)\)</span> का <strong>maximum likelihood estimate</strong> सीधा गिनती का अनुपात है:</p>
+<p><span class="math-display">\[\hat{P}_{sa}(s&#x27;) = \frac{\text{state } s \text{ में action } a \text{ लेकर } s&#x27; \text{ पर पहुँचने की गिनती}}{\text{state } s \text{ में action } a \text{ लेने की कुल गिनती}}\]</span></p>
+<p>अगर किसी <span class="math-inline">\((s, a)\)</span> जोड़ी को अभी एक बार भी नहीं आज़माया गया है (यानी अनुपात <span class="math-inline">\(0/0\)</span> हो जाए), तो शुरुआती अंदाज़े के तौर पर सभी states पर एकसमान संभावना <span class="math-inline">\(\hat{P}_{sa}(s&#x27;) = \frac{1}{|S|}\)</span> मान लेते हैं। इसी तरह अगर <span class="math-inline">\(R(s)\)</span> भी अज्ञात हो, तो state <span class="math-inline">\(s\)</span> में दिखे rewards का औसत ही <span class="math-inline">\(\hat{R}(s)\)</span> बन जाता है।</p>
+<p>इसके बाद हम <strong>model-based RL</strong> का चक्र चला सकते हैं:</p>
+<ol>
+<li>वर्तमान policy <span class="math-inline">\(\pi\)</span> को कुछ episodes तक चलाकर अनुभव जोड़ें।</li>
+<li>सारा पुराना और नया अनुभव मिलाकर <span class="math-inline">\(\hat{P}_{sa}\)</span> और <span class="math-inline">\(\hat{R}\)</span> update करें।</li>
+<li>इस सीखे हुए MDP पर Value Iteration या Policy Iteration चलाकर नई policy <span class="math-inline">\(\pi\)</span> निकालें (पिछले <span class="math-inline">\(V\)</span> से शुरुआत करने पर Value Iteration बहुत तेज़ चलता है)।</li>
+<li>वापस Step 1 पर जाएँ। ध्यान रहे: Step 1 में हमेशा निरे greedy तरीके से <span class="math-inline">\(\pi(s)\)</span> ही लेते रहे तो कई अच्छे रास्ते कभी जाँचे ही नहीं जाएँगे। इसलिए थोड़ा <strong>exploration</strong> जोड़ते हैं, जैसे <span class="math-inline">\(\epsilon\)</span>-greedy चाल (छोटी probability <span class="math-inline">\(\epsilon\)</span> से random action लेना)।</li>
+</ol>
+<h2>4. Continuous State Spaces: Discretization और Curse of Dimensionality</h2>
+<p>अब तक <span class="math-inline">\(S\)</span> गिनी-चुनी states का set था। पर एक कार में state <span class="math-inline">\((x, y, \theta, \dot{x}, \dot{y}, \dot{\theta}) \in \mathbb{R}^6\)</span> है, inverted pendulum (cart-pole) में <span class="math-inline">\((x, \dot{x}, \theta, \dot{\theta}) \in \mathbb{R}^4\)</span> है, और उड़ते helicopter में 3D position, orientation और उनके velocities मिलाकर <span class="math-inline">\(s \in \mathbb{R}^{12}\)</span> होता है।</p>
+<p>पहला स्वाभाविक विचार <strong>discretization</strong> है: हर coordinate की सीमा को <span class="math-inline">\(k\)</span> बराबर टुकड़ों (bins) में काट दें, ताकि पूरा <span class="math-inline">\(\mathbb{R}^d\)</span> छोटे डिब्बों (cells) में बँट जाए और हर डिब्बे को एक discrete state <span class="math-inline">\(\bar{s}\)</span> मानकर Value Iteration चला दें।</p>
+<p>यह तरीका <span class="math-inline">\(d = 1\)</span> या <span class="math-inline">\(d = 2\)</span> पर काम चल जाता है, पर आयाम बढ़ते ही दो गंभीर अड़चनें आती हैं:</p>
+<ol>
+<li><strong>खुरदरा representation:</strong> Discretization मान लेता है कि एक पूरे डिब्बे के भीतर <span class="math-inline">\(V^*(s)\)</span> सपाट (piecewise constant) है। चिकनी ढलान को पकड़ने के लिए बारीक जाल (बड़ा <span class="math-inline">\(k\)</span>) चाहिए।</li>
+<li><strong>Curse of Dimensionality:</strong> अगर <span class="math-inline">\(d\)</span> आयामों में हर अक्ष पर <span class="math-inline">\(k\)</span> bins रखे जाएँ, तो कुल discrete states की संख्या घातीय (exponential) रफ़्तार से विस्फोट करती है:</li>
+</ol>
+<p><span class="math-display">\[|S| = k^d\]</span></p>
+<p>एक सरल उदाहरण देखिए: <span class="math-inline">\(k = 10\)</span> मामूली bins रखने पर <span class="math-inline">\(d = 1\)</span> (रेखा) में <span class="math-inline">\(10\)</span> cells हैं, <span class="math-inline">\(d = 2\)</span> (वर्ग) में <span class="math-inline">\(100\)</span>, <span class="math-inline">\(d = 3\)</span> (घन) में <span class="math-inline">\(1{,}000\)</span>, पर helicopter के <span class="math-inline">\(d = 12\)</span> आयामों में <span class="math-inline">\(10^{12}\)</span> (एक खरब!) states बन जाते हैं। न इतनी बड़ी तालिका memory में आ सकती है, न उस पर एक भी Bellman sweep चल सकता है, और न ही हर डिब्बे में पर्याप्त data इकट्ठा हो सकता है। इसलिए बड़े continuous control problems में हमें बिना जाल बिछाए सीधे <span class="math-inline">\(V\)</span> का smooth रूप ढूँढना पड़ता है।</p>
+<h2>5. Finite-Horizon MDPs और Backward Dynamic Programming</h2>
+<p>Continuous control के सबसे सुंदर exact हल (LQR) पर जाने से पहले हमें infinite horizon की जगह <strong>finite-horizon MDP</strong> <span class="math-inline">\((S, A, P_{sa}^{(t)}, T, R^{(t)})\)</span> समझना होगा। यहाँ खेल ठीक <span class="math-inline">\(T\)</span> कदमों पर रुक जाता है और कुल payoff यह है:</p>
+<p><span class="math-display">\[R^{(0)}(s_0, a_0) + R^{(1)}(s_1, a_1) + \dots + R^{(T-1)}(s_{T-1}, a_{T-1}) + R^{(T)}(s_T)\]</span></p>
+<p>योग परिमित है, इसलिए <span class="math-inline">\(\gamma\)</span> की ज़रूरत नहीं (<span class="math-inline">\(\gamma = 1\)</span> मान सकते हैं)। ध्यान दें कि dynamics <span class="math-inline">\(P_{sa}^{(t)}\)</span> और reward <span class="math-inline">\(R^{(t)}\)</span> समय <span class="math-inline">\(t\)</span> के साथ बदल भी सकते हैं।</p>
+<p>यहाँ एक बड़ा बदलाव आता है: <strong>optimal policy अब समय <span class="math-inline">\(t\)</span> पर निर्भर करती है</strong> (<span class="math-inline">\(\pi_t^* : S \to A\)</span>, यानी non-stationary policy)। क्यों? अगर आपके पास 50 कदम बचे हैं तो आप दूर के बड़े लक्ष्य की ओर जाएँगे, पर अगर सिर्फ़ 1 कदम बचा है तो पास का छोटा इनाम बटोरना बेहतर है।</p>
+<p>समय <span class="math-inline">\(t\)</span> पर state <span class="math-inline">\(s\)</span> से आगे के कुल optimal expected payoff को <span class="math-inline">\(V_t^*(s)\)</span> कहें। इसे अंत से शुरू करके <strong>backward dynamic programming</strong> से ठीक हल किया जाता है:</p>
+<ol>
+<li><strong>अंतिम कदम (<span class="math-inline">\(t = T\)</span>):</strong> आगे कोई action नहीं बचा, इसलिए</li>
+</ol>
+<p><span class="math-display">\[V_T^*(s) = R^{(T)}(s)\]</span></p>
+<ol start="2">
+<li><strong>पीछे की ओर कदम (<span class="math-inline">\(t = T-1, T-2, \dots, 0\)</span>):</strong> जब <span class="math-inline">\(V_{t+1}^*\)</span> पहले से पता हो, तब</li>
+</ol>
+<p><span class="math-display">\[V_t^*(s) = \max_{a \in A} \left[ R^{(t)}(s, a) + \mathbb{E}_{s&#x27; \sim P_{sa}^{(t)}}\!\left[ V_{t+1}^*(s&#x27;) \right] \right]\]</span></p>
+<p>और उसी कदम पर सबसे अच्छा action <span class="math-inline">\(\pi_t^*(s)\)</span> वह <span class="math-inline">\(a\)</span> है जो ऊपर वाला <span class="math-inline">\(\max\)</span> हासिल करता है।</p>
+<h2>6. Linear Quadratic Regulation (LQR)</h2>
+<p>अब मान लीजिए state <span class="math-inline">\(s_t \in \mathbb{R}^n\)</span> और action <span class="math-inline">\(a_t \in \mathbb{R}^d\)</span> दोनों continuous vectors हैं। <strong>LQR</strong> में दो चीज़ें मानी जाती हैं:</p>
+<p><strong>(1) Linear dynamics + Gaussian noise:</strong></p>
+<p><span class="math-display">\[s_{t+1} = A s_t + B a_t + w_t, \qquad w_t \sim \mathcal{N}(0, \Sigma_w)\]</span></p>
+<p>जहाँ <span class="math-inline">\(A \in \mathbb{R}^{n \times n}\)</span>, <span class="math-inline">\(B \in \mathbb{R}^{n \times d}\)</span>, और <span class="math-inline">\(w_t\)</span> हर कदम पर स्वतंत्र Gaussian झटका है। (अगर असली प्रणाली nonlinear हो, जैसे <span class="math-inline">\(s_{t+1} = f(s_t, a_t) + w_t\)</span>, तो किसी संतुलन बिंदु <span class="math-inline">\(\bar{s}, \bar{a}\)</span> के आस-पास प्रथम Taylor प्रसार लेकर उसे लगभग इसी रूप में लाया जा सकता है।)</p>
+<p><strong>(2) Quadratic cost:</strong> हम चाहते हैं कि state भी मूल-बिंदु <span class="math-inline">\(0\)</span> के पास रहे और ताक़त (<span class="math-inline">\(a_t\)</span>) भी बेवजह ज़्यादा खर्च न हो। कदम <span class="math-inline">\(t &lt; T\)</span> पर खर्च <span class="math-inline">\(c_t(s_t, a_t) = s_t^T U s_t + a_t^T W a_t\)</span> है और अंतिम कदम पर <span class="math-inline">\(c_T(s_T) = s_T^T U_T s_T\)</span>, जहाँ <span class="math-inline">\(U, U_T \succeq 0\)</span> symmetric positive semi-definite हैं और <span class="math-inline">\(W \succ 0\)</span> symmetric positive definite है। Reward के रूप में लिखें तो <span class="math-inline">\(R^{(t)}(s_t, a_t) = -c_t(s_t, a_t)\)</span> है। सुविधा के लिए हम <span class="math-inline">\(J_t^*(s_t) = -V_t^*(s_t)\)</span>, यानी <strong>optimal cost-to-go</strong> को minimize करेंगे।</p>
+<h3>Riccati Recursion की व्युत्पत्ति</h3>
+<p>कमाल की बात यह है कि हर कदम <span class="math-inline">\(t\)</span> पर <span class="math-inline">\(J_t^*(s)\)</span> एक शुद्ध <strong>quadratic कटोरा</strong> निकलता है:</p>
+<p><span class="math-display">\[J_t^*(s_t) = s_t^T \Phi_t s_t + \psi_t\]</span></p>
+<p>जहाँ <span class="math-inline">\(\Phi_t \succeq 0\)</span> एक <span class="math-inline">\(n \times n\)</span> symmetric matrix है और <span class="math-inline">\(\psi_t \ge 0\)</span> एक संख्या। इसे <span class="math-inline">\(t = T\)</span> से पीछे चलते हुए induction से सिद्ध करते हैं।</p>
+<p><strong>आधार (<span class="math-inline">\(t = T\)</span>):</strong> <span class="math-inline">\(J_T^*(s_T) = s_T^T U_T s_T\)</span>, इसलिए <span class="math-inline">\(\Phi_T = U_T\)</span> और <span class="math-inline">\(\psi_T = 0\)</span>।</p>
+<p><strong>पीछे का कदम (<span class="math-inline">\(t+1 \to t\)</span>):</strong> मान लें <span class="math-inline">\(J_{t+1}^*(s_{t+1}) = s_{t+1}^T \Phi_{t+1} s_{t+1} + \psi_{t+1}\)</span> सही है। चूँकि <span class="math-inline">\(s_{t+1} = A s_t + B a_t + w_t\)</span> में <span class="math-inline">\(\mathbb{E}[w_t] = 0\)</span> है, बीच का cross term शून्य हो जाता है, और quadratic noise term के लिए trace पहचान <span class="math-inline">\(\mathbb{E}[w^T \Phi w] = \mathbb{E}[\text{tr}(w^T \Phi w)] = \text{tr}(\Phi \mathbb{E}[w w^T]) = \text{tr}(\Phi \Sigma_w)\)</span> लगती है:</p>
+<p><span class="math-display">\[\mathbb{E}_{w_t}\!\left[ J_{t+1}^*(s_{t+1}) \right] = (A s_t + B a_t)^T \Phi_{t+1} (A s_t + B a_t) + \text{tr}(\Phi_{t+1}\Sigma_w) + \psi_{t+1}\]</span></p>
+<p>अतः Bellman समीकरण बनता है:</p>
+<p><span class="math-display">\[J_t^*(s_t) = \min_{a_t} \left[ s_t^T U s_t + a_t^T W a_t + (A s_t + B a_t)^T \Phi_{t+1} (A s_t + B a_t) + \text{tr}(\Phi_{t+1}\Sigma_w) + \psi_{t+1} \right]\]</span></p>
+<p>कोष्ठक के अंदर का व्यंजक <span class="math-inline">\(a_t\)</span> में strictly convex quadratic है (क्योंकि <span class="math-inline">\(W \succ 0\)</span> और <span class="math-inline">\(B^T \Phi_{t+1} B \succeq 0\)</span>)। <span class="math-inline">\(a_t\)</span> के सापेक्ष gradient को शून्य रखें:</p>
+<p><span class="math-display">\[\nabla_{a_t}[\dots] = 2 W a_t + 2 B^T \Phi_{t+1} (A s_t + B a_t) = 0 \quad\Longrightarrow\quad (W + B^T \Phi_{t+1} B)\, a_t = -B^T \Phi_{t+1} A s_t\]</span></p>
+<p>इससे तुरंत optimal action का सूत्र मिल जाता है:</p>
+<p><span class="math-display">\[a_t^* = L_t s_t, \qquad L_t = -(W + B^T \Phi_{t+1} B)^{-1} B^T \Phi_{t+1} A\]</span></p>
+<p>इस <span class="math-inline">\(a_t^* = L_t s_t\)</span> को वापस <span class="math-inline">\(J_t^*(s_t)\)</span> में रखने पर <span class="math-inline">\(s_t^T \Phi_t s_t + \psi_t\)</span> का रूप बना रहता है, और हमें प्रसिद्ध <strong>Discrete Riccati Recursion</strong> मिलती है:</p>
+<p><span class="math-display">\[\Phi_t = U + A^T \Phi_{t+1} A - A^T \Phi_{t+1} B (W + B^T \Phi_{t+1} B)^{-1} B^T \Phi_{t+1} A\]</span></p>
+<p><span class="math-display">\[\psi_t = \psi_{t+1} + \text{tr}(\Phi_{t+1}\Sigma_w)\]</span></p>
+<h3>LQR के दो गहरे निष्कर्ष</h3>
+<ol>
+<li><strong>Linear feedback पर्याप्त है:</strong> Optimal action बस वर्तमान state का एक matrix गुणा <span class="math-inline">\(a_t^* = L_t s_t\)</span> है। किसी discretization या बड़ी तालिका की ज़रूरत नहीं पड़ी: <span class="math-inline">\(n\)</span> आयामों में सिर्फ़ <span class="math-inline">\(n \times n\)</span> की matrices उलटनी और गुणा करनी पड़ती हैं।</li>
+<li><strong>Optimal policy noise <span class="math-inline">\(\Sigma_w\)</span> से पूरी तरह स्वतंत्र है!</strong> ध्यान से देखिए: न <span class="math-inline">\(\Phi_t\)</span> के सूत्र में और न <span class="math-inline">\(L_t\)</span> के सूत्र में <span class="math-inline">\(\Sigma_w\)</span> कहीं आता है। Noise जितना बड़ा होगा, <span class="math-inline">\(\psi_t\)</span> के ज़रिए कुल अपेक्षित खर्च <span class="math-inline">\(J_t^*(s_t)\)</span> उतना ऊपर खिसक जाएगा, पर कटोरे की ढलान (<span class="math-inline">\(\Phi_t\)</span>) और उसकी तली तक पहुँचाने वाला सबसे अच्छा action (<span class="math-inline">\(L_t s_t\)</span>) ज़रा भी नहीं बदलता।</li>
+</ol>
+<h2>7. LQG, Kalman Filter और Separation Principle</h2>
+<p>LQR में हमने मान लिया था कि हर कदम पर असली state <span class="math-inline">\(s_t\)</span> साफ़-साफ़ दिखता है। वास्तविक प्रणालियों में sensors भी noisy और अधूरे होते हैं (यह एक <strong>POMDP</strong>, यानी Partially Observable MDP है): उदाहरण के लिए radar सिर्फ़ दूरी नापता है, वेग नहीं, और उस नाप में भी शोर होता है।</p>
+<p><strong>Linear Quadratic Gaussian (LQG)</strong> मॉडल में linear dynamics के साथ एक linear observation समीकरण जुड़ता है:</p>
+<p><span class="math-display">\[s_{t+1} = A s_t + B a_t + w_t, \qquad w_t \sim \mathcal{N}(0, \Sigma_w)\]</span></p>
+<p><span class="math-display">\[y_t = C s_t + v_t, \qquad v_t \sim \mathcal{N}(0, \Sigma_v)\]</span></p>
+<p>जहाँ <span class="math-inline">\(y_t \in \mathbb{R}^m\)</span> कदम <span class="math-inline">\(t\)</span> पर मिला मापन है, और <span class="math-inline">\(s_0 \sim \mathcal{N}(s_{0|-1}, \Sigma_{0|-1})\)</span> शुरुआती जानकारी है।</p>
+<p>चूँकि सारी क्रियाएँ linear हैं और सारे शोर Gaussian हैं, अब तक के सारे मापनों और actions के बाद असली state का posterior बंटन हमेशा एक सटीक Gaussian बना रहता है:</p>
+<p><span class="math-display">\[s_t \mid y_0, \dots, y_t, a_0, \dots, a_{t-1} \;\sim\; \mathcal{N}(s_{t|t},\, \Sigma_{t|t})\]</span></p>
+<h3>Kalman Filter: Predict और Update के दो कदम</h3>
+<p>माध्य <span class="math-inline">\(s_{t|t}\)</span> और अनिश्चितता <span class="math-inline">\(\Sigma_{t|t}\)</span> को <strong>Kalman Filter</strong> हर कदम पर दो हिस्सों में आगे बढ़ाता है:</p>
+<ol>
+<li><strong>Predict कदम (<span class="math-inline">\(t \to t+1\)</span>, नया मापन <span class="math-inline">\(y_{t+1}\)</span> देखने से पहले):</strong> Dynamics से अंदाज़ा आगे बढ़ाएँ; अनिश्चितता <span class="math-inline">\(A\)</span> के साथ खिंचती है और <span class="math-inline">\(\Sigma_w\)</span> जुड़ने से फैलती है:</li>
+</ol>
+<p><span class="math-display">\[s_{t+1|t} = A s_{t|t} + B a_t, \qquad \Sigma_{t+1|t} = A \Sigma_{t|t} A^T + \Sigma_w\]</span></p>
+<ol start="2">
+<li><strong>Update कदम (<span class="math-inline">\(y_{t+1}\)</span> दिखने पर):</strong> अपेक्षित मापन <span class="math-inline">\(C s_{t+1|t}\)</span> और असली मापन <span class="math-inline">\(y_{t+1}\)</span> के अंतर (<strong>innovation</strong>) से अनुमान सुधारें। पहले <strong>Kalman gain</strong> <span class="math-inline">\(K_{t+1}\)</span> निकालें:</li>
+</ol>
+<p><span class="math-display">\[K_{t+1} = \Sigma_{t+1|t} C^T \left( C \Sigma_{t+1|t} C^T + \Sigma_v \right)^{-1}\]</span></p>
+<p>फिर नया posterior माध्य और छोटी हुई covariance अद्यतन करें:</p>
+<p><span class="math-display">\[s_{t+1|t+1} = s_{t+1|t} + K_{t+1}\left( y_{t+1} - C s_{t+1|t} \right), \qquad \Sigma_{t+1|t+1} = (I - K_{t+1} C)\, \Sigma_{t+1|t}\]</span></p>
+<p>सीमांत स्थितियों में यह सूत्र सहज समझ से मेल खाता है: अगर sensor बहुत साफ़ है (<span class="math-inline">\(\Sigma_v \to 0\)</span>) तो <span class="math-inline">\(K_{t+1}\)</span> मापन पर पूरा भरोसा करता है; अगर sensor बहुत शोरगुल वाला है (<span class="math-inline">\(\Sigma_v\)</span> बहुत बड़ा) तो <span class="math-inline">\(K_{t+1} \to 0\)</span> होकर अनुमान <span class="math-inline">\(s_{t+1|t}\)</span> के पास ही टिका रहता है।</p>
+<h3>Separation Principle (Certainty Equivalence)</h3>
+<p>सामान्य POMDPs को हल करना बेहद कठिन होता है क्योंकि वहाँ action को दो काम एक साथ करने पड़ते हैं: इनाम कमाना और जानकारी जुटाना। पर LQG में <strong>Separation Principle</strong> लागू होता है: अनुमान (estimation) और नियंत्रण (control) पूरी तरह अलग हो जाते हैं! LQG का exact optimal algorithm बस यह है:</p>
+<ol>
+<li>सारे शोर (<span class="math-inline">\(\Sigma_w, \Sigma_v\)</span>) को भूलकर सामान्य LQR की Riccati recursion से <span class="math-inline">\(L_0, \dots, L_{T-1}\)</span> पहले ही गिन लें।</li>
+<li>चलते समय हर कदम <span class="math-inline">\(t\)</span> पर Kalman filter से नवीनतम माध्य <span class="math-inline">\(s_{t|t}\)</span> निकालें।</li>
+<li>मान लें कि यही असली state है, और सीधे यह action लगा दें:</li>
+</ol>
+<p><span class="math-display">\[a_t^* = L_t\, s_{t|t}\]</span></p>
+<p>ऐसा इसलिए संभव होता है क्योंकि <span class="math-inline">\(L_t\)</span> शोर पर निर्भर नहीं करता और Kalman covariance <span class="math-inline">\(\Sigma_{t|t}\)</span> आपके चुने हुए actions <span class="math-inline">\(a_t\)</span> पर निर्भर नहीं करती (कोई भी action अनिश्चितता के अंडाकार को छोटा या बड़ा नहीं कर सकता)।</p>
+<h2>8. Practical बातें और आम गलतियाँ</h2>
+<ul>
+<li><strong>Policy convergence बनाम Value convergence:</strong> Value Iteration में जब <span class="math-inline">\(\max_s |V_{k+1}(s) - V_k(s)|\)</span> छोटा हो तब भी रुकने की शर्त <span class="math-inline">\(\epsilon (1-\gamma)/(2\gamma)\)</span> जैसी रखनी चाहिए क्योंकि <span class="math-inline">\(\gamma\)</span> 1 के करीब होने पर छोटे कदम भी जुड़कर बड़ा अंतर बना सकते हैं। हालांकि नीति <span class="math-inline">\(\pi_k\)</span> अक्सर बहुत पहले ही <span class="math-inline">\(\pi^*\)</span> बन चुकी होती है।</li>
+<li><strong><span class="math-inline">\(W \succ 0\)</span> की शर्त ज़रूरी है:</strong> LQR में अगर action पर कोई कीमत न हो (<span class="math-inline">\(W = 0\)</span>) और <span class="math-inline">\(B^T \Phi_{t+1} B\)</span> singular हो जाए, तो <span class="math-inline">\((W + B^T \Phi_{t+1} B)^{-1}\)</span> टूट जाता है और असीमित बड़ा झटका (<span class="math-inline">\(a_t \to \infty\)</span>) माँगने लगता है।</li>
+<li><strong>Riccati की दिशा न उलटें:</strong> Riccati समीकरण हमेशा <span class="math-inline">\(t = T\)</span> से <span class="math-inline">\(t = 0\)</span> की ओर <strong>पीछे</strong> चलती है, जबकि Kalman filter और वास्तविक नियंत्रण <span class="math-inline">\(t = 0\)</span> से <span class="math-inline">\(t = T\)</span> की ओर <strong>आगे</strong> चलते हैं।</li>
+<li><strong>Nonlinear प्रणालियों में स्थानीय वैधता:</strong> संतुलन बिंदु के आस-पास Taylor linearization से निकला LQR तभी तक अच्छा काम करता है जब तक प्रणाली उस बिंदु के पास रहे; बहुत दूर भटकने पर हर कदम के लक्ष्य पथ के इर्द-गिर्द दोबारा linearize करना पड़ता है (Iterative / Time-varying LQR)।</li>
+<li><strong>Controllability और Observability:</strong> अगर <span class="math-inline">\(B\)</span> किसी state दिशा को हिला ही न सकता हो तो LQR उसे शांत नहीं कर पाएगा, और अगर <span class="math-inline">\(C\)</span> से किसी अस्थिर दिशा की झलक ही न मिले तो Kalman filter की अनिश्चितता असीमित बढ़ती जाएगी।</li>
+</ul>
+<h2>9. खुद से पूछें</h2>
+<ol>
+<li>Policy Iteration में अगर किसी कदम पर <span class="math-inline">\(\pi_{\text{new}}(s) = \pi(s)\)</span> हर state <span class="math-inline">\(s\)</span> के लिए सच हो जाए, तो एक-दो पंक्तियों में दिखाइए कि उस समय <span class="math-inline">\(V^\pi\)</span> स्वयं <span class="math-inline">\(V^*\)</span> के बराबर हो चुका है।</li>
+<li>LQR में यदि process noise covariance <span class="math-inline">\(\Sigma_w\)</span> को दोगुना कर दिया जाए, तो <span class="math-inline">\(L_t\)</span>, <span class="math-inline">\(\Phi_t\)</span> और अपेक्षित कुल खर्च <span class="math-inline">\(J_0^*(s_0)\)</span> में से कौन बदलेगा और कितना?</li>
+<li>सामान्य POMDP में कभी-कभी ऐसा action लेना फ़ायदेमंद होता है जो तुरंत नुकसान दे पर state के बारे में जानकारी बढ़ाए (जैसे अंधेरे में टॉर्च जलाना)। LQG के समीकरणों में वह कौन-सी खासियत है जिसकी वजह से कोई भी action <span class="math-inline">\(\Sigma_{t|t}\)</span> को छोटा नहीं कर सकता?</li>
+</ol>
+<div class="part"><span class="tag">भाग 2</span><h2>3D Animations</h2></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 17.1</span>Value Iteration on 4x3 Gridworld</div><div class="frames"><figure><img src="anim/L17_1_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L17_1_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L17_1_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> शुरुआत <span class="math-inline">\(V_0(s) = 0\)</span> से होती है और हर sweep में Bellman optimality update <span class="math-inline">\(V_{k+1}(s) = R(s) + \gamma \max_a \sum_{s&#x27;} P_{sa}(s&#x27;) V_k(s&#x27;)\)</span> चलता है। पहले कदम पर सिर्फ़ <span class="math-inline">\(+1\)</span> और <span class="math-inline">\(-1\)</span> वाले terminal cells उठते-गिरते हैं, फिर <span class="math-inline">\(+1\)</span> की ऊँचाई लहर की तरह दीवार के चारों ओर एक-एक cell आगे फैलती है। काले wire boxes असली <span class="math-inline">\(V^*\)</span> हैं और ऊपर के तीर वर्तमान greedy policy दिखाते हैं; नारंगी तीर उस sweep में बदले हुए actions हैं। देखिए कि <span class="math-inline">\(V_k\)</span> के पूरी तरह टिकने से काफ़ी पहले ही सारे तीर सही <span class="math-inline">\(\pi^*\)</span> पर स्थिर हो जाते हैं।</p><div class="file">चलती animation: cs229_hindi/out/anim/L17_1.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 17.2</span>Policy Iteration: Eval &amp; Improve</div><div class="frames"><figure><img src="anim/L17_2_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L17_2_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L17_2_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> Policy Iteration दो कदमों की जोड़ी दोहराता है: <strong>Evaluate</strong> (वर्तमान <span class="math-inline">\(\pi\)</span> के लिए linear system हल करके पूरा <span class="math-inline">\(V^\pi\)</span> निकालना) और <strong>Improve</strong> (<span class="math-inline">\(V^\pi\)</span> पर greedy होकर तीरों को सुधारना)। शुरू में खराब policy से कई bars शून्य से नीचे हैं। हर Improve कदम पर जिन states को बेहतर रास्ता मिलता है उनके तीर नारंगी चमकते हैं, और अगले ही Evaluate कदम पर सारे bars बड़ी छलाँग लगाकर ऊपर उठ जाते हैं। मात्र कुछ ही चक्रों में कोई तीर नहीं बदलता और हरे तीर exact <span class="math-inline">\(\pi^*\)</span> दे देते हैं।</p><div class="file">चलती animation: cs229_hindi/out/anim/L17_2.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 17.3</span>Curse of Dimensionality</div><div class="frames"><figure><img src="anim/L17_3_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L17_3_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L17_3_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> Continuous state के हर अक्ष को <span class="math-inline">\(k = 5\)</span> बराबर टुकड़ों में काटने पर cells की संख्या <span class="math-inline">\(k^d\)</span> की रफ़्तार से विस्फोट करती है। पहले <span class="math-inline">\(d = 1\)</span> (नीली रेखा) में सिर्फ़ <span class="math-inline">\(5^1 = 5\)</span> डिब्बे हैं। दूसरा आयाम जुड़ते ही <span class="math-inline">\(d = 2\)</span> (हरा फ़र्श) में <span class="math-inline">\(5^2 = 25\)</span> डिब्बों का वर्ग बन जाता है, और तीसरे आयाम <span class="math-inline">\(d = 3\)</span> में यही <span class="math-inline">\(5^3 = 125\)</span> डिब्बों का घन बन जाता है। चौथे या बारहवें आयाम तक पहुँचते-पहुँचते डिब्बों की संख्या इतनी विशाल हो जाती है कि लाल बिंदु जैसा वास्तविक अनुभव लगभग सारे डिब्बों को खाली छोड़ देता है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L17_3.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 17.4</span>LQR Bowl: Backward Riccati</div><div class="frames"><figure><img src="anim/L17_4_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L17_4_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L17_4_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> Double integrator के state <span class="math-inline">\(s = (p, v)\)</span> के ऊपर LQR का optimal cost-to-go कटोरा <span class="math-inline">\(J_t^*(s) = s^T \Phi_t s\)</span> दिखाया गया है। अंतिम कदम <span class="math-inline">\(t = T\)</span> पर कटोरा उथला है (हल्का धूसर जाल <span class="math-inline">\(s^T U_T s\)</span>)। जैसे-जैसे Riccati recursion पीछे <span class="math-inline">\(t = T-1, \dots, 0\)</span> की ओर चलती है, आगे के कदमों का खर्च जुड़ने से कटोरा तेज़ी से गहरा और खड़ी ढलान वाला होता जाता है। फ़र्श के समोच्च (contours) सिकुड़ते और तिरछे होते दिखते हैं क्योंकि एक ही दिशा के <span class="math-inline">\(p\)</span> और <span class="math-inline">\(v\)</span> साथ मिलकर बड़ा खर्च पैदा करते हैं।</p><div class="file">चलती animation: cs229_hindi/out/anim/L17_4.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 17.5</span>LQR Control vs Uncontrolled Drift</div><div class="frames"><figure><img src="anim/L17_5_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L17_5_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L17_5_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ फ़र्श पर <span class="math-inline">\((p, v)\)</span> हैं और ऊर्ध्वाधर अक्ष समय <span class="math-inline">\(t\)</span> है; बीच की हरी खड़ी रेखा लक्ष्य <span class="math-inline">\((0, 0)\)</span> है। दोनों पथ एक ही शुरुआती स्थिति और एक ही random process noise <span class="math-inline">\(w_t\)</span> झेलते हैं। बिना नियंत्रण (<span class="math-inline">\(a_t = 0\)</span>, लाल पथ) के वेग और स्थिति भटककर बाहर भाग जाते हैं। वहीं LQR की linear policy <span class="math-inline">\(a_t = L_t s_t\)</span> (नीला पथ) पहले वेग मोड़कर पथ को घुमावदार सर्पिल (spiral) में भीतर लाती है और शोर के बावजूद <span class="math-inline">\((0, 0)\)</span> के गिर्द बाँधे रखती है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L17_5.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 17.6</span>Kalman Filter &amp; Uncertainty</div><div class="frames"><figure><img src="anim/L17_6_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L17_6_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L17_6_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> असली 2D पथ (हरी रेखा) समय <span class="math-inline">\(t\)</span> के साथ ऊपर उठता है, पर हमें सिर्फ़ भारी शोर वाले लाल मापन <span class="math-inline">\(y_t = C s_t + v_t\)</span> मिलते हैं। शुरू में अनिश्चितता <span class="math-inline">\(\Sigma_{0|0}\)</span> बहुत बड़ी है, इसलिए <span class="math-inline">\(2\sigma\)</span> अंडाकार (नीला घेरा और फ़र्श पर उसकी परछाईं) काफ़ी चौड़ा है। हर कदम पर Predict से नारंगी टूटा घेरा थोड़ा फैलता है और Update मापन देखकर नीले घेरे को सिकोड़ देता है। कुछ ही कदमों में अंडाकार छोटा हो जाता है और नीला अनुमान <span class="math-inline">\(s_{t|t}\)</span> असली पथ से चिपककर चलता है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L17_6.gif</div></div>
+<div class="part"><span class="tag">भाग 3</span><h2>Python Example</h2></div>
+<p class="run">इसे खुद चलाएँ: <code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L17_value_policy_iteration_lqr/example.py</code></p>
+<div class="code"><pre><span></span><span class="sd">"""Lecture 17 example: Gridworld पर Value/Policy Iteration और Double Integrator पर LQR (NumPy).</span>
+
+<span class="sd">भाग 1: Lecture 16 वाले 4x3 gridworld पर Value Iteration और Policy Iteration की तुलना।</span>
+<span class="sd">भाग 2: Double integrator पर finite-horizon LQR (backward Riccati recursion) और शोर के साथ</span>
+<span class="sd">नियंत्रित बनाम अनियंत्रित simulation।</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.99</span>
+
+<span class="c1"># ---------- 1. Lecture 16 वाला 4x3 Gridworld मॉडल ----------</span>
+<span class="n">COLS</span><span class="p">,</span> <span class="n">ROWS</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span>
+<span class="n">WALL</span><span class="p">,</span> <span class="n">GOAL</span><span class="p">,</span> <span class="n">PIT</span><span class="p">,</span> <span class="n">START</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">states</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ROWS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">COLS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">!=</span> <span class="n">WALL</span><span class="p">]</span>
+<span class="n">index</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">states</span><span class="p">)}</span>
+<span class="n">n_states</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+<span class="n">terminal</span> <span class="o">=</span> <span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="n">GOAL</span><span class="p">],</span> <span class="n">index</span><span class="p">[</span><span class="n">PIT</span><span class="p">]]</span>
+<span class="n">live</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_states</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">terminal</span><span class="p">]</span>
+<span class="n">moves</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"^"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">"&gt;"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">"v"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"&lt;"</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)}</span>
+<span class="n">actions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">moves</span><span class="p">)</span>
+
+<span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.02</span><span class="p">)</span>
+<span class="n">R</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="n">GOAL</span><span class="p">]],</span> <span class="n">R</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="n">PIT</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span>
+
+<span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_states</span><span class="p">,</span> <span class="n">n_states</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">(</span><span class="n">GOAL</span><span class="p">,</span> <span class="n">PIT</span><span class="p">):</span>
+        <span class="k">continue</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">actions</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">prob</span> <span class="ow">in</span> <span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span> <span class="p">(</span><span class="n">actions</span><span class="p">[(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">],</span> <span class="mf">0.1</span><span class="p">),</span> <span class="p">(</span><span class="n">actions</span><span class="p">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">],</span> <span class="mf">0.1</span><span class="p">)):</span>
+            <span class="n">nxt</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">moves</span><span class="p">[</span><span class="n">d</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">moves</span><span class="p">[</span><span class="n">d</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">P</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">index</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="n">index</span><span class="p">[</span><span class="n">nxt</span> <span class="k">if</span> <span class="n">nxt</span> <span class="ow">in</span> <span class="n">index</span> <span class="k">else</span> <span class="n">s</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">prob</span>
+
+
+<span class="c1"># ---------- 2. Value Iteration और Policy Iteration ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">value_iteration</span><span class="p">(</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">):</span>
+    <span class="n">V</span><span class="p">,</span> <span class="n">hist</span><span class="p">,</span> <span class="n">pi_hist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_states</span><span class="p">),</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">P</span> <span class="o">@</span> <span class="n">V</span>                                        <span class="c1"># shape: (4, n_states)</span>
+        <span class="n">V_new</span> <span class="o">=</span> <span class="n">R</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">Q</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">V_new</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="n">pi_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">V_new</span> <span class="o">-</span> <span class="n">V</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">V_new</span><span class="p">,</span> <span class="n">Q</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">hist</span><span class="p">,</span> <span class="n">pi_hist</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="n">V_new</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">policy_iteration</span><span class="p">():</span>
+    <span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">actions</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">"v"</span><span class="p">))</span>           <span class="c1"># शुरुआती policy: हर जगह नीचे ('v')</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">P_pi</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_states</span><span class="p">)]</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_states</span><span class="p">)</span> <span class="o">-</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">P_pi</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>   <span class="c1"># Policy Evaluation</span>
+        <span class="n">hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="n">pi_new</span> <span class="o">=</span> <span class="p">(</span><span class="n">P</span> <span class="o">@</span> <span class="n">V</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>                           <span class="c1"># Policy Improvement</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">pi_new</span><span class="p">[</span><span class="n">live</span><span class="p">],</span> <span class="n">pi</span><span class="p">[</span><span class="n">live</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="n">V</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">hist</span>
+        <span class="n">pi</span> <span class="o">=</span> <span class="n">pi_new</span>
+
+
+<span class="n">V_vi</span><span class="p">,</span> <span class="n">pi_vi</span><span class="p">,</span> <span class="n">vi_hist</span><span class="p">,</span> <span class="n">vi_pi_hist</span> <span class="o">=</span> <span class="n">value_iteration</span><span class="p">()</span>
+<span class="n">V_pi</span><span class="p">,</span> <span class="n">pi_pi</span><span class="p">,</span> <span class="n">pi_hist</span> <span class="o">=</span> <span class="n">policy_iteration</span><span class="p">()</span>
+<span class="n">pi_lock</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vi_pi_hist</span><span class="p">)</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">live</span><span class="p">],</span> <span class="n">pi_vi</span><span class="p">[</span><span class="n">live</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"=== 1. 4x3 Gridworld: Value Iteration बनाम Policy Iteration ==="</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Value Iteration sweeps (tol=1e-10): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vi_hist</span><span class="p">)</span><span class="si">}</span><span class="s2">  (सही pi* मिल गई sweep </span><span class="si">{</span><span class="n">pi_lock</span><span class="si">}</span><span class="s2"> पर)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Policy Iteration outer rounds     : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pi_hist</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"अधिकतम अंतर max |V_VI - V_PI|     : </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">V_vi</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">V_pi</span><span class="p">))</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"क्या सभी live states पर pi समान है? : </span><span class="si">{</span><span class="s1">'हाँ'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">pi_vi</span><span class="p">[</span><span class="n">live</span><span class="p">],</span><span class="w"> </span><span class="n">pi_pi</span><span class="p">[</span><span class="n">live</span><span class="p">])</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'नहीं'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">row_str</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">"   ####"</span> <span class="k">if</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">==</span> <span class="n">WALL</span> <span class="k">else</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">V_pi</span><span class="p">[</span><span class="n">index</span><span class="p">[(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">)]]</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">' '</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">index</span><span class="p">[(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">)]</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">terminal</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">actions</span><span class="p">[</span><span class="n">pi_pi</span><span class="p">[</span><span class="n">index</span><span class="p">[(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">)]]]</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">COLS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"   "</span> <span class="o">+</span> <span class="s2">"   "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row_str</span><span class="p">))</span>
+
+<span class="c1"># ---------- 3. Double Integrator पर Finite-Horizon LQR (Riccati) ----------</span>
+<span class="n">dt</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">40</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">dt</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]])</span>                    <span class="c1"># s = [position, velocity]</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="n">dt</span><span class="p">]])</span>                      <span class="c1"># a = acceleration</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">U_T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.15</span><span class="p">]]),</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mf">6.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+<span class="n">Sigma_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mf">0.004</span><span class="p">,</span> <span class="mf">0.008</span><span class="p">])</span>
+
+<span class="n">Phi</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">T</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">T</span>
+<span class="n">Phi</span><span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">psi</span> <span class="o">=</span> <span class="n">U_T</span><span class="p">,</span> <span class="mf">0.0</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>                           <span class="c1"># पीछे की ओर Riccati recursion</span>
+    <span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">W</span> <span class="o">+</span> <span class="n">B</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Phi</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">B</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Phi</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">A</span><span class="p">)</span>
+    <span class="n">Phi</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span> <span class="o">+</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Phi</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">A</span> <span class="o">+</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Phi</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">B</span> <span class="o">@</span> <span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+    <span class="n">psi</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">Phi</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">Sigma_w</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_lqr</span><span class="p">(</span><span class="n">s0</span><span class="p">,</span> <span class="n">controlled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">2000</span><span class="p">):</span>
+    <span class="n">costs</span><span class="p">,</span> <span class="n">paths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_runs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_runs</span><span class="p">,</span> <span class="n">T</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">paths</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">s0</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Sigma_w</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n_runs</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">paths</span><span class="p">[:,</span> <span class="n">t</span><span class="p">]</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span> <span class="o">@</span> <span class="n">L</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="k">if</span> <span class="n">controlled</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_runs</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">costs</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">"bi,ij,bj-&gt;b"</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">"bi,ij,bj-&gt;b"</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+        <span class="n">paths</span><span class="p">[:,</span> <span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span> <span class="o">@</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">a</span> <span class="o">@</span> <span class="n">B</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">noise</span><span class="p">[:,</span> <span class="n">t</span><span class="p">]</span>
+    <span class="n">sT</span> <span class="o">=</span> <span class="n">paths</span><span class="p">[:,</span> <span class="n">T</span><span class="p">]</span>
+    <span class="n">costs</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">"bi,ij,bj-&gt;b"</span><span class="p">,</span> <span class="n">sT</span><span class="p">,</span> <span class="n">U_T</span><span class="p">,</span> <span class="n">sT</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">costs</span><span class="p">,</span> <span class="n">paths</span>
+
+
+<span class="n">s0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
+<span class="n">exact_J0</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s0</span> <span class="o">@</span> <span class="n">Phi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">@</span> <span class="n">s0</span> <span class="o">+</span> <span class="n">psi</span><span class="p">)</span>
+<span class="n">c_lqr</span><span class="p">,</span> <span class="n">p_lqr</span> <span class="o">=</span> <span class="n">simulate_lqr</span><span class="p">(</span><span class="n">s0</span><span class="p">,</span> <span class="n">controlled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">c_free</span><span class="p">,</span> <span class="n">p_free</span> <span class="o">=</span> <span class="n">simulate_lqr</span><span class="p">(</span><span class="n">s0</span><span class="p">,</span> <span class="n">controlled</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== 2. Finite-Horizon LQR: Double Integrator (T = 40, s0 = [3.0, -1.0]) ==="</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"शुरुआती feedback gain L_0         : [</span><span class="si">{</span><span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"सैद्धांतिक optimal cost J_0*(s0)   : </span><span class="si">{</span><span class="n">exact_J0</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">  (noise हिस्सा psi_0 = </span><span class="si">{</span><span class="n">psi</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"LQR नियंत्रित औसत cost (2000 runs): </span><span class="si">{</span><span class="n">c_lqr</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> +- </span><span class="si">{</span><span class="n">c_lqr</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">c_lqr</span><span class="p">))</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"बिना नियंत्रण (a_t = 0) औसत cost  : </span><span class="si">{</span><span class="n">c_free</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"अंतिम ||s_T|| का औसत (LQR बनाम 0): </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">p_lqr</span><span class="p">[:,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span>
+      <span class="sa">f</span><span class="s2">"  बनाम  </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">p_free</span><span class="p">[:,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 4. Plots ----------</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vi_hist</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="n">V_pi</span><span class="p">))</span> <span class="o">+</span> <span class="mf">1e-16</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vi_hist</span><span class="p">],</span>
+                 <span class="n">label</span><span class="o">=</span><span class="s2">"Value Iteration"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pi_hist</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="n">V_pi</span><span class="p">))</span> <span class="o">+</span> <span class="mf">1e-16</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pi_hist</span><span class="p">],</span>
+                 <span class="s2">"o-"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Policy Iteration"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"iteration"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\max_s |V_k(s) - V^*(s)|$"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Gridworld convergence"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">T</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">p_lqr</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#2563eb"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">p_free</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#2563eb"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"LQR position $p_t$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"No control ($a_t = 0$)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"time (s)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="sa">r</span><span class="s2">"position $p_t$"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Noisy rollouts: LQR vs free drift"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">gains</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">L</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">T</span><span class="p">),</span> <span class="n">gains</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$L_{t,\mathrm</span><span class="si">{pos}</span><span class="s2">}$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">T</span><span class="p">),</span> <span class="n">gains</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$L_{t,\mathrm</span><span class="si">{vel}</span><span class="s2">}$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"step $t$"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"gain value"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa">r</span><span class="s2">"Riccati feedback gains $L_t$"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"result.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+</pre></div>
+
+<div class="label">OUTPUT</div>
+<pre class="output">=== 1. 4x3 Gridworld: Value Iteration बनाम Policy Iteration ===
+Value Iteration sweeps (tol=1e-10): 41  (सही pi* मिल गई sweep 12 पर)
+Policy Iteration outer rounds     : 3
+अधिकतम अंतर max |V_VI - V_PI|     : 5.21e-11
+क्या सभी live states पर pi समान है? : हाँ
+   +0.86 &gt;   +0.90 &gt;   +0.93 &gt;   +1.00  
+   +0.82 ^      ####   +0.69 ^   -1.00  
+   +0.78 ^   +0.75 &lt;   +0.71 &lt;   +0.49 &lt;
+
+=== 2. Finite-Horizon LQR: Double Integrator (T = 40, s0 = [3.0, -1.0]) ===
+शुरुआती feedback gain L_0         : [-2.003, -2.193]
+सैद्धांतिक optimal cost J_0*(s0)   : 41.17  (noise हिस्सा psi_0 = 1.56)
+LQR नियंत्रित औसत cost (2000 runs): 41.13 +- 0.05
+बिना नियंत्रण (a_t = 0) औसत cost  : 511.11
+अंतिम ||s_T|| का औसत (LQR बनाम 0): 0.178  बनाम  5.183</pre>
+<img class="result-img" src="examples/L17_value_policy_iteration_lqr/result.png">
+</section>
+<script src="../vendor/katex/package/dist/katex.min.js"></script>
+<script src="../vendor/katex/package/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [{left: "\\[", right: "\\]", display: true}, {left: "\\(", right: "\\)", display: false}],
+  throwOnError: false, ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+});
+</script>
+</body></html>

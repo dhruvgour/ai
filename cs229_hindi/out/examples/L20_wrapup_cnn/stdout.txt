@@ -1,0 +1,14 @@
+Output size सूत्र जाँच: n=8, p=1, f=3, s=1 -> conv 8x8, 2x2 pool -> 4x4
+Sample digit '4': max vertical-edge = 2.81, max horizontal-edge = 3.00
+Gradient check: |dK_err| = 1.41e-11, |dX_err| = 8.60e-13
+
+Epoch   CNN loss   CNN test acc   Softmax test acc
+    1     1.4667        49.60%             80.20%
+   10     0.0934        97.00%             94.00%
+   25     0.0353        97.20%             95.00%
+   50     0.0222        97.00%             95.80%
+   80     0.0157        97.00%             95.60%
+
+Training समय: 5.73 s | CNN params: 1370, Softmax params: 650
+Clean test accuracy  -> Tiny CNN: 97.00%  बनाम  Raw Softmax: 95.60%
+1-px shifted test    -> Tiny CNN: 67.00%  बनाम  Raw Softmax: 42.60% (pooling + sharing का लाभ)

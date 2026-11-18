@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<title>CS229 Machine Learning हिंदी में</title>
+<link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
+<style>
+@page { size: A4; margin: 16mm 13mm 17mm 13mm;
+        @bottom-center { content: counter(page); font: 9pt "Helvetica Neue", sans-serif; color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Kohinoor Devanagari", "Devanagari Sangam MN", "Helvetica Neue", sans-serif;
+       font-size: 10.6pt; line-height: 1.72; color: #111827; margin: 0; }
+body.screen { max-width: 900px; margin: 0 auto; padding: 24px 28px 80px; font-size: 16px; background: #fff; }
+h1, h2, h3, h4 { line-height: 1.35; break-after: avoid; }
+h2 { font-size: 13.5pt; margin: 1.3em 0 0.4em; color: #1e3a8a; }
+h3 { font-size: 11.5pt; margin: 1.1em 0 0.3em; color: #1f2937; }
+p { margin: 0.45em 0; orphans: 2; widows: 2; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+li { margin: 0.18em 0; }
+a { color: #1d4ed8; text-decoration: none; }
+code { font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace; font-size: 0.88em;
+       background: #f1f5f9; padding: 0.08em 0.3em; border-radius: 3px; }
+blockquote { margin: 0.7em 0; padding: 0.5em 0.9em; border-left: 4px solid #2563eb; background: #eff6ff;
+             border-radius: 0 6px 6px 0; break-inside: avoid; }
+blockquote p { margin: 0.2em 0; }
+table { border-collapse: collapse; margin: 0.7em 0; width: 100%; font-size: 0.93em; break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 0.3em 0.6em; text-align: left; vertical-align: top; }
+th { background: #eef2ff; }
+.math-display { display: block; margin: 0.55em 0; overflow-x: auto; break-inside: avoid; }
+.katex { font-size: 1.04em; }
+
+.cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center;
+         break-after: page; }
+body.screen .cover { height: auto; padding: 70px 0 50px; }
+.cover .kicker { letter-spacing: 0.22em; font-size: 10pt; color: #2563eb; font-weight: 700; }
+.cover h1 { font-size: 34pt; margin: 0.25em 0 0.1em; color: #111827; }
+.cover .sub { font-size: 15pt; color: #374151; }
+.cover .pill { display: inline-block; margin: 2.2em auto 0; padding: 0.5em 1.4em; border-radius: 999px;
+               background: #1e3a8a; color: #fff; font-size: 11.5pt; }
+.cover .note { margin-top: 3em; font-size: 9.5pt; color: #6b7280; }
+
+.front { break-after: page; }
+.toc ol { list-style: none; padding: 0; margin: 0.4em 0; }
+.toc li { display: flex; gap: 0.7em; padding: 0.22em 0; border-bottom: 1px dotted #cbd5e1; }
+.toc .n { flex: 0 0 5.6em; color: #2563eb; font-weight: 700; }
+
+.chapter { break-before: page; }
+.ch-head { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 14px 18px;
+           border-radius: 10px; margin-bottom: 0.9em; break-inside: avoid; }
+.ch-head .n { font-size: 9.5pt; letter-spacing: 0.18em; opacity: 0.85; font-weight: 700; }
+.ch-head h1 { font-size: 17.5pt; margin: 0.1em 0 0; }
+.part { display: flex; align-items: center; gap: 0.6em; margin: 1.5em 0 0.6em; padding-bottom: 0.25em;
+        border-bottom: 2px solid #1e3a8a; break-after: avoid; }
+.part .tag { background: #1e3a8a; color: #fff; border-radius: 5px; padding: 0.05em 0.6em; font-size: 9.5pt;
+             font-weight: 700; }
+.part h2 { margin: 0; font-size: 14pt; }
+
+.anim { border: 1px solid #e5e7eb; border-radius: 9px; padding: 8px 7px 6px; margin: 0.8em 0;
+        break-inside: avoid; background: #fff; }
+.anim-head { font-weight: 700; margin-bottom: 0.3em; }
+.anim-head .badge { background: #ea580c; color: #fff; border-radius: 4px; padding: 0.05em 0.5em;
+                    font-size: 9pt; margin-right: 0.5em; }
+.frames { display: flex; gap: 3px; }
+.frames figure { margin: 0; flex: 1; text-align: center; }
+.frames img { width: 100%; display: block; border: 1px solid #eef0f3; border-radius: 5px; }
+.frames figcaption { font-size: 8pt; color: #6b7280; line-height: 1.3; margin-top: 1px; }
+.anim .gif { display: block; margin: 0 auto; width: 480px; max-width: 100%; }
+.anim .caption { font-size: 0.95em; margin: 0.4em 0 0.15em; }
+.anim .file { font-size: 8pt; color: #6b7280; font-family: "SF Mono", Menlo, monospace; }
+
+.code { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.code pre, pre.output { margin: 0; font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace;
+                        font-size: 8.3pt; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+body.screen .code pre, body.screen pre.output { font-size: 13px; }
+pre.output { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.label { font-size: 9pt; font-weight: 700; color: #475569; margin: 1em 0 0.2em; break-after: avoid; }
+.result-img { display: block; max-width: 88%; margin: 0.6em auto; border: 1px solid #e5e7eb; border-radius: 6px;
+              break-inside: avoid; }
+.run { font-size: 0.93em; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #ffffcc }
+.code { background: #f0f0f0; }
+.code .c { color: #60A0B0; font-style: italic } /* Comment */
+.code .err { border: 1px solid #F00 } /* Error */
+.code .k { color: #007020; font-weight: bold } /* Keyword */
+.code .o { color: #666 } /* Operator */
+.code .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #007020 } /* Comment.Preproc */
+.code .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F00 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #888 } /* Generic.Output */
+.code .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #04D } /* Generic.Traceback */
+.code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code .kp { color: #007020 } /* Keyword.Pseudo */
+.code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #902000 } /* Keyword.Type */
+.code .m { color: #40A070 } /* Literal.Number */
+.code .s { color: #4070A0 } /* Literal.String */
+.code .na { color: #4070A0 } /* Name.Attribute */
+.code .nb { color: #007020 } /* Name.Builtin */
+.code .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code .no { color: #60ADD5 } /* Name.Constant */
+.code .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code .ne { color: #007020 } /* Name.Exception */
+.code .nf { color: #06287E } /* Name.Function */
+.code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code .nv { color: #BB60D5 } /* Name.Variable */
+.code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code .w { color: #BBB } /* Text.Whitespace */
+.code .mb { color: #40A070 } /* Literal.Number.Bin */
+.code .mf { color: #40A070 } /* Literal.Number.Float */
+.code .mh { color: #40A070 } /* Literal.Number.Hex */
+.code .mi { color: #40A070 } /* Literal.Number.Integer */
+.code .mo { color: #40A070 } /* Literal.Number.Oct */
+.code .sa { color: #4070A0 } /* Literal.String.Affix */
+.code .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code .sc { color: #4070A0 } /* Literal.String.Char */
+.code .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #4070A0 } /* Literal.String.Double */
+.code .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code .sx { color: #C65D09 } /* Literal.String.Other */
+.code .sr { color: #235388 } /* Literal.String.Regex */
+.code .s1 { color: #4070A0 } /* Literal.String.Single */
+.code .ss { color: #517918 } /* Literal.String.Symbol */
+.code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code .fm { color: #06287E } /* Name.Function.Magic */
+.code .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
+</head><body class="print">
+<section class="cover"><div class="kicker">STANFORD CS229 SCHEDULE &middot; SELF-STUDY GUIDE</div><h1>Machine Learning<br>हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह एक self-study guide है जो CS229 के public syllabus के क्रम पर चलती है। यह Stanford का official material नहीं है।</div></section>
+<section class="front"><h2>यह guide कैसे पढ़ें</h2>
+<p>यह guide Stanford CS229 (Machine Learning) के syllabus के क्रम में चलती है: Lecture 1 से Lecture 20 तक। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<table>
+<thead>
+<tr>
+<th>भाग</th>
+<th>क्या है</th>
+<th>कैसे इस्तेमाल करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>भाग 1: Theory</strong></td>
+<td>Idea, notation, maths और algorithm, हिंदी में</td>
+<td>पहले इसे धीरे-धीरे पढ़ें। Equations को कागज़ पर खुद लिखकर देखें।</td>
+</tr>
+<tr>
+<td><strong>भाग 2: 3D Animations</strong></td>
+<td>हर chapter में कम से कम 5 animations</td>
+<td>PDF में हर animation के तीन still frames हैं (शुरुआत, बीच में, अंत)। चलती animation देखने के लिए नीचे बताई files खोलें।</td>
+</tr>
+<tr>
+<td><strong>भाग 3: Python Example</strong></td>
+<td>NumPy से शुरू से लिखा एक चलने वाला example, उसके output के साथ</td>
+<td>Code को खुद चलाएँ, फिर numbers बदलकर देखें कि क्या बदलता है।</td>
+</tr>
+</tbody>
+</table>
+<p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
+<h2>चलती animations कहाँ हैं</h2>
+<ul>
+<li><strong><code>CS229_Hindi_Animated.html</code></strong> (इसी folder में): इसे browser में खोलें। यह यही पूरी guide है, पर इसमें सारी animations चलती हैं।</li>
+<li><strong><code>cs229_hindi/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
+</ul>
+<h2>Code कैसे चलाएँ</h2>
+<p>हर chapter का code <code>cs229_hindi/chapters/&lt;chapter&gt;/example.py</code> में है। Terminal में इसी folder से:</p>
+<pre><code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L02_linear_regression/example.py
+</code></pre>
+<p>Animations का code उसी folder की <code>anims.py</code> में है। पूरी guide दोबारा बनाने के लिए: <code>cs229_hindi/.venv/bin/python cs229_hindi/build.py</code></p>
+<h2>पहले से क्या आना चाहिए</h2>
+<ul>
+<li><strong>Linear Algebra:</strong> vectors, matrices, matrix multiplication, transpose, inverse, eigenvalues / eigenvectors।</li>
+<li><strong>Probability:</strong> random variable, expectation, variance, conditional probability, Bayes rule, Gaussian distribution।</li>
+<li><strong>Calculus:</strong> derivative, partial derivative, gradient, chain rule।</li>
+<li><strong>Python:</strong> NumPy arrays की बुनियादी समझ।</li>
+</ul>
+<h2>पूरे course में चलने वाला notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}, y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वाँ training example: input और target</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या (या input का dimension)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span>, <span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>model के parameters</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis: model का prediction</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(J(\theta)\)</span></td>
+<td>cost function जिसे minimize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\ell(\theta)\)</span></td>
+<td>log-likelihood जिसे maximize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span></td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\nabla_\theta\)</span></td>
+<td><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span></td>
+<td>mean <span class="math-inline">\(\mu\)</span> और covariance <span class="math-inline">\(\Sigma\)</span> वाला Gaussian</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(:=\)</span></td>
+<td>"दाएँ की value बाएँ में रख दो" (assignment)</td>
+</tr>
+</tbody>
+</table><h2>विषय-सूची</h2><div class="toc"><ol><li><span class="n">Lecture 5</span><a href="#L05_gda_naive_bayes">Gaussian Discriminant Analysis और Naive Bayes</a></li></ol></div></section>
+<section class="chapter" id="L05_gda_naive_bayes">
+<div class="ch-head"><div class="n">LECTURE 5</div><h1>Gaussian Discriminant Analysis और Naive Bayes</h1></div>
+<div class="part"><span class="tag">भाग 1</span><h2>Theory</h2></div>
+<blockquote>
+<p><strong>इस lecture में:</strong> Discriminative और Generative learning का फ़र्क, Bayes rule से prediction, multivariate Gaussian, Gaussian Discriminant Analysis (GDA) और उसके Maximum Likelihood estimates, GDA की linear decision boundary, GDA बनाम Logistic Regression, और discrete features के लिए Naive Bayes (spam filter का उदाहरण)।</p>
+</blockquote>
+<h2>1. एक line में idea</h2>
+<p>अब तक के algorithms (जैसे Logistic Regression) सीधे यह सीखते थे कि <span class="math-inline">\(x\)</span> दिया हो तो <span class="math-inline">\(y\)</span> क्या होगा। वे दो classes के बीच की सीमा ढूँढते थे। <strong>Generative</strong> algorithm उल्टी तरफ़ से सोचता है: वह हर class का अलग नक्शा बनाता है कि उस class के examples कैसे दिखते हैं। नया <span class="math-inline">\(x\)</span> आए तो वह पूछता है कि यह किस class के नक्शे से ज़्यादा मेल खाता है।</p>
+<p>मान लीजिए हाथी और कुत्ते पहचानने हैं। Discriminative तरीका दोनों को अलग करने वाली रेखा ढूँढता है। Generative तरीका पहले हाथियों को देखकर हाथी का model बनाता है, फिर कुत्तों को देखकर कुत्ते का model, और नए जानवर को दोनों models से मिलाकर देखता है।</p>
+<p>इस lecture में दो generative algorithms हैं। <strong>GDA</strong> तब काम आता है जब features continuous हों और हर class का data Gaussian जैसा हो। <strong>Naive Bayes</strong> तब, जब features discrete हों, जैसे "email में यह शब्द है या नहीं"।</p>
+<h2>2. Discriminative बनाम Generative</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>क्या सीखता है</th>
+<th>उदाहरण</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Discriminative</td>
+<td>सीधे <span class="math-inline">\(p(y \mid x)\)</span>, या <span class="math-inline">\(x\)</span> से label तक का map</td>
+<td>Logistic Regression, Perceptron</td>
+</tr>
+<tr>
+<td>Generative</td>
+<td><span class="math-inline">\(p(x \mid y)\)</span> (हर class का model) और <span class="math-inline">\(p(y)\)</span> (class prior)</td>
+<td>GDA, Naive Bayes</td>
+</tr>
+</tbody>
+</table>
+<p>Generative model से prediction के लिए <strong>Bayes rule</strong> लगाते हैं:</p>
+<p><span class="math-display">\[p(y \mid x) = \frac{p(x \mid y)\, p(y)}{p(x)}, \qquad p(x) = p(x \mid y=1)\,p(y=1) + p(x \mid y=0)\,p(y=0)\]</span></p>
+<p>अगर हमें सिर्फ़ सबसे संभावित class चाहिए, तो denominator <span class="math-inline">\(p(x)\)</span> निकालने की ज़रूरत नहीं। वह <span class="math-inline">\(y\)</span> पर निर्भर नहीं करता, इसलिए दोनों classes के लिए एक ही है और तुलना पर असर नहीं डालता:</p>
+<p><span class="math-display">\[\arg\max_y\, p(y \mid x) = \arg\max_y\, \frac{p(x \mid y)\, p(y)}{p(x)} = \arg\max_y\, p(x \mid y)\, p(y)\]</span></p>
+<h2>3. Multivariate Gaussian</h2>
+<p><span class="math-inline">\(n\)</span> dimensions का Gaussian <span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span> दो चीज़ों से तय होता है: mean vector <span class="math-inline">\(\mu \in \mathbb{R}^n\)</span> और covariance matrix <span class="math-inline">\(\Sigma \in \mathbb{R}^{n \times n}\)</span> (symmetric और positive definite)। इसकी density है:</p>
+<p><span class="math-display">\[p(x; \mu, \Sigma) = \frac{1}{(2\pi)^{n/2}\, |\Sigma|^{1/2}} \exp\left( -\frac{1}{2} (x - \mu)^T \Sigma^{-1} (x - \mu) \right)\]</span></p>
+<p>यहाँ <span class="math-inline">\(|\Sigma|\)</span> का मतलब <span class="math-inline">\(\Sigma\)</span> का determinant है। इस distribution के लिए <span class="math-inline">\(E[X] = \mu\)</span> और <span class="math-inline">\(\mathrm{Cov}(X) = E\left[(X-\mu)(X-\mu)^T\right] = \Sigma\)</span>।</p>
+<p><span class="math-inline">\(\mu\)</span> बदलने से पहाड़ी (density का उभार) सिर्फ़ खिसकती है, आकार नहीं बदलता। आकार <span class="math-inline">\(\Sigma\)</span> तय करता है:</p>
+<table>
+<thead>
+<tr>
+<th><span class="math-inline">\(\Sigma\)</span></th>
+<th>contours कैसे दिखते हैं</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(I\)</span> (identity)</td>
+<td>गोल घेरे</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(cI\)</span>, <span class="math-inline">\(c\)</span> छोटा या बड़ा</td>
+<td>गोल ही, पर छोटा <span class="math-inline">\(c\)</span>: पतली और ऊँची पहाड़ी; बड़ा <span class="math-inline">\(c\)</span>: चौड़ी और नीची (कुल volume हमेशा 1)</td>
+</tr>
+<tr>
+<td>Diagonal, entries अलग-अलग</td>
+<td>axes की दिशा में खिंचे ellipse</td>
+</tr>
+<tr>
+<td>Off-diagonal entry positive</td>
+<td>ellipse <span class="math-inline">\(x_1 = x_2\)</span> की दिशा में झुका (<span class="math-inline">\(x_1\)</span> बढ़े तो <span class="math-inline">\(x_2\)</span> भी बढ़ता है)</td>
+</tr>
+<tr>
+<td>Off-diagonal entry negative</td>
+<td>ellipse उल्टी दिशा में झुका</td>
+</tr>
+</tbody>
+</table>
+<h2>4. GDA Model</h2>
+<p>Classification problem है, <span class="math-inline">\(y \in \{0, 1\}\)</span> और <span class="math-inline">\(x \in \mathbb{R}^n\)</span>। GDA यह मान लेता है:</p>
+<p><span class="math-display">\[\begin{aligned} y &amp;\sim \mathrm{Bernoulli}(\phi) \\ x \mid y=0 &amp;\sim \mathcal{N}(\mu_0, \Sigma) \\ x \mid y=1 &amp;\sim \mathcal{N}(\mu_1, \Sigma) \end{aligned}\]</span></p>
+<p>यानी <span class="math-inline">\(p(y) = \phi^y (1-\phi)^{1-y}\)</span>, और हर class एक Gaussian है। दोनों classes के mean अलग हैं (<span class="math-inline">\(\mu_0\)</span>, <span class="math-inline">\(\mu_1\)</span>), पर covariance <span class="math-inline">\(\Sigma\)</span> <strong>एक ही</strong> है। Parameters हैं <span class="math-inline">\(\phi, \mu_0, \mu_1, \Sigma\)</span>।</p>
+<h3>Joint log-likelihood</h3>
+<p>Logistic Regression में हम conditional likelihood <span class="math-inline">\(\prod_i p(y^{(i)} \mid x^{(i)})\)</span> को maximize करते थे। Generative model में <strong>joint</strong> likelihood <span class="math-inline">\(\prod_i p(x^{(i)}, y^{(i)})\)</span> को maximize करते हैं:</p>
+<p><span class="math-display">\[\begin{aligned} \ell(\phi, \mu_0, \mu_1, \Sigma) &amp;= \log \prod_{i=1}^{m} p(x^{(i)}, y^{(i)}; \phi, \mu_0, \mu_1, \Sigma) \\ &amp;= \sum_{i=1}^{m} \log p(x^{(i)} \mid y^{(i)}; \mu_0, \mu_1, \Sigma) + \sum_{i=1}^{m} \log p(y^{(i)}; \phi) \end{aligned}\]</span></p>
+<h3>Maximum likelihood estimates</h3>
+<p><strong><span class="math-inline">\(\phi\)</span> के लिए:</strong> सिर्फ़ दूसरा sum <span class="math-inline">\(\phi\)</span> पर निर्भर है: <span class="math-inline">\(\sum_i \left[ y^{(i)} \log \phi + (1 - y^{(i)}) \log(1-\phi) \right]\)</span>। मान लें <span class="math-inline">\(m_1 = \sum_i 1\{y^{(i)}=1\}\)</span>। Derivative को zero रखें: <span class="math-inline">\(\frac{m_1}{\phi} - \frac{m - m_1}{1-\phi} = 0\)</span>, जिससे <span class="math-inline">\(\phi = m_1 / m\)</span>।</p>
+<p><strong><span class="math-inline">\(\mu_1\)</span> के लिए:</strong> सिर्फ़ <span class="math-inline">\(y^{(i)}=1\)</span> वाले terms बचते हैं: <span class="math-inline">\(-\frac{1}{2} \sum_{i:\, y^{(i)}=1} (x^{(i)} - \mu_1)^T \Sigma^{-1} (x^{(i)} - \mu_1)\)</span>। इसका gradient <span class="math-inline">\(\Sigma^{-1} \sum_{i:\, y^{(i)}=1} (x^{(i)} - \mu_1)\)</span> है। इसे zero रखने पर <span class="math-inline">\(\mu_1\)</span> class 1 के examples का औसत निकलता है। <span class="math-inline">\(\mu_0\)</span> के लिए भी यही।</p>
+<p><strong><span class="math-inline">\(\Sigma\)</span> के लिए:</strong> <span class="math-inline">\(\Sigma\)</span> वाले terms हैं <span class="math-inline">\(-\frac{m}{2} \log|\Sigma| - \frac{1}{2} \sum_i (x^{(i)} - \mu_{y^{(i)}})^T \Sigma^{-1} (x^{(i)} - \mu_{y^{(i)}})\)</span>। <span class="math-inline">\(\Sigma^{-1}\)</span> के सापेक्ष derivative लें (<span class="math-inline">\(\nabla_A \log|A| = A^{-1}\)</span> का इस्तेमाल करके): <span class="math-inline">\(\frac{m}{2}\Sigma - \frac{1}{2} \sum_i (x^{(i)} - \mu_{y^{(i)}})(x^{(i)} - \mu_{y^{(i)}})^T = 0\)</span>।</p>
+<p>सब मिलाकर:</p>
+<p><span class="math-display">\[\begin{aligned} \phi &amp;= \frac{1}{m} \sum_{i=1}^{m} 1\{y^{(i)} = 1\} \\ \mu_0 &amp;= \frac{\sum_{i=1}^{m} 1\{y^{(i)} = 0\}\, x^{(i)}}{\sum_{i=1}^{m} 1\{y^{(i)} = 0\}}, \qquad \mu_1 = \frac{\sum_{i=1}^{m} 1\{y^{(i)} = 1\}\, x^{(i)}}{\sum_{i=1}^{m} 1\{y^{(i)} = 1\}} \\ \Sigma &amp;= \frac{1}{m} \sum_{i=1}^{m} (x^{(i)} - \mu_{y^{(i)}})(x^{(i)} - \mu_{y^{(i)}})^T \end{aligned}\]</span></p>
+<h3>Algorithm, step by step</h3>
+<ol>
+<li>गिनें कि कितने examples class 1 के हैं। यही अनुपात <span class="math-inline">\(\phi\)</span> है।</li>
+<li>हर class के examples का औसत निकालें: <span class="math-inline">\(\mu_0\)</span> और <span class="math-inline">\(\mu_1\)</span>।</li>
+<li>हर example में से उसकी अपनी class का mean घटाएँ, और इन centred vectors से एक साझा <span class="math-inline">\(\Sigma\)</span> बनाएँ।</li>
+<li>नए <span class="math-inline">\(x\)</span> के लिए <span class="math-inline">\(p(x \mid y=1)\,\phi\)</span> और <span class="math-inline">\(p(x \mid y=0)\,(1-\phi)\)</span> निकालें। जो बड़ा हो, वही class।</li>
+</ol>
+<p>कोई iteration नहीं, कोई learning rate नहीं: सब कुछ गिनती और औसत से मिल जाता है।</p>
+<h2>5. Decision boundary linear क्यों है?</h2>
+<p>Bayes rule से posterior को इस रूप में लिख सकते हैं:</p>
+<p><span class="math-display">\[p(y=1 \mid x) = \frac{p(x \mid y=1)\,\phi}{p(x \mid y=1)\,\phi + p(x \mid y=0)\,(1-\phi)} = \frac{1}{1 + \exp(-a(x))}, \qquad a(x) = \log \frac{p(x \mid y=1)\,\phi}{p(x \mid y=0)\,(1-\phi)}\]</span></p>
+<p>दोनों Gaussians का normalizing constant एक ही है (क्योंकि <span class="math-inline">\(\Sigma\)</span> एक ही है), इसलिए वह कट जाता है:</p>
+<p><span class="math-display">\[a(x) = -\frac{1}{2}(x-\mu_1)^T \Sigma^{-1} (x-\mu_1) + \frac{1}{2}(x-\mu_0)^T \Sigma^{-1} (x-\mu_0) + \log\frac{\phi}{1-\phi}\]</span></p>
+<p>दोनों brackets खोलें। <span class="math-inline">\(-\frac{1}{2} x^T \Sigma^{-1} x\)</span> और <span class="math-inline">\(+\frac{1}{2} x^T \Sigma^{-1} x\)</span> आपस में कट जाते हैं। यही असली बात है: quadratic term गायब हो जाता है और बचता है</p>
+<p><span class="math-display">\[a(x) = \underbrace{(\mu_1 - \mu_0)^T \Sigma^{-1}}_{\theta^T}\, x + \underbrace{\frac{1}{2}\left( \mu_0^T \Sigma^{-1} \mu_0 - \mu_1^T \Sigma^{-1} \mu_1 \right) + \log\frac{\phi}{1-\phi}}_{\theta_0}\]</span></p>
+<p>इसलिए</p>
+<p><span class="math-display">\[p(y=1 \mid x) = \frac{1}{1 + \exp\left(-(\theta^T x + \theta_0)\right)}, \qquad \theta = \Sigma^{-1}(\mu_1 - \mu_0)\]</span></p>
+<p>Decision boundary वह जगह है जहाँ <span class="math-inline">\(p(y=1 \mid x) = 0.5\)</span>, यानी <span class="math-inline">\(\theta^T x + \theta_0 = 0\)</span>। यह एक सीधी line (या hyperplane) है। ध्यान दें कि prior <span class="math-inline">\(\phi\)</span> सिर्फ़ <span class="math-inline">\(\theta_0\)</span> में आता है: <span class="math-inline">\(\phi\)</span> बढ़ाने से boundary की दिशा नहीं बदलती, वह बस class 0 की तरफ़ खिसक जाती है। अगर दोनों classes के <span class="math-inline">\(\Sigma\)</span> अलग होते, तो quadratic term नहीं कटता और boundary curved होती।</p>
+<h2>6. GDA बनाम Logistic Regression</h2>
+<p>ऊपर हमने देखा कि GDA का posterior ठीक Logistic Regression वाले sigmoid रूप में है। पर दोनों algorithms एक ही data पर अलग-अलग <span class="math-inline">\(\theta\)</span> देते हैं, क्योंकि वे अलग चीज़ maximize करते हैं।</p>
+<ul>
+<li><strong>GDA <span class="math-inline">\(\Rightarrow\)</span> logistic posterior, पर उल्टा सच नहीं।</strong> अगर <span class="math-inline">\(x \mid y\)</span> Gaussian (साझा <span class="math-inline">\(\Sigma\)</span>) है तो <span class="math-inline">\(p(y \mid x)\)</span> logistic है। पर <span class="math-inline">\(p(y \mid x)\)</span> logistic होने से यह नहीं निकलता कि <span class="math-inline">\(x \mid y\)</span> Gaussian है। जैसे, <span class="math-inline">\(x \mid y=0 \sim \mathrm{Poisson}(\lambda_0)\)</span> और <span class="math-inline">\(x \mid y=1 \sim \mathrm{Poisson}(\lambda_1)\)</span> हो, तब भी posterior logistic ही होता है।</li>
+<li><strong>GDA की assumptions ज़्यादा मज़बूत हैं।</strong> जब वे सही (या लगभग सही) हों, तो GDA data का बेहतर इस्तेमाल करता है और कम training examples में अच्छा model दे देता है (asymptotically efficient)।</li>
+<li><strong>Logistic Regression ज़्यादा robust है।</strong> वह कम मानकर चलता है, इसलिए data Gaussian न हो तब भी ठीक काम करता है। बड़े training set पर वह अक्सर GDA के बराबर या उससे बेहतर रहता है।</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>GDA</th>
+<th>Logistic Regression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Maximize करता है</td>
+<td>joint likelihood <span class="math-inline">\(\prod_i p(x^{(i)}, y^{(i)})\)</span></td>
+<td>conditional likelihood <span class="math-inline">\(\prod_i p(y^{(i)} \mid x^{(i)})\)</span></td>
+</tr>
+<tr>
+<td>Assumption</td>
+<td><span class="math-inline">\(x \mid y\)</span> Gaussian, साझा <span class="math-inline">\(\Sigma\)</span></td>
+<td>सिर्फ़ <span class="math-inline">\(p(y \mid x)\)</span> का sigmoid रूप</td>
+</tr>
+<tr>
+<td>Training</td>
+<td>closed form (गिनती और औसत)</td>
+<td>iterative (Gradient Ascent, Newton)</td>
+</tr>
+<tr>
+<td>कम data, assumption सही</td>
+<td>बेहतर</td>
+<td>थोड़ा पीछे</td>
+</tr>
+<tr>
+<td>Assumption गलत</td>
+<td>बिगड़ सकता है</td>
+<td>टिका रहता है</td>
+</tr>
+</tbody>
+</table>
+<h2>7. Naive Bayes</h2>
+<p>अब features discrete हैं। उदाहरण: <strong>spam filter</strong>। एक vocabulary (शब्दों की सूची) लें जिसमें <span class="math-inline">\(n\)</span> शब्द हैं। हर email को एक binary vector <span class="math-inline">\(x \in \{0,1\}^n\)</span> से दिखाएँ: <span class="math-inline">\(x_j = 1\)</span> अगर vocabulary का <span class="math-inline">\(j\)</span>-वाँ शब्द email में है, वरना <span class="math-inline">\(x_j = 0\)</span>। <span class="math-inline">\(y = 1\)</span> का मतलब spam है।</p>
+<p>अगर <span class="math-inline">\(n = 50000\)</span> हो तो <span class="math-inline">\(x\)</span> के <span class="math-inline">\(2^{50000}\)</span> संभव values हैं। <span class="math-inline">\(p(x \mid y)\)</span> को सीधे model करना असंभव है। इसलिए एक बहुत मज़बूत assumption लेते हैं।</p>
+<p><strong>Naive Bayes assumption:</strong> <span class="math-inline">\(y\)</span> दिया हो, तो सारे <span class="math-inline">\(x_j\)</span> आपस में conditionally independent हैं। यानी अगर पता है कि email spam है, तो उसमें "buy" होने की जानकारी से "price" होने की probability नहीं बदलती। Chain rule और इस assumption से:</p>
+<p><span class="math-display">\[\begin{aligned} p(x_1, \dots, x_n \mid y) &amp;= p(x_1 \mid y)\, p(x_2 \mid y, x_1) \cdots p(x_n \mid y, x_1, \dots, x_{n-1}) \\ &amp;= p(x_1 \mid y)\, p(x_2 \mid y) \cdots p(x_n \mid y) = \prod_{j=1}^{n} p(x_j \mid y) \end{aligned}\]</span></p>
+<p><strong>Parameters:</strong> <span class="math-inline">\(\phi_{j \mid y=1} = p(x_j = 1 \mid y = 1)\)</span>, <span class="math-inline">\(\phi_{j \mid y=0} = p(x_j = 1 \mid y = 0)\)</span> और <span class="math-inline">\(\phi_y = p(y = 1)\)</span>। कुल <span class="math-inline">\(2n + 1\)</span> parameters, <span class="math-inline">\(2^n\)</span> की जगह।</p>
+<p>Joint likelihood <span class="math-inline">\(\mathcal{L}(\phi_y, \phi_{j \mid y=0}, \phi_{j \mid y=1}) = \prod_{i=1}^{m} p(x^{(i)}, y^{(i)})\)</span> है। इसका log लेने पर हर parameter का अपना अलग Bernoulli term बनता है, इसलिए हल ठीक GDA के <span class="math-inline">\(\phi\)</span> जैसा निकलता है: हर estimate एक अनुपात है।</p>
+<p><span class="math-display">\[\begin{aligned} \phi_{j \mid y=1} &amp;= \frac{\sum_{i=1}^{m} 1\{x_j^{(i)} = 1 \wedge y^{(i)} = 1\}}{\sum_{i=1}^{m} 1\{y^{(i)} = 1\}} \\ \phi_{j \mid y=0} &amp;= \frac{\sum_{i=1}^{m} 1\{x_j^{(i)} = 1 \wedge y^{(i)} = 0\}}{\sum_{i=1}^{m} 1\{y^{(i)} = 0\}} \\ \phi_y &amp;= \frac{1}{m} \sum_{i=1}^{m} 1\{y^{(i)} = 1\} \end{aligned}\]</span></p>
+<p>शब्दों में: <span class="math-inline">\(\phi_{j \mid y=1}\)</span> उन spam emails का हिस्सा है जिनमें शब्द <span class="math-inline">\(j\)</span> आया है।</p>
+<p><strong>Prediction:</strong> नए email <span class="math-inline">\(x\)</span> के लिए</p>
+<p><span class="math-display">\[p(y=1 \mid x) = \frac{\left( \prod_{j=1}^{n} p(x_j \mid y=1) \right) p(y=1)}{\left( \prod_{j=1}^{n} p(x_j \mid y=1) \right) p(y=1) + \left( \prod_{j=1}^{n} p(x_j \mid y=0) \right) p(y=0)}\]</span></p>
+<p>जहाँ <span class="math-inline">\(p(x_j \mid y=1) = \phi_{j \mid y=1}\)</span> अगर <span class="math-inline">\(x_j = 1\)</span>, और <span class="math-inline">\(1 - \phi_{j \mid y=1}\)</span> अगर <span class="math-inline">\(x_j = 0\)</span>। जिस class का posterior बड़ा हो, वही चुनें।</p>
+<h3>एक कमी: शून्य probability</h3>
+<p>मान लीजिए नए email में ऐसा शब्द है जो training set में कभी आया ही नहीं (vocabulary का शब्द <span class="math-inline">\(j\)</span>)। तब <span class="math-inline">\(\phi_{j \mid y=1} = 0\)</span> और <span class="math-inline">\(\phi_{j \mid y=0} = 0\)</span>। दोनों products zero हो जाते हैं और posterior <span class="math-inline">\(\frac{0}{0}\)</span> बन जाता है। सिर्फ़ इसलिए कि कोई घटना अब तक नहीं दिखी, उसकी probability zero मान लेना गलत है। अगला lecture इसे <strong>Laplace smoothing</strong> से ठीक करता है।</p>
+<h3>Multinomial event model (झलक)</h3>
+<p>ऊपर वाला model (Bernoulli event model) सिर्फ़ यह देखता है कि शब्द आया या नहीं, कितनी बार आया यह नहीं। Text के लिए एक बेहतर model <strong>multinomial event model</strong> है। उसमें <span class="math-inline">\(x_j\)</span> email के <span class="math-inline">\(j\)</span>-वें स्थान पर आए शब्द की पहचान है, <span class="math-inline">\(x_j \in \{1, \dots, |V|\}\)</span>, और <span class="math-inline">\(p(x, y) = p(y) \prod_{j} p(x_j \mid y)\)</span>। इस तरह शब्दों की गिनती भी काम आती है। इसका पूरा विवरण अगले lecture में है।</p>
+<h2>8. Practical बातें और आम गलतियाँ</h2>
+<ul>
+<li><strong>Products की जगह logs जोड़ें:</strong> हज़ारों छोटी probabilities का product computer में underflow होकर 0 बन जाता है। <span class="math-inline">\(\log p(y) + \sum_j \log p(x_j \mid y)\)</span> की तुलना करें।</li>
+<li><strong>Gaussian assumption जाँचें:</strong> हर class के features का histogram या scatter plot देखें। Data बहुत skewed हो या उसमें outliers हों, तो mean और <span class="math-inline">\(\Sigma\)</span> बिगड़ते हैं और GDA की boundary भी। ऐसे में Logistic Regression सुरक्षित है।</li>
+<li><strong><span class="math-inline">\(\Sigma\)</span> साझा है:</strong> <span class="math-inline">\(\Sigma\)</span> बनाते समय हर example में से उसकी अपनी class का mean घटाएँ, पूरे data का mean नहीं।</li>
+<li><strong><span class="math-inline">\(m\)</span> छोटा, <span class="math-inline">\(n\)</span> बड़ा:</strong> तब <span class="math-inline">\(\Sigma\)</span> singular हो सकता है और <span class="math-inline">\(\Sigma^{-1}\)</span> नहीं निकलेगा।</li>
+<li><strong>Naive Bayes की probabilities पर ज़्यादा भरोसा न करें:</strong> independence की assumption असल में गलत होती है, इसलिए posterior अक्सर 0 या 1 के बहुत पास आता है। फिर भी class का फ़ैसला अक्सर सही होता है, और algorithm बहुत तेज़ और सरल है।</li>
+<li><strong>Continuous feature पर Naive Bayes:</strong> feature को कुछ buckets में बाँटकर discrete बना लें।</li>
+</ul>
+<h2>9. खुद से पूछें</h2>
+<ol>
+<li><span class="math-inline">\(\arg\max_y p(y \mid x)\)</span> निकालते समय <span class="math-inline">\(p(x)\)</span> क्यों छोड़ सकते हैं? अगर आपको class नहीं, बल्कि probability की value चाहिए, तब भी छोड़ सकते हैं क्या?</li>
+<li>GDA में दोनों classes का <span class="math-inline">\(\Sigma\)</span> अलग-अलग (<span class="math-inline">\(\Sigma_0 \ne \Sigma_1\)</span>) हो, तो <span class="math-inline">\(a(x)\)</span> में कौन सा term नहीं कटेगा और boundary कैसी दिखेगी?</li>
+<li>Vocabulary में <span class="math-inline">\(n = 1000\)</span> शब्द हैं। Naive Bayes assumption के बिना <span class="math-inline">\(p(x \mid y)\)</span> के लिए कितने parameters चाहिए, और उसके साथ कितने?</li>
+</ol>
+<div class="part"><span class="tag">भाग 2</span><h2>3D Animations</h2></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 5.1</span>GDA: fitting two Gaussians</div><div class="frames"><figure><img src="anim/L05_1_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L05_1_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L05_1_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> फ़र्श पर दो features <span class="math-inline">\(x_1, x_2\)</span> हैं और ऊँचाई density <span class="math-inline">\(p(x \mid y)\)</span> है। Training examples एक-एक करके आते हैं (रंगीन बिंदु देखे जा चुके हैं, धूसर अभी नहीं)। हर frame में GDA वही करता है जो formulas कहते हैं: <span class="math-inline">\(\phi\)</span> के लिए गिनती, <span class="math-inline">\(\mu_0\)</span> और <span class="math-inline">\(\mu_1\)</span> के लिए हर class का औसत, और साझा <span class="math-inline">\(\Sigma\)</span>। शुरू में थोड़े data पर दोनों पहाड़ियाँ गलत जगह और गलत आकार की हैं। जैसे-जैसे <span class="math-inline">\(m\)</span> बढ़ता है, वे अपने बिंदुओं के ऊपर जम जाती हैं। ध्यान दें कि दोनों पहाड़ियों का आकार हमेशा एक जैसा है, क्योंकि <span class="math-inline">\(\Sigma\)</span> एक ही है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L05_1.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 5.2</span>How <span class="math-inline">\(\Sigma\)</span> shapes a Gaussian</div><div class="frames"><figure><img src="anim/L05_2_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L05_2_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L05_2_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> एक ही Gaussian <span class="math-inline">\(\mathcal{N}(0, \Sigma)\)</span> है, बस <span class="math-inline">\(\Sigma\)</span> बदल रहा है। ऊँचाई density <span class="math-inline">\(p(x)\)</span> है और नीचे फ़र्श पर उसके contours हैं। क्रम यह है: <span class="math-inline">\(\Sigma = I\)</span> (गोल), फिर छोटा <span class="math-inline">\(\Sigma\)</span> (पतली, ऊँची पहाड़ी), फिर बड़ा <span class="math-inline">\(\Sigma\)</span> (चौड़ी, नीची), फिर diagonal entries अलग (एक axis की ओर खिंचा ellipse), और अंत में off-diagonal entries positive और फिर negative (झुका हुआ ellipse)। पहाड़ी के नीचे का कुल volume हमेशा 1 रहता है, इसलिए फैलने पर ऊँचाई घटती है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L05_2.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 5.3</span>Bayes rule: joint to posterior</div><div class="frames"><figure><img src="anim/L05_3_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L05_3_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L05_3_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> शुरू में दो पहाड़ियाँ joint densities हैं: लाल <span class="math-inline">\(p(x \mid y=1)\,p(y=1)\)</span> और नीली <span class="math-inline">\(p(x \mid y=0)\,p(y=0)\)</span>। Bayes rule कहता है कि इन्हें <span class="math-inline">\(p(x)\)</span> (दोनों के जोड़) से divide करो। Animation में यही division धीरे-धीरे होता है, और दोनों पहाड़ियाँ posterior surfaces <span class="math-inline">\(p(y=1 \mid x)\)</span> और <span class="math-inline">\(p(y=0 \mid x)\)</span> बन जाती हैं, जो sigmoid आकार की हैं। काली line वह जगह है जहाँ दोनों surfaces बराबर हैं। वह divide करने से हिलती नहीं (इसीलिए argmax के लिए <span class="math-inline">\(p(x)\)</span> छोड़ सकते हैं) और सीधी है: यही linear decision boundary है, जो अंत में ऊँचाई 0.5 पर पहुँच जाती है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L05_3.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 5.4</span>Class prior <span class="math-inline">\(\phi\)</span> moves the boundary</div><div class="frames"><figure><img src="anim/L05_4_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L05_4_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L05_4_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> दोनों class Gaussians (<span class="math-inline">\(\mu_0, \mu_1, \Sigma\)</span>) स्थिर हैं, सिर्फ़ prior <span class="math-inline">\(\phi = p(y=1)\)</span> को 0.1 से 0.9 तक बढ़ाया जा रहा है। ऊँचाई weighted densities हैं: लाल <span class="math-inline">\(\phi\, p(x \mid y=1)\)</span> और नीली <span class="math-inline">\((1-\phi)\, p(x \mid y=0)\)</span>। <span class="math-inline">\(\phi\)</span> बढ़ने पर लाल पहाड़ी ऊँची और नीली नीची होती है, इसलिए दोनों के बराबर होने की जगह (काली line) नीली class की तरफ़ खिसकती है। फ़र्श का रंग बताता है कि कहाँ कौन सी class जीतती है। Boundary की दिशा नहीं बदलती, क्योंकि <span class="math-inline">\(\phi\)</span> सिर्फ़ <span class="math-inline">\(\theta_0\)</span> में आता है; धूसर dashed line <span class="math-inline">\(\phi = 0.5\)</span> वाली boundary है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L05_4.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 5.5</span>Naive Bayes: counting words</div><div class="frames"><figure><img src="anim/L05_5_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L05_5_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L05_5_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यह Naive Bayes की training है। एक axis पर vocabulary के पाँच शब्द हैं, दूसरी पर class (spam या not spam), और ऊँचाई estimate <span class="math-inline">\(\phi_{j \mid y}\)</span> है, यानी उस class के कितने हिस्से emails में वह शब्द आया। Emails एक-एक करके गिने जाते हैं (ऊपर की line में अभी वाला email और उसके शब्द दिखते हैं) और हर bar बस एक अनुपात है: गिनती / उस class के emails। काली छोटी lines वे असली probabilities हैं जिनसे data बना था: शुरू में bars उछलते हैं, फिर उनके पास जम जाते हैं। ध्यान दें कि शुरू में कई bars ठीक zero हैं, सिर्फ़ इसलिए कि वह शब्द अभी तक उस class में दिखा नहीं।</p><div class="file">चलती animation: cs229_hindi/out/anim/L05_5.gif</div></div>
+<div class="part"><span class="tag">भाग 3</span><h2>Python Example</h2></div>
+<p class="run">इसे खुद चलाएँ: <code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L05_gda_naive_bayes/example.py</code></p>
+<div class="code"><pre><span></span><span class="sd">"""Lecture 5 example: GDA और Naive Bayes शुरू से (सिर्फ़ NumPy).</span>
+
+<span class="sd">भाग A: 2 features वाले data पर GDA fit करते हैं और उसकी तुलना Logistic Regression से करते हैं,</span>
+<span class="sd">       पहले Gaussian data पर (GDA की assumption सही), फिर skewed log-normal data पर (assumption गलत)।</span>
+<span class="sd">भाग B: हाथ से लिखे छोटे corpus पर Bernoulli Naive Bayes spam classifier।</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">PHI</span> <span class="o">=</span> <span class="mf">0.4</span>                                            <span class="c1"># असली class prior p(y=1)</span>
+<span class="n">MU0</span><span class="p">,</span> <span class="n">MU1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+<span class="n">SIGMA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">]])</span>
+
+
+<span class="c1"># ---------- 1. Data: Gaussian (साझा Sigma) या log-normal (skewed, Gaussian नहीं) ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">gaussian</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">PHI</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">if</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">y</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">m</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span>                    <span class="c1"># हर class के कम से कम 2 examples चाहिए</span>
+            <span class="k">break</span>
+    <span class="k">if</span> <span class="n">gaussian</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MU1</span><span class="p">,</span> <span class="n">MU0</span><span class="p">)</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">SIGMA</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+
+
+<span class="c1"># ---------- 2. GDA: maximum likelihood estimates (सिर्फ़ गिनती और औसत) ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_gda</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">mu0</span><span class="p">,</span> <span class="n">mu1</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">x</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">centred</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">mu0</span><span class="p">)</span>    <span class="c1"># हर example में से उसकी class का mean घटाएँ</span>
+    <span class="n">Sigma</span> <span class="o">=</span> <span class="n">centred</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">centred</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">phi</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">Sigma</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">gda_theta</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">Sigma</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""GDA का posterior sigmoid(theta0 + theta^T x) है: यहाँ वही theta निकलता है।"""</span>
+    <span class="n">S_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">Sigma</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">S_inv</span> <span class="o">@</span> <span class="p">(</span><span class="n">mu1</span> <span class="o">-</span> <span class="n">mu0</span><span class="p">)</span>
+    <span class="n">theta0</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">mu0</span> <span class="o">@</span> <span class="n">S_inv</span> <span class="o">@</span> <span class="n">mu0</span> <span class="o">-</span> <span class="n">mu1</span> <span class="o">@</span> <span class="n">S_inv</span> <span class="o">@</span> <span class="n">mu1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">phi</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">phi</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">theta0</span><span class="p">,</span> <span class="n">theta</span><span class="p">]</span>
+
+
+<span class="c1"># ---------- 3. Logistic Regression (Newton's method), तुलना के लिए ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_logistic</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">ridge</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">x</span><span class="p">]</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">)))</span>
+        <span class="n">gradient</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">ridge</span> <span class="o">*</span> <span class="n">theta</span>         <span class="c1"># छोटा ridge: separable data पर theta फटे नहीं</span>
+        <span class="n">hessian</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">*</span> <span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">h</span><span class="p">))[:,</span> <span class="kc">None</span><span class="p">])</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span> <span class="o">+</span> <span class="n">ridge</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">hessian</span><span class="p">,</span> <span class="n">gradient</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">theta</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">accuracy</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span> <span class="o">@</span> <span class="n">theta</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span>
+
+
+<span class="c1"># ---------- 4. एक बार fit करके देखें (m = 400, Gaussian data) ----------</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+<span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+<span class="n">phi</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">Sigma</span> <span class="o">=</span> <span class="n">fit_gda</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">theta_gda</span><span class="p">,</span> <span class="n">theta_lr</span> <span class="o">=</span> <span class="n">gda_theta</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">Sigma</span><span class="p">),</span> <span class="n">fit_logistic</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"भाग A: GDA के सीखे parameters (m = 400)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  phi = </span><span class="si">{</span><span class="n">phi</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> (सच </span><span class="si">{</span><span class="n">PHI</span><span class="si">}</span><span class="s2">)   mu0 = </span><span class="si">{</span><span class="n">mu0</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> (सच </span><span class="si">{</span><span class="n">MU0</span><span class="si">}</span><span class="s2">)   mu1 = </span><span class="si">{</span><span class="n">mu1</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> (सच </span><span class="si">{</span><span class="n">MU1</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Sigma = </span><span class="si">{</span><span class="n">Sigma</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s2"> (सच </span><span class="si">{</span><span class="n">SIGMA</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Model                  theta0   theta1   theta2   test accuracy"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">th</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">"GDA (implied theta)"</span><span class="p">,</span> <span class="n">theta_gda</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Logistic Regression"</span><span class="p">,</span> <span class="n">theta_lr</span><span class="p">)]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">th</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">th</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">th</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">accuracy</span><span class="p">(</span><span class="n">th</span><span class="p">,</span><span class="w"> </span><span class="n">x_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">12.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 5. Training set का size बदलें: कौन कब बेहतर है? ----------</span>
+<span class="n">sizes</span><span class="p">,</span> <span class="n">trials</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],</span> <span class="mi">600</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Test accuracy (</span><span class="si">{</span><span class="n">trials</span><span class="si">}</span><span class="s2"> trials का औसत)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"            Gaussian data         log-normal data"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"     m      GDA   Logistic         GDA   Logistic"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">gaussian</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="n">x_te</span><span class="p">,</span> <span class="n">y_te</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="mi">4000</span><span class="p">,</span> <span class="n">gaussian</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">sizes</span><span class="p">:</span>
+        <span class="n">acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">trials</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">trials</span><span class="p">):</span>
+            <span class="n">x_tr</span><span class="p">,</span> <span class="n">y_tr</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">gaussian</span><span class="p">)</span>
+            <span class="n">acc</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">accuracy</span><span class="p">(</span><span class="n">gda_theta</span><span class="p">(</span><span class="o">*</span><span class="n">fit_gda</span><span class="p">(</span><span class="n">x_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">)),</span> <span class="n">x_te</span><span class="p">,</span> <span class="n">y_te</span><span class="p">),</span>
+                      <span class="n">accuracy</span><span class="p">(</span><span class="n">fit_logistic</span><span class="p">(</span><span class="n">x_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">),</span> <span class="n">x_te</span><span class="p">,</span> <span class="n">y_te</span><span class="p">))</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">gaussian</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">acc</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">sizes</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">l1</span><span class="p">),</span> <span class="p">(</span><span class="n">g2</span><span class="p">,</span> <span class="n">l2</span><span class="p">)</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="n">m</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">m</span><span class="si">:</span><span class="s2">6d</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">g1</span><span class="si">:</span><span class="s2">6.3f</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">l1</span><span class="si">:</span><span class="s2">6.3f</span><span class="si">}</span><span class="s2">      </span><span class="si">{</span><span class="n">g2</span><span class="si">:</span><span class="s2">6.3f</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">l2</span><span class="si">:</span><span class="s2">6.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 6. भाग B: Bernoulli Naive Bayes spam filter ----------</span>
+<span class="n">spam</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"win money now"</span><span class="p">,</span> <span class="s2">"free money offer"</span><span class="p">,</span> <span class="s2">"win free prize now"</span><span class="p">,</span> <span class="s2">"free offer click now"</span><span class="p">,</span>
+        <span class="s2">"cheap money win prize"</span><span class="p">]</span>
+<span class="n">ham</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"meeting at noon"</span><span class="p">,</span> <span class="s2">"project report due"</span><span class="p">,</span> <span class="s2">"lunch at noon today"</span><span class="p">,</span> <span class="s2">"see report before meeting"</span><span class="p">,</span>
+       <span class="s2">"free for lunch today"</span><span class="p">]</span>
+<span class="n">vocab</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">w</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">spam</span> <span class="o">+</span> <span class="n">ham</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">()})</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">to_vector</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""x_j = 1 अगर vocabulary का j-वाँ शब्द email में है (vocabulary से बाहर के शब्द छूट जाते हैं)।"""</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">w</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">vocab</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+
+<span class="n">X_nb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">to_vector</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">spam</span> <span class="o">+</span> <span class="n">ham</span><span class="p">])</span>
+<span class="n">y_nb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spam</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ham</span><span class="p">))]</span>
+<span class="n">phi_y</span> <span class="o">=</span> <span class="n">y_nb</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">phi_spam</span> <span class="o">=</span> <span class="n">X_nb</span><span class="p">[</span><span class="n">y_nb</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>              <span class="c1"># phi_{j|y=1}: कितने हिस्से spam में शब्द j है</span>
+<span class="n">phi_ham</span> <span class="o">=</span> <span class="n">X_nb</span><span class="p">[</span><span class="n">y_nb</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>               <span class="c1"># phi_{j|y=0}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">p_spam</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Bayes rule: p(y=1|x). (असली vocabulary पर products की जगह logs जोड़ें।)"""</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">to_vector</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">joint1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">phi_spam</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">phi_spam</span><span class="p">))</span> <span class="o">*</span> <span class="n">phi_y</span>
+    <span class="n">joint0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">phi_ham</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">phi_ham</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">phi_y</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">joint1</span> <span class="o">/</span> <span class="p">(</span><span class="n">joint1</span> <span class="o">+</span> <span class="n">joint0</span><span class="p">),</span> <span class="n">joint1</span><span class="p">,</span> <span class="n">joint0</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">भाग B: Naive Bayes (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span><span class="si">}</span><span class="s2"> शब्दों की vocabulary, phi_y = </span><span class="si">{</span><span class="n">phi_y</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"word      phi_j|spam   phi_j|ham"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"free"</span><span class="p">,</span> <span class="s2">"win"</span><span class="p">,</span> <span class="s2">"money"</span><span class="p">,</span> <span class="s2">"lunch"</span><span class="p">,</span> <span class="s2">"meeting"</span><span class="p">):</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="n">vocab</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">w</span><span class="si">:</span><span class="s2">&lt;9</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">phi_spam</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s2">8.1f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">phi_ham</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s2">11.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">message                        p(x,spam)   p(x,ham)   p(spam|x)"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"win free money"</span><span class="p">,</span> <span class="s2">"report before lunch"</span><span class="p">,</span> <span class="s2">"free lunch today"</span><span class="p">,</span> <span class="s2">"win a prize at the meeting"</span><span class="p">]:</span>
+    <span class="n">p</span><span class="p">,</span> <span class="n">j1</span><span class="p">,</span> <span class="n">j0</span> <span class="o">=</span> <span class="n">p_spam</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">doc</span><span class="si">:</span><span class="s2">&lt;28</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">j1</span><span class="si">:</span><span class="s2">11.2e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">j0</span><span class="si">:</span><span class="s2">10.2e</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s2">10.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"आख़िरी message: 'win' कभी ham में नहीं दिखा और 'meeting' कभी spam में नहीं,"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"इसलिए दोनों products 0 हैं और posterior 0/0 = nan है। हल: Laplace smoothing (Lecture 6)।"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 7. Plots ----------</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">10.5</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">x_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"y = 0"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">x_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"y = 1"</span><span class="p">)</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()])</span>
+<span class="k">for</span> <span class="n">th</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">theta_gda</span><span class="p">,</span> <span class="s2">"k-"</span><span class="p">,</span> <span class="s2">"GDA boundary"</span><span class="p">),</span> <span class="p">(</span><span class="n">theta_lr</span><span class="p">,</span> <span class="s2">"g--"</span><span class="p">,</span> <span class="s2">"Logistic boundary"</span><span class="p">)]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">th</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">th</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">xs</span><span class="p">)</span> <span class="o">/</span> <span class="n">th</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">style</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+<span class="n">gx</span><span class="p">,</span> <span class="n">gy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+<span class="n">S_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">Sigma</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">mu</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">mu0</span><span class="p">,</span> <span class="s2">"tab:blue"</span><span class="p">),</span> <span class="p">(</span><span class="n">mu1</span><span class="p">,</span> <span class="s2">"tab:red"</span><span class="p">)]:</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">gx</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">gy</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">"...i,ij,...j-&gt;..."</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">S_inv</span><span class="p">,</span> <span class="n">d</span><span class="p">),</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"x1"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"x2"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"GDA fit (m = 400)"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"lower right"</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">gaussian</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">"tab:purple"</span><span class="p">,</span> <span class="s2">"Gaussian data"</span><span class="p">),</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s2">"tab:orange"</span><span class="p">,</span> <span class="s2">"log-normal data"</span><span class="p">)]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">gaussian</span><span class="p">,</span> <span class="n">m</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">sizes</span><span class="p">],</span> <span class="s2">"o-"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"GDA, </span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sizes</span><span class="p">,</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">gaussian</span><span class="p">,</span> <span class="n">m</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">sizes</span><span class="p">],</span> <span class="s2">"s--"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Logistic, </span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"training set size m"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"test accuracy"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"GDA vs Logistic Regression"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"result.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+</pre></div>
+
+<div class="label">OUTPUT</div>
+<pre class="output">भाग A: GDA के सीखे parameters (m = 400)
+  phi = 0.357 (सच 0.4)   mu0 = [0.04 0.05] (सच [0. 0.])   mu1 = [2.04 1.54] (सच [2.  1.5])
+  Sigma = [[0.93, 0.59], [0.59, 1.16]] (सच [[1.0, 0.6], [0.6, 1.2]])
+
+Model                  theta0   theta1   theta2   test accuracy
+GDA (implied theta)     -2.86     1.96     0.30       0.8460
+Logistic Regression     -2.72     1.80     0.39       0.8464
+
+Test accuracy (600 trials का औसत)
+            Gaussian data         log-normal data
+     m      GDA   Logistic         GDA   Logistic
+     8    0.788    0.780       0.721    0.743
+    16    0.825    0.817       0.745    0.765
+    32    0.844    0.840       0.763    0.784
+   100    0.854    0.854       0.772    0.798
+  1000    0.859    0.859       0.769    0.810
+
+भाग B: Naive Bayes (19 शब्दों की vocabulary, phi_y = 0.5)
+word      phi_j|spam   phi_j|ham
+free           0.6         0.2
+win            0.6         0.0
+money          0.6         0.0
+lunch          0.0         0.4
+meeting        0.0         0.4
+
+message                        p(x,spam)   p(x,ham)   p(spam|x)
+win free money                  9.95e-03   0.00e+00      1.000
+report before lunch             0.00e+00   6.79e-04      0.000
+free lunch today                0.00e+00   6.79e-04      0.000
+win a prize at the meeting      0.00e+00   0.00e+00        nan
+आख़िरी message: &#x27;win&#x27; कभी ham में नहीं दिखा और &#x27;meeting&#x27; कभी spam में नहीं,
+इसलिए दोनों products 0 हैं और posterior 0/0 = nan है। हल: Laplace smoothing (Lecture 6)।</pre>
+<img class="result-img" src="examples/L05_gda_naive_bayes/result.png">
+</section>
+<script src="../vendor/katex/package/dist/katex.min.js"></script>
+<script src="../vendor/katex/package/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [{left: "\\[", right: "\\]", display: true}, {left: "\\(", right: "\\)", display: false}],
+  throwOnError: false, ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+});
+</script>
+</body></html>

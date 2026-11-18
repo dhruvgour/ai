@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<title>CS229 Machine Learning हिंदी में</title>
+<link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
+<style>
+@page { size: A4; margin: 16mm 13mm 17mm 13mm;
+        @bottom-center { content: counter(page); font: 9pt "Helvetica Neue", sans-serif; color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Kohinoor Devanagari", "Devanagari Sangam MN", "Helvetica Neue", sans-serif;
+       font-size: 10.6pt; line-height: 1.72; color: #111827; margin: 0; }
+body.screen { max-width: 900px; margin: 0 auto; padding: 24px 28px 80px; font-size: 16px; background: #fff; }
+h1, h2, h3, h4 { line-height: 1.35; break-after: avoid; }
+h2 { font-size: 13.5pt; margin: 1.3em 0 0.4em; color: #1e3a8a; }
+h3 { font-size: 11.5pt; margin: 1.1em 0 0.3em; color: #1f2937; }
+p { margin: 0.45em 0; orphans: 2; widows: 2; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+li { margin: 0.18em 0; }
+a { color: #1d4ed8; text-decoration: none; }
+code { font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace; font-size: 0.88em;
+       background: #f1f5f9; padding: 0.08em 0.3em; border-radius: 3px; }
+blockquote { margin: 0.7em 0; padding: 0.5em 0.9em; border-left: 4px solid #2563eb; background: #eff6ff;
+             border-radius: 0 6px 6px 0; break-inside: avoid; }
+blockquote p { margin: 0.2em 0; }
+table { border-collapse: collapse; margin: 0.7em 0; width: 100%; font-size: 0.93em; break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 0.3em 0.6em; text-align: left; vertical-align: top; }
+th { background: #eef2ff; }
+.math-display { display: block; margin: 0.55em 0; overflow-x: auto; break-inside: avoid; }
+.katex { font-size: 1.04em; }
+
+.cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center;
+         break-after: page; }
+body.screen .cover { height: auto; padding: 70px 0 50px; }
+.cover .kicker { letter-spacing: 0.22em; font-size: 10pt; color: #2563eb; font-weight: 700; }
+.cover h1 { font-size: 34pt; margin: 0.25em 0 0.1em; color: #111827; }
+.cover .sub { font-size: 15pt; color: #374151; }
+.cover .pill { display: inline-block; margin: 2.2em auto 0; padding: 0.5em 1.4em; border-radius: 999px;
+               background: #1e3a8a; color: #fff; font-size: 11.5pt; }
+.cover .note { margin-top: 3em; font-size: 9.5pt; color: #6b7280; }
+
+.front { break-after: page; }
+.toc ol { list-style: none; padding: 0; margin: 0.4em 0; }
+.toc li { display: flex; gap: 0.7em; padding: 0.22em 0; border-bottom: 1px dotted #cbd5e1; }
+.toc .n { flex: 0 0 5.6em; color: #2563eb; font-weight: 700; }
+
+.chapter { break-before: page; }
+.ch-head { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 14px 18px;
+           border-radius: 10px; margin-bottom: 0.9em; break-inside: avoid; }
+.ch-head .n { font-size: 9.5pt; letter-spacing: 0.18em; opacity: 0.85; font-weight: 700; }
+.ch-head h1 { font-size: 17.5pt; margin: 0.1em 0 0; }
+.part { display: flex; align-items: center; gap: 0.6em; margin: 1.5em 0 0.6em; padding-bottom: 0.25em;
+        border-bottom: 2px solid #1e3a8a; break-after: avoid; }
+.part .tag { background: #1e3a8a; color: #fff; border-radius: 5px; padding: 0.05em 0.6em; font-size: 9.5pt;
+             font-weight: 700; }
+.part h2 { margin: 0; font-size: 14pt; }
+
+.anim { border: 1px solid #e5e7eb; border-radius: 9px; padding: 8px 7px 6px; margin: 0.8em 0;
+        break-inside: avoid; background: #fff; }
+.anim-head { font-weight: 700; margin-bottom: 0.3em; }
+.anim-head .badge { background: #ea580c; color: #fff; border-radius: 4px; padding: 0.05em 0.5em;
+                    font-size: 9pt; margin-right: 0.5em; }
+.frames { display: flex; gap: 3px; }
+.frames figure { margin: 0; flex: 1; text-align: center; }
+.frames img { width: 100%; display: block; border: 1px solid #eef0f3; border-radius: 5px; }
+.frames figcaption { font-size: 8pt; color: #6b7280; line-height: 1.3; margin-top: 1px; }
+.anim .gif { display: block; margin: 0 auto; width: 480px; max-width: 100%; }
+.anim .caption { font-size: 0.95em; margin: 0.4em 0 0.15em; }
+.anim .file { font-size: 8pt; color: #6b7280; font-family: "SF Mono", Menlo, monospace; }
+
+.code { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.code pre, pre.output { margin: 0; font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace;
+                        font-size: 8.3pt; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+body.screen .code pre, body.screen pre.output { font-size: 13px; }
+pre.output { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.label { font-size: 9pt; font-weight: 700; color: #475569; margin: 1em 0 0.2em; break-after: avoid; }
+.result-img { display: block; max-width: 88%; margin: 0.6em auto; border: 1px solid #e5e7eb; border-radius: 6px;
+              break-inside: avoid; }
+.run { font-size: 0.93em; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #ffffcc }
+.code { background: #f0f0f0; }
+.code .c { color: #60A0B0; font-style: italic } /* Comment */
+.code .err { border: 1px solid #F00 } /* Error */
+.code .k { color: #007020; font-weight: bold } /* Keyword */
+.code .o { color: #666 } /* Operator */
+.code .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #007020 } /* Comment.Preproc */
+.code .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F00 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #888 } /* Generic.Output */
+.code .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #04D } /* Generic.Traceback */
+.code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code .kp { color: #007020 } /* Keyword.Pseudo */
+.code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #902000 } /* Keyword.Type */
+.code .m { color: #40A070 } /* Literal.Number */
+.code .s { color: #4070A0 } /* Literal.String */
+.code .na { color: #4070A0 } /* Name.Attribute */
+.code .nb { color: #007020 } /* Name.Builtin */
+.code .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code .no { color: #60ADD5 } /* Name.Constant */
+.code .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code .ne { color: #007020 } /* Name.Exception */
+.code .nf { color: #06287E } /* Name.Function */
+.code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code .nv { color: #BB60D5 } /* Name.Variable */
+.code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code .w { color: #BBB } /* Text.Whitespace */
+.code .mb { color: #40A070 } /* Literal.Number.Bin */
+.code .mf { color: #40A070 } /* Literal.Number.Float */
+.code .mh { color: #40A070 } /* Literal.Number.Hex */
+.code .mi { color: #40A070 } /* Literal.Number.Integer */
+.code .mo { color: #40A070 } /* Literal.Number.Oct */
+.code .sa { color: #4070A0 } /* Literal.String.Affix */
+.code .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code .sc { color: #4070A0 } /* Literal.String.Char */
+.code .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #4070A0 } /* Literal.String.Double */
+.code .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code .sx { color: #C65D09 } /* Literal.String.Other */
+.code .sr { color: #235388 } /* Literal.String.Regex */
+.code .s1 { color: #4070A0 } /* Literal.String.Single */
+.code .ss { color: #517918 } /* Literal.String.Symbol */
+.code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code .fm { color: #06287E } /* Name.Function.Magic */
+.code .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
+</head><body class="print">
+<section class="cover"><div class="kicker">STANFORD CS229 SCHEDULE &middot; SELF-STUDY GUIDE</div><h1>Machine Learning<br>हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह एक self-study guide है जो CS229 के public syllabus के क्रम पर चलती है। यह Stanford का official material नहीं है।</div></section>
+<section class="front"><h2>यह guide कैसे पढ़ें</h2>
+<p>यह guide Stanford CS229 (Machine Learning) के syllabus के क्रम में चलती है: Lecture 1 से Lecture 20 तक। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<table>
+<thead>
+<tr>
+<th>भाग</th>
+<th>क्या है</th>
+<th>कैसे इस्तेमाल करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>भाग 1: Theory</strong></td>
+<td>Idea, notation, maths और algorithm, हिंदी में</td>
+<td>पहले इसे धीरे-धीरे पढ़ें। Equations को कागज़ पर खुद लिखकर देखें।</td>
+</tr>
+<tr>
+<td><strong>भाग 2: 3D Animations</strong></td>
+<td>हर chapter में कम से कम 5 animations</td>
+<td>PDF में हर animation के तीन still frames हैं (शुरुआत, बीच में, अंत)। चलती animation देखने के लिए नीचे बताई files खोलें।</td>
+</tr>
+<tr>
+<td><strong>भाग 3: Python Example</strong></td>
+<td>NumPy से शुरू से लिखा एक चलने वाला example, उसके output के साथ</td>
+<td>Code को खुद चलाएँ, फिर numbers बदलकर देखें कि क्या बदलता है।</td>
+</tr>
+</tbody>
+</table>
+<p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
+<h2>चलती animations कहाँ हैं</h2>
+<ul>
+<li><strong><code>CS229_Hindi_Animated.html</code></strong> (इसी folder में): इसे browser में खोलें। यह यही पूरी guide है, पर इसमें सारी animations चलती हैं।</li>
+<li><strong><code>cs229_hindi/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
+</ul>
+<h2>Code कैसे चलाएँ</h2>
+<p>हर chapter का code <code>cs229_hindi/chapters/&lt;chapter&gt;/example.py</code> में है। Terminal में इसी folder से:</p>
+<pre><code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L02_linear_regression/example.py
+</code></pre>
+<p>Animations का code उसी folder की <code>anims.py</code> में है। पूरी guide दोबारा बनाने के लिए: <code>cs229_hindi/.venv/bin/python cs229_hindi/build.py</code></p>
+<h2>पहले से क्या आना चाहिए</h2>
+<ul>
+<li><strong>Linear Algebra:</strong> vectors, matrices, matrix multiplication, transpose, inverse, eigenvalues / eigenvectors।</li>
+<li><strong>Probability:</strong> random variable, expectation, variance, conditional probability, Bayes rule, Gaussian distribution।</li>
+<li><strong>Calculus:</strong> derivative, partial derivative, gradient, chain rule।</li>
+<li><strong>Python:</strong> NumPy arrays की बुनियादी समझ।</li>
+</ul>
+<h2>पूरे course में चलने वाला notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}, y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वाँ training example: input और target</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या (या input का dimension)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span>, <span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>model के parameters</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis: model का prediction</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(J(\theta)\)</span></td>
+<td>cost function जिसे minimize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\ell(\theta)\)</span></td>
+<td>log-likelihood जिसे maximize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span></td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\nabla_\theta\)</span></td>
+<td><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span></td>
+<td>mean <span class="math-inline">\(\mu\)</span> और covariance <span class="math-inline">\(\Sigma\)</span> वाला Gaussian</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(:=\)</span></td>
+<td>"दाएँ की value बाएँ में रख दो" (assignment)</td>
+</tr>
+</tbody>
+</table><h2>विषय-सूची</h2><div class="toc"><ol><li><span class="n">Lecture 4</span><a href="#L04_perceptron_glm">Perceptron, Exponential Family और Generalized Linear Models</a></li></ol></div></section>
+<section class="chapter" id="L04_perceptron_glm">
+<div class="ch-head"><div class="n">LECTURE 4</div><h1>Perceptron, Exponential Family और Generalized Linear Models</h1></div>
+<div class="part"><span class="tag">भाग 1</span><h2>Theory</h2></div>
+<blockquote>
+<p><strong>इस lecture में:</strong> Perceptron learning algorithm (threshold function, update rule, और Logistic Regression से अंतर), Exponential Family का सामान्य रूप (<span class="math-inline">\(\eta, T(y), a(\eta), b(y)\)</span>), Bernoulli और Gaussian distributions को Exponential Family में ढालना, Generalized Linear Models (GLMs) की तीन assumptions, canonical response और link functions, GLM के रूप में Ordinary Least Squares व Logistic Regression, गिनती वाले data के लिए Poisson Regression, और multi-class classification के लिए Softmax Regression व Cross-Entropy loss।</p>
+</blockquote>
+<h2>1. एक line में idea</h2>
+<p>पिछले lectures में आपने देखा कि Linear Regression में prediction <span class="math-inline">\(\theta^T x\)</span> था, और Logistic Regression में <span class="math-inline">\(\frac{1}{1 + e^{-\theta^T x}}\)</span>। पहली नज़र में लगता है कि हर नए काम के लिए हमें कोई नया formula सोचना पड़ता है। पर असल में ये अलग-अलग जुगाड़ नहीं हैं, बल्कि एक ही परिवार के सदस्य हैं।</p>
+<p>इस lecture में दो मुख्य हिस्से हैं। पहले हिस्से में हम <strong>Perceptron</strong> देखेंगे, जो binary classification का एक सख़्त (hard-threshold) नियम है और केवल अपनी गलतियों से सीखता है। दूसरे हिस्से में हम <strong>Exponential Family</strong> और <strong>Generalized Linear Models (GLMs)</strong> का एकीकृत ढाँचा बनाएँगे। आप देखेंगे कि जैसे ही आप यह तय करते हैं कि target <span class="math-inline">\(y\)</span> किस तरह का data है (continuous संख्या, 0/1 सिक्का, गिनती <span class="math-inline">\(0, 1, 2, \dots\)</span>, या <span class="math-inline">\(k\)</span> में से एक category), GLM की मशीन अपने-आप सही hypothesis, सही loss function, और सही gradient update नियम निकाल कर दे देती है।</p>
+<h2>2. Perceptron Learning Algorithm</h2>
+<p>Binary classification में label <span class="math-inline">\(y \in \{0, 1\}\)</span> होता है। Logistic Regression में हमने linear score <span class="math-inline">\(z = \theta^T x\)</span> को smooth sigmoid से गुज़ारा था ताकि <span class="math-inline">\(0\)</span> और <span class="math-inline">\(1\)</span> के बीच की probability मिले। अगर हमें probability नहीं, बल्कि सीधे सख़्त <span class="math-inline">\(0\)</span> या <span class="math-inline">\(1\)</span> का फ़ैसला चाहिए, तो हम <strong>threshold function</strong> (step function) लगा सकते हैं:</p>
+<p><span class="math-display">\[g(z) = \begin{cases} 1 &amp; \text{if } z \ge 0 \\ 0 &amp; \text{if } z &lt; 0 \end{cases}\]</span></p>
+<p>यहाँ <span class="math-inline">\(x_0 = 1\)</span> मानकर हमारी hypothesis बनती है <span class="math-inline">\(h_\theta(x) = g(\theta^T x)\)</span>। यानी hyperplane <span class="math-inline">\(\theta^T x = 0\)</span> के एक तरफ़ सभी बिंदुओं के लिए जवाब <span class="math-inline">\(1\)</span> है और दूसरी तरफ़ <span class="math-inline">\(0\)</span>।</p>
+<p><strong>Perceptron update rule</strong> दिखने में ठीक LMS और Logistic Regression जैसा है:</p>
+<p><span class="math-display">\[\theta_j := \theta_j + \alpha \left( y^{(i)} - h_\theta(x^{(i)}) \right) x_j^{(i)}\]</span></p>
+<p>Vector रूप में इसे <span class="math-inline">\(\theta := \theta + \alpha \left(y^{(i)} - h_\theta(x^{(i)})\right) x^{(i)}\)</span> लिखते हैं। लेकिन यहाँ <span class="math-inline">\(h_\theta(x^{(i)})\)</span> केवल <span class="math-inline">\(0\)</span> या <span class="math-inline">\(1\)</span> हो सकता है, इसलिए अंतर <span class="math-inline">\(\left(y^{(i)} - h_\theta(x^{(i)})\right)\)</span> सिर्फ़ तीन मान लेता है: <span class="math-inline">\(0\)</span>, <span class="math-inline">\(+1\)</span>, या <span class="math-inline">\(-1\)</span>। इसका ज्यामितीय व्यवहार बहुत रोचक है:</p>
+<ul>
+<li><strong>जब prediction सही हो (<span class="math-inline">\(h_\theta(x^{(i)}) = y^{(i)}\)</span>):</strong> अंतर <span class="math-inline">\(0\)</span> है। <span class="math-inline">\(\theta\)</span> में कोई बदलाव नहीं होता, चाहे बिंदु boundary के कितना भी पास क्यों न हो।</li>
+<li><strong>जब सच <span class="math-inline">\(y^{(i)} = 1\)</span> हो पर model ने <span class="math-inline">\(0\)</span> कहा हो:</strong> इसका मतलब <span class="math-inline">\(\theta^T x^{(i)} &lt; 0\)</span> था। तब नियम <span class="math-inline">\(\theta := \theta + \alpha x^{(i)}\)</span> करता है। नया score <span class="math-inline">\((\theta + \alpha x^{(i)})^T x^{(i)} = \theta^T x^{(i)} + \alpha \|x^{(i)}\|^2\)</span> पहले से ज़्यादा धनात्मक हो जाता है, यानी plane घूमकर इस बिंदु को सही तरफ़ लेने की कोशिश करता है।</li>
+<li><strong>जब सच <span class="math-inline">\(y^{(i)} = 0\)</span> हो पर model ने <span class="math-inline">\(1\)</span> कहा हो:</strong> तब <span class="math-inline">\(\theta^T x^{(i)} \ge 0\)</span> था। नियम <span class="math-inline">\(\theta := \theta - \alpha x^{(i)}\)</span> घटाता है, जिससे नया score <span class="math-inline">\(\theta^T x^{(i)} - \alpha \|x^{(i)}\|^2\)</span> घटकर ऋणात्मक तरफ़ चला जाता है।</li>
+</ul>
+<p>नोट करें कि एकल Perceptron में positive scaling <span class="math-inline">\(\alpha &gt; 0\)</span> यदि शून्य से शुरू (<span class="math-inline">\(\theta = 0\)</span>) किया जाए, तो केवल <span class="math-inline">\(\theta\)</span> की लंबाई बदलती है, boundary <span class="math-inline">\(\theta^T x = 0\)</span> की दिशा नहीं, इसलिए अक्सर <span class="math-inline">\(\alpha = 1\)</span> भी रख लिया जाता है।</p>
+<h3>Perceptron बनाम Logistic Regression</h3>
+<p>दोनों का update समीकरण एक जैसा दिखता है, फिर भी दोनों की प्रकृति बिल्कुल अलग है:</p>
+<table>
+<thead>
+<tr>
+<th>पहलू</th>
+<th>Perceptron</th>
+<th>Logistic Regression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activation <span class="math-inline">\(g(z)\)</span></td>
+<td>सख़्त step function <span class="math-inline">\(1\{z \ge 0\}\)</span></td>
+<td>Smooth sigmoid <span class="math-inline">\(\frac{1}{1 + e^{-z}}\)</span></td>
+</tr>
+<tr>
+<td>Output का अर्थ</td>
+<td>केवल class label <span class="math-inline">\(\{0, 1\}\)</span>, कोई probability नहीं</td>
+<td>सुसंगत probability <span class="math-inline">\(p(y=1 \mid x; \theta)\)</span></td>
+</tr>
+<tr>
+<td>गणितीय आधार</td>
+<td>ज्यामितीय गलती-सुधार नियम (Maximum Likelihood नहीं)</td>
+<td>Bernoulli likelihood का Maximum Likelihood</td>
+</tr>
+<tr>
+<td>Update कब होता है</td>
+<td>केवल गलत वर्गीकृत उदाहरणों पर अचानक छलाँग</td>
+<td>हर उदाहरण पर <span class="math-inline">\((y - h_\theta(x))\)</span> के अनुपात में smooth कदम</td>
+</tr>
+<tr>
+<td>Overlapping data पर</td>
+<td>कभी शांत नहीं होता, boundary कूदती रहती है</td>
+<td>एक अद्वितीय global optimum पर स्थिर हो जाता है</td>
+</tr>
+</tbody>
+</table>
+<p>यदि training data <strong>linearly separable</strong> है (अर्थात कोई एक hyperplane दोनों classes को बिना किसी गलती के बाँट सकता है), तो Rosenblatt के <strong>Perceptron Convergence Theorem</strong> के अनुसार Perceptron सीमित संख्या में गलतियाँ करके रुक जाता है। पर यदि data में थोड़ा भी शोर (noise) या overlap हो, तो यह अनंत काल तक भटकता रह सकता है।</p>
+<h2>3. Exponential Family</h2>
+<p>अब हम GLMs की नींव रखते हैं। कोई probability distribution <strong>Exponential Family</strong> का सदस्य कहलाता है यदि उसे इस मानक रूप में लिखा जा सके:</p>
+<p><span class="math-display">\[p(y; \eta) = b(y) \exp\left( \eta^T T(y) - a(\eta) \right)\]</span></p>
+<p>यहाँ हर प्रतीक की एक स्पष्ट भूमिका है:</p>
+<table>
+<thead>
+<tr>
+<th>प्रतीक</th>
+<th>नाम</th>
+<th>भूमिका</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(\eta\)</span></td>
+<td>Natural (या canonical) parameter</td>
+<td>Distribution का मुख्य नियंत्रक parameter</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(T(y)\)</span></td>
+<td>Sufficient statistic</td>
+<td><span class="math-inline">\(y\)</span> से निकाली गई पर्याप्त जानकारी (अधिकतर मामलों में बस <span class="math-inline">\(T(y) = y\)</span>)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(a(\eta)\)</span></td>
+<td>Log partition function</td>
+<td>Normalization पद, ताकि कुल probability का जोड़ या समाकलन <span class="math-inline">\(1\)</span> रहे</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(b(y)\)</span></td>
+<td>Base measure</td>
+<td>केवल <span class="math-inline">\(y\)</span> पर निर्भर आधार फलन (<span class="math-inline">\(\eta\)</span> से स्वतंत्र)</td>
+</tr>
+</tbody>
+</table>
+<p><strong><span class="math-inline">\(a(\eta)\)</span> का सबसे उपयोगी गुण:</strong> चूँकि कुल probability <span class="math-inline">\(1\)</span> होती है, इसलिए <span class="math-inline">\(\int b(y) \exp(\eta T(y))\,dy = \exp(a(\eta))\)</span> (या discrete मामले में <span class="math-inline">\(\sum_y\)</span>)। दोनों तरफ़ <span class="math-inline">\(\eta\)</span> के सापेक्ष अवकलन (differentiate) करने पर बिना अलग-अलग जोड़ निकाले सीधे mean और variance मिल जाते हैं:</p>
+<p><span class="math-display">\[E[T(y); \eta] = \frac{\partial a(\eta)}{\partial \eta}, \qquad \mathrm{Var}(T(y); \eta) = \frac{\partial^2 a(\eta)}{\partial \eta^2}\]</span></p>
+<p>क्योंकि variance हमेशा अऋणात्मक (<span class="math-inline">\(\ge 0\)</span>) होता है, इसलिए <span class="math-inline">\(a&#x27;&#x27;(\eta) \ge 0\)</span>, यानी <span class="math-inline">\(a(\eta)\)</span> हमेशा <strong>convex</strong> होता है। यही कारण है कि Exponential Family के मॉडलों में log-likelihood हमेशा <span class="math-inline">\(\eta\)</span> के सापेक्ष <strong>concave</strong> बनता है।</p>
+<h3>सदस्य 1: Bernoulli Distribution</h3>
+<p>सिक्का उछालने जैसे binary target <span class="math-inline">\(y \in \{0, 1\}\)</span> के लिए <span class="math-inline">\(\mathrm{Bernoulli}(\phi)\)</span> लें, जहाँ <span class="math-inline">\(p(y=1; \phi) = \phi\)</span>:</p>
+<p><span class="math-display">\[\begin{aligned}
+p(y; \phi) &amp;= \phi^y (1 - \phi)^{1 - y} \\
+&amp;= \exp\left( y \log \phi + (1 - y) \log(1 - \phi) \right) \\
+&amp;= \exp\left( \left(\log \frac{\phi}{1 - \phi}\right) y + \log(1 - \phi) \right)
+\end{aligned}\]</span></p>
+<p>मानक रूप <span class="math-inline">\(b(y)\exp(\eta T(y) - a(\eta))\)</span> से तुलना करें:</p>
+<ul>
+<li><span class="math-inline">\(T(y) = y\)</span> और <span class="math-inline">\(b(y) = 1\)</span>।</li>
+<li>Natural parameter है <span class="math-inline">\(\eta = \log \frac{\phi}{1 - \phi}\)</span> (जिसे log-odds कहते हैं)। इसे <span class="math-inline">\(\phi\)</span> के लिए हल करें तो <span class="math-inline">\(e^\eta = \frac{\phi}{1-\phi}\)</span>, जिससे मिलता है:</li>
+</ul>
+<p><span class="math-display">\[\phi = \frac{1}{1 + e^{-\eta}}\]</span></p>
+<p>देखिए, Logistic Regression का sigmoid function हमने मन से नहीं गढ़ा था; वह Bernoulli के natural parameter से अपने-आप निकल आया! अब <span class="math-inline">\(1 - \phi = \frac{1}{1 + e^\eta}\)</span> रखने पर <span class="math-inline">\(a(\eta) = -\log(1 - \phi) = \log(1 + e^\eta)\)</span> मिलता है। (जाँच लें: <span class="math-inline">\(a&#x27;(\eta) = \frac{e^\eta}{1+e^\eta} = \phi = E[y]\)</span>।)</p>
+<h3>सदस्य 2: Gaussian Distribution</h3>
+<p>Linear Regression में आपने देखा था कि variance <span class="math-inline">\(\sigma^2\)</span> का मान <span class="math-inline">\(\theta\)</span> के Maximum Likelihood estimate को नहीं बदलता। इसलिए सरलता के लिए <span class="math-inline">\(\sigma^2 = 1\)</span> तय करके <span class="math-inline">\(\mathcal{N}(\mu, 1)\)</span> लिखते हैं:</p>
+<p><span class="math-display">\[\begin{aligned}
+p(y; \mu) &amp;= \frac{1}{\sqrt{2\pi}} \exp\left( -\frac{1}{2}(y - \mu)^2 \right) \\
+&amp;= \frac{1}{\sqrt{2\pi}} \exp\left(-\frac{1}{2}y^2\right) \exp\left( \mu y - \frac{1}{2}\mu^2 \right)
+\end{aligned}\]</span></p>
+<p>यहाँ <span class="math-inline">\(b(y) = \frac{1}{\sqrt{2\pi}} \exp\left(-\frac{1}{2}y^2\right)\)</span>, <span class="math-inline">\(T(y) = y\)</span>, natural parameter सीधे <span class="math-inline">\(\eta = \mu\)</span> है, और <span class="math-inline">\(a(\eta) = \frac{1}{2}\mu^2 = \frac{1}{2}\eta^2\)</span> है। (जाँच लें: <span class="math-inline">\(a&#x27;(\eta) = \eta = \mu\)</span> और <span class="math-inline">\(a&#x27;&#x27;(\eta) = 1\)</span>।)</p>
+<h2>4. Generalized Linear Models (GLMs) का निर्माण</h2>
+<p>जब भी आपको features <span class="math-inline">\(x\)</span> से किसी target <span class="math-inline">\(y\)</span> का अनुमान लगाना हो, एक <strong>Generalized Linear Model</strong> तीन सीधी assumptions से बनता है:</p>
+<ol>
+<li><strong>Exponential Family की शर्त:</strong> <span class="math-inline">\(y \mid x; \theta \sim \mathrm{ExponentialFamily}(\eta)\)</span>। यानी <span class="math-inline">\(x\)</span> और <span class="math-inline">\(\theta\)</span> दिए होने पर <span class="math-inline">\(y\)</span> आपके चुने हुए Exponential Family वितरण का पालन करता है।</li>
+<li><strong>Expected value का लक्ष्य:</strong> नए <span class="math-inline">\(x\)</span> के लिए हमें <span class="math-inline">\(T(y)\)</span> का औसत मान बताना है। जब <span class="math-inline">\(T(y) = y\)</span> हो, तो हमारी hypothesis होगी <span class="math-inline">\(h_\theta(x) = E[y \mid x; \theta]\)</span>।</li>
+<li><strong>रेखीय जुड़ाव:</strong> Natural parameter और input features आपस में रेखीय रूप से जुड़े हैं: <span class="math-inline">\(\eta = \theta^T x\)</span> (और यदि <span class="math-inline">\(\eta\)</span> एक vector है तो प्रत्येक अवयव के लिए <span class="math-inline">\(\eta_c = \theta_c^T x\)</span>)।</li>
+</ol>
+<h3>Canonical Response और Canonical Link</h3>
+<ul>
+<li>वह फलन <span class="math-inline">\(g(\eta) = E[T(y); \eta] = a&#x27;(\eta)\)</span>, जो natural parameter <span class="math-inline">\(\eta\)</span> को वितरण के माध्य <span class="math-inline">\(\mu\)</span> में बदलता है, <strong>canonical response function</strong> कहलाता है। इसके साथ हर GLM की hypothesis बस <span class="math-inline">\(h_\theta(x) = g(\theta^T x)\)</span> बन जाती है।</li>
+<li>इसका उलटा फलन <span class="math-inline">\(g^{-1}(\mu) = \eta\)</span>, जो माध्य <span class="math-inline">\(\mu\)</span> से वापस <span class="math-inline">\(\eta\)</span> देता है, <strong>canonical link function</strong> कहलाता है।</li>
+</ul>
+<p>अब हमारे पुराने दोनों मॉडल दो पंक्तियों में व्युत्पन्न हो जाते हैं:</p>
+<ul>
+<li><strong>GLM के रूप में Ordinary Least Squares (OLS):</strong> Continuous <span class="math-inline">\(y \in \mathbb{R}\)</span> के लिए Gaussian चुनें। यहाँ <span class="math-inline">\(\mu = \eta\)</span>, यानी canonical response पहचान फलन <span class="math-inline">\(g(\eta) = \eta\)</span> है। अतः <span class="math-inline">\(h_\theta(x) = E[y \mid x; \theta] = \mu = \eta = \theta^T x\)</span>।</li>
+<li><strong>GLM के रूप में Logistic Regression:</strong> Binary <span class="math-inline">\(y \in \{0, 1\}\)</span> के लिए Bernoulli चुनें। यहाँ <span class="math-inline">\(\phi = \frac{1}{1+e^{-\eta}}\)</span>, यानी canonical response logistic फलन है और canonical link logit <span class="math-inline">\(\log\frac{\phi}{1-\phi}\)</span> है। अतः <span class="math-inline">\(h_\theta(x) = E[y \mid x; \theta] = \phi = \frac{1}{1 + e^{-\theta^T x}}\)</span>।</li>
+</ul>
+<h3>सभी GLMs के लिए एक साझा Learning Rule</h3>
+<p>जब <span class="math-inline">\(T(y) = y\)</span> और <span class="math-inline">\(\eta = \theta^T x\)</span> हो, तो एक उदाहरण का conditional log-likelihood है <span class="math-inline">\(\ell(\theta) = \log b(y) + \eta y - a(\eta)\)</span>। <span class="math-inline">\(\theta_j\)</span> के सापेक्ष chain rule से अवकलन करें:</p>
+<p><span class="math-display">\[\frac{\partial \ell(\theta)}{\partial \theta_j} = \left( y - a&#x27;(\eta) \right) \frac{\partial \eta}{\partial \theta_j} = \left( y - g(\theta^T x) \right) x_j = \left( y - h_\theta(x) \right) x_j\]</span></p>
+<p>अर्थात Exponential Family का कोई भी सदस्य चुनें, Maximum Likelihood के लिए Stochastic Gradient Ascent update हमेशा एक ही सुंदर रूप लेता है:</p>
+<p><span class="math-display">\[\theta := \theta + \alpha \left( y^{(i)} - h_\theta(x^{(i)}) \right) x^{(i)}\]</span></p>
+<h2>5. Poisson Regression: गिनती वाले Data के लिए GLM</h2>
+<p>मान लीजिए <span class="math-inline">\(y \in \{0, 1, 2, 3, \dots\}\)</span> किसी घटना की गिनती है: जैसे एक घंटे में server पर आए requests, दुकान में आए ग्राहक, या दिन भर में कॉल सेंटर के फ़ोन। यहाँ साधारण Linear Regression ऋणात्मक संख्याएँ भी predict कर सकता है जो अर्थहीन हैं। गिनती के लिए स्वाभाविक वितरण <strong>Poisson(<span class="math-inline">\(\lambda\)</span>)</strong> है, जहाँ माध्य दर <span class="math-inline">\(\lambda &gt; 0\)</span> है:</p>
+<p><span class="math-display">\[p(y; \lambda) = \frac{e^{-\lambda} \lambda^y}{y!} = \frac{1}{y!} \exp\left( y \log \lambda - \lambda \right)\]</span></p>
+<p>Exponential Family से मिलान करने पर तुरंत मिलता है:</p>
+<ul>
+<li><span class="math-inline">\(b(y) = \frac{1}{y!}\)</span> और <span class="math-inline">\(T(y) = y\)</span>।</li>
+<li><span class="math-inline">\(\eta = \log \lambda\)</span> (canonical link है <span class="math-inline">\(\log \lambda\)</span>), इसलिए <span class="math-inline">\(\lambda = e^\eta\)</span>।</li>
+<li><span class="math-inline">\(a(\eta) = \lambda = e^\eta\)</span>।</li>
+</ul>
+<p>अब GLM की तीसरी शर्त <span class="math-inline">\(\eta = \theta^T x\)</span> लगाएँ। चूँकि canonical response <span class="math-inline">\(g(\eta) = a&#x27;(\eta) = e^\eta\)</span> है, हमारी hypothesis बनती है:</p>
+<p><span class="math-display">\[h_\theta(x) = E[y \mid x; \theta] = \lambda = \exp(\theta^T x)\]</span></p>
+<p>यह surface हमेशा धनात्मक रहती है और features के साथ घातांकीय (exponential) रूप से बढ़ती है। ऊपर के सार्वत्रिक सूत्र से इसका gradient ascent नियम सीधे लिख सकते हैं:</p>
+<p><span class="math-display">\[\theta := \theta + \alpha \left( y^{(i)} - \exp(\theta^T x^{(i)}) \right) x^{(i)}\]</span></p>
+<table>
+<thead>
+<tr>
+<th>Target <span class="math-inline">\(y\)</span> का प्रकार</th>
+<th>वितरण</th>
+<th>Natural param <span class="math-inline">\(\eta\)</span></th>
+<th><span class="math-inline">\(a(\eta)\)</span></th>
+<th>Canonical response <span class="math-inline">\(h_\theta(x)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Real <span class="math-inline">\(y \in \mathbb{R}\)</span></td>
+<td>Gaussian</td>
+<td><span class="math-inline">\(\mu\)</span></td>
+<td><span class="math-inline">\(\frac{1}{2}\eta^2\)</span></td>
+<td><span class="math-inline">\(\theta^T x\)</span> (OLS)</td>
+</tr>
+<tr>
+<td>Binary <span class="math-inline">\(y \in \{0, 1\}\)</span></td>
+<td>Bernoulli</td>
+<td><span class="math-inline">\(\log\frac{\phi}{1-\phi}\)</span></td>
+<td><span class="math-inline">\(\log(1 + e^\eta)\)</span></td>
+<td><span class="math-inline">\(\frac{1}{1 + e^{-\theta^T x}}\)</span> (Logistic)</td>
+</tr>
+<tr>
+<td>Count <span class="math-inline">\(y \in \{0, 1, 2, \dots\}\)</span></td>
+<td>Poisson</td>
+<td><span class="math-inline">\(\log \lambda\)</span></td>
+<td><span class="math-inline">\(e^\eta\)</span></td>
+<td><span class="math-inline">\(\exp(\theta^T x)\)</span> (Poisson GLM)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(k\)</span> classes <span class="math-inline">\(y \in \{1, \dots, k\}\)</span></td>
+<td>Multinomial</td>
+<td><span class="math-inline">\(\eta_c = \log\frac{\phi_c}{\phi_k}\)</span></td>
+<td><span class="math-inline">\(\log\sum_{j=1}^k e^{\eta_j}\)</span></td>
+<td><span class="math-inline">\(\frac{\exp(\theta_c^T x)}{\sum_{j=1}^k \exp(\theta_j^T x)}\)</span> (Softmax)</td>
+</tr>
+</tbody>
+</table>
+<h2>6. Softmax Regression और Cross-Entropy</h2>
+<p>जब वर्गीकरण में दो से अधिक यानी <span class="math-inline">\(k\)</span> परस्पर अनन्य (mutually exclusive) classes हों, <span class="math-inline">\(y \in \{1, 2, \dots, k\}\)</span>, तब हम <strong>Categorical (एकल-प्रयास Multinomial)</strong> वितरण इस्तेमाल करते हैं। मान लें <span class="math-inline">\(p(y = c; \phi) = \phi_c\)</span>, जहाँ <span class="math-inline">\(\sum_{c=1}^{k} \phi_c = 1\)</span>। क्योंकि कुल योग <span class="math-inline">\(1\)</span> है, <span class="math-inline">\(\phi_k = 1 - \sum_{c=1}^{k-1} \phi_c\)</span> बाक़ी से तय हो जाता है।</p>
+<p>यहाँ <span class="math-inline">\(T(y) \in \mathbb{R}^{k-1}\)</span> एक indicator vector लेते हैं जिसका <span class="math-inline">\(c\)</span>-वाँ घटक <span class="math-inline">\((T(y))_c = 1\{y = c\}\)</span> है (<span class="math-inline">\(c = 1, \dots, k-1\)</span> के लिए)। तब <span class="math-inline">\(1\{y = k\} = 1 - \sum_{c=1}^{k-1} 1\{y = c\}\)</span> लिखकर probability को यूँ ढालते हैं:</p>
+<p><span class="math-display">\[\begin{aligned}
+p(y; \phi) &amp;= \phi_1^{1\{y=1\}} \phi_2^{1\{y=2\}} \cdots \phi_k^{1 - \sum_{c=1}^{k-1} 1\{y=c\}} \\
+&amp;= \exp\left( \sum_{c=1}^{k-1} 1\{y=c\} \log\frac{\phi_c}{\phi_k} + \log \phi_k \right)
+\end{aligned}\]</span></p>
+<p>यह ठीक <span class="math-inline">\(b(y)\exp(\eta^T T(y) - a(\eta))\)</span> के रूप में है, जहाँ <span class="math-inline">\(b(y) = 1\)</span>, <span class="math-inline">\(\eta_c = \log\frac{\phi_c}{\phi_k}\)</span>, और <span class="math-inline">\(a(\eta) = -\log \phi_k\)</span>। सुविधा के लिए <span class="math-inline">\(\eta_k = 0\)</span> लिख लें, तो हर <span class="math-inline">\(c \in \{1, \dots, k\}\)</span> के लिए <span class="math-inline">\(\phi_c = \phi_k e^{\eta_c}\)</span>। इन्हें जोड़कर <span class="math-inline">\(1\)</span> के बराबर रखने पर <span class="math-inline">\(\phi_k \sum_{j=1}^k e^{\eta_j} = 1\)</span>, जिससे निकलता है:</p>
+<p><span class="math-display">\[\phi_c = \frac{e^{\eta_c}}{\sum_{j=1}^{k} e^{\eta_j}}\]</span></p>
+<p>इस मानचित्रण को <strong>softmax function</strong> कहते हैं। अब हर class <span class="math-inline">\(c\)</span> के लिए अपना parameter vector <span class="math-inline">\(\theta_c \in \mathbb{R}^{n+1}\)</span> रखकर <span class="math-inline">\(\eta_c = \theta_c^T x\)</span> लगाएँ (यदि <span class="math-inline">\(\theta_k = 0\)</span> बाँध दें तो ठीक <span class="math-inline">\(k-1\)</span> स्वतंत्र vectors बचते हैं, पर व्यवहार में सममिति के लिए सभी <span class="math-inline">\(k\)</span> vectors <span class="math-inline">\(\Theta = [\theta_1, \dots, \theta_k]\)</span> रखना आसान होता है):</p>
+<p><span class="math-display">\[p(y = c \mid x; \Theta) = \frac{\exp(\theta_c^T x)}{\sum_{j=1}^{k} \exp(\theta_j^T x)}\]</span></p>
+<h3>Cross-Entropy Loss और उसका Gradient</h3>
+<p>Maximum Likelihood का अर्थ है सही class की अनुमानित probability के ऋण log को न्यूनतम करना। पूरे training set पर औसत लेने से <strong>Cross-Entropy loss</strong> बनता है:</p>
+<p><span class="math-display">\[J(\Theta) = -\frac{1}{m} \sum_{i=1}^{m} \sum_{c=1}^{k} 1\{y^{(i)} = c\} \log \frac{\exp(\theta_c^T x^{(i)})}{\sum_{j=1}^{k} \exp(\theta_j^T x^{(i)})}\]</span></p>
+<p>यदि सही class <span class="math-inline">\(c^*\)</span> के लिए model <span class="math-inline">\(0.99\)</span> probability दे तो <span class="math-inline">\(-\log(0.99) \approx 0.01\)</span> (बहुत कम दंड), और यदि गलत आत्मविश्वास से <span class="math-inline">\(0.01\)</span> दे तो <span class="math-inline">\(-\log(0.01) \approx 4.6\)</span> (भारी दंड)। किसी एक <span class="math-inline">\(\theta_c\)</span> के सापेक्ष अवकलन करने पर <span class="math-inline">\(\frac{\partial}{\partial \theta_c} \log \sum_{j=1}^k e^{\theta_j^T x} = p(y=c \mid x; \Theta)\, x\)</span> आता है, जिससे gradient बहुत साफ़ रूप लेता है:</p>
+<p><span class="math-display">\[\nabla_{\theta_c} J(\Theta) = \frac{1}{m} \sum_{i=1}^{m} \left( p(y = c \mid x^{(i)}; \Theta) - 1\{y^{(i)} = c\} \right) x^{(i)}\]</span></p>
+<h3>Softmax Regression: Algorithm step by step</h3>
+<ol>
+<li>प्रत्येक input में <span class="math-inline">\(x_0^{(i)} = 1\)</span> जोड़ें और weight matrix <span class="math-inline">\(\Theta \in \mathbb{R}^{(n+1) \times k}\)</span> को शून्य से आरंभ करें।</li>
+<li>हर उदाहरण के लिए class scores <span class="math-inline">\(z_c^{(i)} = \theta_c^T x^{(i)}\)</span> निकालें और softmax से probabilities <span class="math-inline">\(\hat{p}_c^{(i)} = \frac{\exp(z_c^{(i)})}{\sum_{j=1}^k \exp(z_j^{(i)})}\)</span> बनाएँ।</li>
+<li>One-hot सत्य संकेत <span class="math-inline">\(Y_{ic} = 1\{y^{(i)} = c\}\)</span> घटाकर अंतर <span class="math-inline">\((\hat{p}_c^{(i)} - Y_{ic})\)</span> प्राप्त करें।</li>
+<li>पूरे batch पर औसत gradient <span class="math-inline">\(\nabla_{\theta_c} J = \frac{1}{m} \sum_{i=1}^m (\hat{p}_c^{(i)} - Y_{ic})\, x^{(i)}\)</span> निकालें और <span class="math-inline">\(\theta_c := \theta_c - \alpha \nabla_{\theta_c} J\)</span> से update करें।</li>
+<li>Convergence के बाद नए <span class="math-inline">\(x\)</span> के लिए <span class="math-inline">\(\arg\max_c\, \theta_c^T x\)</span> को चुनी हुई class घोषित करें।</li>
+</ol>
+<h2>7. Practical बातें और आम गलतियाँ</h2>
+<ul>
+<li><strong>Softmax में overflow से बचें (max-shift trick):</strong> यदि कोई score <span class="math-inline">\(z_c = 800\)</span> हो जाए तो कंप्यूटर में <span class="math-inline">\(\exp(800)\)</span> अनंत (<code>inf</code>) हो जाता है। हमेशा पहले <span class="math-inline">\(M = \max_j z_j\)</span> घटाएँ और <span class="math-inline">\(\frac{\exp(z_c - M)}{\sum_j \exp(z_j - M)}\)</span> की गणना करें। ऊपर और नीचे <span class="math-inline">\(e^{-M}\)</span> कटने से उत्तर बिल्कुल नहीं बदलता और overflow कभी नहीं होता।</li>
+<li><strong>Noisy data पर Perceptron मत छोड़ें:</strong> यदि दो classes पूरी तरह अलग नहीं हो सकतीं, तो Perceptron कभी स्थिर नहीं होगा और आख़िरी झटके में बहुत ख़राब रेखा पर रुक सकता है। ऐसे में Logistic Regression या Softmax ज़्यादा भरोसेमंद हैं।</li>
+<li><strong>Softmax में अतिरिक्त स्वतंत्रता (overparameterization):</strong> सभी <span class="math-inline">\(\theta_c\)</span> में एक ही सदिश <span class="math-inline">\(\psi\)</span> जोड़ने पर probabilities अपरिवर्तित रहती हैं क्योंकि <span class="math-inline">\(\frac{\exp((\theta_c+\psi)^T x)}{\sum_j \exp((\theta_j+\psi)^T x)}\)</span> में <span class="math-inline">\(e^{\psi^T x}\)</span> कट जाता है। अद्वितीय समाधान चाहें तो या तो <span class="math-inline">\(\theta_k = 0\)</span> रखें या <span class="math-inline">\(\Theta\)</span> पर सूक्ष्म L2 regularization लगाएँ।</li>
+<li><strong>Multi-class बनाम Multi-label पहचानें:</strong> यदि एक उदाहरण केवल एक ही श्रेणी का हो सकता है (जैसे अंक <span class="math-inline">\(0\)</span> से <span class="math-inline">\(9\)</span> में से कोई एक), तो एक Softmax लगाएँ। यदि एक ही उदाहरण पर एक साथ कई लेबल सच हो सकते हैं (जैसे फ़ोटो में 'पहाड़' और 'नदी' दोनों), तो <span class="math-inline">\(k\)</span> स्वतंत्र Binary Logistic classifiers लगाएँ।</li>
+</ul>
+<h2>8. खुद से पूछें</h2>
+<ol>
+<li>जब केवल <span class="math-inline">\(k = 2\)</span> classes हों और हम <span class="math-inline">\(\theta_2 = 0\)</span> तय कर दें, तो सिद्ध करें कि Softmax probability <span class="math-inline">\(p(y = 1 \mid x; \Theta)\)</span> ठीक Logistic Regression के sigmoid सूत्र में बदल जाती है।</li>
+<li>मान लीजिए आप सड़क दुर्घटनाओं की दैनिक संख्या (<span class="math-inline">\(0, 1, 2, \dots\)</span>) का अनुमान लगा रहे हैं। यहाँ OLS की तुलना में Poisson Regression के दो मुख्य लाभ क्या हैं?</li>
+<li>एक बिंदु सही तरफ़ है (<span class="math-inline">\(\theta^T x^{(i)} = +0.05\)</span> जब <span class="math-inline">\(y^{(i)} = 1\)</span>), यानी boundary के बेहद करीब है। उस एक बिंदु को देखकर Perceptron क्या करेगा और Logistic Regression क्या करेगा?</li>
+</ol>
+<div class="part"><span class="tag">भाग 2</span><h2>3D Animations</h2></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 4.1</span>Perceptron Plane Jumps on Mistakes</div><div class="frames"><figure><img src="anim/L04_1_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L04_1_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L04_1_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> ज़मीन (<span class="math-inline">\(z=0\)</span>) पर नीले बिंदु (<span class="math-inline">\(y=0\)</span>) और लाल त्रिकोण (<span class="math-inline">\(y=1\)</span>) दो linearly separable classes हैं। झुका हुआ plane वर्तमान linear score <span class="math-inline">\(z = \theta^T x\)</span> दिखाता है और काली रेखा decision boundary <span class="math-inline">\(\theta^T x = 0\)</span> है। Perceptron हर कदम पर केवल गलत वर्गीकृत बिंदु (नारंगी घेरा) को देखकर <span class="math-inline">\(\theta := \theta + \alpha(y - h_\theta(x))x\)</span> से अचानक छलाँग लगाता है। जैसे ही गलतियाँ शून्य होती हैं, हरा plane स्थिर होकर रुक जाता है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L04_1.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 4.2</span>Exponential Family <span class="math-inline">\(p(y;\eta)\)</span></div><div class="frames"><figure><img src="anim/L04_2_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L04_2_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L04_2_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ <span class="math-inline">\((y, \eta)\)</span> तल के ऊपर Exponential Family के Gaussian सदस्य <span class="math-inline">\(p(y;\eta) = b(y)\exp(\eta y - a(\eta))\)</span> की 3D density दिखाई गई है। नीली टूटी रेखा <span class="math-inline">\(\eta = 0\)</span> पर base measure <span class="math-inline">\(b(y)\)</span> है। जैसे-जैसे लाल काट (slice) <span class="math-inline">\(\eta\)</span> को बढ़ाती है, <span class="math-inline">\(\exp(\eta y)\)</span> वितरण को दाईं ओर झुकाता है और <span class="math-inline">\(a(\eta) = \frac{1}{2}\eta^2\)</span> कुल क्षेत्रफल को <span class="math-inline">\(1\)</span> बनाए रखता है। शिखर हमेशा हरी रेखा <span class="math-inline">\(E[y;\eta] = a&#x27;(\eta) = \eta\)</span> पर चलता है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L04_2.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 4.3</span>GLM: Plane Morphs to Mean Surface</div><div class="frames"><figure><img src="anim/L04_3_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L04_3_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L04_3_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> GLM दो चरणों में काम करता है: पहले features से सपाट linear plane <span class="math-inline">\(\eta = \theta^T x\)</span> बनता है (धूसर जाली), फिर canonical response <span class="math-inline">\(g(\eta) = a&#x27;(\eta)\)</span> उसे मोड़कर mean surface <span class="math-inline">\(E[y\mid x]\)</span> बनाता है। यहाँ Bernoulli GLM के लिए सपाट plane धीरे-धीरे मोड़ खाकर <span class="math-inline">\([0, 1]\)</span> के बीच बंधी sigmoid surface में बदल रहा है। नारंगी रेखाएँ दिखाती हैं कि कैसे बड़े धनात्मक <span class="math-inline">\(\eta\)</span> नीचे <span class="math-inline">\(1\)</span> पर और ऋणात्मक <span class="math-inline">\(\eta\)</span> ऊपर <span class="math-inline">\(0\)</span> पर दब जाते हैं।</p><div class="file">चलती animation: cs229_hindi/out/anim/L04_3.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 4.4</span>Poisson GLM: <span class="math-inline">\(\exp(\theta^T x)\)</span></div><div class="frames"><figure><img src="anim/L04_4_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L04_4_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L04_4_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> गिनती वाले data <span class="math-inline">\(y \in \{0, 1, 2, \dots\}\)</span> (काले बिंदु) पर Poisson GLM fit हो रहा है। शुरू में <span class="math-inline">\(\theta = 0\)</span> है, इसलिए अनुमानित दर <span class="math-inline">\(\hat{\lambda}(x) = \exp(0) = 1\)</span> की सपाट चादर है। Gradient Ascent चलते ही surface <span class="math-inline">\(\hat{\lambda}(x) = \exp(\theta^T x)\)</span> घातांकीय रूप से ऊपर उठती है, हमेशा धनात्मक रहती है, और residuals छोटे होते जाते हैं।</p><div class="file">चलती animation: cs229_hindi/out/anim/L04_4.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 4.5</span>Softmax: 3 Class Surfaces Sharpen</div><div class="frames"><figure><img src="anim/L04_5_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L04_5_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L04_5_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> तीन classes (नीली, लाल, हरी) के data पर Softmax Regression Cross-Entropy loss को कम कर रहा है। शुरू में <span class="math-inline">\(\Theta = 0\)</span> होने से तीनों probability surfaces <span class="math-inline">\(P(y=c\mid x) = 1/3\)</span> पर सपाट हैं। जैसे-जैसे Gradient Descent आगे बढ़ता है, हर class के क्षेत्र में उसकी surface <span class="math-inline">\(1\)</span> की ओर उठती है और बाक़ी दो <span class="math-inline">\(0\)</span> की ओर झुकती हैं, जबकि हर बिंदु पर तीनों का जोड़ <span class="math-inline">\(1\)</span> रहता है।</p><div class="file">चलती animation: cs229_hindi/out/anim/L04_5.gif</div></div>
+<div class="part"><span class="tag">भाग 3</span><h2>Python Example</h2></div>
+<p class="run">इसे खुद चलाएँ: <code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L04_perceptron_glm/example.py</code></p>
+<div class="code"><pre><span></span><span class="sd">"""Lecture 4 example: Softmax Regression और Perceptron शुरू से (सिर्फ़ NumPy).</span>
+
+<span class="sd">भाग A: sklearn के 3-class Iris dataset पर Cross-Entropy loss के साथ Softmax Regression।</span>
+<span class="sd">भाग B: Iris के linearly separable 2-class subset (setosa बनाम versicolor) पर Perceptron,</span>
+<span class="sd">       और overlapping subset (versicolor बनाम virginica) के साथ उसकी तुलना।</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+<span class="n">names</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target_names</span>  <span class="c1"># ['setosa', 'versicolor', 'virginica']</span>
+
+<span class="c1"># ---------- 1. Data तैयार करें: train (120) और test (30) split ----------</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">))</span>
+<span class="n">tr</span><span class="p">,</span> <span class="n">te</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[:</span><span class="mi">120</span><span class="p">],</span> <span class="n">idx</span><span class="p">[</span><span class="mi">120</span><span class="p">:]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">prep_design</span><span class="p">(</span><span class="n">raw_X</span><span class="p">,</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Training statistics से scale करें और x0 = 1 जोड़ें।"""</span>
+    <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">raw_X</span><span class="p">[</span><span class="n">train_idx</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">raw_X</span><span class="p">[</span><span class="n">train_idx</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">X_tr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_idx</span><span class="p">)),</span> <span class="p">(</span><span class="n">raw_X</span><span class="p">[</span><span class="n">train_idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sd</span><span class="p">]</span>
+    <span class="n">X_te</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test_idx</span><span class="p">)),</span> <span class="p">(</span><span class="n">raw_X</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sd</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">X_tr</span><span class="p">,</span> <span class="n">X_te</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span>
+
+
+<span class="c1"># 2 petal features (visualisation के लिए) और सभी 4 features दोनों तैयार रखें</span>
+<span class="n">X_tr2</span><span class="p">,</span> <span class="n">X_te2</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">sd2</span> <span class="o">=</span> <span class="n">prep_design</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">tr</span><span class="p">,</span> <span class="n">te</span><span class="p">)</span>
+<span class="n">X_tr4</span><span class="p">,</span> <span class="n">X_te4</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">prep_design</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">te</span><span class="p">)</span>
+<span class="n">y_tr</span><span class="p">,</span> <span class="n">y_te</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">tr</span><span class="p">],</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">te</span><span class="p">]</span>
+
+
+<span class="c1"># ---------- 2. भाग A: Softmax Regression और Cross-Entropy ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">softmax</span><span class="p">(</span><span class="n">Z</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Overflow से बचने के लिए पहले हर row का max घटाएँ।"""</span>
+    <span class="n">Zs</span> <span class="o">=</span> <span class="n">Z</span> <span class="o">-</span> <span class="n">Z</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">exp_Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">Zs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">exp_Z</span> <span class="o">/</span> <span class="n">exp_Z</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cross_entropy</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""J(Theta) = -(1/m) * sum log P(y = y^(i) | x^(i))"""</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">P</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span> <span class="n">y</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">)))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_softmax</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">350</span><span class="p">):</span>
+    <span class="n">Theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">k</span><span class="p">))</span>
+    <span class="n">Y_oh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">k</span><span class="p">)[</span><span class="n">y</span><span class="p">]</span>
+    <span class="n">ce_hist</span><span class="p">,</span> <span class="n">acc_hist</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">):</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">Theta</span><span class="p">)</span>
+        <span class="n">ce_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="n">acc_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)))</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">P</span> <span class="o">-</span> <span class="n">Y_oh</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>  <span class="c1"># (1/m) sum (p_c - 1{y=c}) x</span>
+        <span class="n">Theta</span> <span class="o">-=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">grad</span>
+    <span class="k">return</span> <span class="n">Theta</span><span class="p">,</span> <span class="n">ce_hist</span><span class="p">,</span> <span class="n">acc_hist</span>
+
+
+<span class="n">Theta2</span><span class="p">,</span> <span class="n">ce_hist</span><span class="p">,</span> <span class="n">acc_hist</span> <span class="o">=</span> <span class="n">fit_softmax</span><span class="p">(</span><span class="n">X_tr2</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">)</span>
+<span class="n">Theta4</span><span class="p">,</span> <span class="n">ce_hist4</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">fit_softmax</span><span class="p">(</span><span class="n">X_tr4</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"=== भाग A: 3-Class Iris पर Softmax Regression ==="</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"iter    train CE loss    train accuracy"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">349</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">step</span><span class="si">:</span><span class="s2">4d</span><span class="si">}</span><span class="s2">    </span><span class="si">{</span><span class="n">ce_hist</span><span class="p">[</span><span class="n">step</span><span class="p">]</span><span class="si">:</span><span class="s2">13.4f</span><span class="si">}</span><span class="s2">    </span><span class="si">{</span><span class="n">acc_hist</span><span class="p">[</span><span class="n">step</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">13.1f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+<span class="n">P_te2</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">X_te2</span> <span class="o">@</span> <span class="n">Theta2</span><span class="p">)</span>
+<span class="n">P_te4</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">X_te4</span> <span class="o">@</span> <span class="n">Theta4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">2 petal features -&gt; train acc: </span><span class="si">{</span><span class="n">acc_hist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%,  test acc: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">P_te2</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="n">y_te</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%,  test CE: </span><span class="si">{</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">P_te2</span><span class="p">,</span><span class="w"> </span><span class="n">y_te</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"सभी 4 features   -&gt; train acc: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">softmax</span><span class="p">(</span><span class="n">X_tr4</span><span class="nd">@Theta4</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="n">y_tr</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%,  test acc: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">P_te4</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="n">y_te</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%,  test CE: </span><span class="si">{</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">P_te4</span><span class="p">,</span><span class="w"> </span><span class="n">y_te</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">तीनों classes के एक-एक test फूल पर Softmax probabilities [setosa, versicolor, virginica]:"</span><span class="p">)</span>
+<span class="n">sample_ids</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y_te</span> <span class="o">==</span> <span class="n">c</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sample_ids</span><span class="p">:</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">P_te4</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">pred_name</span><span class="p">,</span> <span class="n">true_name</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="n">probs</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span> <span class="n">names</span><span class="p">[</span><span class="n">y_te</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  test #</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">: p = [</span><span class="si">{</span><span class="n">probs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">probs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">probs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">] (sum=</span><span class="si">{</span><span class="n">probs</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">) -&gt; pred: </span><span class="si">{</span><span class="n">pred_name</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> (सच: </span><span class="si">{</span><span class="n">true_name</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+
+
+<span class="c1"># ---------- 3. भाग B: Perceptron (threshold नियम) ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_perceptron</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="mi">25</span><span class="p">):</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">mistakes_per_epoch</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_epochs</span><span class="p">):</span>
+        <span class="n">mistakes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">xi</span> <span class="o">@</span> <span class="n">theta</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">)</span>  <span class="c1"># hard threshold g(z) = 1{z &gt;= 0}</span>
+            <span class="k">if</span> <span class="n">pred</span> <span class="o">!=</span> <span class="n">yi</span><span class="p">:</span>
+                <span class="n">theta</span> <span class="o">+=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">yi</span> <span class="o">-</span> <span class="n">pred</span><span class="p">)</span> <span class="o">*</span> <span class="n">xi</span>
+                <span class="n">mistakes</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">mistakes_per_epoch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mistakes</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mistakes</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">return</span> <span class="n">theta</span><span class="p">,</span> <span class="n">mistakes_per_epoch</span>
+
+
+<span class="c1"># Separable subset: setosa (0) बनाम versicolor (1), petal length व petal width</span>
+<span class="n">sep_mask</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span> <span class="o">&lt;</span> <span class="mi">2</span>
+<span class="n">X_sep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">sep_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">sep_mask</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]]</span>
+<span class="n">y_sep</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">sep_mask</span><span class="p">]</span>
+<span class="n">perm_s</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_sep</span><span class="p">))</span>
+<span class="n">th_perc</span><span class="p">,</span> <span class="n">err_sep</span> <span class="o">=</span> <span class="n">fit_perceptron</span><span class="p">(</span><span class="n">X_sep</span><span class="p">[</span><span class="n">perm_s</span><span class="p">],</span> <span class="n">y_sep</span><span class="p">[</span><span class="n">perm_s</span><span class="p">])</span>
+
+<span class="c1"># Overlapping subset: versicolor (0) बनाम virginica (1)</span>
+<span class="n">ov_mask</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+<span class="n">X_ov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">ov_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ov_mask</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]]</span>
+<span class="n">y_ov</span> <span class="o">=</span> <span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">ov_mask</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">perm_o</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_ov</span><span class="p">))</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">err_ov</span> <span class="o">=</span> <span class="n">fit_perceptron</span><span class="p">(</span><span class="n">X_ov</span><span class="p">[</span><span class="n">perm_o</span><span class="p">],</span> <span class="n">y_ov</span><span class="p">[</span><span class="n">perm_o</span><span class="p">],</span> <span class="n">max_epochs</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== भाग B: 2-Class Subsets पर Perceptron ==="</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Setosa vs Versicolor (separable): प्रति epoch गलतियाँ = </span><span class="si">{</span><span class="n">err_sep</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  -&gt; </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">err_sep</span><span class="p">)</span><span class="si">}</span><span class="s2"> epochs में शून्य गलतियों पर रुक गया, accuracy = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">X_sep</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">th_perc</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">y_sep</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Versicolor vs Virginica (overlap): 15 epochs में गलतियाँ = </span><span class="si">{</span><span class="n">err_ov</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"  -&gt; Overlapping data पर Perceptron कभी 0 गलतियों पर शांत नहीं होता।"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 4. Plots ----------</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">12.2</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">))</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ce_hist</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#2563eb"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"2 petal features"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ce_hist4</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"all 4 features"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"GD iteration"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"Cross-Entropy J(Theta)"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Softmax Cross-Entropy Curve"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mf">8.5</span><span class="p">)</span>
+
+<span class="n">gx</span><span class="p">,</span> <span class="n">gy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">7.2</span><span class="p">,</span> <span class="mi">180</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mi">180</span><span class="p">))</span>
+<span class="n">G_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">gx</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">gx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">gy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()]</span> <span class="o">-</span> <span class="n">mu2</span><span class="p">)</span> <span class="o">/</span> <span class="n">sd2</span><span class="p">]</span>
+<span class="n">Z_cls</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">G_std</span> <span class="o">@</span> <span class="n">Theta2</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">gx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">Z_cls</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s2">"#dbeafe"</span><span class="p">,</span> <span class="s2">"#fee2e2"</span><span class="p">,</span> <span class="s2">"#dcfce7"</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s2">"#2563eb"</span><span class="p">,</span> <span class="s2">"#dc2626"</span><span class="p">,</span> <span class="s2">"#16a34a"</span><span class="p">]):</span>
+    <span class="n">m_c</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="n">c</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">m_c</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">m_c</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">names</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"petal length (cm)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"petal width (cm)"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Softmax 3-Class Regions"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"upper left"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">lab</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"#2563eb"</span><span class="p">,</span> <span class="s2">"setosa (y=0)"</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"#dc2626"</span><span class="p">,</span> <span class="s2">"versicolor (y=1)"</span><span class="p">)]:</span>
+    <span class="n">m_c</span> <span class="o">=</span> <span class="n">y_sep</span> <span class="o">==</span> <span class="n">c</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_sep</span><span class="p">[</span><span class="n">m_c</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">X_sep</span><span class="p">[</span><span class="n">m_c</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">lab</span><span class="p">)</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">5.2</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">th_perc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">th_perc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">xs</span><span class="p">)</span> <span class="o">/</span> <span class="n">th_perc</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"k-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Perceptron boundary"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">),</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"petal length (cm)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"petal width (cm)"</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">"Perceptron (Separable Subset)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"upper left"</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"result.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+</pre></div>
+
+<div class="label">OUTPUT</div>
+<pre class="output">=== भाग A: 3-Class Iris पर Softmax Regression ===
+iter    train CE loss    train accuracy
+   0           1.0986             30.8%
+  10           0.4803             85.8%
+  50           0.2563             95.0%
+ 150           0.1573             95.0%
+ 349           0.1150             95.8%
+
+2 petal features -&gt; train acc: 95.8%,  test acc: 96.7%,  test CE: 0.0763
+सभी 4 features   -&gt; train acc: 97.5%,  test acc: 96.7%,  test CE: 0.0820
+
+तीनों classes के एक-एक test फूल पर Softmax probabilities [setosa, versicolor, virginica]:
+  test # 1: p = [0.999, 0.001, 0.000] (sum=1.00) -&gt; pred: setosa     (सच: setosa)
+  test # 5: p = [0.009, 0.961, 0.030] (sum=1.00) -&gt; pred: versicolor (सच: versicolor)
+  test # 0: p = [0.000, 0.006, 0.994] (sum=1.00) -&gt; pred: virginica  (सच: virginica)
+
+=== भाग B: 2-Class Subsets पर Perceptron ===
+Setosa vs Versicolor (separable): प्रति epoch गलतियाँ = [7, 0]
+  -&gt; 2 epochs में शून्य गलतियों पर रुक गया, accuracy = 100.0%
+Versicolor vs Virginica (overlap): 15 epochs में गलतियाँ = [56, 48, 45, 35, 37, 25, 27, 27, 27, 27, 27, 25, 25, 25, 24]
+  -&gt; Overlapping data पर Perceptron कभी 0 गलतियों पर शांत नहीं होता।</pre>
+<img class="result-img" src="examples/L04_perceptron_glm/result.png">
+</section>
+<script src="../vendor/katex/package/dist/katex.min.js"></script>
+<script src="../vendor/katex/package/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [{left: "\\[", right: "\\]", display: true}, {left: "\\(", right: "\\)", display: false}],
+  throwOnError: false, ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+});
+</script>
+</body></html>

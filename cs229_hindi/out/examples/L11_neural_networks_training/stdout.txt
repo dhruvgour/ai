@@ -1,0 +1,15 @@
+1) Gradient check (385 params, lam=0.2): max |diff| = 6.58e-10, rel_err = 8.47e-10
+
+2) Init (25 epochs Adam): Zero init test acc = 8.4% (symmetry trap!) | He init = 96.3%
+
+3) Optimizers (64->64->10 ReLU MLP, B=32, 45 epochs):
+Optimizer        lr     train loss   train acc   test acc
+Mini-batch SGD  0.050       0.0194      99.92%     96.48%
+Momentum        0.150       0.0044     100.00%     96.65%
+Adam            0.003       0.0010     100.00%     96.98%
+
+4) Regularization (m=180 train, 128 hidden units, 90 epochs Adam):
+Setting                 train acc   test acc   acc gap   test CE
+No regularization         100.00%     92.13%     7.87%    0.2537
+L2 (lambda=0.15)          100.00%     93.80%     6.20%    0.2239
+Inverted Dropout p=0.6    100.00%     92.96%     7.04%    0.2369

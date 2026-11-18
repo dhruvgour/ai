@@ -1,0 +1,25 @@
+XOR: Logistic Regression का output : [0.5 0.5 0.5 0.5]
+XOR: 2 hidden units वाला network   : [0. 1. 1. 0.]
+
+XOR में hidden layer ने हर point को कहाँ भेजा:
+ x1  x2   y     a1[1]   a1[2]   output
+  0   0   0     -0.96   -0.96     0.00
+  0   1   1      0.97   -1.00     1.00
+  1   0   1     -1.00    0.97     1.00
+  1   1   0     -0.96   -0.97     0.00
+
+20 अलग random शुरुआतों में से कितनी बार XOR हल हुआ (loss < 0.05):
+  hidden units = 2: 11 / 20
+  hidden units = 3: 17 / 20
+  hidden units = 8: 20 / 20
+
+Two moons (500 train, 500 test)
+Model                  parameters   train acc   test acc
+Logistic Regression             3       0.872      0.856
+NN, hidden units = 1            5       0.864      0.856
+NN, hidden units = 2            9       0.868      0.860
+NN, hidden units = 3           13       0.964      0.968
+NN, hidden units = 8           33       0.970      0.964
+
+30,000 examples का forward pass: loop 0.13 s, vectorized 0.0017 s (लगभग 76 गुना तेज़)
+दोनों के जवाबों में सबसे बड़ा फ़र्क: 5.6e-16

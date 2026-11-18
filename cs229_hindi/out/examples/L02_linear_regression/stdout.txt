@@ -1,0 +1,16 @@
+Method             theta0   theta1   theta2   train J    test R^2
+Batch GD            329.80   101.82    23.79    321.58     0.9431
+SGD                 329.88   101.20    25.90    324.09     0.9429
+Normal Equations    329.80   101.82    23.79    321.58     0.9431
+
+असली units में: price = 49.0 + 0.120*size + 15.6*bedrooms
+(data बनाते समय सच यह था: price = 50 + 0.120*size + 15*bedrooms)
+
+2000 sq ft, 3 bedrooms वाले घर का prediction: 336.8 हज़ार
+
+अलग-अलग alpha पर 50 iterations के बाद J:
+  alpha = 0.001  J = 5.43e+04
+  alpha = 0.01   J = 2.222e+04
+  alpha = 0.1    J = 323.3
+  alpha = 1.0    J = 321.6
+  alpha = 2.1    J = 6.684e+13  <- diverge!

@@ -1,0 +1,27 @@
+n = 30 dimensions, m = 20 examples, k = 3 factors
+Sample covariance:   rank = 19 (n = 30 चाहिए),  सबसे छोटा eigenvalue = -2.8e-15
+Factor Analysis:     rank = 30,  सबसे छोटा eigenvalue = 0.072
+Parameters: full Sigma में 465, Factor Analysis (Lambda + Psi) में 120
+
+EM: iteration और average log-likelihood (training data पर)
+    0    -59.1542
+    1    -48.2006
+    2    -35.4294
+    5    -31.0113
+   10    -30.8991
+   20    -30.8102
+   50    -30.7051
+  100    -30.6610
+  200    -30.6467
+  299    -30.6452
+  log-likelihood कभी घटा? नहीं
+
+Model                     error vs true Sigma    test log-likelihood
+Full (sample cov)                0.464          undefined (singular)
+Diagonal                         0.915              -58.21
+Spherical sigma^2 I              0.940              -61.54
+Factor Analysis (EM)             0.451              -44.27
+sklearn FactorAnalysis           0.462              -44.27
+True Sigma                       0.000              -36.01
+
+हमारा EM बनाम sklearn, training log-likelihood: -30.6452 बनाम -30.6449
