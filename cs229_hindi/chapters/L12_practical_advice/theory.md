@@ -61,7 +61,7 @@ $$\hat{\varepsilon}_{\text{train}}(m) \ll \hat{\varepsilon}_{\text{dev}}(m), \qq
 
 ## 4. Optimizer बनाम Objective Diagnostic: SVM बनाम Bayesian Logistic Regression
 
-कई बार bias और variance से अलग एक तीसरी उलझन सामने आती है: **गड़बड़ आपके optimization algorithm में है, या खुद आपके objective function $J(\theta)$ में?** इसे CS229 के प्रसिद्ध उदाहरण से समझते हैं।
+कई बार bias और variance से अलग एक तीसरी उलझन सामने आती है: **गड़बड़ आपके optimization algorithm में है, या खुद आपके objective function $J(\theta)$ में?** इसे एक छोटे उदाहरण से समझते हैं।
 
 मान लीजिए आप spam पकडने या किसी autonomous system के लिए **Bayesian Logistic Regression (BLR)** इस्तेमाल कर रहे हैं ($y^{(i)} \in \{-1, +1\}$)। L2 Gaussian prior के साथ आप इस regularized cost function $J(\theta)$ को **minimize** करना चाहते हैं:
 

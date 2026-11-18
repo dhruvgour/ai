@@ -3,7 +3,7 @@
 1. Handwritten digits (load_digits, 64 dimensions) पर SVD से PCA: variance retained बनाम k
    और reconstruction error की जाँच।
 2. Laplace-distributed (super-Gaussian) स्वतंत्र sources को mixing matrix A से मिलाकर
-   CS229 के sigmoid-CDF stochastic gradient ascent से वापस अलग करना।
+   sigmoid-CDF stochastic gradient ascent से वापस अलग करना।
 """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -64,7 +64,7 @@ def sigmoid(z):
     return 1.0 / (1.0 + np.exp(-np.clip(z, -30.0, 30.0)))
 
 
-# CS229 Stochastic Gradient Ascent: W := W + alpha * ((1 - 2g(Wx)) x^T + (W^T)^-1)
+# Stochastic Gradient Ascent: W := W + alpha * ((1 - 2g(Wx)) x^T + (W^T)^-1)
 W = rng.normal(0.0, 0.4, size=(n_ica, n_ica)) + np.eye(n_ica)
 alpha = 0.004
 for epoch in range(25):

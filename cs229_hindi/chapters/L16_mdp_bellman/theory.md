@@ -113,7 +113,7 @@ $$\pi^*(s) = \arg\max_{a \in A} \sum_{s' \in S} P_{sa}(s')\, V^*(s')$$
 
 इस $\pi^*$ के लिए हर state $s$ और हर policy $\pi$ पर $V^*(s) = V^{\pi^*}(s) \ge V^\pi(s)$ है। यहाँ एक बारीक पर बहुत काम की बात है: **वही एक $\pi^*$ हर start state के लिए optimal है।** $(1,1)$ से शुरू करने के लिए एक policy और $(3,1)$ से शुरू करने के लिए दूसरी, ऐसा नहीं करना पड़ता, क्योंकि $\pi^*(s)$ की परिभाषा में start state कहीं आता ही नहीं।
 
-Gridworld का $V^*$ और $\pi^*$ (CS229 notes वाले ही अंक):
+इस gridworld का $V^*$ और $\pi^*$:
 
 | | column 1 | column 2 | column 3 | column 4 |
 |---|---|---|---|---|

@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="hi"><head><meta charset="utf-8">
-<title>CS229 Machine Learning हिंदी में</title>
+<title>Dhruv AI tutorial | Machine Learning हिंदी में</title>
 <link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
 <style>
 @page { size: A4; margin: 16mm 13mm 17mm 13mm;
@@ -153,9 +153,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .code .vm { color: #BB60D5 } /* Name.Variable.Magic */
 .code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
 </head><body class="print">
-<section class="cover"><div class="kicker">STANFORD CS229 SCHEDULE &middot; SELF-STUDY GUIDE</div><h1>Machine Learning<br>हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह एक self-study guide है जो CS229 के public syllabus के क्रम पर चलती है। यह Stanford का official material नहीं है।</div></section>
+<section class="cover"><div class="kicker">DHRUV AI TUTORIAL &middot; SELF-STUDY GUIDE</div><h1>Dhruv AI tutorial<br>Machine Learning हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक की self-study guide है।</div></section>
 <section class="front"><h2>यह guide कैसे पढ़ें</h2>
-<p>यह guide Stanford CS229 (Machine Learning) के syllabus के क्रम में चलती है: Lecture 1 से Lecture 20 तक। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<p>यह Dhruv AI tutorial Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक के 20 lectures में व्यवस्थित है। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
 <table>
 <thead>
 <tr>
@@ -185,7 +185,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
 <h2>चलती animations कहाँ हैं</h2>
 <ul>
-<li><strong><code>CS229_Hindi_Animated.html</code></strong> (इसी folder में): इसे browser में खोलें। यह यही पूरी guide है, पर इसमें सारी animations चलती हैं।</li>
+<li><strong><code>index.html</code></strong> (project का मुख्य page): इसे browser में खोलें। इसमें पूरी guide और सारी animations हैं।</li>
 <li><strong><code>cs229_hindi/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
 </ul>
 <h2>Code कैसे चलाएँ</h2>
@@ -363,7 +363,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </tbody>
 </table>
 <h2>4. Optimizer बनाम Objective Diagnostic: SVM बनाम Bayesian Logistic Regression</h2>
-<p>कई बार bias और variance से अलग एक तीसरी उलझन सामने आती है: <strong>गड़बड़ आपके optimization algorithm में है, या खुद आपके objective function <span class="math-inline">\(J(\theta)\)</span> में?</strong> इसे CS229 के प्रसिद्ध उदाहरण से समझते हैं।</p>
+<p>कई बार bias और variance से अलग एक तीसरी उलझन सामने आती है: <strong>गड़बड़ आपके optimization algorithm में है, या खुद आपके objective function <span class="math-inline">\(J(\theta)\)</span> में?</strong> इसे एक छोटे उदाहरण से समझते हैं।</p>
 <p>मान लीजिए आप spam पकडने या किसी autonomous system के लिए <strong>Bayesian Logistic Regression (BLR)</strong> इस्तेमाल कर रहे हैं (<span class="math-inline">\(y^{(i)} \in \{-1, +1\}\)</span>)। L2 Gaussian prior के साथ आप इस regularized cost function <span class="math-inline">\(J(\theta)\)</span> को <strong>minimize</strong> करना चाहते हैं:</p>
 <p><span class="math-display">\[J(\theta) = \frac{1}{m}\sum_{i=1}^{m} \log\left(1 + \exp\big(-y^{(i)}\theta^T x^{(i)}\big)\right) + \frac{\lambda}{2}\|\theta\|_2^2\]</span></p>
 <p>आपने Gradient Descent चलाकर parameters <span class="math-inline">\(\theta_{\text{BLR}}\)</span> निकाले। साथ ही तुलना के लिए किसी तैयार library से एक linear <strong>SVM</strong> चलाया, जिससे parameters <span class="math-inline">\(\theta_{\text{SVM}}\)</span> मिले (जो hinge loss minimize करता है)। जब आपने असली evaluation metric (जैसे dev accuracy या weighted score) नापा, तो पता चला कि <strong><span class="math-inline">\(\theta_{\text{SVM}}\)</span> आपके <span class="math-inline">\(\theta_{\text{BLR}}\)</span> से कहीं बेहतर काम कर रहा है</strong>!</p>

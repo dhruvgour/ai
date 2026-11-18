@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Build the CS229 Hindi course book.
+"""Build the Dhruv AI tutorial.
 
     .venv/bin/python build.py                 # everything -> PDF + animated HTML
     .venv/bin/python build.py --only L02 L05  # only these chapters (fast check, no PDF)
@@ -36,8 +36,8 @@ CONTACT = OUT / "contact"
 CACHE = OUT / "cache.json"
 KATEX = ROOT / "vendor" / "katex" / "package" / "dist"
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-PDF_NAME = "CS229_Hindi.pdf"
-HTML_NAME = "CS229_Hindi_Animated.html"
+PDF_NAME = "Dhruv_AI_tutorial.pdf"
+HTML_NAME = "index.html"
 MIN_ANIMS = 5
 MAX_OUTPUT_LINES = 70
 
@@ -360,17 +360,16 @@ def build_html(dirs, specs_by_ch, examples, animated: bool, base: str, katex: st
         parts.append("\n".join(sec))
 
     front_md = (CHAPTERS / "_front.md").read_text() if (CHAPTERS / "_front.md").exists() else ""
-    cover = ('<section class="cover"><div class="kicker">STANFORD CS229 SCHEDULE &middot; SELF-STUDY GUIDE</div>'
-             '<h1>Machine Learning<br>हिंदी में</h1>'
+    cover = ('<section class="cover"><div class="kicker">DHRUV AI TUTORIAL &middot; SELF-STUDY GUIDE</div>'
+             '<h1>Dhruv AI tutorial<br>Machine Learning हिंदी में</h1>'
              '<div class="sub">Lecture 1 से Lecture 20 तक</div>'
              '<div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div>'
-             '<div class="note">यह एक self-study guide है जो CS229 के public syllabus के क्रम पर चलती है। '
-             'यह Stanford का official material नहीं है।</div></section>')
+             '<div class="note">यह Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक की self-study guide है।</div></section>')
     front = (f'<section class="front">{md_to_html(front_md)}'
              f'<h2>विषय-सूची</h2><div class="toc"><ol>{"".join(toc)}</ol></div></section>')
     return f"""<!doctype html>
 <html lang="hi"><head><meta charset="utf-8">
-<title>CS229 Machine Learning हिंदी में</title>
+<title>Dhruv AI tutorial | Machine Learning हिंदी में</title>
 <link rel="stylesheet" href="{katex}katex.min.css">
 <style>{CSS}{fmt.get_style_defs(".code")}</style>
 </head><body class="{'screen' if animated else 'print'}">

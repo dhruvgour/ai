@@ -1,6 +1,6 @@
 # Principal Component Analysis और Independent Component Analysis
 
-> **इस lecture में:** Unsupervised dimensionality reduction और source separation, PCA preprocessing, projected variance $u^T \Sigma u$ को maximize करके top eigenvector निकालना, $k$-dimensional PCA, reconstruction error नज़रिया, SVD से सीधा संबंध, variance retained से $k$ चुनना, PCA के applications, फिर ICA: cocktail party problem ($x = As$, $W = A^{-1}$), ICA की ambiguities, Gaussian sources क्यों अलग नहीं किए जा सकते, density transformation $p_x(x) = p_s(Wx)|W|$, और super-Gaussian sources के लिए CS229 का sigmoid-CDF algorithm व उसका gradient ascent update।
+> **इस lecture में:** Unsupervised dimensionality reduction और source separation, PCA preprocessing, projected variance $u^T \Sigma u$ को maximize करके top eigenvector निकालना, $k$-dimensional PCA, reconstruction error नज़रिया, SVD से सीधा संबंध, variance retained से $k$ चुनना, PCA के applications, फिर ICA: cocktail party problem ($x = As$, $W = A^{-1}$), ICA की ambiguities, Gaussian sources क्यों अलग नहीं किए जा सकते, density transformation $p_x(x) = p_s(Wx)|W|$, और super-Gaussian sources के लिए sigmoid-CDF algorithm व उसका gradient ascent update।
 
 ## 1. एक line में idea
 
@@ -166,7 +166,7 @@ $$x' \sim \mathcal{N}\!\left(0,\; A' (A')^T\right) = \mathcal{N}\!\left(0,\; A R
 
 यानी $A$ और $A R$ से निकला हुआ data $x$ **बिल्कुल एक जैसा distribution** रखता है! Standard Gaussian $\mathcal{N}(0, I)$ हर दिशा में पूरी तरह गोल (rotationally symmetric) होता है। Data से आप covariance $A A^T$ तो जान सकते हैं, पर छिपी हुई rotation $R$ का कोई सुराग नहीं मिलता। इसके विपरीत, अगर $s$ किसी चौकोर घन (cube) या नुकीले तारे जैसा non-Gaussian बादल हो, तो घुमाने पर उसके कोने और फलक घूम जाते हैं और सही अक्ष पहचाने जा सकते हैं।
 
-## 8. Density Transformation और CS229 Sigmoid-CDF ICA Algorithm
+## 8. Density Transformation और Sigmoid-CDF ICA Algorithm
 
 ### Linear बदली में Density और $|W|$ कहाँ से आता है
 
@@ -182,7 +182,7 @@ $$p_x(x) = p_s(Wx)\, |W| = \left( \prod_{j=1}^{n} p_s(w_j^T x) \right) |W|$$
 
 ### Sigmoid-CDF चुनाव और Super-Gaussian शर्त
 
-हमें $p_s$ के लिए कोई उचित non-Gaussian density चुननी होगी। किसी भी वैध CDF $g(s)$ (जो $0$ से $1$ तक एकदिष्ट रूप से बढ़े) का अवकलज $p_s(s) = g'(s)$ एक वैध density होता है। CS229 में डिफ़ॉल्ट चुनाव **logistic sigmoid** CDF है:
+हमें $p_s$ के लिए कोई उचित non-Gaussian density चुननी होगी। किसी भी वैध CDF $g(s)$ (जो $0$ से $1$ तक एकदिष्ट रूप से बढ़े) का अवकलज $p_s(s) = g'(s)$ एक वैध density होता है। इस tutorial में डिफ़ॉल्ट चुनाव **logistic sigmoid** CDF है:
 
 $$g(s) = \frac{1}{1 + e^{-s}}, \qquad p_s(s) = g'(s) = g(s)\bigl(1 - g(s)\bigr)$$
 
@@ -221,7 +221,7 @@ $$W := W + \alpha \left( \bigl(1 - 2g(Wx)\bigr) x^T + (W^T)^{-1} \right)$$
 
 - **Overfitting रोकने के लिए अंधाधुंध PCA न लगाएँ:** कई लोग regularization के बदले features घटाने के लिए पहले PCA लगा देते हैं। यह ख़तरनाक है क्योंकि PCA बिना label $y$ देखे छोटी variance वाली दिशाएँ फेंक देता है, और हो सकता है $y$ की असली जानकारी उन्हीं दिशाओं में हो। Overfitting के लिए $L_2$/$L_1$ regularization कहीं बेहतर है।
 - **Train-test leakage से बचें:** Mean $\mu$, scaling $\sigma_j$, और PCA matrix $U_k$ **केवल training data** पर निकालें, और वही $\mu, \sigma_j, U_k$ test data पर लगाएँ।
-- **ICA में source distribution का ध्यान रखें:** CS229 का $1 - 2g(Wx)$ नियम super-Gaussian (जैसे speech, Laplace) signals को सही अलग करता है। यदि आपके sources sub-Gaussian हों (जैसे $\mathrm{Uniform}[-1, 1]$), तो यही नियम गलत कोनों की ओर मुड़ जाएगा।
+- **ICA में source distribution का ध्यान रखें:** यहाँ इस्तेमाल किया गया $1 - 2g(Wx)$ नियम super-Gaussian (जैसे speech, Laplace) signals के लिए है। यदि आपके sources sub-Gaussian हों (जैसे $\mathrm{Uniform}[-1, 1]$), तो यही नियम गलत कोनों की ओर मुड़ जाएगा।
 - **ICA में समय-क्रम (temporal correlation):** हमारा derivation मानता है कि अलग-अलग $i$ स्वतंत्र हैं। असली भाषण में पास के समय बिंदु जुड़े होते हैं, फिर भी examples को randomly shuffle करके SGD चलाने पर यही update व्यवहार में बहुत बढ़िया काम करता है।
 
 ## 10. खुद से पूछें

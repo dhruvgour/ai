@@ -1,4 +1,4 @@
-"""CS229 Hindi course: 3D animation helpers.
+"""Dhruv AI tutorial: 3D animation helpers.
 
 Every chapter's ``anims.py`` declares its animations like this::
 

@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="hi"><head><meta charset="utf-8">
-<title>CS229 Machine Learning हिंदी में</title>
+<title>Dhruv AI tutorial | Machine Learning हिंदी में</title>
 <link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
 <style>
 @page { size: A4; margin: 16mm 13mm 17mm 13mm;
@@ -153,9 +153,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .code .vm { color: #BB60D5 } /* Name.Variable.Magic */
 .code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
 </head><body class="print">
-<section class="cover"><div class="kicker">STANFORD CS229 SCHEDULE &middot; SELF-STUDY GUIDE</div><h1>Machine Learning<br>हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह एक self-study guide है जो CS229 के public syllabus के क्रम पर चलती है। यह Stanford का official material नहीं है।</div></section>
+<section class="cover"><div class="kicker">DHRUV AI TUTORIAL &middot; SELF-STUDY GUIDE</div><h1>Dhruv AI tutorial<br>Machine Learning हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक की self-study guide है।</div></section>
 <section class="front"><h2>यह guide कैसे पढ़ें</h2>
-<p>यह guide Stanford CS229 (Machine Learning) के syllabus के क्रम में चलती है: Lecture 1 से Lecture 20 तक। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<p>यह Dhruv AI tutorial Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक के 20 lectures में व्यवस्थित है। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
 <table>
 <thead>
 <tr>
@@ -185,7 +185,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
 <h2>चलती animations कहाँ हैं</h2>
 <ul>
-<li><strong><code>CS229_Hindi_Animated.html</code></strong> (इसी folder में): इसे browser में खोलें। यह यही पूरी guide है, पर इसमें सारी animations चलती हैं।</li>
+<li><strong><code>index.html</code></strong> (project का मुख्य page): इसे browser में खोलें। इसमें पूरी guide और सारी animations हैं।</li>
 <li><strong><code>cs229_hindi/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
 </ul>
 <h2>Code कैसे चलाएँ</h2>
@@ -379,7 +379,7 @@ V^\pi(s) &amp;= E\left[ R(s_0) + \gamma \left( R(s_1) + \gamma R(s_2) + \gamma^2
 <p>और जो action यह maximum देता है, वही <strong>optimal policy</strong> है:</p>
 <p><span class="math-display">\[\pi^*(s) = \arg\max_{a \in A} \sum_{s&#x27; \in S} P_{sa}(s&#x27;)\, V^*(s&#x27;)\]</span></p>
 <p>इस <span class="math-inline">\(\pi^*\)</span> के लिए हर state <span class="math-inline">\(s\)</span> और हर policy <span class="math-inline">\(\pi\)</span> पर <span class="math-inline">\(V^*(s) = V^{\pi^*}(s) \ge V^\pi(s)\)</span> है। यहाँ एक बारीक पर बहुत काम की बात है: <strong>वही एक <span class="math-inline">\(\pi^*\)</span> हर start state के लिए optimal है।</strong> <span class="math-inline">\((1,1)\)</span> से शुरू करने के लिए एक policy और <span class="math-inline">\((3,1)\)</span> से शुरू करने के लिए दूसरी, ऐसा नहीं करना पड़ता, क्योंकि <span class="math-inline">\(\pi^*(s)\)</span> की परिभाषा में start state कहीं आता ही नहीं।</p>
-<p>Gridworld का <span class="math-inline">\(V^*\)</span> और <span class="math-inline">\(\pi^*\)</span> (CS229 notes वाले ही अंक):</p>
+<p>इस gridworld का <span class="math-inline">\(V^*\)</span> और <span class="math-inline">\(\pi^*\)</span>:</p>
 <table>
 <thead>
 <tr>
@@ -464,7 +464,7 @@ V^\pi(s) &amp;= E\left[ R(s_0) + \gamma \left( R(s_1) + \gamma R(s_2) + \gamma^2
 <p class="run">इसे खुद चलाएँ: <code>cs229_hindi/.venv/bin/python cs229_hindi/chapters/L16_mdp_bellman/example.py</code></p>
 <div class="code"><pre><span></span><span class="sd">"""Lecture 16 example: 4x3 gridworld पर policy evaluation शुरू से (सिर्फ़ NumPy).</span>
 
-<span class="sd">CS229 notes वाला gridworld बनाते हैं (noisy चाल: 0.8 सीधा, 0.1-0.1 बगल में)। फिर एक fixed policy का</span>
+<span class="sd">यहाँ इस्तेमाल किया गया gridworld बनाते हैं (noisy चाल: 0.8 सीधा, 0.1-0.1 बगल में)। फिर एक fixed policy का</span>
 <span class="sd">V^pi तीन तरीकों से निकालते हैं: (1) Bellman linear system हल करके, (2) Bellman equation को बार-बार</span>
 <span class="sd">लगाकर, (3) Monte Carlo rollouts से। अंत में दो policies की तुलना करते हैं।</span>
 <span class="sd">"""</span>

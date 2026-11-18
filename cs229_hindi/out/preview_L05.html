@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="hi"><head><meta charset="utf-8">
-<title>CS229 Machine Learning हिंदी में</title>
+<title>Dhruv AI tutorial | Machine Learning हिंदी में</title>
 <link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
 <style>
 @page { size: A4; margin: 16mm 13mm 17mm 13mm;
@@ -153,9 +153,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .code .vm { color: #BB60D5 } /* Name.Variable.Magic */
 .code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
 </head><body class="print">
-<section class="cover"><div class="kicker">STANFORD CS229 SCHEDULE &middot; SELF-STUDY GUIDE</div><h1>Machine Learning<br>हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह एक self-study guide है जो CS229 के public syllabus के क्रम पर चलती है। यह Stanford का official material नहीं है।</div></section>
+<section class="cover"><div class="kicker">DHRUV AI TUTORIAL &middot; SELF-STUDY GUIDE</div><h1>Dhruv AI tutorial<br>Machine Learning हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक की self-study guide है।</div></section>
 <section class="front"><h2>यह guide कैसे पढ़ें</h2>
-<p>यह guide Stanford CS229 (Machine Learning) के syllabus के क्रम में चलती है: Lecture 1 से Lecture 20 तक। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<p>यह Dhruv AI tutorial Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक के 20 lectures में व्यवस्थित है। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
 <table>
 <thead>
 <tr>
@@ -185,7 +185,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
 <h2>चलती animations कहाँ हैं</h2>
 <ul>
-<li><strong><code>CS229_Hindi_Animated.html</code></strong> (इसी folder में): इसे browser में खोलें। यह यही पूरी guide है, पर इसमें सारी animations चलती हैं।</li>
+<li><strong><code>index.html</code></strong> (project का मुख्य page): इसे browser में खोलें। इसमें पूरी guide और सारी animations हैं।</li>
 <li><strong><code>cs229_hindi/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
 </ul>
 <h2>Code कैसे चलाएँ</h2>
@@ -336,7 +336,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <h3>Maximum likelihood estimates</h3>
 <p><strong><span class="math-inline">\(\phi\)</span> के लिए:</strong> सिर्फ़ दूसरा sum <span class="math-inline">\(\phi\)</span> पर निर्भर है: <span class="math-inline">\(\sum_i \left[ y^{(i)} \log \phi + (1 - y^{(i)}) \log(1-\phi) \right]\)</span>। मान लें <span class="math-inline">\(m_1 = \sum_i 1\{y^{(i)}=1\}\)</span>। Derivative को zero रखें: <span class="math-inline">\(\frac{m_1}{\phi} - \frac{m - m_1}{1-\phi} = 0\)</span>, जिससे <span class="math-inline">\(\phi = m_1 / m\)</span>।</p>
 <p><strong><span class="math-inline">\(\mu_1\)</span> के लिए:</strong> सिर्फ़ <span class="math-inline">\(y^{(i)}=1\)</span> वाले terms बचते हैं: <span class="math-inline">\(-\frac{1}{2} \sum_{i:\, y^{(i)}=1} (x^{(i)} - \mu_1)^T \Sigma^{-1} (x^{(i)} - \mu_1)\)</span>। इसका gradient <span class="math-inline">\(\Sigma^{-1} \sum_{i:\, y^{(i)}=1} (x^{(i)} - \mu_1)\)</span> है। इसे zero रखने पर <span class="math-inline">\(\mu_1\)</span> class 1 के examples का औसत निकलता है। <span class="math-inline">\(\mu_0\)</span> के लिए भी यही।</p>
-<p><strong><span class="math-inline">\(\Sigma\)</span> के लिए:</strong> <span class="math-inline">\(\Sigma\)</span> वाले terms हैं <span class="math-inline">\(-\frac{m}{2} \log|\Sigma| - \frac{1}{2} \sum_i (x^{(i)} - \mu_{y^{(i)}})^T \Sigma^{-1} (x^{(i)} - \mu_{y^{(i)}})\)</span>। <span class="math-inline">\(\Sigma^{-1}\)</span> के सापेक्ष derivative लें (<span class="math-inline">\(\nabla_A \log|A| = A^{-1}\)</span> का इस्तेमाल करके): <span class="math-inline">\(\frac{m}{2}\Sigma - \frac{1}{2} \sum_i (x^{(i)} - \mu_{y^{(i)}})(x^{(i)} - \mu_{y^{(i)}})^T = 0\)</span>।</p>
+<p><strong><span class="math-inline">\(\Sigma\)</span> के लिए:</strong> <span class="math-inline">\(\Sigma\)</span> वाले terms हैं <span class="math-inline">\(-\frac{m}{2} \log|\Sigma| - \frac{1}{2} \sum_i (x^{(i)} - \mu_{y^{(i)}})^T \Sigma^{-1} (x^{(i)} - \mu_{y^{(i)}})\)</span>। अब <span class="math-inline">\(\nabla_A \log|A| = A^{-1}\)</span> का इस्तेमाल करके <span class="math-inline">\(\Sigma^{-1}\)</span> के सापेक्ष derivative लें और zero रखें: <span class="math-inline">\(\frac{m}{2}\Sigma - \frac{1}{2} \sum_i (x^{(i)} - \mu_{y^{(i)}})(x^{(i)} - \mu_{y^{(i)}})^T = 0\)</span>।</p>
 <p>सब मिलाकर:</p>
 <p><span class="math-display">\[\begin{aligned} \phi &amp;= \frac{1}{m} \sum_{i=1}^{m} 1\{y^{(i)} = 1\} \\ \mu_0 &amp;= \frac{\sum_{i=1}^{m} 1\{y^{(i)} = 0\}\, x^{(i)}}{\sum_{i=1}^{m} 1\{y^{(i)} = 0\}}, \qquad \mu_1 = \frac{\sum_{i=1}^{m} 1\{y^{(i)} = 1\}\, x^{(i)}}{\sum_{i=1}^{m} 1\{y^{(i)} = 1\}} \\ \Sigma &amp;= \frac{1}{m} \sum_{i=1}^{m} (x^{(i)} - \mu_{y^{(i)}})(x^{(i)} - \mu_{y^{(i)}})^T \end{aligned}\]</span></p>
 <h3>Algorithm, step by step</h3>
@@ -530,6 +530,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">sizes</span><span class="p">:</span>
     <span class="p">(</span><span class="n">g1</span><span class="p">,</span> <span class="n">l1</span><span class="p">),</span> <span class="p">(</span><span class="n">g2</span><span class="p">,</span> <span class="n">l2</span><span class="p">)</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="n">m</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">m</span><span class="si">:</span><span class="s2">6d</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">g1</span><span class="si">:</span><span class="s2">6.3f</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">l1</span><span class="si">:</span><span class="s2">6.3f</span><span class="si">}</span><span class="s2">      </span><span class="si">{</span><span class="n">g2</span><span class="si">:</span><span class="s2">6.3f</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">l2</span><span class="si">:</span><span class="s2">6.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Gaussian data: कम m पर GDA आगे (assumption सही)। Log-normal data: Logistic आगे (ज़्यादा robust)।"</span><span class="p">)</span>
 
 <span class="c1"># ---------- 6. भाग B: Bernoulli Naive Bayes spam filter ----------</span>
 <span class="n">spam</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"win money now"</span><span class="p">,</span> <span class="s2">"free money offer"</span><span class="p">,</span> <span class="s2">"win free prize now"</span><span class="p">,</span> <span class="s2">"free offer click now"</span><span class="p">,</span>
@@ -614,6 +615,7 @@ Test accuracy (600 trials का औसत)
     32    0.844    0.840       0.763    0.784
    100    0.854    0.854       0.772    0.798
   1000    0.859    0.859       0.769    0.810
+Gaussian data: कम m पर GDA आगे (assumption सही)। Log-normal data: Logistic आगे (ज़्यादा robust)।
 
 भाग B: Naive Bayes (19 शब्दों की vocabulary, phi_y = 0.5)
 word      phi_j|spam   phi_j|ham

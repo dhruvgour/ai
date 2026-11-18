@@ -1,6 +1,6 @@
 ## यह guide कैसे पढ़ें
 
-यह guide Stanford CS229 (Machine Learning) के syllabus के क्रम में चलती है: Lecture 1 से Lecture 20 तक। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:
+यह Dhruv AI tutorial Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक के 20 lectures में व्यवस्थित है। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:
 
 | भाग | क्या है | कैसे इस्तेमाल करें |
 |---|---|---|
@@ -12,7 +12,7 @@
 
 ## चलती animations कहाँ हैं
 
-- **`CS229_Hindi_Animated.html`** (इसी folder में): इसे browser में खोलें। यह यही पूरी guide है, पर इसमें सारी animations चलती हैं।
+- **`index.html`** (project का मुख्य page): इसे browser में खोलें। इसमें पूरी guide और सारी animations हैं।
 - **`cs229_hindi/out/anim/`**: हर animation की अलग GIF file। नाम `L02_3.gif` का मतलब है Lecture 2 की तीसरी animation।
 
 ## Code कैसे चलाएँ

@@ -1,4 +1,4 @@
-# Chapter spec (CS229 Hindi book)
+# Chapter spec (Dhruv AI tutorial)
 
 Read first: `lib/anim.py` (animation API), `chapters/L02_linear_regression/` (reference chapter: theory.md, anims.py, example.py), `build.py` docstring.
 

@@ -91,7 +91,7 @@ $Z^{[l]}$ का size $n^{[l]} \times m$ है, और इसका $i$-वा�
 
 गिनती वही रहती है, पर काम Python के loop की जगह optimized linear algebra code (और GPU) करता है। फ़र्क अक्सर 10 से 100 गुना या उससे भी ज़्यादा होता है।
 
-ध्यान दें: Lecture 2 के design matrix में हर example एक **row** था। यहाँ CS229 के notes की तरह हर example एक **column** है, ताकि equations ऊपर वाले एक example के रूप जैसी ही दिखें।
+ध्यान दें: Lecture 2 के design matrix में हर example एक **row** था। यहाँ notation को equations के अनुकूल रखने के लिए हर example एक **column** है।
 
 ## 7. Output layer और Loss
 

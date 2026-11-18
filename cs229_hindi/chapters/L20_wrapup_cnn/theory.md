@@ -1,6 +1,6 @@
 # Wrap-up और Optional Topic: Convolutional Neural Networks
 
-> **इस lecture में:** भाग A में पूरे CS229 सफ़र का सारांश: Lectures 2 से 19 का course map, बार-बार लौटने वाले छः बुनियादी ideas (Maximum Likelihood, Convexity, Bias बनाम Variance, Kernels, Latent Variables और EM, Bellman Equations), किसी नई problem के लिए सही algorithm चुनने की विधि, और आगे की पढ़ाई की दिशाएँ। भाग B में images के लिए **Convolutional Neural Networks (CNNs)**: fully-connected networks की सीमा, 2D convolution (filter, stride, padding, output size का सूत्र और उदाहरण), 3D volumes और parameter sharing, ReLU, Max और Average Pooling, आम CNN architecture, receptive field, और backpropagation से training।
+> **इस lecture में:** भाग A में पूरे Machine Learning सफ़र का सारांश: Lectures 2 से 19 का course map, बार-बार लौटने वाले छः बुनियादी ideas (Maximum Likelihood, Convexity, Bias बनाम Variance, Kernels, Latent Variables और EM, Bellman Equations), किसी नई problem के लिए सही algorithm चुनने की विधि, और आगे की पढ़ाई की दिशाएँ। भाग B में images के लिए **Convolutional Neural Networks (CNNs)**: fully-connected networks की सीमा, 2D convolution (filter, stride, padding, output size का सूत्र और उदाहरण), 3D volumes और parameter sharing, ReLU, Max और Average Pooling, आम CNN architecture, receptive field, और backpropagation से training।
 
 ## 1. एक line में idea
 
@@ -59,7 +59,7 @@ Lecture 1 में हमने Supervised, Unsupervised और Reinforcement L
 
 ## 5. इसके आगे क्या पढ़ें
 
-CS229 ने आपको पूरे Machine Learning की मज़बूत नींव दे दी है। यहाँ से आगे चार प्रमुख रास्ते खुलते हैं:
+इस tutorial ने आपको Machine Learning की मज़बूत नींव दी है। यहाँ से आगे चार प्रमुख रास्ते खुलते हैं:
 
 - **Deep Learning की शाखाएँ:** Computer Vision के लिए आधुनिक CNNs (ResNets, U-Net, Object Detection), भाषा और अनुक्रमों के लिए **Sequence Models और Transformers** (Attention तंत्र और Large Language Models), तथा नई तस्वीरें या डेटा बनाने के लिए Diffusion Models और VAEs।
 - **Probabilistic Graphical Models:** Bayesian Networks और Markov Random Fields, जहाँ सैकड़ों यादृच्छिक चरों के बीच सशर्त स्वतंत्रता को ग्राफ़ से लिखकर अनुमान लगाया जाता है।

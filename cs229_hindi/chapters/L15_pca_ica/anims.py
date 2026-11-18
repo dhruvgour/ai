@@ -220,7 +220,7 @@ def reconstruct_k123(s, n):
 @animation("ICA: Cube Mixed & Unmixed by W",
            caption=r"""शुरू में तीन स्वतंत्र super-Gaussian sources एक सीधे घन (cube) के भीतर हैं। फिर अज्ञात mixing
            matrix $A$ उन्हें तिरछे और दबे हुए बक्से ($x = As$) में मिला देता है जहाँ सभी coordinates आपस में जुड़ जाते हैं।
-           इसके बाद CS229 का sigmoid-CDF gradient ascent नियम $W$ को step-by-step सीखता है। देखिए कैसे सीखा हुआ
+           इसके बाद sigmoid-CDF gradient ascent नियम $W$ को step-by-step सीखता है। देखिए कैसे सीखा हुआ
            $W$ तिरछे बक्से को सीधा करके वापस स्वतंत्र अक्षों वाला घन ($\hat{s} = Wx$) बना देता है।""",
            frames=44, keys=(0.0, 0.28, 1.0))
 def ica_cube_unmix(s, n):
@@ -237,7 +237,7 @@ def ica_cube_unmix(s, n):
                   [0.44, -0.38, 0.92]])
     X_train = S_train @ A.T
 
-    # Run real CS229 sigmoid-CDF stochastic gradient ascent and store W trajectory
+    # Run sigmoid-CDF stochastic gradient ascent and store W trajectory
     W = 0.75 * np.eye(3)
     W_snaps = [W.copy()]
     n_unmix = n - 14

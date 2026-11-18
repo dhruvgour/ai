@@ -1,6 +1,6 @@
 """Lecture 16: Markov Decision Processes and Bellman Equations: 3D animations.
 
-The 4x3 gridworld of the CS229 notes lies on the floor (column, row); heights are values or payoffs.
+The 4x3 gridworld lies on the floor (column, row); heights are values or payoffs.
 """
 import numpy as np
 import matplotlib.pyplot as plt
