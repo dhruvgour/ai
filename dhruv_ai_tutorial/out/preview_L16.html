@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<title>Dhruv AI tutorial | Machine Learning हिंदी में</title>
+<link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
+<style>
+@page { size: A4; margin: 16mm 13mm 17mm 13mm;
+        @bottom-center { content: counter(page); font: 9pt "Helvetica Neue", sans-serif; color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Kohinoor Devanagari", "Devanagari Sangam MN", "Helvetica Neue", sans-serif;
+       font-size: 10.6pt; line-height: 1.72; color: #111827; margin: 0; }
+body.screen { max-width: 900px; margin: 0 auto; padding: 24px 28px 80px; font-size: 16px; background: #fff; }
+h1, h2, h3, h4 { line-height: 1.35; break-after: avoid; }
+h2 { font-size: 13.5pt; margin: 1.3em 0 0.4em; color: #1e3a8a; }
+h3 { font-size: 11.5pt; margin: 1.1em 0 0.3em; color: #1f2937; }
+p { margin: 0.45em 0; orphans: 2; widows: 2; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+li { margin: 0.18em 0; }
+a { color: #1d4ed8; text-decoration: none; }
+code { font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace; font-size: 0.88em;
+       background: #f1f5f9; padding: 0.08em 0.3em; border-radius: 3px; }
+blockquote { margin: 0.7em 0; padding: 0.5em 0.9em; border-left: 4px solid #2563eb; background: #eff6ff;
+             border-radius: 0 6px 6px 0; break-inside: avoid; }
+blockquote p { margin: 0.2em 0; }
+table { border-collapse: collapse; margin: 0.7em 0; width: 100%; font-size: 0.93em; break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 0.3em 0.6em; text-align: left; vertical-align: top; }
+th { background: #eef2ff; }
+.math-display { display: block; margin: 0.55em 0; overflow-x: auto; break-inside: avoid; }
+.katex { font-size: 1.04em; }
+
+.cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center;
+         break-after: page; }
+body.screen .cover { height: auto; padding: 70px 0 50px; }
+.cover .kicker { letter-spacing: 0.22em; font-size: 10pt; color: #2563eb; font-weight: 700; }
+.cover h1 { font-size: 34pt; margin: 0.25em 0 0.1em; color: #111827; }
+.cover .sub { font-size: 15pt; color: #374151; }
+.cover .pill { display: inline-block; margin: 2.2em auto 0; padding: 0.5em 1.4em; border-radius: 999px;
+               background: #1e3a8a; color: #fff; font-size: 11.5pt; }
+.cover .note { margin-top: 3em; font-size: 9.5pt; color: #6b7280; }
+
+.front { break-after: page; }
+.toc ol { list-style: none; padding: 0; margin: 0.4em 0; }
+.toc li { display: flex; gap: 0.7em; padding: 0.22em 0; border-bottom: 1px dotted #cbd5e1; }
+.toc .n { flex: 0 0 5.6em; color: #2563eb; font-weight: 700; }
+
+.chapter { break-before: page; }
+.ch-head { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 14px 18px;
+           border-radius: 10px; margin-bottom: 0.9em; break-inside: avoid; }
+.ch-head .n { font-size: 9.5pt; letter-spacing: 0.18em; opacity: 0.85; font-weight: 700; }
+.ch-head h1 { font-size: 17.5pt; margin: 0.1em 0 0; }
+.part { display: flex; align-items: center; gap: 0.6em; margin: 1.5em 0 0.6em; padding-bottom: 0.25em;
+        border-bottom: 2px solid #1e3a8a; break-after: avoid; }
+.part .tag { background: #1e3a8a; color: #fff; border-radius: 5px; padding: 0.05em 0.6em; font-size: 9.5pt;
+             font-weight: 700; }
+.part h2 { margin: 0; font-size: 14pt; }
+
+.anim { border: 1px solid #e5e7eb; border-radius: 9px; padding: 8px 7px 6px; margin: 0.8em 0;
+        break-inside: avoid; background: #fff; }
+.anim-head { font-weight: 700; margin-bottom: 0.3em; }
+.anim-head .badge { background: #ea580c; color: #fff; border-radius: 4px; padding: 0.05em 0.5em;
+                    font-size: 9pt; margin-right: 0.5em; }
+.frames { display: flex; gap: 3px; }
+.frames figure { margin: 0; flex: 1; text-align: center; }
+.frames img { width: 100%; display: block; border: 1px solid #eef0f3; border-radius: 5px; }
+.frames figcaption { font-size: 8pt; color: #6b7280; line-height: 1.3; margin-top: 1px; }
+.anim .gif { display: block; margin: 0 auto; width: 480px; max-width: 100%; }
+.anim .caption { font-size: 0.95em; margin: 0.4em 0 0.15em; }
+.anim .file { font-size: 8pt; color: #6b7280; font-family: "SF Mono", Menlo, monospace; }
+
+.code { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.code pre, pre.output { margin: 0; font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace;
+                        font-size: 8.3pt; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+body.screen .code pre, body.screen pre.output { font-size: 13px; }
+pre.output { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.label { font-size: 9pt; font-weight: 700; color: #475569; margin: 1em 0 0.2em; break-after: avoid; }
+.result-img { display: block; max-width: 88%; margin: 0.6em auto; border: 1px solid #e5e7eb; border-radius: 6px;
+              break-inside: avoid; }
+.run { font-size: 0.93em; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #ffffcc }
+.code { background: #f0f0f0; }
+.code .c { color: #60A0B0; font-style: italic } /* Comment */
+.code .err { border: 1px solid #F00 } /* Error */
+.code .k { color: #007020; font-weight: bold } /* Keyword */
+.code .o { color: #666 } /* Operator */
+.code .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #007020 } /* Comment.Preproc */
+.code .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F00 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #888 } /* Generic.Output */
+.code .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #04D } /* Generic.Traceback */
+.code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code .kp { color: #007020 } /* Keyword.Pseudo */
+.code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #902000 } /* Keyword.Type */
+.code .m { color: #40A070 } /* Literal.Number */
+.code .s { color: #4070A0 } /* Literal.String */
+.code .na { color: #4070A0 } /* Name.Attribute */
+.code .nb { color: #007020 } /* Name.Builtin */
+.code .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code .no { color: #60ADD5 } /* Name.Constant */
+.code .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code .ne { color: #007020 } /* Name.Exception */
+.code .nf { color: #06287E } /* Name.Function */
+.code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code .nv { color: #BB60D5 } /* Name.Variable */
+.code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code .w { color: #BBB } /* Text.Whitespace */
+.code .mb { color: #40A070 } /* Literal.Number.Bin */
+.code .mf { color: #40A070 } /* Literal.Number.Float */
+.code .mh { color: #40A070 } /* Literal.Number.Hex */
+.code .mi { color: #40A070 } /* Literal.Number.Integer */
+.code .mo { color: #40A070 } /* Literal.Number.Oct */
+.code .sa { color: #4070A0 } /* Literal.String.Affix */
+.code .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code .sc { color: #4070A0 } /* Literal.String.Char */
+.code .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #4070A0 } /* Literal.String.Double */
+.code .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code .sx { color: #C65D09 } /* Literal.String.Other */
+.code .sr { color: #235388 } /* Literal.String.Regex */
+.code .s1 { color: #4070A0 } /* Literal.String.Single */
+.code .ss { color: #517918 } /* Literal.String.Symbol */
+.code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code .fm { color: #06287E } /* Name.Function.Magic */
+.code .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
+</head><body class="print">
+<section class="cover"><div class="kicker">DHRUV AI TUTORIAL &middot; SELF-STUDY GUIDE</div><h1>Dhruv AI tutorial<br>Machine Learning हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक की self-study guide है।</div></section>
+<section class="front"><h2>यह guide कैसे पढ़ें</h2>
+<p>यह Dhruv AI tutorial Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक के 20 lectures में व्यवस्थित है। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<table>
+<thead>
+<tr>
+<th>भाग</th>
+<th>क्या है</th>
+<th>कैसे इस्तेमाल करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>भाग 1: Theory</strong></td>
+<td>Idea, notation, maths और algorithm, हिंदी में</td>
+<td>पहले इसे धीरे-धीरे पढ़ें। Equations को कागज़ पर खुद लिखकर देखें।</td>
+</tr>
+<tr>
+<td><strong>भाग 2: 3D Animations</strong></td>
+<td>हर chapter में कम से कम 5 animations</td>
+<td>PDF में हर animation के तीन still frames हैं (शुरुआत, बीच में, अंत)। चलती animation देखने के लिए नीचे बताई files खोलें।</td>
+</tr>
+<tr>
+<td><strong>भाग 3: Python Example</strong></td>
+<td>NumPy से शुरू से लिखा एक चलने वाला example, उसके output के साथ</td>
+<td>Code को खुद चलाएँ, फिर numbers बदलकर देखें कि क्या बदलता है।</td>
+</tr>
+</tbody>
+</table>
+<p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
+<h2>चलती animations कहाँ हैं</h2>
+<ul>
+<li><strong><code>index.html</code></strong> (project का मुख्य page): इसे browser में खोलें। इसमें पूरी guide और सारी animations हैं।</li>
+<li><strong><code>dhruv_ai_tutorial/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
+</ul>
+<h2>Code कैसे चलाएँ</h2>
+<p>हर chapter का code <code>dhruv_ai_tutorial/chapters/&lt;chapter&gt;/example.py</code> में है। Terminal में project root से:</p>
+<pre><code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/chapters/L02_linear_regression/example.py
+</code></pre>
+<p>Animations का code उसी folder की <code>anims.py</code> में है। पूरी guide दोबारा बनाने के लिए: <code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/build.py</code></p>
+<h2>पहले से क्या आना चाहिए</h2>
+<ul>
+<li><strong>Linear Algebra:</strong> vectors, matrices, matrix multiplication, transpose, inverse, eigenvalues / eigenvectors।</li>
+<li><strong>Probability:</strong> random variable, expectation, variance, conditional probability, Bayes rule, Gaussian distribution।</li>
+<li><strong>Calculus:</strong> derivative, partial derivative, gradient, chain rule।</li>
+<li><strong>Python:</strong> NumPy arrays की बुनियादी समझ।</li>
+</ul>
+<h2>पूरे course में चलने वाला notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}, y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वाँ training example: input और target</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या (या input का dimension)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span>, <span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>model के parameters</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis: model का prediction</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(J(\theta)\)</span></td>
+<td>cost function जिसे minimize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\ell(\theta)\)</span></td>
+<td>log-likelihood जिसे maximize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span></td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\nabla_\theta\)</span></td>
+<td><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span></td>
+<td>mean <span class="math-inline">\(\mu\)</span> और covariance <span class="math-inline">\(\Sigma\)</span> वाला Gaussian</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(:=\)</span></td>
+<td>"दाएँ की value बाएँ में रख दो" (assignment)</td>
+</tr>
+</tbody>
+</table><h2>विषय-सूची</h2><div class="toc"><ol><li><span class="n">Lecture 16</span><a href="#L16_mdp_bellman">Markov Decision Processes और Bellman Equations</a></li></ol></div></section>
+<section class="chapter" id="L16_mdp_bellman">
+<div class="ch-head"><div class="n">LECTURE 16</div><h1>Markov Decision Processes और Bellman Equations</h1></div>
+<div class="part"><span class="tag">भाग 1</span><h2>Theory</h2></div>
+<blockquote>
+<p><strong>इस lecture में:</strong> Reinforcement Learning, Supervised Learning से कैसे अलग है (सिर्फ़ reward signal, sequential decisions, credit assignment), MDP का tuple <span class="math-inline">\((S, A, \{P_{sa}\}, \gamma, R)\)</span>, total payoff और discount factor <span class="math-inline">\(\gamma\)</span>, policy <span class="math-inline">\(\pi\)</span>, value function <span class="math-inline">\(V^\pi\)</span>, Bellman equation और उससे बनने वाला linear system, optimal value function <span class="math-inline">\(V^*\)</span>, optimal policy <span class="math-inline">\(\pi^*\)</span>, और इन सबका running example: 4x3 gridworld।</p>
+</blockquote>
+<h2>1. एक line में idea</h2>
+<p>अब तक हर training example के साथ सही जवाब <span class="math-inline">\(y\)</span> दिया होता था। Reinforcement Learning (RL) में सही जवाब कोई नहीं बताता। एक <strong>agent</strong> किसी दुनिया में कदम-दर-कदम actions लेता है, और दुनिया उसे बस एक संख्या लौटाती है: <strong>reward</strong>, यानी "यह अच्छा हुआ" या "यह बुरा हुआ"। Agent को ऐसा व्यवहार सीखना है जिससे लंबे समय में कुल reward सबसे ज़्यादा हो।</p>
+<p>इस problem को गणित में लिखने का ढाँचा <strong>Markov Decision Process (MDP)</strong> है। और इस lecture की सबसे ज़रूरी बात एक वाक्य में यह है: <strong>किसी state की value = अभी का reward + <span class="math-inline">\(\gamma\)</span> गुना अगले state की value का expectation</strong>। यही Bellman equation है।</p>
+<h2>2. Reinforcement Learning, Supervised Learning से कैसे अलग है</h2>
+<p>Helicopter उड़ाना सिखाना हो तो "इस पल stick को ठीक इतना घुमाओ" जैसा labelled data किसी के पास नहीं है। पर यह बताना आसान है कि helicopter ठीक उड़ रहा है (अच्छा reward) या गिर गया (बड़ा negative reward)। Chess और Go जैसे games में भी यही है: हर चाल का सही जवाब कोई नहीं देता, बस अंत में जीत या हार मिलती है। चलने वाले robots, factory control और network routing में भी यही ढाँचा काम आता है।</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Supervised Learning</th>
+<th>Reinforcement Learning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>सीखने का signal</td>
+<td>हर <span class="math-inline">\(x\)</span> के लिए सही <span class="math-inline">\(y\)</span></td>
+<td>सिर्फ़ reward, सही action नहीं</td>
+</tr>
+<tr>
+<td>फ़ैसले</td>
+<td>हर prediction अपने आप में अलग</td>
+<td>sequential: आज का action कल का state बदल देता है</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>पहले से दिया हुआ</td>
+<td>agent के अपने actions से पैदा होता है</td>
+</tr>
+<tr>
+<td>Feedback</td>
+<td>तुरंत</td>
+<td>अक्सर बहुत देर से</td>
+</tr>
+</tbody>
+</table>
+<p>आख़िरी row से <strong>credit assignment problem</strong> निकलती है। Chess का खेल 60वीं चाल पर हारे, तो गलती किस चाल की थी? Reward देर से आता है और उसका श्रेय (या दोष) पहले के कई actions में बाँटना पड़ता है। आगे आने वाला value function ठीक यही काम करता है: वह हर state को बताता है कि वहाँ से आगे कुल कितना reward मिलने की उम्मीद है।</p>
+<h2>3. MDP: Setup और Notation</h2>
+<p>एक MDP पाँच चीज़ों का tuple है: <span class="math-inline">\((S, A, \{P_{sa}\}, \gamma, R)\)</span>।</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(S\)</span></td>
+<td>states का set: दुनिया की हर संभव हालत</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(A\)</span></td>
+<td>actions का set: agent क्या-क्या कर सकता है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(P_{sa}\)</span></td>
+<td>state transition probabilities: state <span class="math-inline">\(s\)</span> में action <span class="math-inline">\(a\)</span> लेने पर अगले state का distribution। <span class="math-inline">\(P_{sa}(s&#x27;)\)</span> अगला state <span class="math-inline">\(s&#x27;\)</span> होने की probability है, और <span class="math-inline">\(\sum_{s&#x27;} P_{sa}(s&#x27;) = 1\)</span></td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\gamma \in [0, 1)\)</span></td>
+<td>discount factor</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(R : S \to \mathbb{R}\)</span></td>
+<td>reward function (कई problems में <span class="math-inline">\(R(s, a)\)</span> भी लिखा जाता है)</td>
+</tr>
+</tbody>
+</table>
+<p>"Markov" शब्द का मतलब है कि अगला state सिर्फ़ अभी के state और action पर निर्भर है, उससे पहले के पूरे इतिहास पर नहीं।</p>
+<p><strong>Running example: 4x3 gridworld।</strong> एक robot 4 columns और 3 rows के grid में चलता है। State को <span class="math-inline">\((\text{column}, \text{row})\)</span> लिखते हैं और <span class="math-inline">\((1,1)\)</span> नीचे-बाएँ कोना है।</p>
+<ul>
+<li><strong>States:</strong> <span class="math-inline">\((2,2)\)</span> पर दीवार है, इसलिए कुल 11 states हैं।</li>
+<li><strong>Actions:</strong> <span class="math-inline">\(A = \{\uparrow, \rightarrow, \downarrow, \leftarrow\}\)</span>।</li>
+<li><strong><span class="math-inline">\(P_{sa}\)</span> (noisy चाल):</strong> robot 0.8 probability से चुनी हुई दिशा में जाता है, और 0.1-0.1 probability से उसके बाईं या दाईं ओर फिसल जाता है। जैसे <span class="math-inline">\(P_{(3,1)\uparrow}((3,2)) = 0.8\)</span>, <span class="math-inline">\(P_{(3,1)\uparrow}((2,1)) = 0.1\)</span>, <span class="math-inline">\(P_{(3,1)\uparrow}((4,1)) = 0.1\)</span>। दीवार या किनारे से टकराने पर वह वहीं रह जाता है।</li>
+<li><strong>Rewards:</strong> <span class="math-inline">\(R((4,3)) = +1\)</span>, <span class="math-inline">\(R((4,2)) = -1\)</span>, और बाकी हर state में <span class="math-inline">\(R(s) = -0.02\)</span> (हर कदम की छोटी कीमत, ताकि robot बेवजह न भटके)।</li>
+<li><strong>Terminal states:</strong> <span class="math-inline">\((4,3)\)</span> और <span class="math-inline">\((4,2)\)</span> में पहुँचते ही reward मिलता है और खेल खत्म। गणित में: वहाँ से आगे कोई reward नहीं है।</li>
+<li><strong>Discount:</strong> <span class="math-inline">\(\gamma = 0.99\)</span>।</li>
+</ul>
+<h2>4. MDP कैसे चलता है: payoff और discount factor</h2>
+<p>Agent किसी state <span class="math-inline">\(s_0\)</span> से शुरू करता है और action <span class="math-inline">\(a_0\)</span> चुनता है। दुनिया <span class="math-inline">\(s_1 \sim P_{s_0 a_0}\)</span> से अगला state निकालती है। फिर <span class="math-inline">\(a_1\)</span>, फिर <span class="math-inline">\(s_2 \sim P_{s_1 a_1}\)</span>, और इसी तरह:</p>
+<p><span class="math-display">\[s_0 \xrightarrow{a_0} s_1 \xrightarrow{a_1} s_2 \xrightarrow{a_2} s_3 \xrightarrow{a_3} \dots\]</span></p>
+<p>इस रास्ते का <strong>total payoff</strong> यह है:</p>
+<p><span class="math-display">\[R(s_0) + \gamma R(s_1) + \gamma^2 R(s_2) + \gamma^3 R(s_3) + \dots\]</span></p>
+<p>चाल noisy है, इसलिए payoff एक random संख्या है। RL का लक्ष्य है ऐसे actions चुनना जिनसे इसका expectation <span class="math-inline">\(E\left[R(s_0) + \gamma R(s_1) + \gamma^2 R(s_2) + \dots\right]\)</span> सबसे बड़ा हो।</p>
+<p><strong><span class="math-inline">\(\gamma\)</span> क्या करता है?</strong> समय <span class="math-inline">\(t\)</span> का reward <span class="math-inline">\(\gamma^t\)</span> से गुणा होकर छोटा हो जाता है।</p>
+<ul>
+<li><strong>जल्दी मिला reward ज़्यादा कीमती है।</strong> Positive reward जल्दी लेना और negative reward को टालना फ़ायदेमंद हो जाता है। (पैसे की तरह: आज का एक रुपया कल के एक रुपये से ज़्यादा कीमती है।)</li>
+<li><strong>जोड़ सीमित रहता है।</strong> अगर <span class="math-inline">\(|R(s)| \le R_{\max}\)</span> है तो <span class="math-inline">\(|\text{payoff}| \le R_{\max}(1 + \gamma + \gamma^2 + \dots) = \frac{R_{\max}}{1 - \gamma}\)</span>, चाहे खेल अनंत तक चले।</li>
+<li><strong>दूर तक देखने की सीमा।</strong> <span class="math-inline">\(\gamma\)</span> शून्य के पास हो तो agent near-sighted है, सिर्फ़ अगले एक-दो rewards देखता है। <span class="math-inline">\(\gamma\)</span> एक के पास हो तो वह लगभग <span class="math-inline">\(\frac{1}{1-\gamma}\)</span> steps आगे तक की सोचता है (<span class="math-inline">\(\gamma = 0.99\)</span> पर करीब 100 steps)।</li>
+</ul>
+<h2>5. Policy और Value Function</h2>
+<p><strong>Policy</strong> कोई भी function <span class="math-inline">\(\pi : S \to A\)</span> है। Policy को "चलाने" का मतलब है कि जब भी हम state <span class="math-inline">\(s\)</span> में हों, action <span class="math-inline">\(a = \pi(s)\)</span> लें। Gridworld में policy हर cell में बना एक तीर है।</p>
+<p>Policy <span class="math-inline">\(\pi\)</span> का <strong>value function</strong> बताता है कि state <span class="math-inline">\(s\)</span> से शुरू करके <span class="math-inline">\(\pi\)</span> पर चलते रहें तो payoff का expectation कितना होगा:</p>
+<p><span class="math-display">\[V^\pi(s) = E\left[ R(s_0) + \gamma R(s_1) + \gamma^2 R(s_2) + \dots \mid s_0 = s, \pi \right]\]</span></p>
+<p>ध्यान दें कि <span class="math-inline">\(V^\pi\)</span> हमेशा किसी policy के साथ जुड़ा है। Policy बदलेगी तो हर state की value बदलेगी।</p>
+<h2>6. Bellman Equation</h2>
+<p>Payoff के जोड़ में से पहला term अलग करें और बाकी में से एक <span class="math-inline">\(\gamma\)</span> बाहर निकालें:</p>
+<p><span class="math-display">\[\begin{aligned}
+V^\pi(s) &amp;= E\left[ R(s_0) + \gamma \left( R(s_1) + \gamma R(s_2) + \gamma^2 R(s_3) + \dots \right) \mid s_0 = s, \pi \right] \\
+&amp;= R(s) + \gamma\, E\left[ R(s_1) + \gamma R(s_2) + \gamma^2 R(s_3) + \dots \mid s_0 = s, \pi \right]
+\end{aligned}\]</span></p>
+<p>बड़े bracket के अंदर वही payoff है, बस शुरुआत <span class="math-inline">\(s_1\)</span> से हो रही है। Markov property के कारण, अगर <span class="math-inline">\(s_1 = s&#x27;\)</span> है तो इस bracket का expectation ठीक <span class="math-inline">\(V^\pi(s&#x27;)\)</span> है। और <span class="math-inline">\(s_1\)</span> का distribution <span class="math-inline">\(P_{s\pi(s)}\)</span> है। इसलिए <span class="math-inline">\(s&#x27;\)</span> पर औसत लेने से <strong>Bellman equation</strong> मिलती है:</p>
+<p><span class="math-display">\[V^\pi(s) = R(s) + \gamma \sum_{s&#x27; \in S} P_{s\pi(s)}(s&#x27;)\, V^\pi(s&#x27;)\]</span></p>
+<p>पहला हिस्सा <strong>immediate reward</strong> है, जो <span class="math-inline">\(s\)</span> में होने भर से मिल जाता है। दूसरा हिस्सा आगे के सारे discounted rewards का expectation है।</p>
+<p><strong>यह एक linear system है।</strong> Finite MDP में हर state के लिए ऐसी एक equation है, और हर equation में unknowns <span class="math-inline">\(V^\pi(s&#x27;)\)</span> सिर्फ़ linear रूप में आते हैं। यानी <span class="math-inline">\(|S|\)</span> equations और <span class="math-inline">\(|S|\)</span> unknowns। Gridworld में, "हमेशा दाएँ" वाले action के साथ state <span class="math-inline">\((3,3)\)</span> की equation यह है:</p>
+<p><span class="math-display">\[V^\pi((3,3)) = -0.02 + 0.99 \left[ 0.8\, V^\pi((4,3)) + 0.1\, V^\pi((3,3)) + 0.1\, V^\pi((3,2)) \right]\]</span></p>
+<p>सारे values को एक vector <span class="math-inline">\(V^\pi \in \mathbb{R}^{|S|}\)</span> में, rewards को vector <span class="math-inline">\(R\)</span> में, और probabilities को matrix <span class="math-inline">\(P^\pi\)</span> में रखें, जिसकी entry <span class="math-inline">\((s, s&#x27;)\)</span> में <span class="math-inline">\(P_{s\pi(s)}(s&#x27;)\)</span> है। तब</p>
+<p><span class="math-display">\[V^\pi = R + \gamma P^\pi V^\pi \quad\Longrightarrow\quad (I - \gamma P^\pi)\, V^\pi = R \quad\Longrightarrow\quad V^\pi = (I - \gamma P^\pi)^{-1} R\]</span></p>
+<p><span class="math-inline">\(\gamma &lt; 1\)</span> होने पर <span class="math-inline">\(I - \gamma P^\pi\)</span> हमेशा invertible है, क्योंकि <span class="math-inline">\(P^\pi\)</span> की हर row का जोड़ 1 से ज़्यादा नहीं है और इसलिए <span class="math-inline">\(\gamma P^\pi\)</span> की कोई eigenvalue size में 1 तक नहीं पहुँचती।</p>
+<h2>7. Optimal Value Function और Optimal Policy</h2>
+<p>सारी policies में से जो सबसे अच्छा हो सकता है, वह <strong>optimal value function</strong> है:</p>
+<p><span class="math-display">\[V^*(s) = \max_\pi V^\pi(s)\]</span></p>
+<p>इसकी भी अपनी Bellman equation है। <span class="math-inline">\(s\)</span> में immediate reward <span class="math-inline">\(R(s)\)</span> तो मिलेगा ही, चाहे action जो हो। उसके बाद सबसे अच्छा यही है कि वह action चुनें जिसके बाद आगे का optimal payoff सबसे बड़ा हो:</p>
+<p><span class="math-display">\[V^*(s) = R(s) + \max_{a \in A}\, \gamma \sum_{s&#x27; \in S} P_{sa}(s&#x27;)\, V^*(s&#x27;)\]</span></p>
+<p>और जो action यह maximum देता है, वही <strong>optimal policy</strong> है:</p>
+<p><span class="math-display">\[\pi^*(s) = \arg\max_{a \in A} \sum_{s&#x27; \in S} P_{sa}(s&#x27;)\, V^*(s&#x27;)\]</span></p>
+<p>इस <span class="math-inline">\(\pi^*\)</span> के लिए हर state <span class="math-inline">\(s\)</span> और हर policy <span class="math-inline">\(\pi\)</span> पर <span class="math-inline">\(V^*(s) = V^{\pi^*}(s) \ge V^\pi(s)\)</span> है। यहाँ एक बारीक पर बहुत काम की बात है: <strong>वही एक <span class="math-inline">\(\pi^*\)</span> हर start state के लिए optimal है।</strong> <span class="math-inline">\((1,1)\)</span> से शुरू करने के लिए एक policy और <span class="math-inline">\((3,1)\)</span> से शुरू करने के लिए दूसरी, ऐसा नहीं करना पड़ता, क्योंकि <span class="math-inline">\(\pi^*(s)\)</span> की परिभाषा में start state कहीं आता ही नहीं।</p>
+<p>इस gridworld का <span class="math-inline">\(V^*\)</span> और <span class="math-inline">\(\pi^*\)</span>:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>column 1</th>
+<th>column 2</th>
+<th>column 3</th>
+<th>column 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>row 3</td>
+<td><span class="math-inline">\(0.86 \rightarrow\)</span></td>
+<td><span class="math-inline">\(0.90 \rightarrow\)</span></td>
+<td><span class="math-inline">\(0.93 \rightarrow\)</span></td>
+<td><span class="math-inline">\(+1\)</span></td>
+</tr>
+<tr>
+<td>row 2</td>
+<td><span class="math-inline">\(0.82 \uparrow\)</span></td>
+<td>दीवार</td>
+<td><span class="math-inline">\(0.69 \uparrow\)</span></td>
+<td><span class="math-inline">\(-1\)</span></td>
+</tr>
+<tr>
+<td>row 1</td>
+<td><span class="math-inline">\(0.78 \uparrow\)</span></td>
+<td><span class="math-inline">\(0.75 \leftarrow\)</span></td>
+<td><span class="math-inline">\(0.71 \leftarrow\)</span></td>
+<td><span class="math-inline">\(0.49 \leftarrow\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>State <span class="math-inline">\((3,1)\)</span> पर जाँचें कि <span class="math-inline">\(\leftarrow\)</span> सचमुच <span class="math-inline">\(\uparrow\)</span> से अच्छा है। <span class="math-inline">\(\leftarrow\)</span> लेने पर robot 0.8 से <span class="math-inline">\((2,1)\)</span> में, 0.1 से <span class="math-inline">\((3,2)\)</span> में और 0.1 से (नीचे किनारे से टकराकर) <span class="math-inline">\((3,1)\)</span> में ही रहता है:</p>
+<p><span class="math-display">\[\begin{aligned}
+\leftarrow:\quad &amp; 0.8 \times 0.75 + 0.1 \times 0.69 + 0.1 \times 0.71 = 0.740 \\
+\uparrow:\quad &amp; 0.8 \times 0.69 + 0.1 \times 0.75 + 0.1 \times 0.49 = 0.676
+\end{aligned}\]</span></p>
+<p><span class="math-inline">\(\uparrow\)</span> छोटा रास्ता है, पर वह <span class="math-inline">\(-1\)</span> के बगल से गुज़रता है। Optimal policy लंबा पर सुरक्षित रास्ता चुनती है। <span class="math-inline">\(\leftarrow\)</span> के साथ <span class="math-inline">\(V^*((3,1)) = -0.02 + 0.99 \times 0.740 \approx 0.71\)</span>, जो table से मिलता है।</p>
+<p><span class="math-inline">\(V^*\)</span> की equation में <span class="math-inline">\(\max\)</span> है, इसलिए वह linear नहीं रही और उसे सीधे matrix inverse से हल नहीं किया जा सकता। उसे हल करने वाले algorithms (Value Iteration और Policy Iteration) Lecture 17 में आएँगे।</p>
+<h2>8. Algorithm: एक fixed policy को evaluate करना</h2>
+<p>दी हुई policy <span class="math-inline">\(\pi\)</span> के लिए <span class="math-inline">\(V^\pi\)</span> निकालने के तीन तरीके हैं।</p>
+<p><strong>(क) Linear system हल करना।</strong></p>
+<ol>
+<li>हर state <span class="math-inline">\(s\)</span> के लिए action <span class="math-inline">\(\pi(s)\)</span> की probabilities उठाकर matrix <span class="math-inline">\(P^\pi\)</span> बनाएँ।</li>
+<li><span class="math-inline">\((I - \gamma P^\pi) V = R\)</span> को हल करें। यह exact जवाब है, पर खर्च लगभग <span class="math-inline">\(O(|S|^3)\)</span> है।</li>
+</ol>
+<p><strong>(ख) Iterative policy evaluation।</strong></p>
+<ol>
+<li>हर state के लिए <span class="math-inline">\(V(s) := 0\)</span> रखें।</li>
+<li>हर state पर Bellman equation का दायाँ हिस्सा लगाएँ: <span class="math-inline">\(V(s) := R(s) + \gamma \sum_{s&#x27;} P_{s\pi(s)}(s&#x27;) V(s&#x27;)\)</span>।</li>
+<li>Step 2 को तब तक दोहराएँ जब तक <span class="math-inline">\(V\)</span> बदलना बंद न कर दे।</li>
+</ol>
+<p>यह क्यों चलता है? <span class="math-inline">\(k\)</span>-वें sweep के estimate को <span class="math-inline">\(V_k\)</span> कहें। Update में से <span class="math-inline">\(V^\pi\)</span> की Bellman equation घटाने पर</p>
+<p><span class="math-display">\[V_{k+1}(s) - V^\pi(s) = \gamma \sum_{s&#x27;} P_{s\pi(s)}(s&#x27;) \left( V_k(s&#x27;) - V^\pi(s&#x27;) \right)\]</span></p>
+<p>दाईं ओर errors का एक weighted औसत है, जिसे <span class="math-inline">\(\gamma\)</span> से गुणा किया गया है। इसलिए <span class="math-inline">\(\max_s |V_{k+1}(s) - V^\pi(s)| \le \gamma \max_s |V_k(s) - V^\pi(s)|\)</span>: सबसे बड़ी error हर sweep में कम से कम <span class="math-inline">\(\gamma\)</span> गुना घटती है और <span class="math-inline">\(V_k \to V^\pi\)</span>।</p>
+<p><strong>(ग) Monte Carlo।</strong> <span class="math-inline">\(s\)</span> से शुरू करके policy को बहुत बार चलाएँ और payoffs का औसत लें। यह सीधे <span class="math-inline">\(V^\pi(s)\)</span> की परिभाषा है, और तब भी काम करता है जब <span class="math-inline">\(P_{sa}\)</span> पता न हो, बस दुनिया में (या simulator में) चलना संभव हो।</p>
+<h2>9. Practical बातें और आम गलतियाँ</h2>
+<ul>
+<li><strong>Reward "क्या चाहिए" बताता है, "कैसे" नहीं।</strong> Reward की बनावट से optimal policy बदल जाती है। Gridworld में step reward को <span class="math-inline">\(-0.02\)</span> से <span class="math-inline">\(-0.5\)</span> कर दें तो robot जल्दबाज़ी में <span class="math-inline">\(-1\)</span> के पास से गुज़रने लगता है (Animation 6)।</li>
+<li><strong><span class="math-inline">\(V^\pi\)</span> और <span class="math-inline">\(V^*\)</span> को न मिलाएँ।</strong> <span class="math-inline">\(V^\pi\)</span> की equation linear है और policy दी हुई है। <span class="math-inline">\(V^*\)</span> की equation में <span class="math-inline">\(\max_a\)</span> है।</li>
+<li><strong>Terminal states:</strong> terminal state की value बस उसका reward है। आम bug यह है कि code terminal state से भी आगे चलता रहता है और <span class="math-inline">\(+1\)</span> बार-बार जुड़ता रहता है।</li>
+<li><strong>State में पूरी जानकारी हो।</strong> Markov property तभी सही है जब state में आगे का अंदाज़ा लगाने लायक सब कुछ हो। Helicopter के state में सिर्फ़ position नहीं, velocity भी चाहिए।</li>
+<li><strong><span class="math-inline">\(\gamma\)</span> का चुनाव:</strong> <span class="math-inline">\(\gamma\)</span> को 1 के पास रखने से agent दूर की सोचता है, पर iterative तरीके धीमे हो जाते हैं। <span class="math-inline">\(\gamma = 1\)</span> तभी ठीक है जब हर episode का खत्म होना पक्का हो।</li>
+<li><strong><span class="math-inline">\(P_{sa}\)</span> अक्सर पता नहीं होता।</strong> असली problems में उसे data से सीखना पड़ता है (Lecture 17)।</li>
+</ul>
+<h2>10. खुद से पूछें</h2>
+<ol>
+<li>अगर <span class="math-inline">\(\gamma = 0\)</span> हो, तो <span class="math-inline">\(V^\pi(s)\)</span> क्या होगा, और optimal policy किस चीज़ को देखेगी?</li>
+<li>Gridworld में <span class="math-inline">\(V^*((3,2)) = 0.69\)</span> है, जबकि वह <span class="math-inline">\(+1\)</span> से सिर्फ़ दो कदम दूर है और <span class="math-inline">\((1,3)\)</span>, जो तीन कदम दूर है, <span class="math-inline">\(0.86\)</span> पर है। ऐसा क्यों?</li>
+<li>Bellman equation में <span class="math-inline">\(V^\pi(s)\)</span> दोनों ओर आ सकता है (जैसे <span class="math-inline">\((3,3)\)</span> की equation में)। फिर भी linear system का हल unique क्यों है?</li>
+</ol>
+<div class="part"><span class="tag">भाग 2</span><h2>3D Animations</h2></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 16.1</span>Episodes under a fixed policy</div><div class="frames"><figure><img src="anim/L16_1_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L16_1_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L16_1_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> फ़र्श पर 4x3 gridworld है (हरा cell <span class="math-inline">\(+1\)</span>, लाल cell <span class="math-inline">\(-1\)</span>, गहरा cell दीवार) और ऊँचाई अब तक का discounted payoff <span class="math-inline">\(R(s_0) + \gamma R(s_1) + \dots\)</span> है। Policy <span class="math-inline">\(\pi\)</span> (फ़र्श के तीर) fixed है, पर चाल noisy है: 0.8 probability से agent तीर की दिशा में जाता है, 0.1-0.1 से बगल में फिसल जाता है। पहला episode धीरे-धीरे चलता है: हर step पर <span class="math-inline">\(-0.02\)</span> जुड़ता है और अंत में terminal reward की छलाँग लगती है। फिर सैकड़ों episodes जुड़ते हैं: कुछ <span class="math-inline">\(+1\)</span> पर खत्म होते हैं, कुछ <span class="math-inline">\(-1\)</span> पर। इन सबके payoff का औसत (नीला निशान) धीरे-धीरे <span class="math-inline">\(V^\pi(s_0)\)</span> (काली रेखा) पर टिक जाता है। यही value function की परिभाषा है: payoff का expectation।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L16_1.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 16.2</span>Iterative policy evaluation</div><div class="frames"><figure><img src="anim/L16_2_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L16_2_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L16_2_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> फ़र्श पर gridworld और तीरों में एक fixed (और काफ़ी खराब) policy <span class="math-inline">\(\pi\)</span> है। हर bar की ऊँचाई उस state का value estimate है; शून्य से नीचे लटके bars negative values हैं। शुरुआत <span class="math-inline">\(V(s) = 0\)</span> से होती है और हर sweep में सारे states पर Bellman equation का दायाँ हिस्सा लगाया जाता है: <span class="math-inline">\(V(s) := R(s) + \gamma \sum_{s&#x27;} P_{s\pi(s)}(s&#x27;) V(s&#x27;)\)</span>। देखिए कि जानकारी terminal states से बाहर की ओर फैलती है: <span class="math-inline">\(+1\)</span> के पास वाले bars ऊपर उठते हैं, <span class="math-inline">\(-1\)</span> की ओर ले जाने वाले states नीचे धँसते हैं। काले wire boxes linear system से निकला सही <span class="math-inline">\(V^\pi\)</span> हैं; कुछ ही sweeps में bars उनमें ठीक बैठ जाते हैं।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L16_2.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 16.3</span>Discount <span class="math-inline">\(\gamma\)</span>: near-sighted to far</div><div class="frames"><figure><img src="anim/L16_3_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L16_3_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L16_3_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> Policy वही रहती है (notes वाली अच्छी policy, फ़र्श के तीर), सिर्फ़ discount factor <span class="math-inline">\(\gamma\)</span> को 0.05 से 0.99 तक बढ़ाया जा रहा है, और हर <span class="math-inline">\(\gamma\)</span> के लिए सही <span class="math-inline">\(V^\pi\)</span> दिखाया गया है। <span class="math-inline">\(\gamma\)</span> छोटा हो तो agent near-sighted है: सिर्फ़ <span class="math-inline">\(+1\)</span> से सटे state को कुछ value मिलती है, बाकी सब लगभग शून्य हैं क्योंकि दूर का reward <span class="math-inline">\(\gamma^t\)</span> से दबकर गायब हो जाता है। जैसे-जैसे <span class="math-inline">\(\gamma\)</span> 1 के पास जाता है, <span class="math-inline">\(+1\)</span> की रोशनी पूरे grid में फैल जाती है और start state (1,1) भी ऊँचा हो जाता है। Status में <span class="math-inline">\(1/(1-\gamma)\)</span> मोटे तौर पर बताता है कि agent कितने steps आगे तक देख रहा है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L16_3.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 16.4</span>One Bellman backup, close-up</div><div class="frames"><figure><img src="anim/L16_4_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L16_4_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L16_4_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ सिर्फ़ एक state <span class="math-inline">\(s = (3,2)\)</span> की Bellman equation को टुकड़ों में जोड़ा जा रहा है। Policy का action "ऊपर" है: 0.8 probability से agent <span class="math-inline">\((3,3)\)</span> में पहुँचता है, 0.1 से दीवार से टकराकर वहीं <span class="math-inline">\((3,2)\)</span> में रहता है, और 0.1 से <span class="math-inline">\(-1\)</span> वाले <span class="math-inline">\((4,2)\)</span> में गिरता है। हर अगले state के value bar का उतना हिस्सा कटकर <span class="math-inline">\(s\)</span> पर आता है जितनी उसकी probability है: <span class="math-inline">\(0.8 \times 0.93\)</span>, फिर <span class="math-inline">\(0.1 \times 0.69\)</span>, फिर <span class="math-inline">\(0.1 \times (-1)\)</span>, जो ढेर को घटा देता है। अंत में ढेर को <span class="math-inline">\(\gamma\)</span> से गुणा करके <span class="math-inline">\(R(s) = -0.02\)</span> जोड़ते हैं, और वह काले wire box <span class="math-inline">\(V^\pi(s) = 0.69\)</span> में ठीक बैठ जाता है। ध्यान दें कि <span class="math-inline">\(V^\pi(s)\)</span> खुद अपनी equation के दाईं ओर भी आया है, इसीलिए सारे states को साथ में हल करना पड़ता है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L16_4.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 16.5</span>Changing the policy changes V</div><div class="frames"><figure><img src="anim/L16_5_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L16_5_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L16_5_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> Value function policy पर निर्भर है: हर policy का अपना landscape <span class="math-inline">\(V^\pi\)</span> है। शुरुआत notes वाली खराब policy से होती है, जिसमें नीचे के सारे states <span class="math-inline">\(-1\)</span> की ओर बहते हैं और उनके bars negative हैं। फिर एक-एक state का तीर बदला जाता है (नारंगी तीर), और हर बार पूरा <span class="math-inline">\(V^\pi\)</span> दोबारा निकाला जाता है। देखिए कि एक state का action बदलने से सिर्फ़ उसी का bar नहीं, उस तक पहुँचने वाले सारे states के bars उठ जाते हैं। अंत की policy हर state में पहली से बेहतर है: <span class="math-inline">\(V^{\pi_2}(s) \ge V^{\pi_1}(s)\)</span>। जो policy हर state में सबसे ऊँची हो, वही <span class="math-inline">\(\pi^*\)</span> है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L16_5.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 16.6</span>Optimal policy vs step reward</div><div class="frames"><figure><img src="anim/L16_6_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L16_6_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L16_6_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> अब bars optimal value function <span class="math-inline">\(V^*\)</span> हैं और तीर optimal policy <span class="math-inline">\(\pi^*\)</span>, जो हर state में उस action को चुनती है जिससे अगले state का expected <span class="math-inline">\(V^*\)</span> सबसे बड़ा हो: तीर landscape की चढ़ाई की ओर हैं। यहाँ हर साधारण state का reward <span class="math-inline">\(R(s)\)</span> को 0 से <span class="math-inline">\(-0.5\)</span> तक घटाया जा रहा है। <span class="math-inline">\(R(s) = 0\)</span> पर agent को कोई जल्दी नहीं, वह <span class="math-inline">\(-1\)</span> से पूरी तरह बचता है (दीवार की ओर मुँह कर लेता है)। <span class="math-inline">\(-0.02\)</span> पर notes वाली policy मिलती है। Penalty बढ़ने पर एक-एक करके तीर पलटते हैं (नारंगी) और agent <span class="math-inline">\(-1\)</span> के पास से छोटा रास्ता लेने लगता है; बहुत बड़ी penalty पर <span class="math-inline">\((4,1)\)</span> से वह सीधे <span class="math-inline">\(-1\)</span> में कूद जाता है। यानी <span class="math-inline">\(\pi^*\)</span> reward function की बनावट से तय होती है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L16_6.gif</div></div>
+<div class="part"><span class="tag">भाग 3</span><h2>Python Example</h2></div>
+<p class="run">इसे खुद चलाएँ: <code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/chapters/L16_mdp_bellman/example.py</code></p>
+<div class="code"><pre><span></span><span class="sd">"""Lecture 16 example: 4x3 gridworld पर policy evaluation शुरू से (सिर्फ़ NumPy).</span>
+
+<span class="sd">यहाँ इस्तेमाल किया गया gridworld बनाते हैं (noisy चाल: 0.8 सीधा, 0.1-0.1 बगल में)। फिर एक fixed policy का</span>
+<span class="sd">V^pi तीन तरीकों से निकालते हैं: (1) Bellman linear system हल करके, (2) Bellman equation को बार-बार</span>
+<span class="sd">लगाकर, (3) Monte Carlo rollouts से। अंत में दो policies की तुलना करते हैं।</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">GAMMA</span> <span class="o">=</span> <span class="mf">0.99</span>
+
+<span class="c1"># ---------- 1. Gridworld: state = (column, row), (1, 1) नीचे-बाएँ कोने में ----------</span>
+<span class="n">COLS</span><span class="p">,</span> <span class="n">ROWS</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span>
+<span class="n">WALL</span><span class="p">,</span> <span class="n">GOAL</span><span class="p">,</span> <span class="n">PIT</span><span class="p">,</span> <span class="n">START</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">states</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ROWS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">COLS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">!=</span> <span class="n">WALL</span><span class="p">]</span>
+<span class="n">index</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">states</span><span class="p">)}</span>
+<span class="n">n_states</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>                                   <span class="c1"># 11 states</span>
+<span class="n">terminal</span> <span class="o">=</span> <span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="n">GOAL</span><span class="p">],</span> <span class="n">index</span><span class="p">[</span><span class="n">PIT</span><span class="p">]]</span>
+<span class="n">moves</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"^"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">"&gt;"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">"v"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"&lt;"</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)}</span>
+<span class="n">actions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">moves</span><span class="p">)</span>                                    <span class="c1"># क्रम घड़ी की दिशा में: ^ &gt; v &lt;</span>
+
+<span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.02</span><span class="p">)</span>                             <span class="c1"># हर साधारण state का reward</span>
+<span class="n">R</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="n">GOAL</span><span class="p">]],</span> <span class="n">R</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="n">PIT</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">move</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Action a की दिशा में एक कदम; दीवार या किनारे से टकराएँ तो वहीं रहें।"""</span>
+    <span class="n">nxt</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">moves</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">moves</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">nxt</span> <span class="k">if</span> <span class="n">nxt</span> <span class="ow">in</span> <span class="n">index</span> <span class="k">else</span> <span class="n">s</span>
+
+
+<span class="c1"># ---------- 2. Transition probabilities P[a, s, s'] ----------</span>
+<span class="c1"># Terminal states की rows zero रहती हैं: वहाँ reward मिलकर episode खत्म हो जाता है।</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_states</span><span class="p">,</span> <span class="n">n_states</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">(</span><span class="n">GOAL</span><span class="p">,</span> <span class="n">PIT</span><span class="p">):</span>
+        <span class="k">continue</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">actions</span><span class="p">):</span>
+        <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">actions</span><span class="p">[(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">],</span> <span class="n">actions</span><span class="p">[(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span><span class="p">]</span>     <span class="c1"># a के दोनों perpendicular</span>
+        <span class="k">for</span> <span class="n">direction</span><span class="p">,</span> <span class="n">prob</span> <span class="ow">in</span> <span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span> <span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)):</span>
+            <span class="n">P</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">index</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="n">index</span><span class="p">[</span><span class="n">move</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">direction</span><span class="p">)]]</span> <span class="o">+=</span> <span class="n">prob</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">make_policy</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""ऊपर की row से नीचे की ओर लिखे तीरों को action indices के array में बदलें।"""</span>
+    <span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">ROWS</span> <span class="o">-</span> <span class="n">k</span><span class="p">)</span> <span class="ow">in</span> <span class="n">index</span> <span class="ow">and</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">moves</span><span class="p">:</span>
+                <span class="n">pi</span><span class="p">[</span><span class="n">index</span><span class="p">[(</span><span class="n">c</span><span class="p">,</span> <span class="n">ROWS</span> <span class="o">-</span> <span class="n">k</span><span class="p">)]]</span> <span class="o">=</span> <span class="n">actions</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pi</span>
+
+
+<span class="n">policies</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"1 (good)"</span><span class="p">:</span> <span class="n">make_policy</span><span class="p">([</span><span class="s2">"&gt;&gt;&gt;."</span><span class="p">,</span> <span class="s2">"^.^."</span><span class="p">,</span> <span class="s2">"^&lt;&lt;&lt;"</span><span class="p">]),</span>     <span class="c1"># notes की optimal policy</span>
+            <span class="s2">"2 (bad)"</span><span class="p">:</span> <span class="n">make_policy</span><span class="p">([</span><span class="s2">"&gt;&gt;&gt;."</span><span class="p">,</span> <span class="s2">"v.&gt;."</span><span class="p">,</span> <span class="s2">"&gt;&gt;^^"</span><span class="p">])}</span>      <span class="c1"># notes की खराब policy</span>
+
+
+<span class="c1"># ---------- 3. Policy evaluation, तरीका 1: linear system (I - gamma P_pi) V = R ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_exact</span><span class="p">(</span><span class="n">pi</span><span class="p">):</span>
+    <span class="n">P_pi</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_states</span><span class="p">)]</span>                    <span class="c1"># row s = P_{s, pi(s)}</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_states</span><span class="p">)</span> <span class="o">-</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">P_pi</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+
+
+<span class="c1"># ---------- 4. तरीका 2: Bellman equation को बार-बार लगाना ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_iterative</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span> <span class="n">sweeps</span><span class="p">):</span>
+    <span class="n">P_pi</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_states</span><span class="p">)]</span>
+    <span class="n">V</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_states</span><span class="p">),</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sweeps</span><span class="p">):</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="n">R</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">P_pi</span> <span class="o">@</span> <span class="n">V</span>                         <span class="c1"># सारे states एक साथ update (synchronous)</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">V</span><span class="p">,</span> <span class="n">history</span>
+
+
+<span class="c1"># ---------- 5. तरीका 3: Monte Carlo, यानी सचमुच episodes चलाकर payoff का औसत ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rollout</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">START</span><span class="p">):</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">discount</span><span class="p">,</span> <span class="n">payoff</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">start</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">payoff</span> <span class="o">+=</span> <span class="n">discount</span> <span class="o">*</span> <span class="n">R</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>                        <span class="c1"># gamma^t * R(s_t)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">terminal</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">payoff</span><span class="p">,</span> <span class="n">i</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">P</span><span class="p">[</span><span class="n">pi</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">])</span>          <span class="c1"># noisy चाल</span>
+        <span class="n">discount</span> <span class="o">*=</span> <span class="n">GAMMA</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">pi</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">cells</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">COLS</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">==</span> <span class="n">WALL</span><span class="p">:</span>
+                <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"   ####"</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="n">index</span><span class="p">[(</span><span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">)]</span>
+                <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">+.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">' '</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">terminal</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">actions</span><span class="p">[</span><span class="n">pi</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"   "</span> <span class="o">+</span> <span class="s2">"   "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cells</span><span class="p">))</span>
+
+
+<span class="n">exact</span><span class="p">,</span> <span class="n">histories</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">pi</span> <span class="ow">in</span> <span class="n">policies</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">exact</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">evaluate_exact</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
+    <span class="n">histories</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">evaluate_iterative</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span> <span class="mi">40</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Policy </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: linear system से V^pi (तीर = policy का action)"</span><span class="p">)</span>
+    <span class="n">show</span><span class="p">(</span><span class="n">exact</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">pi</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Iterative evaluation: max |V_k - V_exact|"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"  sweeps k    policy 1     policy 2"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">):</span>
+    <span class="n">gaps</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">histories</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">exact</span><span class="p">[</span><span class="n">name</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">policies</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">8d</span><span class="si">}</span><span class="s2">    </span><span class="si">{</span><span class="n">gaps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">     </span><span class="si">{</span><span class="n">gaps</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Monte Carlo check: start (1,1) से 4000 episodes"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"  policy      exact V(start)    MC mean +- std.err    ends at +1"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">pi</span> <span class="ow">in</span> <span class="n">policies</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">runs</span> <span class="o">=</span> <span class="p">[</span><span class="n">rollout</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4000</span><span class="p">)]</span>
+    <span class="n">payoffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">])</span>
+    <span class="n">at_goal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">end</span> <span class="o">==</span> <span class="n">index</span><span class="p">[</span><span class="n">GOAL</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">end</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">exact</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">index</span><span class="p">[</span><span class="n">START</span><span class="p">]]</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2">           </span><span class="si">{</span><span class="n">payoffs</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2"> +- "</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">payoffs</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">payoffs</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">     </span><span class="si">{</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">at_goal</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 6. Bellman equation को हाथ से जाँचें: state (3,1), policy 1 का V ----------</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">exact</span><span class="p">[</span><span class="s2">"1 (good)"</span><span class="p">]</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">index</span><span class="p">[(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">q</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span> <span class="n">P</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="o">@</span> <span class="n">V</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">actions</span><span class="p">)}</span>      <span class="c1"># sum_s' P_sa(s') V(s')</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">State (3,1) पर sum_s' P_sa(s') V(s'):  "</span> <span class="o">+</span> <span class="s2">"   "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">q</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"सबसे अच्छा action '&lt;' है, और R + gamma * </span><span class="si">{</span><span class="n">q</span><span class="p">[</span><span class="s1">'&lt;'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">R</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">GAMMA</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">q</span><span class="p">[</span><span class="s1">'&lt;'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> = V(3,1)"</span><span class="p">)</span>
+<span class="n">better</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">exact</span><span class="p">[</span><span class="s2">"1 (good)"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">exact</span><span class="p">[</span><span class="s2">"2 (bad)"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"क्या policy 1 हर state में policy 2 से अच्छी या बराबर है? </span><span class="si">{</span><span class="s1">'हाँ'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">better</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'नहीं'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 7. Plots ----------</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mf">3.9</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">pi</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">policies</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">ROWS</span><span class="p">,</span> <span class="n">COLS</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">),</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">index</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">grid</span><span class="p">[</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">exact</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">"lower"</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"RdYlGn"</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"0.3"</span><span class="p">))</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">),</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">index</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">r</span> <span class="o">-</span> <span class="mf">0.22</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">exact</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">terminal</span><span class="p">:</span>
+            <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">moves</span><span class="p">[</span><span class="n">actions</span><span class="p">[</span><span class="n">pi</span><span class="p">[</span><span class="n">i</span><span class="p">]]]</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="mf">0.17</span> <span class="o">*</span> <span class="n">dx</span><span class="p">,</span> <span class="n">r</span> <span class="o">+</span> <span class="mf">0.12</span> <span class="o">-</span> <span class="mf">0.17</span> <span class="o">*</span> <span class="n">dy</span><span class="p">,</span> <span class="mf">0.34</span> <span class="o">*</span> <span class="n">dx</span><span class="p">,</span> <span class="mf">0.34</span> <span class="o">*</span> <span class="n">dy</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.11</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"k"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"V^pi of policy </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">xticks</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">yticks</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"column"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"row"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">policies</span><span class="p">:</span>
+    <span class="n">gap</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">h</span> <span class="o">-</span> <span class="n">exact</span><span class="p">[</span><span class="n">name</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">histories</span><span class="p">[</span><span class="n">name</span><span class="p">]]</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">gap</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">gap</span><span class="p">,</span> <span class="s2">"o-"</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"policy </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"sweep k"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"max |V_k - V_exact|"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Iterative evaluation converges"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"result.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+</pre></div>
+
+<div class="label">OUTPUT</div>
+<pre class="output">Policy 1 (good): linear system से V^pi (तीर = policy का action)
+   +0.86 &gt;   +0.90 &gt;   +0.93 &gt;   +1.00  
+   +0.82 ^      ####   +0.69 ^   -1.00  
+   +0.78 ^   +0.75 &lt;   +0.71 &lt;   +0.49 &lt;
+Policy 2 (bad): linear system से V^pi (तीर = policy का action)
+   +0.52 &gt;   +0.73 &gt;   +0.77 &gt;   +1.00  
+   -0.90 v      ####   -0.82 &gt;   -1.00  
+   -0.88 &gt;   -0.87 &gt;   -0.85 ^   -1.00 ^
+
+Iterative evaluation: max |V_k - V_exact|
+  sweeps k    policy 1     policy 2
+         1    9.52e-01     9.75e-01
+         5    8.78e-01     8.01e-01
+        10    3.62e-01     4.28e-02
+        20    6.66e-04     4.25e-05
+        40    1.24e-10     1.99e-11
+
+Monte Carlo check: start (1,1) से 4000 episodes
+  policy      exact V(start)    MC mean +- std.err    ends at +1
+  1 (good)    +0.7803           +0.7806 +- 0.0036      98.6%
+  2 (bad)     -0.8846           -0.8947 +- 0.0082       8.4%
+
+State (3,1) पर sum_s&#x27; P_sa(s&#x27;) V(s&#x27;):  ^ 0.674   &gt; 0.532   v 0.691   &lt; 0.736
+सबसे अच्छा action &#x27;&lt;&#x27; है, और R + gamma * 0.736 = 0.709 = V(3,1)
+क्या policy 1 हर state में policy 2 से अच्छी या बराबर है? हाँ</pre>
+<img class="result-img" src="examples/L16_mdp_bellman/result.png">
+</section>
+<script src="../vendor/katex/package/dist/katex.min.js"></script>
+<script src="../vendor/katex/package/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [{left: "\\[", right: "\\]", display: true}, {left: "\\(", right: "\\)", display: false}],
+  throwOnError: false, ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+});
+</script>
+</body></html>

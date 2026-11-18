@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<title>Dhruv AI tutorial | Machine Learning हिंदी में</title>
+<link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
+<style>
+@page { size: A4; margin: 16mm 13mm 17mm 13mm;
+        @bottom-center { content: counter(page); font: 9pt "Helvetica Neue", sans-serif; color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Kohinoor Devanagari", "Devanagari Sangam MN", "Helvetica Neue", sans-serif;
+       font-size: 10.6pt; line-height: 1.72; color: #111827; margin: 0; }
+body.screen { max-width: 900px; margin: 0 auto; padding: 24px 28px 80px; font-size: 16px; background: #fff; }
+h1, h2, h3, h4 { line-height: 1.35; break-after: avoid; }
+h2 { font-size: 13.5pt; margin: 1.3em 0 0.4em; color: #1e3a8a; }
+h3 { font-size: 11.5pt; margin: 1.1em 0 0.3em; color: #1f2937; }
+p { margin: 0.45em 0; orphans: 2; widows: 2; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+li { margin: 0.18em 0; }
+a { color: #1d4ed8; text-decoration: none; }
+code { font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace; font-size: 0.88em;
+       background: #f1f5f9; padding: 0.08em 0.3em; border-radius: 3px; }
+blockquote { margin: 0.7em 0; padding: 0.5em 0.9em; border-left: 4px solid #2563eb; background: #eff6ff;
+             border-radius: 0 6px 6px 0; break-inside: avoid; }
+blockquote p { margin: 0.2em 0; }
+table { border-collapse: collapse; margin: 0.7em 0; width: 100%; font-size: 0.93em; break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 0.3em 0.6em; text-align: left; vertical-align: top; }
+th { background: #eef2ff; }
+.math-display { display: block; margin: 0.55em 0; overflow-x: auto; break-inside: avoid; }
+.katex { font-size: 1.04em; }
+
+.cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center;
+         break-after: page; }
+body.screen .cover { height: auto; padding: 70px 0 50px; }
+.cover .kicker { letter-spacing: 0.22em; font-size: 10pt; color: #2563eb; font-weight: 700; }
+.cover h1 { font-size: 34pt; margin: 0.25em 0 0.1em; color: #111827; }
+.cover .sub { font-size: 15pt; color: #374151; }
+.cover .pill { display: inline-block; margin: 2.2em auto 0; padding: 0.5em 1.4em; border-radius: 999px;
+               background: #1e3a8a; color: #fff; font-size: 11.5pt; }
+.cover .note { margin-top: 3em; font-size: 9.5pt; color: #6b7280; }
+
+.front { break-after: page; }
+.toc ol { list-style: none; padding: 0; margin: 0.4em 0; }
+.toc li { display: flex; gap: 0.7em; padding: 0.22em 0; border-bottom: 1px dotted #cbd5e1; }
+.toc .n { flex: 0 0 5.6em; color: #2563eb; font-weight: 700; }
+
+.chapter { break-before: page; }
+.ch-head { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 14px 18px;
+           border-radius: 10px; margin-bottom: 0.9em; break-inside: avoid; }
+.ch-head .n { font-size: 9.5pt; letter-spacing: 0.18em; opacity: 0.85; font-weight: 700; }
+.ch-head h1 { font-size: 17.5pt; margin: 0.1em 0 0; }
+.part { display: flex; align-items: center; gap: 0.6em; margin: 1.5em 0 0.6em; padding-bottom: 0.25em;
+        border-bottom: 2px solid #1e3a8a; break-after: avoid; }
+.part .tag { background: #1e3a8a; color: #fff; border-radius: 5px; padding: 0.05em 0.6em; font-size: 9.5pt;
+             font-weight: 700; }
+.part h2 { margin: 0; font-size: 14pt; }
+
+.anim { border: 1px solid #e5e7eb; border-radius: 9px; padding: 8px 7px 6px; margin: 0.8em 0;
+        break-inside: avoid; background: #fff; }
+.anim-head { font-weight: 700; margin-bottom: 0.3em; }
+.anim-head .badge { background: #ea580c; color: #fff; border-radius: 4px; padding: 0.05em 0.5em;
+                    font-size: 9pt; margin-right: 0.5em; }
+.frames { display: flex; gap: 3px; }
+.frames figure { margin: 0; flex: 1; text-align: center; }
+.frames img { width: 100%; display: block; border: 1px solid #eef0f3; border-radius: 5px; }
+.frames figcaption { font-size: 8pt; color: #6b7280; line-height: 1.3; margin-top: 1px; }
+.anim .gif { display: block; margin: 0 auto; width: 480px; max-width: 100%; }
+.anim .caption { font-size: 0.95em; margin: 0.4em 0 0.15em; }
+.anim .file { font-size: 8pt; color: #6b7280; font-family: "SF Mono", Menlo, monospace; }
+
+.code { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.code pre, pre.output { margin: 0; font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace;
+                        font-size: 8.3pt; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+body.screen .code pre, body.screen pre.output { font-size: 13px; }
+pre.output { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.label { font-size: 9pt; font-weight: 700; color: #475569; margin: 1em 0 0.2em; break-after: avoid; }
+.result-img { display: block; max-width: 88%; margin: 0.6em auto; border: 1px solid #e5e7eb; border-radius: 6px;
+              break-inside: avoid; }
+.run { font-size: 0.93em; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #ffffcc }
+.code { background: #f0f0f0; }
+.code .c { color: #60A0B0; font-style: italic } /* Comment */
+.code .err { border: 1px solid #F00 } /* Error */
+.code .k { color: #007020; font-weight: bold } /* Keyword */
+.code .o { color: #666 } /* Operator */
+.code .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #007020 } /* Comment.Preproc */
+.code .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F00 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #888 } /* Generic.Output */
+.code .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #04D } /* Generic.Traceback */
+.code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code .kp { color: #007020 } /* Keyword.Pseudo */
+.code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #902000 } /* Keyword.Type */
+.code .m { color: #40A070 } /* Literal.Number */
+.code .s { color: #4070A0 } /* Literal.String */
+.code .na { color: #4070A0 } /* Name.Attribute */
+.code .nb { color: #007020 } /* Name.Builtin */
+.code .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code .no { color: #60ADD5 } /* Name.Constant */
+.code .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code .ne { color: #007020 } /* Name.Exception */
+.code .nf { color: #06287E } /* Name.Function */
+.code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code .nv { color: #BB60D5 } /* Name.Variable */
+.code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code .w { color: #BBB } /* Text.Whitespace */
+.code .mb { color: #40A070 } /* Literal.Number.Bin */
+.code .mf { color: #40A070 } /* Literal.Number.Float */
+.code .mh { color: #40A070 } /* Literal.Number.Hex */
+.code .mi { color: #40A070 } /* Literal.Number.Integer */
+.code .mo { color: #40A070 } /* Literal.Number.Oct */
+.code .sa { color: #4070A0 } /* Literal.String.Affix */
+.code .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code .sc { color: #4070A0 } /* Literal.String.Char */
+.code .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #4070A0 } /* Literal.String.Double */
+.code .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code .sx { color: #C65D09 } /* Literal.String.Other */
+.code .sr { color: #235388 } /* Literal.String.Regex */
+.code .s1 { color: #4070A0 } /* Literal.String.Single */
+.code .ss { color: #517918 } /* Literal.String.Symbol */
+.code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code .fm { color: #06287E } /* Name.Function.Magic */
+.code .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
+</head><body class="print">
+<section class="cover"><div class="kicker">DHRUV AI TUTORIAL &middot; SELF-STUDY GUIDE</div><h1>Dhruv AI tutorial<br>Machine Learning हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक की self-study guide है।</div></section>
+<section class="front"><h2>यह guide कैसे पढ़ें</h2>
+<p>यह Dhruv AI tutorial Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक के 20 lectures में व्यवस्थित है। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<table>
+<thead>
+<tr>
+<th>भाग</th>
+<th>क्या है</th>
+<th>कैसे इस्तेमाल करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>भाग 1: Theory</strong></td>
+<td>Idea, notation, maths और algorithm, हिंदी में</td>
+<td>पहले इसे धीरे-धीरे पढ़ें। Equations को कागज़ पर खुद लिखकर देखें।</td>
+</tr>
+<tr>
+<td><strong>भाग 2: 3D Animations</strong></td>
+<td>हर chapter में कम से कम 5 animations</td>
+<td>PDF में हर animation के तीन still frames हैं (शुरुआत, बीच में, अंत)। चलती animation देखने के लिए नीचे बताई files खोलें।</td>
+</tr>
+<tr>
+<td><strong>भाग 3: Python Example</strong></td>
+<td>NumPy से शुरू से लिखा एक चलने वाला example, उसके output के साथ</td>
+<td>Code को खुद चलाएँ, फिर numbers बदलकर देखें कि क्या बदलता है।</td>
+</tr>
+</tbody>
+</table>
+<p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
+<h2>चलती animations कहाँ हैं</h2>
+<ul>
+<li><strong><code>index.html</code></strong> (project का मुख्य page): इसे browser में खोलें। इसमें पूरी guide और सारी animations हैं।</li>
+<li><strong><code>dhruv_ai_tutorial/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
+</ul>
+<h2>Code कैसे चलाएँ</h2>
+<p>हर chapter का code <code>dhruv_ai_tutorial/chapters/&lt;chapter&gt;/example.py</code> में है। Terminal में project root से:</p>
+<pre><code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/chapters/L02_linear_regression/example.py
+</code></pre>
+<p>Animations का code उसी folder की <code>anims.py</code> में है। पूरी guide दोबारा बनाने के लिए: <code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/build.py</code></p>
+<h2>पहले से क्या आना चाहिए</h2>
+<ul>
+<li><strong>Linear Algebra:</strong> vectors, matrices, matrix multiplication, transpose, inverse, eigenvalues / eigenvectors।</li>
+<li><strong>Probability:</strong> random variable, expectation, variance, conditional probability, Bayes rule, Gaussian distribution।</li>
+<li><strong>Calculus:</strong> derivative, partial derivative, gradient, chain rule।</li>
+<li><strong>Python:</strong> NumPy arrays की बुनियादी समझ।</li>
+</ul>
+<h2>पूरे course में चलने वाला notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}, y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वाँ training example: input और target</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या (या input का dimension)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span>, <span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>model के parameters</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis: model का prediction</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(J(\theta)\)</span></td>
+<td>cost function जिसे minimize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\ell(\theta)\)</span></td>
+<td>log-likelihood जिसे maximize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span></td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\nabla_\theta\)</span></td>
+<td><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span></td>
+<td>mean <span class="math-inline">\(\mu\)</span> और covariance <span class="math-inline">\(\Sigma\)</span> वाला Gaussian</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(:=\)</span></td>
+<td>"दाएँ की value बाएँ में रख दो" (assignment)</td>
+</tr>
+</tbody>
+</table><h2>विषय-सूची</h2><div class="toc"><ol><li><span class="n">Lecture 6</span><a href="#L06_laplace_svm">Laplace Smoothing और Support Vector Machines</a></li></ol></div></section>
+<section class="chapter" id="L06_laplace_svm">
+<div class="ch-head"><div class="n">LECTURE 6</div><h1>Laplace Smoothing और Support Vector Machines</h1></div>
+<div class="part"><span class="tag">भाग 1</span><h2>Theory</h2></div>
+<blockquote>
+<p><strong>इस lecture में:</strong> Naive Bayes की zero-frequency problem और Laplace smoothing, text के लिए multinomial event model, फिर Support Vector Machines की शुरुआत: margin का idea, functional और geometric margin, optimal margin classifier, Lagrange duality, KKT conditions, और support vectors।</p>
+</blockquote>
+<h2>1. एक line में idea</h2>
+<p>इस lecture के दो हिस्से हैं।</p>
+<p><strong>पहला हिस्सा</strong> पिछले lecture की एक कमी ठीक करता है। Naive Bayes में जो शब्द training set में कभी नहीं दिखा, उसकी probability zero निकलती थी और पूरा prediction बिगड़ जाता था। <strong>Laplace smoothing</strong> का हल बहुत सीधा है: गिनती शुरू करने से पहले मान लो कि हर चीज़ एक बार दिख चुकी है। तब कोई probability ठीक zero नहीं बनती।</p>
+<p><strong>दूसरा हिस्सा</strong> एक नया classifier शुरू करता है: <strong>Support Vector Machine (SVM)</strong>। अगर दो classes को कई अलग-अलग lines से अलग किया जा सकता है, तो कौन सी line सबसे अच्छी है? SVM का जवाब: वह line जो दोनों classes के सबसे पास वाले points से जितना हो सके उतनी दूर हो, यानी जिसके दोनों तरफ़ सबसे चौड़ी खाली पट्टी (<strong>margin</strong>) बचे। ऐसी boundary नए data पर ज़्यादा भरोसेमंद होती है।</p>
+<h2>2. Laplace Smoothing</h2>
+<p><strong>Problem:</strong> पिछले lecture के estimates अनुपात थे, जैसे <span class="math-inline">\(\phi_{j \mid y=1}\)</span> = (spam emails जिनमें शब्द <span class="math-inline">\(j\)</span> है) / (कुल spam emails)। अगर शब्द <span class="math-inline">\(j\)</span> training set में एक बार भी नहीं आया, तो <span class="math-inline">\(\phi_{j \mid y=1} = \phi_{j \mid y=0} = 0\)</span>, और उस शब्द वाले email का posterior <span class="math-inline">\(\frac{0}{0}\)</span> हो जाता है। जो चीज़ अब तक नहीं दिखी, उसे असंभव मान लेना statistically गलत है।</p>
+<p><strong>सामान्य रूप:</strong> मान लें <span class="math-inline">\(z\)</span> एक multinomial random variable है जो <span class="math-inline">\(\{1, \dots, k\}\)</span> में से कोई value लेता है, और <span class="math-inline">\(\phi_j = p(z = j)\)</span>। <span class="math-inline">\(m\)</span> independent observations <span class="math-inline">\(z^{(1)}, \dots, z^{(m)}\)</span> से maximum likelihood estimate है:</p>
+<p><span class="math-display">\[\phi_j = \frac{\sum_{i=1}^{m} 1\{z^{(i)} = j\}}{m}\]</span></p>
+<p>Laplace smoothing numerator में 1 और denominator में <span class="math-inline">\(k\)</span> जोड़ता है:</p>
+<p><span class="math-display">\[\phi_j = \frac{\sum_{i=1}^{m} 1\{z^{(i)} = j\} + 1}{m + k}\]</span></p>
+<p>Denominator में <span class="math-inline">\(k\)</span> इसलिए है कि सारे <span class="math-inline">\(\phi_j\)</span> का जोड़ अब भी 1 रहे: <span class="math-inline">\(\sum_{j=1}^{k} \phi_j = \frac{m + k}{m + k} = 1\)</span>। अब कोई <span class="math-inline">\(\phi_j\)</span> zero नहीं है। <span class="math-inline">\(m\)</span> छोटा हो तो estimates बराबर बँटवारे <span class="math-inline">\(\frac{1}{k}\)</span> की ओर खिंचे रहते हैं। <span class="math-inline">\(m\)</span> बड़ा हो तो <span class="math-inline">\(+1\)</span> और <span class="math-inline">\(+k\)</span> का असर मिट जाता है और estimate वही हो जाता है जो maximum likelihood देता।</p>
+<p><strong>Naive Bayes में:</strong> हर <span class="math-inline">\(x_j\)</span> binary है, यानी <span class="math-inline">\(k = 2\)</span>। इसलिए</p>
+<p><span class="math-display">\[\phi_{j \mid y=1} = \frac{\sum_{i=1}^{m} 1\{x_j^{(i)} = 1 \wedge y^{(i)} = 1\} + 1}{\sum_{i=1}^{m} 1\{y^{(i)} = 1\} + 2}, \qquad \phi_{j \mid y=0} = \frac{\sum_{i=1}^{m} 1\{x_j^{(i)} = 1 \wedge y^{(i)} = 0\} + 1}{\sum_{i=1}^{m} 1\{y^{(i)} = 0\} + 2}\]</span></p>
+<p><span class="math-inline">\(\phi_y\)</span> को आम तौर पर smooth नहीं करते, क्योंकि दोनों classes के examples काफ़ी होते हैं।</p>
+<h2>3. Text के लिए Multinomial Event Model</h2>
+<p>पिछला model सिर्फ़ यह देखता था कि शब्द email में है या नहीं। Multinomial event model शब्दों की गिनती का भी इस्तेमाल करता है।</p>
+<ul>
+<li>अब <span class="math-inline">\(x_j\)</span> email के <span class="math-inline">\(j\)</span>-वें स्थान का शब्द है: <span class="math-inline">\(x_j \in \{1, \dots, |V|\}\)</span>, जहाँ <span class="math-inline">\(|V|\)</span> vocabulary का size है।</li>
+<li><span class="math-inline">\(n_i\)</span> शब्दों वाला email एक vector <span class="math-inline">\((x_1^{(i)}, \dots, x_{n_i}^{(i)})\)</span> है। हर email की लंबाई अलग हो सकती है।</li>
+<li>Model की कहानी: पहले <span class="math-inline">\(p(y)\)</span> से तय होता है कि email spam है या नहीं। फिर हर शब्द, बाकी शब्दों से independent, एक ही distribution <span class="math-inline">\(p(x_j \mid y)\)</span> से चुना जाता है। इसलिए <span class="math-inline">\(p(x, y) = p(y) \prod_{j=1}^{n} p(x_j \mid y)\)</span>।</li>
+</ul>
+<p><strong>Parameters:</strong> <span class="math-inline">\(\phi_y = p(y=1)\)</span>, <span class="math-inline">\(\phi_{k \mid y=1} = p(x_j = k \mid y=1)\)</span> और <span class="math-inline">\(\phi_{k \mid y=0} = p(x_j = k \mid y=0)\)</span>। ये <span class="math-inline">\(j\)</span> पर निर्भर नहीं करते: शब्द email में कहाँ आया, इससे फ़र्क नहीं पड़ता।</p>
+<p>Likelihood है:</p>
+<p><span class="math-display">\[\mathcal{L}(\phi_y, \phi_{k \mid y=0}, \phi_{k \mid y=1}) = \prod_{i=1}^{m} p(x^{(i)}, y^{(i)}) = \prod_{i=1}^{m} \left( \prod_{j=1}^{n_i} p(x_j^{(i)} \mid y^{(i)}) \right) p(y^{(i)})\]</span></p>
+<p>इसे maximize करने पर फिर अनुपात मिलते हैं, और Laplace smoothing (<span class="math-inline">\(k = |V|\)</span> संभव values) के साथ:</p>
+<p><span class="math-display">\[\phi_{k \mid y=1} = \frac{\sum_{i=1}^{m} \sum_{j=1}^{n_i} 1\{x_j^{(i)} = k \wedge y^{(i)} = 1\} + 1}{\sum_{i=1}^{m} 1\{y^{(i)} = 1\}\, n_i + |V|}, \qquad \phi_{k \mid y=0} = \frac{\sum_{i=1}^{m} \sum_{j=1}^{n_i} 1\{x_j^{(i)} = k \wedge y^{(i)} = 0\} + 1}{\sum_{i=1}^{m} 1\{y^{(i)} = 0\}\, n_i + |V|}\]</span></p>
+<p>शब्दों में: <span class="math-inline">\(\phi_{k \mid y=1}\)</span> = (सारे spam emails में शब्द <span class="math-inline">\(k\)</span> कुल कितनी बार आया, <span class="math-inline">\(+1\)</span>) / (सारे spam emails के कुल शब्द, <span class="math-inline">\(+|V|\)</span>)। <span class="math-inline">\(+1\)</span> और <span class="math-inline">\(+|V|\)</span> हटा दें तो बिना smoothing वाला maximum likelihood estimate मिलता है।</p>
+<h2>4. SVM: Margin का Intuition</h2>
+<p>Logistic Regression में <span class="math-inline">\(p(y=1 \mid x; \theta) = g(\theta^T x)\)</span> था। <span class="math-inline">\(\theta^T x\)</span> जितना बड़ा positive, उतना पक्का कि <span class="math-inline">\(y = 1\)</span>। यानी decision boundary से दूर वाले points पर हमें भरोसा ज़्यादा है, और boundary के पास वाले points पर कम, क्योंकि boundary ज़रा सी हिली तो उनका जवाब बदल जाएगा। इसलिए हम ऐसी boundary चाहते हैं जो सारे training points को सही भी रखे और उनसे दूर भी रहे।</p>
+<p><strong>Notation (SVM के लिए बदला हुआ):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(y \in \{-1, +1\}\)</span></td>
+<td>class labels (<span class="math-inline">\(\{0, 1\}\)</span> की जगह)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>parameters: <span class="math-inline">\(w\)</span> weights का vector, <span class="math-inline">\(b\)</span> intercept (<span class="math-inline">\(\theta_0\)</span> की जगह)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_{w,b}(x) = g(w^T x + b)\)</span></td>
+<td>classifier, जहाँ <span class="math-inline">\(g(z) = 1\)</span> अगर <span class="math-inline">\(z \ge 0\)</span>, वरना <span class="math-inline">\(-1\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>यह classifier सीधे <span class="math-inline">\(+1\)</span> या <span class="math-inline">\(-1\)</span> देता है, probability नहीं।</p>
+<h2>5. Functional और Geometric Margin</h2>
+<p><strong>Functional margin.</strong> एक training example <span class="math-inline">\((x^{(i)}, y^{(i)})\)</span> के लिए</p>
+<p><span class="math-display">\[\hat{\gamma}^{(i)} = y^{(i)} \left( w^T x^{(i)} + b \right)\]</span></p>
+<p>अगर <span class="math-inline">\(y^{(i)} = 1\)</span> है तो हम चाहते हैं कि <span class="math-inline">\(w^T x^{(i)} + b\)</span> बड़ा positive हो; अगर <span class="math-inline">\(y^{(i)} = -1\)</span> है तो बड़ा negative। दोनों cases में <span class="math-inline">\(\hat{\gamma}^{(i)}\)</span> बड़ा positive होना अच्छा है, और <span class="math-inline">\(\hat{\gamma}^{(i)} &gt; 0\)</span> का मतलब है कि prediction सही है। पूरे training set का functional margin सबसे खराब example का है: <span class="math-inline">\(\hat{\gamma} = \min_i \hat{\gamma}^{(i)}\)</span>।</p>
+<p>इसमें एक कमी है। <span class="math-inline">\((w, b)\)</span> को <span class="math-inline">\((2w, 2b)\)</span> कर दें तो <span class="math-inline">\(g\)</span> सिर्फ़ sign देखता है, इसलिए classifier बिल्कुल नहीं बदलता, पर <span class="math-inline">\(\hat{\gamma}\)</span> दुगना हो जाता है। यानी functional margin को बिना कुछ सुधारे जितना चाहें बढ़ाया जा सकता है।</p>
+<p><strong>Geometric margin.</strong> यह point की boundary से असली दूरी है। पहले ध्यान दें कि <span class="math-inline">\(w\)</span> boundary के perpendicular है: boundary पर के किन्हीं दो points <span class="math-inline">\(x_a, x_b\)</span> के लिए <span class="math-inline">\(w^T x_a + b = 0 = w^T x_b + b\)</span>, इसलिए <span class="math-inline">\(w^T(x_a - x_b) = 0\)</span>।</p>
+<p>मान लें <span class="math-inline">\(y^{(i)} = 1\)</span> है और <span class="math-inline">\(x^{(i)}\)</span> की boundary से दूरी <span class="math-inline">\(\gamma^{(i)}\)</span> है। <span class="math-inline">\(x^{(i)}\)</span> से <span class="math-inline">\(w\)</span> की उल्टी दिशा में <span class="math-inline">\(\gamma^{(i)}\)</span> चलें तो boundary पर का सबसे पास वाला point मिलता है: <span class="math-inline">\(x^{(i)} - \gamma^{(i)} \frac{w}{\|w\|}\)</span>। यह boundary पर है, इसलिए</p>
+<p><span class="math-display">\[w^T \left( x^{(i)} - \gamma^{(i)} \frac{w}{\|w\|} \right) + b = 0\]</span></p>
+<p><span class="math-inline">\(w^T w = \|w\|^2\)</span> का इस्तेमाल करके <span class="math-inline">\(\gamma^{(i)}\)</span> के लिए हल करें:</p>
+<p><span class="math-display">\[w^T x^{(i)} + b - \gamma^{(i)} \|w\| = 0 \quad\Longrightarrow\quad \gamma^{(i)} = \left( \frac{w}{\|w\|} \right)^T x^{(i)} + \frac{b}{\|w\|}\]</span></p>
+<p>दोनों classes के लिए एक साथ लिखें तो:</p>
+<p><span class="math-display">\[\gamma^{(i)} = y^{(i)} \left( \left( \frac{w}{\|w\|} \right)^T x^{(i)} + \frac{b}{\|w\|} \right) = \frac{\hat{\gamma}^{(i)}}{\|w\|}\]</span></p>
+<p><span class="math-inline">\((w, b)\)</span> को किसी भी positive संख्या से गुणा करें, <span class="math-inline">\(\gamma^{(i)}\)</span> नहीं बदलता। <span class="math-inline">\(\|w\| = 1\)</span> हो तो दोनों margins बराबर हैं। पूरे training set के लिए <span class="math-inline">\(\gamma = \min_i \gamma^{(i)}\)</span>।</p>
+<h2>6. Optimal Margin Classifier</h2>
+<p>मान लें data linearly separable है। हमें वह <span class="math-inline">\((w, b)\)</span> चाहिए जिसका geometric margin सबसे बड़ा हो। इसे तीन कदमों में एक आसान optimization problem में बदलते हैं।</p>
+<p><strong>रूप 1.</strong> सीधा बयान। <span class="math-inline">\(\|w\| = 1\)</span> रखने से functional और geometric margin एक हो जाते हैं:</p>
+<p><span class="math-display">\[\max_{\gamma, w, b}\ \gamma \quad \text{s.t.} \quad y^{(i)}(w^T x^{(i)} + b) \ge \gamma,\ \ i = 1, \dots, m; \qquad \|w\| = 1\]</span></p>
+<p>दिक्कत: <span class="math-inline">\(\|w\| = 1\)</span> एक non-convex constraint है (एक गोले की सतह)।</p>
+<p><strong>रूप 2.</strong> <span class="math-inline">\(\gamma = \hat{\gamma} / \|w\|\)</span> लिखकर वह constraint हटा दें:</p>
+<p><span class="math-display">\[\max_{\hat{\gamma}, w, b}\ \frac{\hat{\gamma}}{\|w\|} \quad \text{s.t.} \quad y^{(i)}(w^T x^{(i)} + b) \ge \hat{\gamma},\ \ i = 1, \dots, m\]</span></p>
+<p>दिक्कत: अब objective <span class="math-inline">\(\frac{\hat{\gamma}}{\|w\|}\)</span> non-convex है।</p>
+<p><strong>रूप 3.</strong> <span class="math-inline">\((w, b)\)</span> को scale करने की आज़ादी का इस्तेमाल करें। Scale बदलने से classifier नहीं बदलता, इसलिए हम scale ऐसा चुन सकते हैं कि <span class="math-inline">\(\hat{\gamma} = 1\)</span> हो। तब <span class="math-inline">\(\frac{1}{\|w\|}\)</span> को maximize करना है, जो <span class="math-inline">\(\|w\|^2\)</span> को minimize करने के बराबर है:</p>
+<p><span class="math-display">\[\min_{w, b}\ \frac{1}{2} \|w\|^2 \quad \text{s.t.} \quad y^{(i)}(w^T x^{(i)} + b) \ge 1,\ \ i = 1, \dots, m\]</span></p>
+<p>यह एक convex quadratic objective और linear constraints वाला problem है (quadratic program, QP), जिसका एक ही global हल होता है। इसका हल <strong>optimal margin classifier</strong> है, और उसका geometric margin <span class="math-inline">\(\gamma = \frac{1}{\|w\|}\)</span> है।</p>
+<h2>7. Lagrange Duality</h2>
+<p>इस QP को सीधे भी हल कर सकते हैं। पर इसका <strong>dual</strong> रूप निकालने से दो बड़े फ़ायदे मिलेंगे (support vectors और kernels), इसलिए पहले constrained optimization का सामान्य सिद्धांत देखते हैं।</p>
+<p><strong>Primal problem:</strong></p>
+<p><span class="math-display">\[\min_{w}\ f(w) \quad \text{s.t.} \quad g_i(w) \le 0,\ \ i = 1, \dots, k; \qquad h_i(w) = 0,\ \ i = 1, \dots, l\]</span></p>
+<p><strong>Generalized Lagrangian:</strong> हर constraint के लिए एक Lagrange multiplier (<span class="math-inline">\(\alpha_i\)</span> और <span class="math-inline">\(\beta_i\)</span>) लेकर constraints को objective में मिला दें:</p>
+<p><span class="math-display">\[\mathcal{L}(w, \alpha, \beta) = f(w) + \sum_{i=1}^{k} \alpha_i\, g_i(w) + \sum_{i=1}^{l} \beta_i\, h_i(w)\]</span></p>
+<p>अब यह देखें: <span class="math-inline">\(\theta_{\mathcal{P}}(w) = \max_{\alpha, \beta\,:\,\alpha_i \ge 0} \mathcal{L}(w, \alpha, \beta)\)</span>। अगर <span class="math-inline">\(w\)</span> कोई constraint तोड़ता है (<span class="math-inline">\(g_i(w) &gt; 0\)</span> या <span class="math-inline">\(h_i(w) \ne 0\)</span>), तो उस <span class="math-inline">\(\alpha_i\)</span> या <span class="math-inline">\(\beta_i\)</span> को बहुत बड़ा करके <span class="math-inline">\(\mathcal{L}\)</span> को <span class="math-inline">\(\infty\)</span> तक ले जा सकते हैं। अगर <span class="math-inline">\(w\)</span> सारे constraints मानता है, तो सबसे अच्छा यही है कि हर <span class="math-inline">\(\alpha_i g_i(w) = 0\)</span> रहे, और तब max ठीक <span class="math-inline">\(f(w)\)</span> है:</p>
+<p><span class="math-display">\[\theta_{\mathcal{P}}(w) = \begin{cases} f(w) &amp; \text{अगर } w \text{ सारे constraints मानता है} \\ \infty &amp; \text{वरना} \end{cases}\]</span></p>
+<p>इसलिए primal problem को ऐसे लिख सकते हैं: <span class="math-inline">\(p^* = \min_w \theta_{\mathcal{P}}(w) = \min_w \max_{\alpha, \beta\,:\,\alpha_i \ge 0} \mathcal{L}(w, \alpha, \beta)\)</span>।</p>
+<p><strong>Dual problem:</strong> min और max का क्रम बदल दें। <span class="math-inline">\(\theta_{\mathcal{D}}(\alpha, \beta) = \min_w \mathcal{L}(w, \alpha, \beta)\)</span> लें, और</p>
+<p><span class="math-display">\[d^* = \max_{\alpha, \beta\,:\,\alpha_i \ge 0} \theta_{\mathcal{D}}(\alpha, \beta) = \max_{\alpha, \beta\,:\,\alpha_i \ge 0}\ \min_w\ \mathcal{L}(w, \alpha, \beta)\]</span></p>
+<p><strong><span class="math-inline">\(d^* \le p^*\)</span> हमेशा (weak duality).</strong> कोई भी <span class="math-inline">\(w&#x27;\)</span> और कोई भी <span class="math-inline">\(\alpha&#x27; \ge 0, \beta&#x27;\)</span> लें। तब</p>
+<p><span class="math-display">\[\theta_{\mathcal{D}}(\alpha&#x27;, \beta&#x27;) = \min_w \mathcal{L}(w, \alpha&#x27;, \beta&#x27;) \ \le\ \mathcal{L}(w&#x27;, \alpha&#x27;, \beta&#x27;) \ \le\ \max_{\alpha, \beta\,:\,\alpha_i \ge 0} \mathcal{L}(w&#x27;, \alpha, \beta) = \theta_{\mathcal{P}}(w&#x27;)\]</span></p>
+<p>बायाँ पक्ष हर <span class="math-inline">\((\alpha&#x27;, \beta&#x27;)\)</span> के लिए दाएँ पक्ष के हर <span class="math-inline">\(w&#x27;\)</span> से छोटा या बराबर है, इसलिए बाएँ का max भी दाएँ के min से छोटा या बराबर है: <span class="math-inline">\(d^* \le p^*\)</span>।</p>
+<p><strong>बराबरी कब?</strong> अगर <span class="math-inline">\(f\)</span> और सारे <span class="math-inline">\(g_i\)</span> convex हों, <span class="math-inline">\(h_i\)</span> affine हों, और कोई <span class="math-inline">\(w\)</span> ऐसा हो जिसके लिए सारे <span class="math-inline">\(g_i(w) &lt; 0\)</span> हों, तो <span class="math-inline">\(d^* = p^*\)</span>। तब ऐसे <span class="math-inline">\(w^*, \alpha^*, \beta^*\)</span> मौजूद हैं जो primal और dual दोनों के हल हैं, और वे <strong>Karush-Kuhn-Tucker (KKT) conditions</strong> पूरी करते हैं:</p>
+<p><span class="math-display">\[\begin{aligned} \frac{\partial}{\partial w_i} \mathcal{L}(w^*, \alpha^*, \beta^*) &amp;= 0, &amp; i &amp;= 1, \dots, n \\ \frac{\partial}{\partial \beta_i} \mathcal{L}(w^*, \alpha^*, \beta^*) &amp;= 0, &amp; i &amp;= 1, \dots, l \\ \alpha_i^*\, g_i(w^*) &amp;= 0, &amp; i &amp;= 1, \dots, k \\ g_i(w^*) &amp;\le 0, &amp; i &amp;= 1, \dots, k \\ \alpha_i^* &amp;\ge 0, &amp; i &amp;= 1, \dots, k \end{aligned}\]</span></p>
+<p>उल्टा भी सच है: जो <span class="math-inline">\(w^*, \alpha^*, \beta^*\)</span> ये conditions पूरी करें, वे हल हैं। तीसरी condition <strong>complementary slackness</strong> कहलाती है: हर <span class="math-inline">\(i\)</span> के लिए या तो <span class="math-inline">\(\alpha_i^* = 0\)</span> है, या <span class="math-inline">\(g_i(w^*) = 0\)</span> (constraint "active" है, यानी ठीक बराबरी पर)। अगर <span class="math-inline">\(\alpha_i^* &gt; 0\)</span>, तो constraint ज़रूर active है।</p>
+<p><strong>छोटा उदाहरण:</strong> <span class="math-inline">\(f(w) = w^2\)</span> को minimize करें, शर्त <span class="math-inline">\(w \ge 1\)</span>, यानी <span class="math-inline">\(g(w) = 1 - w \le 0\)</span>। साफ़ है कि <span class="math-inline">\(w^* = 1\)</span> और <span class="math-inline">\(p^* = 1\)</span>। अब dual से: <span class="math-inline">\(\mathcal{L}(w, \alpha) = w^2 + \alpha(1 - w)\)</span>। <span class="math-inline">\(w\)</span> पर minimize करें: <span class="math-inline">\(2w - \alpha = 0\)</span>, यानी <span class="math-inline">\(w = \frac{\alpha}{2}\)</span>, और <span class="math-inline">\(\theta_{\mathcal{D}}(\alpha) = \alpha - \frac{\alpha^2}{4}\)</span>। इसे maximize करें: <span class="math-inline">\(\alpha^* = 2\)</span> और <span class="math-inline">\(d^* = 1 = p^*\)</span>। यहाँ <span class="math-inline">\(\alpha^* &gt; 0\)</span> है और constraint active है (<span class="math-inline">\(w^* = 1\)</span>), जैसा complementary slackness कहता है।</p>
+<h2>8. Support Vectors</h2>
+<p>Optimal margin classifier के constraints को <span class="math-inline">\(g_i(w) \le 0\)</span> के रूप में लिखें:</p>
+<p><span class="math-display">\[g_i(w, b) = -y^{(i)}(w^T x^{(i)} + b) + 1 \le 0\]</span></p>
+<p>हर training example का एक constraint और एक <span class="math-inline">\(\alpha_i\)</span> है। Complementary slackness कहता है कि <span class="math-inline">\(\alpha_i &gt; 0\)</span> सिर्फ़ तब हो सकता है जब <span class="math-inline">\(g_i(w, b) = 0\)</span>, यानी जब उस example का functional margin ठीक 1 हो। ये वही points हैं जो boundary के सबसे पास हैं और margin की पट्टी के किनारे पर बैठे हैं। इन्हें <strong>support vectors</strong> कहते हैं। बाकी सारे points के लिए <span class="math-inline">\(\alpha_i = 0\)</span> है।</p>
+<p>आम तौर पर support vectors बहुत कम होते हैं। और हल सिर्फ़ उन्हीं पर टिका होता है: किसी दूसरे point को (margin के बाहर रखते हुए) हिलाएँ या हटा दें, तो boundary नहीं बदलती।</p>
+<p>इस problem का Lagrangian (सिर्फ़ <span class="math-inline">\(\alpha_i\)</span> हैं, क्योंकि equality constraints नहीं हैं) यह है:</p>
+<p><span class="math-display">\[\mathcal{L}(w, b, \alpha) = \frac{1}{2} \|w\|^2 - \sum_{i=1}^{m} \alpha_i \left[ y^{(i)}(w^T x^{(i)} + b) - 1 \right]\]</span></p>
+<p><strong>आगे क्या:</strong> अगले lecture (Lecture 7) में हम इस <span class="math-inline">\(\mathcal{L}\)</span> को <span class="math-inline">\(w\)</span> और <span class="math-inline">\(b\)</span> पर minimize करके dual problem निकालेंगे। उसमें data सिर्फ़ inner products <span class="math-inline">\(\langle x^{(i)}, x^{(j)} \rangle\)</span> के रूप में आएगा, जिससे <strong>kernels</strong> का रास्ता खुलता है। वहीं non-separable data के लिए <strong>soft margin</strong> और dual को हल करने वाला SMO algorithm भी आएगा।</p>
+<h2>9. Practical बातें और आम गलतियाँ</h2>
+<ul>
+<li><strong>Denominator में सही <span class="math-inline">\(k\)</span> जोड़ें:</strong> Laplace smoothing में numerator में 1 जुड़ता है और denominator में संभव values की संख्या: Bernoulli Naive Bayes में 2, multinomial event model में <span class="math-inline">\(|V|\)</span>। Denominator में भी 1 जोड़ देना आम गलती है; तब probabilities का जोड़ 1 नहीं रहता।</li>
+<li><strong>Vocabulary से बाहर के शब्द:</strong> जो शब्द vocabulary में ही नहीं है, उसके लिए कोई parameter नहीं है। उसे छोड़ दें या एक खास "unknown" token में गिनें। Laplace smoothing उन शब्दों के लिए है जो vocabulary में हैं पर किसी class में नहीं दिखे।</li>
+<li><strong>Logs जोड़ें:</strong> लंबे email में सैकड़ों छोटी probabilities का product underflow हो जाता है। <span class="math-inline">\(\log p(y) + \sum_j \log \phi_{x_j \mid y}\)</span> की तुलना करें।</li>
+<li><strong>SVM में labels <span class="math-inline">\(\pm 1\)</span> रखें:</strong> margin के सारे formulas <span class="math-inline">\(y \in \{-1, +1\}\)</span> मानकर बने हैं। <span class="math-inline">\(\{0, 1\}\)</span> labels के साथ वे गलत हो जाते हैं।</li>
+<li><strong>Features को scale करें:</strong> margin एक दूरी है। अगर एक feature हज़ारों में है और दूसरा इकाइयों में, तो दूरी पर बड़ा feature हावी हो जाता है।</li>
+<li><strong>Hard margin सिर्फ़ separable data के लिए:</strong> data separable न हो तो इस QP का कोई feasible हल ही नहीं है। और separable data में भी एक अकेला outlier boundary को बहुत घुमा सकता है। इसका इलाज soft margin है (Lecture 7)।</li>
+</ul>
+<h2>10. खुद से पूछें</h2>
+<ol>
+<li>एक पासा 10 बार फेंका गया और 6 एक बार भी नहीं आया। <span class="math-inline">\(p(6)\)</span> का maximum likelihood estimate क्या है, और Laplace smoothing वाला estimate क्या है?</li>
+<li><span class="math-inline">\((w, b)\)</span> की जगह <span class="math-inline">\((5w, 5b)\)</span> रख दें। Decision boundary, functional margin और geometric margin में से क्या-क्या बदलेगा और कितना?</li>
+<li>Optimal margin classifier में किसी training example का functional margin 3.7 है। उसका <span class="math-inline">\(\alpha_i\)</span> क्या होगा, और क्यों? अगर उस example को training set से हटा दें तो हल पर क्या असर होगा?</li>
+</ol>
+<div class="part"><span class="tag">भाग 2</span><h2>3D Animations</h2></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 6.1</span>Laplace smoothing lifts zero counts</div><div class="frames"><figure><img src="anim/L06_1_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L06_1_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L06_1_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ multinomial event model के शब्द-अनुमान <span class="math-inline">\(\phi_{k \mid y}\)</span> को 3D bars के रूप में दिखाया गया है। शुरू में बिना smoothing के (<span class="math-inline">\(\lambda = 0\)</span>) जो शब्द किसी class में एक बार भी नहीं दिखे, उनके नारंगी bars फ़र्श पर ठीक zero पर चिपके हैं। जैसे-जैसे आप Laplace smoothing (<span class="math-inline">\(\lambda \to 1\)</span>) लागू करते हैं, हर numerator में <span class="math-inline">\(1\)</span> और denominator में <span class="math-inline">\(|V|\)</span> जुड़ने से zero वाले bars ऊपर उठ जाते हैं। कुल जोड़ <span class="math-inline">\(1\)</span> बनाए रखने के लिए ऊँचे bars थोड़े नीचे आते हैं और किसी भी नए संदेश की probability <span class="math-inline">\(0/0\)</span> नहीं बनती।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L06_1.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 6.2</span>Separating plane to max-margin slab</div><div class="frames"><figure><img src="anim/L06_2_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L06_2_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L06_2_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ 3D features वाले दो अलग-अलग classes के बिंदु हैं जिन्हें कई planes अलग कर सकते हैं। शुरू वाला plane डेटा को अलग तो करता है, पर बिंदुओं के बहुत पास से गुज़रता है इसलिए दोनों तरफ़ की खाली पट्टी (margin slab) बहुत पतली है। जैसे-जैसे optimization <span class="math-inline">\(\frac{1}{2}\|w\|^2\)</span> को घटाता है, plane घूमकर बीच में जमता है और geometric margin <span class="math-inline">\(\gamma = 1/\|w\|\)</span> बढ़ता जाता है। अंत में सबसे चौड़ी पट्टी दोनों तरफ़ के सबसे पास वाले बिंदुओं (support vectors) पर टिक जाती है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L06_2.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 6.3</span>Scaling (w, b): functional vs geom</div><div class="frames"><figure><img src="anim/L06_3_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L06_3_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L06_3_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> फ़र्श (<span class="math-inline">\(z = 0\)</span>) पर 2D data points और काली decision boundary <span class="math-inline">\(w^T x + b = 0\)</span> है, जबकि ऊँचाई score <span class="math-inline">\(z = w^T x + b\)</span> दिखाती है। जब आप <span class="math-inline">\((w, b)\)</span> को <span class="math-inline">\(c\)</span> से गुणा करके बड़ा करते हैं, तो नीला plane उसी काली रेखा पर कब्ज़े की तरह घूमकर और खड़ा होता जाता है, पर boundary ज़रा भी नहीं हिलती। नारंगी खंभा functional margin <span class="math-inline">\(\hat{\gamma}\)</span> है जो <span class="math-inline">\(c\)</span> के साथ लंबा होता जाता है। फ़र्श पर हरी रेखा geometric margin <span class="math-inline">\(\gamma = \hat{\gamma}/\|w\|\)</span> है, जो हर scale पर बिल्कुल स्थिर रहती है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L06_3.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 6.4</span>QP bowl <span class="math-inline">\(0.5\|w\|^2\)</span> and constraints</div><div class="frames"><figure><img src="anim/L06_4_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L06_4_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L06_4_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ ज़मीन पर weights <span class="math-inline">\((w_1, w_2)\)</span> हैं और कटोरे की ऊँचाई primal objective <span class="math-inline">\(\frac{1}{2}\|w\|^2\)</span> है। बिना constraints के कटोरे की तली <span class="math-inline">\((0, 0)\)</span> पर है, पर खड़ी रंगीन दीवारें <span class="math-inline">\(y^{(i)} w^T x^{(i)} = 1\)</span> उसे infeasible बना देती हैं। जैसे-जैसे dual ascent <span class="math-inline">\(\alpha\)</span> को बढ़ाता है, बिंदु <span class="math-inline">\(w(\alpha)\)</span> कटोरे पर चढ़ता हुआ दोनों active दीवारों के कोने वाले constrained minimum (हरा तारा) पर पहुँचता है जहाँ <span class="math-inline">\(d^* = p^*\)</span> होता है। पीछे छूटी धूसर दीवार के लिए complementary slackness से <span class="math-inline">\(\alpha_3 = 0\)</span> हो जाता है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L06_4.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 6.5</span>Support vectors vs interior points</div><div class="frames"><figure><img src="anim/L06_5_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L06_5_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L06_5_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ सोने के छल्लों वाले बिंदु support vectors (<span class="math-inline">\(\alpha_i &gt; 0\)</span>) हैं जो margin की दीवार पर बैठे हैं। पहले हिस्से में नारंगी interior बिंदु को margin के बाहर दूर-दूर तक घुमाया जाता है, और हर कदम पर QP दोबारा हल करने पर भी <span class="math-inline">\(\alpha_k = 0\)</span> रहता है तथा plane ज़रा भी नहीं हिलता। दूसरे हिस्से में जब वही बिंदु नीचे उतरकर margin के भीतर आता है, तो उसका <span class="math-inline">\(\alpha_k &gt; 0\)</span> हो जाता है। अब वह खुद नया support vector बनकर पूरे separating plane को झुका देता है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L06_5.gif</div></div>
+<div class="part"><span class="tag">भाग 3</span><h2>Python Example</h2></div>
+<p class="run">इसे खुद चलाएँ: <code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/chapters/L06_laplace_svm/example.py</code></p>
+<div class="code"><pre><span></span><span class="sd">"""Lecture 6 example: Multinomial Naive Bayes (Laplace smoothing) और Hard-Margin Linear SVM.</span>
+
+<span class="sd">भाग A: हाथ से लिखे छोटे corpus पर Multinomial Event Model, बिना smoothing और Laplace smoothing के साथ।</span>
+<span class="sd">भाग B: Linearly separable 2D data पर scipy.optimize SLSQP से Hard-Margin SVM (w, b, margin, support vectors)।</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="c1"># ---------- 1. भाग A: Multinomial Naive Bayes (बिना smoothing बनाम Laplace smoothing) ----------</span>
+<span class="n">spam_docs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"win free cash win cash now"</span><span class="p">,</span>
+    <span class="s2">"free offer win prize now"</span><span class="p">,</span>
+    <span class="s2">"cash prize free free offer"</span><span class="p">,</span>
+    <span class="s2">"win cheap cash offer now"</span><span class="p">,</span>
+    <span class="s2">"free prize win money"</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">ham_docs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"team meeting at noon"</span><span class="p">,</span>
+    <span class="s2">"project report before meeting"</span><span class="p">,</span>
+    <span class="s2">"lunch at noon with team"</span><span class="p">,</span>
+    <span class="s2">"review project report today"</span><span class="p">,</span>
+    <span class="s2">"free for team lunch today"</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">vocab</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">w</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">spam_docs</span> <span class="o">+</span> <span class="n">ham_docs</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">()})</span>
+<span class="n">word_to_id</span> <span class="o">=</span> <span class="p">{</span><span class="n">w</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vocab</span><span class="p">)}</span>
+<span class="n">V</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">word_counts</span><span class="p">(</span><span class="n">docs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""हर शब्द सारे documents में कुल कितनी बार आया (multinomial event model)।"""</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">word_to_id</span><span class="p">:</span>                  <span class="c1"># vocabulary से बाहर के शब्द छोड़ दें</span>
+                <span class="n">counts</span><span class="p">[</span><span class="n">word_to_id</span><span class="p">[</span><span class="n">w</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">counts</span>
+
+
+<span class="n">c_spam</span><span class="p">,</span> <span class="n">c_ham</span> <span class="o">=</span> <span class="n">word_counts</span><span class="p">(</span><span class="n">spam_docs</span><span class="p">),</span> <span class="n">word_counts</span><span class="p">(</span><span class="n">ham_docs</span><span class="p">)</span>
+<span class="n">n_spam</span><span class="p">,</span> <span class="n">n_ham</span> <span class="o">=</span> <span class="n">c_spam</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">c_ham</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">phi_y</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">spam_docs</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spam_docs</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">ham_docs</span><span class="p">))</span>
+
+<span class="c1"># MLE (smoothing = 0) और Laplace smoothing (numerator में +1, denominator में +|V|)</span>
+<span class="n">phi_spam_mle</span><span class="p">,</span> <span class="n">phi_ham_mle</span> <span class="o">=</span> <span class="n">c_spam</span> <span class="o">/</span> <span class="n">n_spam</span><span class="p">,</span> <span class="n">c_ham</span> <span class="o">/</span> <span class="n">n_ham</span>
+<span class="n">phi_spam_lap</span> <span class="o">=</span> <span class="p">(</span><span class="n">c_spam</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_spam</span> <span class="o">+</span> <span class="n">V</span><span class="p">)</span>
+<span class="n">phi_ham_lap</span> <span class="o">=</span> <span class="p">(</span><span class="n">c_ham</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_ham</span> <span class="o">+</span> <span class="n">V</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">predict_mle</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">word_to_id</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">word_to_id</span><span class="p">]</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">phi_y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">phi_spam_mle</span><span class="p">[</span><span class="n">ids</span><span class="p">])</span>
+    <span class="n">p0</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">phi_y</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">phi_ham_mle</span><span class="p">[</span><span class="n">ids</span><span class="p">])</span>
+    <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">p1</span> <span class="o">/</span> <span class="p">(</span><span class="n">p1</span> <span class="o">+</span> <span class="n">p0</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">predict_laplace</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Underflow से बचने के लिए log-probabilities जोड़ें।"""</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">word_to_id</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">if</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">word_to_id</span><span class="p">]</span>
+    <span class="n">log1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">phi_y</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">phi_spam_lap</span><span class="p">[</span><span class="n">ids</span><span class="p">]))</span>
+    <span class="n">log0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">phi_y</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">phi_ham_lap</span><span class="p">[</span><span class="n">ids</span><span class="p">]))</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">log1</span><span class="p">,</span> <span class="n">log0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log1</span> <span class="o">-</span> <span class="n">m</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log1</span> <span class="o">-</span> <span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log0</span> <span class="o">-</span> <span class="n">m</span><span class="p">)))</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"भाग A: Multinomial Naive Bayes (|V| = </span><span class="si">{</span><span class="n">V</span><span class="si">}</span><span class="s2">, spam words = </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">n_spam</span><span class="p">)</span><span class="si">}</span><span class="s2">, ham words = </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">n_ham</span><span class="p">)</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Laplace probabilities का जोड़: spam = </span><span class="si">{</span><span class="n">phi_spam_lap</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, ham = </span><span class="si">{</span><span class="n">phi_ham_lap</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"  word       c(spam) c(ham)   MLE(y=1) MLE(y=0)   Lap(y=1) Lap(y=0)"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"free"</span><span class="p">,</span> <span class="s2">"win"</span><span class="p">,</span> <span class="s2">"cash"</span><span class="p">,</span> <span class="s2">"team"</span><span class="p">,</span> <span class="s2">"meeting"</span><span class="p">):</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">word_to_id</span><span class="p">[</span><span class="n">w</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">w</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">c_spam</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="si">:</span><span class="s2">6d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">c_ham</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="si">:</span><span class="s2">6d</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">phi_spam_mle</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s2">8.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">phi_ham_mle</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s2">8.3f</span><span class="si">}</span><span class="s2">"</span>
+          <span class="sa">f</span><span class="s2">"   </span><span class="si">{</span><span class="n">phi_spam_lap</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s2">8.3f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">phi_ham_lap</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s2">8.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">  Test संदेश                           MLE P(spam|x)   Laplace P(spam|x)"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"win free cash cash"</span><span class="p">,</span> <span class="s2">"team project report"</span><span class="p">,</span> <span class="s2">"free team lunch"</span><span class="p">,</span> <span class="s2">"win prize at meeting"</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">msg</span><span class="si">:</span><span class="s2">&lt;35</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">predict_mle</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">:</span><span class="s2">13.4f</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">predict_laplace</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">:</span><span class="s2">17.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 2. भाग B: Hard-Margin Linear SVM (scipy.optimize SLSQP) ----------</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">X_neg</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.52</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">X_pos</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.52</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X_neg</span><span class="p">,</span> <span class="n">X_pos</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_neg</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_pos</span><span class="p">))]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">solve_hard_margin_svm</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Primal QP: min_{w,b} 0.5*||w||^2  s.t.  y^(i)*(w^T x^(i) + b) - 1 &gt;= 0."""</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">u</span><span class="p">[:</span><span class="mi">2</span><span class="p">]),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+        <span class="n">jac</span><span class="o">=</span><span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">]),</span>
+        <span class="n">constraints</span><span class="o">=</span><span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"ineq"</span><span class="p">,</span> <span class="s2">"fun"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="n">y_data</span> <span class="o">*</span> <span class="p">(</span><span class="n">X_data</span> <span class="o">@</span> <span class="n">u</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">,</span>
+                     <span class="s2">"jac"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">y_data</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">]},</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">"SLSQP"</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">"ftol"</span><span class="p">:</span> <span class="mf">1e-12</span><span class="p">,</span> <span class="s2">"maxiter"</span><span class="p">:</span> <span class="mi">300</span><span class="p">},</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+
+<span class="n">w</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">solve_hard_margin_svm</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">dual</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">a</span> <span class="o">@</span> <span class="n">Q</span> <span class="o">@</span> <span class="n">a</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span> <span class="n">jac</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">Q</span> <span class="o">@</span> <span class="n">a</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">bounds</span><span class="o">=</span><span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">constraints</span><span class="o">=</span><span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"eq"</span><span class="p">,</span> <span class="s2">"fun"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">a</span> <span class="o">@</span> <span class="n">y</span><span class="p">,</span> <span class="s2">"jac"</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">y</span><span class="p">},</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">"SLSQP"</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">"ftol"</span><span class="p">:</span> <span class="mf">1e-12</span><span class="p">,</span> <span class="s2">"maxiter"</span><span class="p">:</span> <span class="mi">300</span><span class="p">},</span>
+<span class="p">)</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">dual</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="n">func_margins</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">w</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">gamma</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+<span class="n">sv_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">func_margins</span> <span class="o">&lt;=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="mf">1e-5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># एक non-support point को हिलाकर जाँचें कि hyperplane बदलता है या नहीं</span>
+<span class="n">interior_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">func_margins</span><span class="p">))</span>
+<span class="n">X_moved</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">X_moved</span><span class="p">[</span><span class="n">interior_id</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">])</span>
+<span class="n">w_moved</span><span class="p">,</span> <span class="n">b_moved</span> <span class="o">=</span> <span class="n">solve_hard_margin_svm</span><span class="p">(</span><span class="n">X_moved</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">भाग B: Hard-Margin Linear SVM (SLSQP)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  w = [</span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">],  b = </span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">,  ||w|| = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Geometric margin gamma = 1/||w|| = </span><span class="si">{</span><span class="n">gamma</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  (slab width 2*gamma = </span><span class="si">{</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">gamma</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Strong duality check: primal p* = </span><span class="si">{</span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">w</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">w</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">,  dual d* = </span><span class="si">{</span><span class="o">-</span><span class="n">dual</span><span class="o">.</span><span class="n">fun</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Support vectors (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sv_idx</span><span class="p">)</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2"> points, जहाँ y*(w^T x + b) = 1 और alpha_i &gt; 0):"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">sv_idx</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    idx=</span><span class="si">{</span><span class="n">idx</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2">  x=(</span><span class="si">{</span><span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">6.3f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">6.3f</span><span class="si">}</span><span class="s2">)  y=</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span><span class="si">:</span><span class="s2">+d</span><span class="si">}</span><span class="s2">"</span>
+          <span class="sa">f</span><span class="s2">"  func_margin=</span><span class="si">{</span><span class="n">func_margins</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  alpha=</span><span class="si">{</span><span class="n">alpha</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Non-SV point (idx=</span><span class="si">{</span><span class="n">interior_id</span><span class="si">}</span><span class="s2">) को हिलाने पर ||w_new - w|| = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">w_moved</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">w</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 3. Plots ----------</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">10.6</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
+<span class="n">words_show</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"free"</span><span class="p">,</span> <span class="s2">"win"</span><span class="p">,</span> <span class="s2">"cash"</span><span class="p">,</span> <span class="s2">"offer"</span><span class="p">,</span> <span class="s2">"team"</span><span class="p">,</span> <span class="s2">"meeting"</span><span class="p">,</span> <span class="s2">"report"</span><span class="p">,</span> <span class="s2">"lunch"</span><span class="p">]</span>
+<span class="n">ids_show</span> <span class="o">=</span> <span class="p">[</span><span class="n">word_to_id</span><span class="p">[</span><span class="n">wd</span><span class="p">]</span> <span class="k">for</span> <span class="n">wd</span> <span class="ow">in</span> <span class="n">words_show</span><span class="p">]</span>
+<span class="n">xpos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">words_show</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">xpos</span> <span class="o">-</span> <span class="mf">0.18</span><span class="p">,</span> <span class="n">phi_spam_mle</span><span class="p">[</span><span class="n">ids_show</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.34</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#fca5a5"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Spam MLE (zero possible)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">xpos</span> <span class="o">+</span> <span class="mf">0.18</span><span class="p">,</span> <span class="n">phi_spam_lap</span><span class="p">[</span><span class="n">ids_show</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.34</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Spam Laplace (+1 / +|V|)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xpos</span><span class="p">,</span> <span class="n">words_show</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">28</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\phi_{k \mid y=1}$"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Multinomial NB: Laplace lifts zeros"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">34</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"y = -1"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">34</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"y = +1"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">X</span><span class="p">[</span><span class="n">sv_idx</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">135</span><span class="p">,</span> <span class="n">facecolors</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s2">"goldenrod"</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Support vectors"</span><span class="p">)</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">y_mid</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">xs</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">y_up</span><span class="p">,</span> <span class="n">y_dn</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">xs</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">xs</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">y_dn</span><span class="p">,</span> <span class="n">y_up</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"teal"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.12</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">rf</span><span class="s2">"Margin slab ($2\gamma$ = </span><span class="si">{</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">gamma</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">y_mid</span><span class="p">,</span> <span class="s2">"k-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$w^T x + b = 0$"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">y_up</span><span class="p">,</span> <span class="s2">"r--"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">y_dn</span><span class="p">,</span> <span class="s2">"b--"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mf">0.6</span><span class="p">),</span>
+       <span class="n">xlabel</span><span class="o">=</span><span class="s2">"x1"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"x2"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Hard-Margin SVM via SLSQP"</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s2">"equal"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mf">7.8</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"lower right"</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"result.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+</pre></div>
+
+<div class="label">OUTPUT</div>
+<pre class="output">भाग A: Multinomial Naive Bayes (|V| = 20, spam words = 25, ham words = 22)
+  Laplace probabilities का जोड़: spam = 1.0000, ham = 1.0000
+  word       c(spam) c(ham)   MLE(y=1) MLE(y=0)   Lap(y=1) Lap(y=0)
+  free            5      1      0.200    0.045      0.133    0.048
+  win             5      0      0.200    0.000      0.133    0.024
+  cash            4      0      0.160    0.000      0.111    0.024
+  team            0      3      0.000    0.136      0.022    0.095
+  meeting         0      2      0.000    0.091      0.022    0.071
+
+  Test संदेश                           MLE P(spam|x)   Laplace P(spam|x)
+  win free cash cash                         1.0000              0.9971
+  team project report                        0.0000              0.0221
+  free team lunch                            0.0000              0.1689
+  win prize at meeting                          nan              0.6693
+
+भाग B: Hard-Margin Linear SVM (SLSQP)
+  w = [0.7354, 0.7738],  b = 0.2508,  ||w|| = 1.0675
+  Geometric margin gamma = 1/||w|| = 0.9367  (slab width 2*gamma = 1.8735)
+  Strong duality check: primal p* = 0.569813,  dual d* = 0.569813
+  Support vectors (3 of 24 points, जहाँ y*(w^T x + b) = 1 और alpha_i &gt; 0):
+    idx= 0  x=(-1.182, -0.493)  y=-1  func_margin=1.0000  alpha=0.5033
+    idx= 5  x=(-0.385, -1.250)  y=-1  func_margin=1.0000  alpha=0.0666
+    idx=12  x=( 0.201,  0.777)  y=+1  func_margin=1.0000  alpha=0.5698
+  Non-SV point (idx=18) को हिलाने पर ||w_new - w|| = 0.00e+00</pre>
+<img class="result-img" src="examples/L06_laplace_svm/result.png">
+</section>
+<script src="../vendor/katex/package/dist/katex.min.js"></script>
+<script src="../vendor/katex/package/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [{left: "\\[", right: "\\]", display: true}, {left: "\\(", right: "\\)", display: false}],
+  throwOnError: false, ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+});
+</script>
+</body></html>

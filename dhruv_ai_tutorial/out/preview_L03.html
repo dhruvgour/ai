@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<title>Dhruv AI tutorial | Machine Learning हिंदी में</title>
+<link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
+<style>
+@page { size: A4; margin: 16mm 13mm 17mm 13mm;
+        @bottom-center { content: counter(page); font: 9pt "Helvetica Neue", sans-serif; color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Kohinoor Devanagari", "Devanagari Sangam MN", "Helvetica Neue", sans-serif;
+       font-size: 10.6pt; line-height: 1.72; color: #111827; margin: 0; }
+body.screen { max-width: 900px; margin: 0 auto; padding: 24px 28px 80px; font-size: 16px; background: #fff; }
+h1, h2, h3, h4 { line-height: 1.35; break-after: avoid; }
+h2 { font-size: 13.5pt; margin: 1.3em 0 0.4em; color: #1e3a8a; }
+h3 { font-size: 11.5pt; margin: 1.1em 0 0.3em; color: #1f2937; }
+p { margin: 0.45em 0; orphans: 2; widows: 2; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+li { margin: 0.18em 0; }
+a { color: #1d4ed8; text-decoration: none; }
+code { font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace; font-size: 0.88em;
+       background: #f1f5f9; padding: 0.08em 0.3em; border-radius: 3px; }
+blockquote { margin: 0.7em 0; padding: 0.5em 0.9em; border-left: 4px solid #2563eb; background: #eff6ff;
+             border-radius: 0 6px 6px 0; break-inside: avoid; }
+blockquote p { margin: 0.2em 0; }
+table { border-collapse: collapse; margin: 0.7em 0; width: 100%; font-size: 0.93em; break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 0.3em 0.6em; text-align: left; vertical-align: top; }
+th { background: #eef2ff; }
+.math-display { display: block; margin: 0.55em 0; overflow-x: auto; break-inside: avoid; }
+.katex { font-size: 1.04em; }
+
+.cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center;
+         break-after: page; }
+body.screen .cover { height: auto; padding: 70px 0 50px; }
+.cover .kicker { letter-spacing: 0.22em; font-size: 10pt; color: #2563eb; font-weight: 700; }
+.cover h1 { font-size: 34pt; margin: 0.25em 0 0.1em; color: #111827; }
+.cover .sub { font-size: 15pt; color: #374151; }
+.cover .pill { display: inline-block; margin: 2.2em auto 0; padding: 0.5em 1.4em; border-radius: 999px;
+               background: #1e3a8a; color: #fff; font-size: 11.5pt; }
+.cover .note { margin-top: 3em; font-size: 9.5pt; color: #6b7280; }
+
+.front { break-after: page; }
+.toc ol { list-style: none; padding: 0; margin: 0.4em 0; }
+.toc li { display: flex; gap: 0.7em; padding: 0.22em 0; border-bottom: 1px dotted #cbd5e1; }
+.toc .n { flex: 0 0 5.6em; color: #2563eb; font-weight: 700; }
+
+.chapter { break-before: page; }
+.ch-head { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 14px 18px;
+           border-radius: 10px; margin-bottom: 0.9em; break-inside: avoid; }
+.ch-head .n { font-size: 9.5pt; letter-spacing: 0.18em; opacity: 0.85; font-weight: 700; }
+.ch-head h1 { font-size: 17.5pt; margin: 0.1em 0 0; }
+.part { display: flex; align-items: center; gap: 0.6em; margin: 1.5em 0 0.6em; padding-bottom: 0.25em;
+        border-bottom: 2px solid #1e3a8a; break-after: avoid; }
+.part .tag { background: #1e3a8a; color: #fff; border-radius: 5px; padding: 0.05em 0.6em; font-size: 9.5pt;
+             font-weight: 700; }
+.part h2 { margin: 0; font-size: 14pt; }
+
+.anim { border: 1px solid #e5e7eb; border-radius: 9px; padding: 8px 7px 6px; margin: 0.8em 0;
+        break-inside: avoid; background: #fff; }
+.anim-head { font-weight: 700; margin-bottom: 0.3em; }
+.anim-head .badge { background: #ea580c; color: #fff; border-radius: 4px; padding: 0.05em 0.5em;
+                    font-size: 9pt; margin-right: 0.5em; }
+.frames { display: flex; gap: 3px; }
+.frames figure { margin: 0; flex: 1; text-align: center; }
+.frames img { width: 100%; display: block; border: 1px solid #eef0f3; border-radius: 5px; }
+.frames figcaption { font-size: 8pt; color: #6b7280; line-height: 1.3; margin-top: 1px; }
+.anim .gif { display: block; margin: 0 auto; width: 480px; max-width: 100%; }
+.anim .caption { font-size: 0.95em; margin: 0.4em 0 0.15em; }
+.anim .file { font-size: 8pt; color: #6b7280; font-family: "SF Mono", Menlo, monospace; }
+
+.code { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.code pre, pre.output { margin: 0; font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace;
+                        font-size: 8.3pt; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+body.screen .code pre, body.screen pre.output { font-size: 13px; }
+pre.output { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.label { font-size: 9pt; font-weight: 700; color: #475569; margin: 1em 0 0.2em; break-after: avoid; }
+.result-img { display: block; max-width: 88%; margin: 0.6em auto; border: 1px solid #e5e7eb; border-radius: 6px;
+              break-inside: avoid; }
+.run { font-size: 0.93em; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #ffffcc }
+.code { background: #f0f0f0; }
+.code .c { color: #60A0B0; font-style: italic } /* Comment */
+.code .err { border: 1px solid #F00 } /* Error */
+.code .k { color: #007020; font-weight: bold } /* Keyword */
+.code .o { color: #666 } /* Operator */
+.code .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #007020 } /* Comment.Preproc */
+.code .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F00 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #888 } /* Generic.Output */
+.code .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #04D } /* Generic.Traceback */
+.code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code .kp { color: #007020 } /* Keyword.Pseudo */
+.code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #902000 } /* Keyword.Type */
+.code .m { color: #40A070 } /* Literal.Number */
+.code .s { color: #4070A0 } /* Literal.String */
+.code .na { color: #4070A0 } /* Name.Attribute */
+.code .nb { color: #007020 } /* Name.Builtin */
+.code .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code .no { color: #60ADD5 } /* Name.Constant */
+.code .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code .ne { color: #007020 } /* Name.Exception */
+.code .nf { color: #06287E } /* Name.Function */
+.code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code .nv { color: #BB60D5 } /* Name.Variable */
+.code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code .w { color: #BBB } /* Text.Whitespace */
+.code .mb { color: #40A070 } /* Literal.Number.Bin */
+.code .mf { color: #40A070 } /* Literal.Number.Float */
+.code .mh { color: #40A070 } /* Literal.Number.Hex */
+.code .mi { color: #40A070 } /* Literal.Number.Integer */
+.code .mo { color: #40A070 } /* Literal.Number.Oct */
+.code .sa { color: #4070A0 } /* Literal.String.Affix */
+.code .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code .sc { color: #4070A0 } /* Literal.String.Char */
+.code .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #4070A0 } /* Literal.String.Double */
+.code .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code .sx { color: #C65D09 } /* Literal.String.Other */
+.code .sr { color: #235388 } /* Literal.String.Regex */
+.code .s1 { color: #4070A0 } /* Literal.String.Single */
+.code .ss { color: #517918 } /* Literal.String.Symbol */
+.code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code .fm { color: #06287E } /* Name.Function.Magic */
+.code .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
+</head><body class="print">
+<section class="cover"><div class="kicker">DHRUV AI TUTORIAL &middot; SELF-STUDY GUIDE</div><h1>Dhruv AI tutorial<br>Machine Learning हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक की self-study guide है।</div></section>
+<section class="front"><h2>यह guide कैसे पढ़ें</h2>
+<p>यह Dhruv AI tutorial Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक के 20 lectures में व्यवस्थित है। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<table>
+<thead>
+<tr>
+<th>भाग</th>
+<th>क्या है</th>
+<th>कैसे इस्तेमाल करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>भाग 1: Theory</strong></td>
+<td>Idea, notation, maths और algorithm, हिंदी में</td>
+<td>पहले इसे धीरे-धीरे पढ़ें। Equations को कागज़ पर खुद लिखकर देखें।</td>
+</tr>
+<tr>
+<td><strong>भाग 2: 3D Animations</strong></td>
+<td>हर chapter में कम से कम 5 animations</td>
+<td>PDF में हर animation के तीन still frames हैं (शुरुआत, बीच में, अंत)। चलती animation देखने के लिए नीचे बताई files खोलें।</td>
+</tr>
+<tr>
+<td><strong>भाग 3: Python Example</strong></td>
+<td>NumPy से शुरू से लिखा एक चलने वाला example, उसके output के साथ</td>
+<td>Code को खुद चलाएँ, फिर numbers बदलकर देखें कि क्या बदलता है।</td>
+</tr>
+</tbody>
+</table>
+<p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
+<h2>चलती animations कहाँ हैं</h2>
+<ul>
+<li><strong><code>index.html</code></strong> (project का मुख्य page): इसे browser में खोलें। इसमें पूरी guide और सारी animations हैं।</li>
+<li><strong><code>dhruv_ai_tutorial/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
+</ul>
+<h2>Code कैसे चलाएँ</h2>
+<p>हर chapter का code <code>dhruv_ai_tutorial/chapters/&lt;chapter&gt;/example.py</code> में है। Terminal में project root से:</p>
+<pre><code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/chapters/L02_linear_regression/example.py
+</code></pre>
+<p>Animations का code उसी folder की <code>anims.py</code> में है। पूरी guide दोबारा बनाने के लिए: <code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/build.py</code></p>
+<h2>पहले से क्या आना चाहिए</h2>
+<ul>
+<li><strong>Linear Algebra:</strong> vectors, matrices, matrix multiplication, transpose, inverse, eigenvalues / eigenvectors।</li>
+<li><strong>Probability:</strong> random variable, expectation, variance, conditional probability, Bayes rule, Gaussian distribution।</li>
+<li><strong>Calculus:</strong> derivative, partial derivative, gradient, chain rule।</li>
+<li><strong>Python:</strong> NumPy arrays की बुनियादी समझ।</li>
+</ul>
+<h2>पूरे course में चलने वाला notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}, y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वाँ training example: input और target</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या (या input का dimension)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span>, <span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>model के parameters</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis: model का prediction</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(J(\theta)\)</span></td>
+<td>cost function जिसे minimize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\ell(\theta)\)</span></td>
+<td>log-likelihood जिसे maximize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span></td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\nabla_\theta\)</span></td>
+<td><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span></td>
+<td>mean <span class="math-inline">\(\mu\)</span> और covariance <span class="math-inline">\(\Sigma\)</span> वाला Gaussian</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(:=\)</span></td>
+<td>"दाएँ की value बाएँ में रख दो" (assignment)</td>
+</tr>
+</tbody>
+</table><h2>विषय-सूची</h2><div class="toc"><ol><li><span class="n">Lecture 3</span><a href="#L03_logistic_newton">Weighted Least Squares, Logistic Regression और Newton&#x27;s Method</a></li></ol></div></section>
+<section class="chapter" id="L03_logistic_newton">
+<div class="ch-head"><div class="n">LECTURE 3</div><h1>Weighted Least Squares, Logistic Regression और Newton&#x27;s Method</h1></div>
+<div class="part"><span class="tag">भाग 1</span><h2>Theory</h2></div>
+<blockquote>
+<p><strong>इस lecture में:</strong> Weighted Least Squares, Locally Weighted Regression (weights, bandwidth <span class="math-inline">\(\tau\)</span>, parametric बनाम non-parametric), Binary Classification के लिए Logistic Regression (sigmoid function, Bernoulli log-likelihood, Gradient Ascent, linear decision boundary), और तेज़ optimization के लिए Newton's Method (1D root finding, Hessian update, quadratic convergence, Fisher scoring)।</p>
+</blockquote>
+<h2>1. एक line में idea</h2>
+<p>Lecture 2 में हमने पूरे data पर एक सीधी रेखा या plane fit किया था। असल दुनिया की तीन स्थितियों में वह सीधा साँचा कम पड़ जाता है, और यही तीन स्थितियाँ इस lecture के तीन हिस्से हैं।</p>
+<p>पहली स्थिति: target <span class="math-inline">\(y\)</span> और input <span class="math-inline">\(x\)</span> का रिश्ता मुड़ा हुआ (non-linear) है, पर आप हाथ से <span class="math-inline">\(x^2, x^3, \sin x\)</span> जैसे features गढ़ने के झंझट में नहीं पड़ना चाहते। <strong>Locally Weighted Regression (LWR)</strong> पूरे data पर एक रेखा खींचने के बजाय, जिस query point <span class="math-inline">\(x\)</span> पर जवाब चाहिए सिर्फ़ उसके आस-पास के पड़ोसियों को बड़ा weight देकर वहीं एक छोटा local linear fit बना लेता है।</p>
+<p>दूसरी स्थिति: target <span class="math-inline">\(y\)</span> कोई continuous कीमत नहीं, बल्कि <span class="math-inline">\(\{0, 1\}\)</span> जैसा हाँ/ना का फ़ैसला है (binary classification)। <strong>Logistic Regression</strong> linear score <span class="math-inline">\(\theta^T x\)</span> को <strong>sigmoid</strong> function से गुज़ारकर <span class="math-inline">\([0, 1]\)</span> के बीच की probability बना देता है और Maximum Likelihood से <span class="math-inline">\(\theta\)</span> सीखता है।</p>
+<p>तीसरी स्थिति: Gradient Ascent पहाड़ी की ढलान देखकर छोटे-छोटे कदमों से चढ़ता है और सैकड़ों iterations ले सकता है। <strong>Newton's Method</strong> ढलान के साथ-साथ पहाड़ी का मोड़ (Hessian / curvature) भी नापता है और महज़ 5 से 8 छलाँगों में चोटी पर पहुँच जाता है।</p>
+<h2>2. Weighted Least Squares और Locally Weighted Regression</h2>
+<p>साधारण Linear Regression में हर training example के error को बराबर महत्व मिलता है। मान लीजिए आपके पास हर example <span class="math-inline">\(i\)</span> के लिए एक non-negative weight <span class="math-inline">\(w^{(i)} \ge 0\)</span> है: जिसका weight बड़ा है उसकी बात ज़्यादा सुननी है, और जिसका weight <span class="math-inline">\(0\)</span> के पास है उसे लगभग नज़रअंदाज़ करना है। तब <strong>Weighted Least Squares (WLS)</strong> का cost function है:</p>
+<p><span class="math-display">\[J(\theta) = \frac{1}{2} \sum_{i=1}^{m} w^{(i)} \left( \theta^T x^{(i)} - y^{(i)} \right)^2\]</span></p>
+<p>सारे weights को एक diagonal matrix <span class="math-inline">\(W = \mathrm{diag}(w^{(1)}, \dots, w^{(m)})\)</span> में रखें, तो यही cost साफ matrix रूप ले लेता है:</p>
+<p><span class="math-display">\[J(\theta) = \frac{1}{2} (X\theta - \vec{y})^T W (X\theta - \vec{y})\]</span></p>
+<p><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient लेकर शून्य रखने पर <span class="math-inline">\(\nabla_\theta J(\theta) = X^T W (X\theta - \vec{y}) = 0\)</span> मिलता है। इससे <strong>Weighted Normal Equations</strong> निकलती हैं:</p>
+<p><span class="math-display">\[X^T W X \theta = X^T W \vec{y} \quad\Longrightarrow\quad \theta = (X^T W X)^{-1} X^T W \vec{y}\]</span></p>
+<p>(Probabilistic नज़रिए से भी यह स्वाभाविक है: अगर हर example के Gaussian noise का variance अलग हो, <span class="math-inline">\(\epsilon^{(i)} \sim \mathcal{N}(0, (\sigma^{(i)})^2)\)</span>, तो log-likelihood maximize करने से ठीक यही समस्या मिलती है जिसमें <span class="math-inline">\(w^{(i)} = 1 / (\sigma^{(i)})^2\)</span> होता है। यानी जिस बिंदु में शोर कम है, उसका weight बड़ा है।)</p>
+<h3>Locally Weighted Regression (LWR)</h3>
+<p>जब data मुड़ा हुआ हो, तो बहुत सरल features से <strong>underfitting</strong> होती है और बहुत ज़्यादा polynomial features से <strong>overfitting</strong>। LWR एक अलग रास्ता चुनता है। मान लीजिए किसी नए <strong>query point</strong> <span class="math-inline">\(x\)</span> पर आपको <span class="math-inline">\(y\)</span> का अंदाज़ा लगाना है। आप हर training example <span class="math-inline">\(x^{(i)}\)</span> को <span class="math-inline">\(x\)</span> से उसकी दूरी के हिसाब से weight देते हैं:</p>
+<p><span class="math-display">\[w^{(i)} = \exp\left( -\frac{\|x^{(i)} - x\|^2}{2\tau^2} \right)\]</span></p>
+<p>और फिर ऊपर के <span class="math-inline">\(J(\theta)\)</span> को minimize करके उसी <span class="math-inline">\(x\)</span> के लिए अपना अलग <span class="math-inline">\(\theta\)</span> निकालते हैं, और prediction <span class="math-inline">\(\theta^T x\)</span> दे देते हैं।</p>
+<p>इस weight formula के बारे में दो बातें गौर से समझें:</p>
+<ul>
+<li>यह दिखने में Gaussian bell curve जैसा ज़रूर है, पर इसका Gaussian probability distribution से कोई लेना-देना नहीं है। यहाँ <span class="math-inline">\(w^{(i)}\)</span> सिर्फ़ दूरी नापने वाला एक smooth kernel है: अगर <span class="math-inline">\(\|x^{(i)} - x\|\)</span> छोटा है तो <span class="math-inline">\(w^{(i)} \approx 1\)</span>, और अगर <span class="math-inline">\(x^{(i)}\)</span> बहुत दूर है तो <span class="math-inline">\(w^{(i)} \approx 0\)</span>।</li>
+<li>Parameter <span class="math-inline">\(\tau &gt; 0\)</span> को <strong>bandwidth</strong> (या wavelength parameter) कहते हैं। यही तय करता है कि "पड़ोस" कितना चौड़ा माना जाएगा:</li>
+<li><strong><span class="math-inline">\(\tau\)</span> बहुत छोटा:</strong> घंटी बहुत पतली होती है। सिर्फ़ दो-चार सबसे करीबी बिंदु काम आते हैं, और fitted curve हर छोटे-मोटे शोर के पीछे भागकर ऊबड़-खाबड़ हो जाती है (<strong>overfitting</strong>, high variance)।</li>
+<li><strong><span class="math-inline">\(\tau\)</span> बहुत बड़ा:</strong> घंटी इतनी चौड़ी हो जाती है कि लगभग हर बिंदु का <span class="math-inline">\(w^{(i)} \approx 1\)</span> रहता है। तब local पन खत्म हो जाता है और model वापस साधारण सीधी रेखा बन जाता है (<strong>underfitting</strong>, high bias)।</li>
+</ul>
+<h3>Parametric बनाम Non-parametric</h3>
+<table>
+<thead>
+<tr>
+<th>गुण</th>
+<th>Parametric (जैसे Linear Regression)</th>
+<th>Non-parametric (जैसे LWR)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>मुख्य विचार</td>
+<td>तय संख्या के parameters <span class="math-inline">\(\theta\)</span> में पूरा ज्ञान समेट लो</td>
+<td>कोई एक स्थायी <span class="math-inline">\(\theta\)</span> मत बनाओ; query आने पर स्थानीय fit करो</td>
+</tr>
+<tr>
+<td>Training के बाद</td>
+<td>मूल data मिटाया जा सकता है, सिर्फ़ <span class="math-inline">\(\theta\)</span> काफ़ी है</td>
+<td>पूरा training set <span class="math-inline">\((X, \vec{y})\)</span> हमेशा मेमोरी में रखना पड़ता है</td>
+</tr>
+<tr>
+<td>एक नए <span class="math-inline">\(x\)</span> पर खर्च</td>
+<td>बहुत सस्ता: सिर्फ़ <span class="math-inline">\(\theta^T x\)</span>, यानी <span class="math-inline">\(O(n)\)</span></td>
+<td>महँगा: नया <span class="math-inline">\(W\)</span> बनाना और linear system हल करना</td>
+</tr>
+<tr>
+<td>लचीलापन</td>
+<td>तय साँचे तक सीमित</td>
+<td>पर्याप्त data होने पर जटिल मुड़े हुए functions पकड़ लेता है</td>
+</tr>
+</tbody>
+</table>
+<p>"Non-parametric" का मतलब यह नहीं कि अंदर parameters हैं ही नहीं, बल्कि यह कि model को याद रखने के लिए ज़रूरी जानकारी की मात्रा data के आकार <span class="math-inline">\(m\)</span> के साथ बढ़ती जाती है।</p>
+<h2>3. Binary Classification और Logistic Regression</h2>
+<p>अब मान लीजिए target <span class="math-inline">\(y \in \{0, 1\}\)</span> है, जहाँ <span class="math-inline">\(0\)</span> को negative class और <span class="math-inline">\(1\)</span> को positive class कहते हैं (जैसे ट्यूमर benign है या malignant, email सामान्य है या spam)। इस पर सीधे Linear Regression क्यों नहीं चला देते? दो कारण हैं:</p>
+<ol>
+<li><span class="math-inline">\(\theta^T x\)</span> की value <span class="math-inline">\(-\infty\)</span> से <span class="math-inline">\(+\infty\)</span> तक कुछ भी हो सकती है, जबकि <span class="math-inline">\(y \in \{0, 1\}\)</span> होने पर prediction को <span class="math-inline">\([0, 1]\)</span> में एक probability जैसा होना चाहिए।</li>
+<li>अगर एक तरफ़ बहुत दूर कोई बिल्कुल सही, आसान सा positive example आ जाए, तो squared error कम करने के चक्कर में सीधी रेखा झुक जाती है और बीच की decision boundary बिगड़ जाती है।</li>
+</ol>
+<p><strong>Logistic Regression</strong> में हम linear संयोजन <span class="math-inline">\(\theta^T x\)</span> (जहाँ हमेशा की तरह <span class="math-inline">\(x_0 = 1\)</span> है) को <strong>logistic</strong> या <strong>sigmoid function</strong> <span class="math-inline">\(g(z)\)</span> में डालते हैं:</p>
+<p><span class="math-display">\[h_\theta(x) = g(\theta^T x) = \frac{1}{1 + e^{-\theta^T x}}, \qquad g(z) = \frac{1}{1 + e^{-z}}\]</span></p>
+<p>जब <span class="math-inline">\(z \to +\infty\)</span> तो <span class="math-inline">\(g(z) \to 1\)</span>, जब <span class="math-inline">\(z \to -\infty\)</span> तो <span class="math-inline">\(g(z) \to 0\)</span>, और ठीक बीच में <span class="math-inline">\(g(0) = 0.5\)</span>। साथ ही <span class="math-inline">\(1 - g(z) = \frac{e^{-z}}{1 + e^{-z}} = g(-z)\)</span>।</p>
+<h3>Sigmoid का derivative</h3>
+<p>आगे के सारे derivations की चाबी <span class="math-inline">\(g&#x27;(z)\)</span> का एक बेहद सुंदर गुण है:</p>
+<p><span class="math-display">\[\begin{aligned}
+g&#x27;(z) &amp;= \frac{d}{dz} (1 + e^{-z})^{-1} = -(1 + e^{-z})^{-2}(-e^{-z}) = \frac{e^{-z}}{(1 + e^{-z})^2} \\
+&amp;= \frac{1}{1 + e^{-z}} \cdot \frac{e^{-z}}{1 + e^{-z}} = g(z)\bigl(1 - g(z)\bigr)
+\end{aligned}\]</span></p>
+<h3>Linear Decision Boundary</h3>
+<p><span class="math-inline">\(h_\theta(x)\)</span> को हम <span class="math-inline">\(x\)</span> दिए होने पर <span class="math-inline">\(y = 1\)</span> की अनुमानित probability मानते हैं। जब ठोस <span class="math-inline">\(0\)</span> या <span class="math-inline">\(1\)</span> चुनना हो, तो स्वाभाविक नियम है कि <span class="math-inline">\(h_\theta(x) \ge 0.5\)</span> होने पर <span class="math-inline">\(1\)</span> बोलें, वरना <span class="math-inline">\(0\)</span>। चूँकि <span class="math-inline">\(g(z)\)</span> एक बढ़ता हुआ function है और <span class="math-inline">\(g(0) = 0.5\)</span> है:</p>
+<p><span class="math-display">\[h_\theta(x) \ge 0.5 \iff g(\theta^T x) \ge 0.5 \iff \theta^T x \ge 0\]</span></p>
+<p>इसलिए दोनों classes को अलग करने वाली <strong>decision boundary</strong> समीकरण <span class="math-inline">\(\theta^T x = 0\)</span> से तय होती है। मूल features <span class="math-inline">\(x_1, \dots, x_n\)</span> के space में यह एक सीधा hyperplane है (दो features में एक सीधी रेखा)। ध्यान रहे: <span class="math-inline">\(h_\theta(x)\)</span> की ऊँचाई एक मुड़ी हुई S-आकार की चादर है, पर जहाँ वह <span class="math-inline">\(0.5\)</span> को काटती है वह सीमा बिल्कुल linear है।</p>
+<h2>4. Bernoulli Log-Likelihood और Gradient Ascent</h2>
+<p>Parameters <span class="math-inline">\(\theta\)</span> कैसे सीखें? हम Lecture 2 की तरह probabilistic रास्ता अपनाते हैं:</p>
+<p><span class="math-display">\[P(y = 1 \mid x; \theta) = h_\theta(x), \qquad P(y = 0 \mid x; \theta) = 1 - h_\theta(x)\]</span></p>
+<p>चूँकि <span class="math-inline">\(y\)</span> सिर्फ़ <span class="math-inline">\(0\)</span> या <span class="math-inline">\(1\)</span> हो सकता है, इन दोनों समीकरणों को एक अकेले <strong>Bernoulli</strong> रूप में लिखा जा सकता है:</p>
+<p><span class="math-display">\[p(y \mid x; \theta) = \bigl(h_\theta(x)\bigr)^y \bigl(1 - h_\theta(x)\bigr)^{1 - y}\]</span></p>
+<p>(खुद रखकर देख लें: <span class="math-inline">\(y = 1\)</span> पर दूसरा गुणनखंड <span class="math-inline">\(1\)</span> हो जाता है और <span class="math-inline">\(h_\theta(x)\)</span> बचता है; <span class="math-inline">\(y = 0\)</span> पर पहला गुणनखंड <span class="math-inline">\(1\)</span> हो जाता है और <span class="math-inline">\(1 - h_\theta(x)\)</span> बचता है।)</p>
+<p>मान लीजिए सारे <span class="math-inline">\(m\)</span> training examples स्वतंत्र रूप से जनित हैं। पूरे data का likelihood <span class="math-inline">\(L(\theta) = \prod_{i=1}^{m} p(y^{(i)} \mid x^{(i)}; \theta)\)</span> है। गुणनफल को जोड़ में बदलने के लिए log लें, तो <strong>log-likelihood</strong> मिलता है:</p>
+<p><span class="math-display">\[\ell(\theta) = \log L(\theta) = \sum_{i=1}^{m} \Bigl[ y^{(i)} \log h_\theta(x^{(i)}) + (1 - y^{(i)}) \log\bigl(1 - h_\theta(x^{(i)})\bigr) \Bigr]\]</span></p>
+<h3>Gradient का पूरा derivation</h3>
+<p>पहले सिर्फ़ एक training example <span class="math-inline">\((x, y)\)</span> का अंश लेते हैं। संक्षेप में <span class="math-inline">\(z = \theta^T x\)</span> और <span class="math-inline">\(h = g(z)\)</span> लिखें। तब <span class="math-inline">\(\frac{\partial z}{\partial \theta_j} = x_j\)</span>, और chain rule से <span class="math-inline">\(\frac{\partial h}{\partial \theta_j} = g&#x27;(z) x_j = h(1 - h) x_j\)</span>। अब <span class="math-inline">\(\theta_j\)</span> के सापेक्ष partial derivative निकालें:</p>
+<p><span class="math-display">\[\begin{aligned}
+\frac{\partial}{\partial \theta_j} \bigl[ y \log h + (1 - y)\log(1 - h) \bigr]
+&amp;= \left( \frac{y}{h} - \frac{1 - y}{1 - h} \right) \frac{\partial h}{\partial \theta_j} \\
+&amp;= \frac{y(1 - h) - (1 - y)h}{h(1 - h)} \cdot h(1 - h)\, x_j \\
+&amp;= (y - yh - h + yh)\, x_j = \bigl(y - h_\theta(x)\bigr) x_j
+\end{aligned}\]</span></p>
+<p><span class="math-inline">\(h(1 - h)\)</span> का हर और अंश में आपस में कट जाना ही वह वजह है जिससे अंतिम उत्तर इतना साफ़ आता है! सारे <span class="math-inline">\(m\)</span> examples पर जोड़ने से पूरा gradient मिलता है:</p>
+<p><span class="math-display">\[\frac{\partial \ell(\theta)}{\partial \theta_j} = \sum_{i=1}^{m} \bigl(y^{(i)} - h_\theta(x^{(i)})\bigr) x_j^{(i)}, \qquad \nabla_\theta \ell(\theta) = X^T (\vec{y} - \vec{h})\]</span></p>
+<p>जहाँ <span class="math-inline">\(\vec{h} = g(X\theta)\)</span> सारे examples की predicted probabilities का vector है।</p>
+<h3>Gradient Ascent और LMS से तुलना</h3>
+<p>यहाँ हमें cost घटाना नहीं, बल्कि log-likelihood <span class="math-inline">\(\ell(\theta)\)</span> को <strong>maximize</strong> करना है। इसलिए हम gradient की दिशा में ऊपर चढ़ते हैं (<strong>Gradient Ascent</strong>, बीच में <span class="math-inline">\(+\)</span> का निशान देखें):</p>
+<p><span class="math-display">\[\theta := \theta + \alpha \nabla_\theta \ell(\theta), \qquad \text{एक example के लिए: } \theta_j := \theta_j + \alpha \bigl(y^{(i)} - h_\theta(x^{(i)})\bigr) x_j^{(i)}\]</span></p>
+<p>ठहरकर इस सूत्र को Lecture 2 के LMS update rule से मिलाइए: अक्षर-अक्षर बिल्कुल एक जैसा दिखता है! पर यह वही algorithm <strong>नहीं</strong> है, क्योंकि वहाँ <span class="math-inline">\(h_\theta(x) = \theta^T x\)</span> एक रैखिक सूत्र था और यहाँ <span class="math-inline">\(h_\theta(x) = \frac{1}{1 + e^{-\theta^T x}}\)</span> एक non-linear sigmoid है। फिर भी सूत्र का रूप हूबहू वैसा ही निकलना महज़ संयोग नहीं है; अगले lecture में जब हम Generalized Linear Models (GLMs) पढ़ेंगे, तब इसका गहरा राज़ खुलेगा।</p>
+<p>Linear Regression की तरह यहाँ <span class="math-inline">\(\nabla_\theta \ell(\theta) = 0\)</span> को कागज़ पर सीधे हल करने का कोई closed-form सूत्र नहीं है, इसलिए iterative optimization ज़रूरी है। अच्छी खबर यह है कि <span class="math-inline">\(\ell(\theta)\)</span> एक <strong>concave</strong> पहाड़ी है: इसमें कोई नकली चोटी (local maximum) नहीं होती।</p>
+<h2>5. Newton's Method</h2>
+<p>Gradient Ascent हर कदम पर सिर्फ़ स्थानीय ढलान देखता है, इसलिए लंबी-पतली पहाड़ी पर उसे छोटे कदमों से सैकड़ों बार रेंगना पड़ता है। <strong>Newton's Method</strong> (Newton-Raphson) कहीं बड़े और सटीक कदम उठाने की कला है।</p>
+<h3>1D में root finding से optimization तक</h3>
+<p>मान लीजिए एक एकल चर वाला function <span class="math-inline">\(f(\theta) : \mathbb{R} \to \mathbb{R}\)</span> दिया है और हमें वह जड़ (root) ढूँढनी है जहाँ <span class="math-inline">\(f(\theta) = 0\)</span> हो। यदि हम अभी <span class="math-inline">\(\theta^{(t)}\)</span> पर खड़े हैं, तो उस बिंदु पर <span class="math-inline">\(f\)</span> की स्पर्श रेखा (tangent line) का समीकरण है:</p>
+<p><span class="math-display">\[f(\theta) \approx f(\theta^{(t)}) + f&#x27;(\theta^{(t)})(\theta - \theta^{(t)})\]</span></p>
+<p>Newton का सरल विचार यह है कि यह सीधी रेखा जहाँ क्षैतिज अक्ष (<span class="math-inline">\(0\)</span>) को काटती है, वही हमारा अगला अनुमान <span class="math-inline">\(\theta^{(t+1)}\)</span> होगा। ऊपर दाईं तरफ़ को <span class="math-inline">\(0\)</span> के बराबर रखकर हल करें:</p>
+<p><span class="math-display">\[f(\theta^{(t)}) + f&#x27;(\theta^{(t)})(\theta^{(t+1)} - \theta^{(t)}) = 0 \quad\Longrightarrow\quad \theta^{(t+1)} = \theta^{(t)} - \frac{f(\theta^{(t)})}{f&#x27;(\theta^{(t)})}\]</span></p>
+<p>अब सोचिए: हमें root नहीं, बल्कि <span class="math-inline">\(\ell(\theta)\)</span> का <strong>maximum</strong> चाहिए! पर किसी smooth पहाड़ी की चोटी पर उसका पहला derivative शून्य होता है, यानी हमें <span class="math-inline">\(\ell&#x27;(\theta) = 0\)</span> हल करना है। बस <span class="math-inline">\(f(\theta) = \ell&#x27;(\theta)\)</span> रख दीजिए। तब <span class="math-inline">\(f&#x27;(\theta) = \ell&#x27;&#x27;(\theta)\)</span> बन जाता है और optimization का Newton step मिल जाता है:</p>
+<p><span class="math-display">\[\theta^{(t+1)} = \theta^{(t)} - \frac{\ell&#x27;(\theta^{(t)})}{\ell&#x27;&#x27;(\theta^{(t)})}\]</span></p>
+<p><strong>Geometric मतलब:</strong> बिंदु <span class="math-inline">\(\theta^{(t)}\)</span> के पास <span class="math-inline">\(\ell(\theta)\)</span> का second-order Taylor विस्तार एक parabola (उल्टा कटोरा) बनाता है जिसकी ऊँचाई <span class="math-inline">\(\ell\)</span>, ढलान <span class="math-inline">\(\ell&#x27;\)</span> और मोड़ <span class="math-inline">\(\ell&#x27;&#x27;\)</span> तीनों असली curve से मिलते हैं। ऊपर लिखा सूत्र ठीक उसी स्थानीय parabola की चोटी पर सीधे छलाँग लगा देता है।</p>
+<h3>Multidimensional रूप: Hessian Update</h3>
+<p>जब <span class="math-inline">\(\theta \in \mathbb{R}^{n+1}\)</span> एक vector हो, तो पहले derivative की जगह gradient vector <span class="math-inline">\(\nabla_\theta \ell(\theta)\)</span> लेता है और दूसरे derivative की जगह <strong>Hessian matrix</strong> <span class="math-inline">\(H \in \mathbb{R}^{(n+1) \times (n+1)}\)</span>, जिसकी <span class="math-inline">\((j, k)\)</span>-वीं प्रविष्टि है:</p>
+<p><span class="math-display">\[H_{jk} = \frac{\partial^2 \ell(\theta)}{\partial \theta_j \, \partial \theta_k}\]</span></p>
+<p>तब बहु-आयामी Newton's Method का update नियम है:</p>
+<p><span class="math-display">\[\theta^{(t+1)} = \theta^{(t)} - H^{-1} \nabla_\theta \ell(\theta^{(t)})\]</span></p>
+<p>ध्यान दें कि इसमें कोई learning rate <span class="math-inline">\(\alpha\)</span> नहीं है; Hessian खुद हर दिशा के मोड़ के हिसाब से कदम की लंबाई और दिशा दोनों तय कर लेता है।</p>
+<h3>Logistic Regression का Hessian और Concavity</h3>
+<p>Logistic Regression के लिए <span class="math-inline">\(\frac{\partial \ell}{\partial \theta_j} = \sum_{i=1}^{m} (y^{(i)} - h^{(i)}) x_j^{(i)}\)</span>, जहाँ <span class="math-inline">\(h^{(i)} = h_\theta(x^{(i)})\)</span>। इसका <span class="math-inline">\(\theta_k\)</span> के सापेक्ष दोबारा derivative लें (<span class="math-inline">\(y^{(i)}\)</span> अचर है, इसलिए उसका अवकलन शून्य हो जाता है):</p>
+<p><span class="math-display">\[H_{jk} = -\sum_{i=1}^{m} \frac{\partial h^{(i)}}{\partial \theta_k} x_j^{(i)} = -\sum_{i=1}^{m} h^{(i)}(1 - h^{(i)}) x_j^{(i)} x_k^{(i)}\]</span></p>
+<p>यदि हम <span class="math-inline">\(D = \mathrm{diag}\bigl(h^{(1)}(1 - h^{(1)}), \dots, h^{(m)}(1 - h^{(m)})\bigr)\)</span> लिखें, तो पूरा Hessian संक्षेप में यह है:</p>
+<p><span class="math-display">\[H = -\sum_{i=1}^{m} h^{(i)}(1 - h^{(i)}) x^{(i)} x^{(i)T} = -X^T D X\]</span></p>
+<p>किसी भी शून्येतर vector <span class="math-inline">\(z\)</span> के लिए <span class="math-inline">\(z^T H z = -\sum_{i=1}^{m} h^{(i)}(1 - h^{(i)}) (z^T x^{(i)})^2 \le 0\)</span>, क्योंकि <span class="math-inline">\(h^{(i)} \in (0, 1)\)</span> होने से <span class="math-inline">\(h^{(i)}(1 - h^{(i)}) &gt; 0\)</span> है और वर्ग कभी ऋणात्मक नहीं होता। अतः <span class="math-inline">\(H\)</span> हमेशा <strong>negative semi-definite</strong> है। यही गणितीय प्रमाण है कि Logistic Regression का <span class="math-inline">\(\ell(\theta)\)</span> हर जगह <strong>concave</strong> है और उसका कोई छलावा देने वाला local maximum नहीं हो सकता।</p>
+<h2>6. Quadratic Convergence, Fisher Scoring और पूरा Algorithm</h2>
+<h3>Quadratic Convergence बनाम प्रति-iteration खर्च</h3>
+<p>जब <span class="math-inline">\(\theta\)</span> असली शिखर <span class="math-inline">\(\theta^*\)</span> के करीब आ जाता है, तो Newton's Method <strong>quadratic convergence</strong> दिखाता है: अगले कदम की त्रुटि पिछली त्रुटि के वर्ग के अनुपात में गिरती है, यानी <span class="math-inline">\(\|\theta^{(t+1)} - \theta^*\| \le C \|\theta^{(t)} - \theta^*\|^2\)</span>। व्यावहारिक भाषा में इसका मतलब है कि हर एक iteration में सही दशमलव अंकों की संख्या लगभग <strong>दोगुनी</strong> हो जाती है (जैसे त्रुटि <span class="math-inline">\(10^{-2} \to 10^{-4} \to 10^{-8} \to 10^{-16}\)</span>)। अक्सर 5 से 8 iterations में ही काम पूरा हो जाता है।</p>
+<p>पर एक iteration मुफ्त नहीं आता: <span class="math-inline">\((n+1) \times (n+1)\)</span> का Hessian बनाने में <span class="math-inline">\(O(mn^2)\)</span> और linear system हल करने में <span class="math-inline">\(O(n^3)\)</span> समय लगता है।</p>
+<table>
+<thead>
+<tr>
+<th>तुलना</th>
+<th>Batch Gradient Ascent</th>
+<th>Newton's Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Learning rate <span class="math-inline">\(\alpha\)</span></td>
+<td>हाथ से चुनना और tune करना पड़ता है</td>
+<td>कोई <span class="math-inline">\(\alpha\)</span> नहीं चाहिए (स्वाभाविक step size <span class="math-inline">\(1\)</span>)</td>
+</tr>
+<tr>
+<td>आवश्यक iterations</td>
+<td>अक्सर सैकड़ों या हज़ारों</td>
+<td>बहुत कम (आम तौर पर <span class="math-inline">\(5\)</span> से <span class="math-inline">\(10\)</span>)</td>
+</tr>
+<tr>
+<td>एक iteration का खर्च</td>
+<td><span class="math-inline">\(O(mn)\)</span>, बहुत हल्का</td>
+<td><span class="math-inline">\(O(mn^2 + n^3)\)</span>, Hessian बनाना व हल करना</td>
+</tr>
+<tr>
+<td>कब चुनें</td>
+<td>जब features <span class="math-inline">\(n\)</span> हज़ारों-लाखों में हों</td>
+<td>जब <span class="math-inline">\(n\)</span> छोटा या मध्यम हो (कुछ सौ तक)</td>
+</tr>
+</tbody>
+</table>
+<h3>Fisher Scoring और IRLS से रिश्ता</h3>
+<p>सामान्य प्रायिकता मॉडलों में Hessian <span class="math-inline">\(H\)</span> के भीतर यादृच्छिक लक्ष्य <span class="math-inline">\(y\)</span> भी मौजूद रहता है, जिससे शिखर से दूर <span class="math-inline">\(H\)</span> कभी-कभी गलत दिशा में मुड़ सकता है। <strong>Fisher Scoring</strong> इस कठिनाई से बचने के लिए <span class="math-inline">\(-H\)</span> की जगह उसका अपेक्षित मान (expectation) रखता है, जिसे <strong>Fisher Information Matrix</strong> <span class="math-inline">\(\mathcal{I}(\theta)\)</span> कहते हैं:</p>
+<p><span class="math-display">\[\mathcal{I}(\theta) = \mathbb{E}_{y \mid x; \theta}\bigl[ -\nabla_\theta^2 \ell(\theta) \bigr], \qquad \theta^{(t+1)} = \theta^{(t)} + \mathcal{I}(\theta^{(t)})^{-1} \nabla_\theta \ell(\theta^{(t)})\]</span></p>
+<p>अब ऊपर निकले Logistic Regression के सूत्र <span class="math-inline">\(H = -X^T D X\)</span> को फिर से देखिए: उसमें <span class="math-inline">\(y^{(i)}\)</span> कहीं है ही नहीं! इसलिए expectation लेने पर कुछ नहीं बदलता और <span class="math-inline">\(\mathcal{I}(\theta) = -H = X^T D X\)</span> ही आता है। अर्थात <strong>Logistic Regression के लिए Newton's Method और Fisher Scoring बिल्कुल एक ही algorithm हैं</strong>।</p>
+<p>इतना ही नहीं, यदि हम Newton step को खोलकर लिखें और एक कामचलाऊ लक्ष्य <span class="math-inline">\(\vec{z} = X\theta^{(t)} + D^{-1}(\vec{y} - \vec{h})\)</span> परिभाषित करें, तो:</p>
+<p><span class="math-display">\[\theta^{(t+1)} = \theta^{(t)} + (X^T D X)^{-1} X^T (\vec{y} - \vec{h}) = (X^T D X)^{-1} X^T D \vec{z}\]</span></p>
+<p>यह तो हूबहू Section 2 की <strong>Weighted Normal Equation</strong> है, बस हर iteration पर weights <span class="math-inline">\(D_{ii} = h^{(i)}(1 - h^{(i)})\)</span> बदल रहे हैं! इसी कारण Logistic Regression पर लगाए गए Newton's Method को <strong>IRLS (Iteratively Reweighted Least Squares)</strong> भी कहा जाता है। जिन बिंदुओं पर model अनिश्चित है (<span class="math-inline">\(h^{(i)} \approx 0.5\)</span>), उनका weight <span class="math-inline">\(h^{(i)}(1 - h^{(i)}) \approx 0.25\)</span> सबसे बड़ा रहता है; जिन पर वह पूरी तरह आश्वस्त है (<span class="math-inline">\(h^{(i)} \approx 0\)</span> या <span class="math-inline">\(1\)</span>), उनका weight लगभग शून्य हो जाता है।</p>
+<h3>Algorithm: Newton's Method से Logistic Regression (step by step)</h3>
+<ol>
+<li>Design matrix <span class="math-inline">\(X \in \mathbb{R}^{m \times (n+1)}\)</span> में पहला स्तंभ <span class="math-inline">\(x_0 = 1\)</span> रखें और <span class="math-inline">\(\theta^{(0)} = \vec{0}\)</span> से शुरुआत करें।</li>
+<li>Iteration <span class="math-inline">\(t = 0, 1, 2, \dots\)</span> के लिए:
+   - Linear scores <span class="math-inline">\(\vec{\eta} = X\theta^{(t)}\)</span> और probabilities <span class="math-inline">\(\vec{h} = g(\vec{\eta}) = \frac{1}{1 + e^{-\vec{\eta}}}\)</span> निकालें।
+   - Gradient <span class="math-inline">\(g_{\text{vec}} = X^T(\vec{y} - \vec{h})\)</span> निकालें।
+   - प्रति-उदाहरण weights <span class="math-inline">\(d_i = h_i(1 - h_i)\)</span> निकालें और धनात्मक सममित आव्यूह <span class="math-inline">\(A = X^T D X\)</span> बनाएँ।
+   - Linear system <span class="math-inline">\(A \Delta = g_{\text{vec}}\)</span> हल करें और <span class="math-inline">\(\theta^{(t+1)} := \theta^{(t)} + \Delta\)</span> रखें।</li>
+<li>जब <span class="math-inline">\(\|\Delta\|_2 &lt; 10^{-8}\)</span> हो जाए, रुक जाएँ।</li>
+</ol>
+<h2>7. Practical बातें और आम गलतियाँ</h2>
+<ul>
+<li><strong>Complete separation का खतरा:</strong> अगर दोनों classes के बिंदु इतने साफ़ बँटे हों कि कोई रेखा उन्हें बिना एक भी गलती के अलग कर दे, तो <span class="math-inline">\(\ell(\theta)\)</span> को <span class="math-inline">\(0\)</span> के और पास ले जाने के लिए <span class="math-inline">\(\|\theta\| \to \infty\)</span> भागता है। तब <span class="math-inline">\(h^{(i)}(1 - h^{(i)}) \to 0\)</span> होने से <span class="math-inline">\(X^T D X\)</span> singular हो जाता है और Newton step फट जाता है। इसका मानक इलाज <strong>L2 regularization</strong> (<span class="math-inline">\(-\frac{\lambda}{2}\sum_{j=1}^n \theta_j^2\)</span>) है, जो <span class="math-inline">\(X^T D X\)</span> में <span class="math-inline">\(\lambda I\)</span> जोड़कर उसे हमेशा invertible रखता है।</li>
+<li><strong><span class="math-inline">\(\log(0)\)</span> और <code>exp</code> के overflow से बचें:</strong> code में सीधे <code>y * np.log(h) + (1 - y) * np.log(1 - h)</code> लिखने पर <span class="math-inline">\(h = 1.0\)</span> होते ही <code>nan</code> आ जाता है। बीजगणित से वही व्यंजक <span class="math-inline">\(y z - \log(1 + e^z)\)</span> के बराबर है, जिसे NumPy में <code>y * z - np.logaddexp(0, z)</code> से पूरी सुरक्षा के साथ निकाला जाता है।</li>
+<li><strong>कभी <code>inv(H)</code> न लिखें:</strong> matrix का explicit inverse निकालना धीमा भी है और rounding त्रुटि भी बढ़ाता है। हमेशा <code>np.linalg.solve(A, g_vec)</code> से सीधे समीकरण हल करें।</li>
+<li><strong>LWR में scaling और <span class="math-inline">\(\tau\)</span> का चुनाव:</strong> दूरी <span class="math-inline">\(\|x^{(i)} - x\|^2\)</span> सभी features को एक ही तराज़ू पर तौलती है। यदि एक feature किलोमीटर में है और दूसरा मिलीमीटर में, तो दूसरा बेअसर हो जाएगा। पहले features को normalize करें, और <span class="math-inline">\(\tau\)</span> को हमेशा अलग रखे validation set पर चुनें।</li>
+</ul>
+<h2>8. खुद से पूछें</h2>
+<ol>
+<li>Locally Weighted Regression में यदि आप bandwidth <span class="math-inline">\(\tau \to \infty\)</span> ले जाएँ, तो सारे weights <span class="math-inline">\(w^{(i)}\)</span> किस संख्या की ओर जाते हैं, और तब हर query <span class="math-inline">\(x\)</span> के लिए मिलने वाला model किस जाने-पहचाने model में बदल जाता है?</li>
+<li>Logistic Regression में हम Linear Regression की नकल करके <span class="math-inline">\(\frac{1}{2}\sum_{i=1}^m \bigl(g(\theta^T x^{(i)}) - y^{(i)}\bigr)^2\)</span> को ही क्यों नहीं minimize कर लेते? (संकेत: क्या यह cost function convex रहेगा?)</li>
+<li>अगर किसी dataset के दूसरे feature को <span class="math-inline">\(100\)</span> से गुणा कर दिया जाए (जैसे मीटर को सेंटीमीटर बना दें), तो Gradient Ascent की रफ़्तार पर क्या असर पड़ेगा, और बिना किसी बदलाव के Newton's Method के iterations की संख्या पर क्या असर पड़ेगा?</li>
+</ol>
+<div class="part"><span class="tag">भाग 2</span><h2>3D Animations</h2></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 3.1</span>LWR: a local plane follows the query</div><div class="frames"><figure><img src="anim/L03_1_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L03_1_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L03_1_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> ज़मीन पर दो features <span class="math-inline">\(x_1, x_2\)</span> हैं और ऊँचाई पर target <span class="math-inline">\(y\)</span>। Data एक मुड़ी हुई surface से आया है, जिसे कोई एक plane fit नहीं कर सकता। नारंगी चौकोर query point <span class="math-inline">\(x\)</span> है। हर frame में Locally Weighted Regression सिर्फ़ उसी <span class="math-inline">\(x\)</span> के लिए एक नया plane fit करता है (नीला टुकड़ा), जिसमें पास के बिंदुओं का weight <span class="math-inline">\(w^{(i)}\)</span> बड़ा है (बड़े, गहरे लाल बिंदु) और दूर के बिंदुओं का लगभग zero। Query के साथ-साथ plane भी झुकता और घूमता है, और लाल रेखा उसके predictions का निशान है: सीधे टुकड़ों से एक मुड़ा हुआ fit बन जाता है। कीमत यह है कि हर नए <span class="math-inline">\(x\)</span> पर fit दोबारा करना पड़ता है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L03_1.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 3.2</span>LWR: the bandwidth <span class="math-inline">\(\tau\)</span></div><div class="frames"><figure><img src="anim/L03_2_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L03_2_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L03_2_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> वही Locally Weighted Regression, पर अब हर grid point को query मानकर पूरी fitted surface बनाई गई है, और bandwidth <span class="math-inline">\(\tau\)</span> बड़े से छोटा होता जा रहा है। <span class="math-inline">\(\tau\)</span> बड़ा हो तो हर बिंदु का weight लगभग बराबर है और surface लगभग एक plane रह जाती है (<strong>underfitting</strong>)। बीच के <span class="math-inline">\(\tau\)</span> पर surface data का मोड़ पकड़ लेती है और सच्चे function से error सबसे छोटा होता है। <span class="math-inline">\(\tau\)</span> बहुत छोटा हो तो हर prediction सिर्फ़ दो-चार पड़ोसियों पर टिका होता है, surface noise के पीछे भागकर ऊबड़-खाबड़ हो जाती है और error फिर बढ़ जाता है (<strong>overfitting</strong>)।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L03_2.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 3.3</span>Logistic regression: sigmoid surface</div><div class="frames"><figure><img src="anim/L03_3_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L03_3_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L03_3_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> ज़मीन पर features <span class="math-inline">\(x_1, x_2\)</span> हैं और ऊँचाई एक probability है। हर बिंदु अपने label की ऊँचाई पर रखा है: लाल बिंदु <span class="math-inline">\(y = 0\)</span> पर, नीले <span class="math-inline">\(y = 1\)</span> पर। Surface <span class="math-inline">\(h_\theta(x) = g(\theta^T x)\)</span> है, यानी model के हिसाब से <span class="math-inline">\(y = 1\)</span> होने की probability। <span class="math-inline">\(\theta = 0\)</span> पर surface हर जगह <span class="math-inline">\(0.5\)</span> है। Gradient ascent के साथ वह एक तरफ़ <span class="math-inline">\(1\)</span> की ओर उठती है और दूसरी तरफ़ <span class="math-inline">\(0\)</span> की ओर गिरती है, और पतली रेखाएँ (errors <span class="math-inline">\(y^{(i)} - h_\theta(x^{(i)})\)</span>) छोटी होती जाती हैं। काली रेखा, जहाँ <span class="math-inline">\(h_\theta(x) = 0.5\)</span> है, decision boundary है: sigmoid मुड़ा हुआ है, पर boundary सीधी है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L03_3.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 3.4</span>Gradient ascent on <span class="math-inline">\(\ell(\theta)\)</span></div><div class="frames"><figure><img src="anim/L03_4_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L03_4_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L03_4_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> अब parameter space देखिए: ज़मीन पर <span class="math-inline">\(\theta_1, \theta_2\)</span> और ऊँचाई पर log-likelihood <span class="math-inline">\(\ell(\theta)\)</span>। Linear Regression का <span class="math-inline">\(J\)</span> एक कटोरा था जिसकी तली ढूँढनी थी। यहाँ <span class="math-inline">\(\ell\)</span> एक concave पहाड़ी है जिसकी चोटी (हरा तारा, maximum likelihood) ढूँढनी है, इसलिए update में plus का निशान है: <span class="math-inline">\(\theta := \theta + \alpha \nabla_\theta \ell(\theta)\)</span>। लाल गेंद <span class="math-inline">\(\theta = 0\)</span> से चलती है। पहले कुछ कदमों में वह तेज़ चढ़ाई चढ़कर पहाड़ी की लंबी पीठ (ridge) पर पहुँच जाती है, फिर पीठ के साथ-साथ बहुत धीरे चोटी की ओर खिसकती है, क्योंकि वहाँ gradient छोटा है। पहाड़ी concave है, इसलिए कोई दूसरी चोटी नहीं है जहाँ वह अटक जाए।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L03_4.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 3.5</span>Newton's method vs gradient ascent</div><div class="frames"><figure><img src="anim/L03_5_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L03_5_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L03_5_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> उसी पहाड़ी पर, उसी जगह से दो तरीके साथ-साथ चल रहे हैं, और दोनों के लिए गिनती एक ही है: एक iteration। <strong>नीला</strong> gradient ascent है, जो सिर्फ़ ढलान देखता है। <strong>लाल</strong> Newton's method है, जो Hessian से surface का मोड़ (curvature) भी देखता है: <span class="math-inline">\(\theta := \theta - H^{-1} \nabla_\theta \ell\)</span>। Newton तीन-चार छलाँगों में चोटी पर है, और status line में उसका बचा हुआ फ़ासला <span class="math-inline">\(\ell^* - \ell\)</span> हर iteration में लगभग square होता जाता है (quadratic convergence)। Gradient ascent को वही दूरी तय करने में सैकड़ों iterations लगते हैं। ध्यान रहे कि Newton का एक iteration महँगा है, क्योंकि उसमें <span class="math-inline">\(H\)</span> बनाकर एक linear system हल करना पड़ता है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L03_5.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 3.6</span>Newton: jump to the parabola's top</div><div class="frames"><figure><img src="anim/L03_6_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L03_6_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L03_6_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> Newton's method इतना तेज़ क्यों है? हर iteration में वह वर्तमान <span class="math-inline">\(\theta\)</span> (लाल गेंद) पर <span class="math-inline">\(\ell\)</span> की ऊँचाई, gradient और Hessian तीनों मिलाकर एक <strong>quadratic surface</strong> (नारंगी जाली) बनाता है जो उस जगह असली पहाड़ी से चिपकी होती है। Quadratic की चोटी सीधे formula से मिल जाती है, और वह ठीक <span class="math-inline">\(\theta - H^{-1} \nabla_\theta \ell\)</span> पर है, इसलिए गेंद सीधे वहीं कूद जाती है। पहली जाली असली पहाड़ी से काफ़ी अलग है, पर चोटी के पास आते-आते जाली और पहाड़ी लगभग एक हो जाती हैं। इसीलिए आखिरी छलाँगें लगभग बिल्कुल सही पड़ती हैं।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L03_6.gif</div></div>
+<div class="part"><span class="tag">भाग 3</span><h2>Python Example</h2></div>
+<p class="run">इसे खुद चलाएँ: <code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/chapters/L03_logistic_newton/example.py</code></p>
+<div class="code"><pre><span></span><span class="sd">"""Lecture 3 example: Logistic Regression (Gradient Ascent बनाम Newton) और LWR (सिर्फ़ NumPy).</span>
+
+<span class="sd">भाग 1: दो exam scores से admission (0/1) का prediction। एक ही data पर Batch Gradient Ascent</span>
+<span class="sd">और Newton's Method (Fisher Scoring / IRLS) चलाकर हर iteration पर log-likelihood देखते हैं।</span>
+<span class="sd">भाग 2: एक मुड़े हुए 1D function पर Locally Weighted Regression (LWR) और bandwidth tau का असर।</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sigmoid</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">z</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">z</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">log_likelihood</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Overflow-safe Bernoulli log-likelihood: sum(y*z - log(1 + exp(z)))."""</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">theta</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span> <span class="o">*</span> <span class="n">z</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">logaddexp</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">z</span><span class="p">)))</span>
+
+
+<span class="c1"># ==================== 1. Logistic Regression: Data और Setup ====================</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">65</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>                          <span class="c1"># exam 1 score</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="mf">0.85</span> <span class="o">*</span> <span class="n">s1</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>             <span class="c1"># exam 2 (मज़बूत correlation -&gt; तंग ridge)</span>
+<span class="n">logits_true</span> <span class="o">=</span> <span class="o">-</span><span class="mf">13.5</span> <span class="o">+</span> <span class="mf">0.11</span> <span class="o">*</span> <span class="n">s1</span> <span class="o">+</span> <span class="mf">0.10</span> <span class="o">*</span> <span class="n">s2</span>
+<span class="n">y_all</span> <span class="o">=</span> <span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">m</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">logits_true</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="n">idx</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="n">tr</span><span class="p">,</span> <span class="n">te</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[:</span><span class="mi">160</span><span class="p">],</span> <span class="n">idx</span><span class="p">[</span><span class="mi">160</span><span class="p">:]</span>
+<span class="n">feats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">]</span>
+<span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">feats</span><span class="p">[</span><span class="n">tr</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">feats</span><span class="p">[</span><span class="n">tr</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">X_tr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tr</span><span class="p">)),</span> <span class="p">(</span><span class="n">feats</span><span class="p">[</span><span class="n">tr</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sd</span><span class="p">]</span>
+<span class="n">X_te</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">te</span><span class="p">)),</span> <span class="p">(</span><span class="n">feats</span><span class="p">[</span><span class="n">te</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sd</span><span class="p">]</span>
+<span class="n">y_tr</span><span class="p">,</span> <span class="n">y_te</span> <span class="o">=</span> <span class="n">y_all</span><span class="p">[</span><span class="n">tr</span><span class="p">],</span> <span class="n">y_all</span><span class="p">[</span><span class="n">te</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">gradient_ascent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="p">[</span><span class="n">log_likelihood</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">):</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">theta</span><span class="p">)))</span>
+        <span class="n">hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_likelihood</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">theta</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">newtons_method</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">7</span><span class="p">):</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="p">[</span><span class="n">log_likelihood</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">theta</span><span class="p">)</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">h</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">h</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">h</span><span class="p">)</span>                           <span class="c1"># Fisher / IRLS diagonal weights</span>
+        <span class="n">neg_H</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">d</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span>              <span class="c1"># -H = X^T D X (positive definite)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">neg_H</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>
+        <span class="n">hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_likelihood</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">theta</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+
+
+<span class="n">th_ga</span><span class="p">,</span> <span class="n">ll_ga</span> <span class="o">=</span> <span class="n">gradient_ascent</span><span class="p">(</span><span class="n">X_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">)</span>
+<span class="n">th_nt</span><span class="p">,</span> <span class="n">ll_nt</span> <span class="o">=</span> <span class="n">newtons_method</span><span class="p">(</span><span class="n">X_tr</span><span class="p">,</span> <span class="n">y_tr</span><span class="p">)</span>
+<span class="n">ll_star</span> <span class="o">=</span> <span class="n">ll_nt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"=== Logistic Regression: Newton's Method (प्रति iteration) ==="</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"iter    log-likelihood     gap (l* - l)"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ll_nt</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">4d</span><span class="si">}</span><span class="s2">    </span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s2">14.8f</span><span class="si">}</span><span class="s2">    </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">ll_star</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span><span class="si">:</span><span class="s2">12.2e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== Logistic Regression: Gradient Ascent (चुनिंदा iterations) ==="</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"iter    log-likelihood     gap (l* - l)"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">4d</span><span class="si">}</span><span class="s2">    </span><span class="si">{</span><span class="n">ll_ga</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">:</span><span class="s2">14.8f</span><span class="si">}</span><span class="s2">    </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">ll_star</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ll_ga</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span><span class="si">:</span><span class="s2">12.2e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">acc_tr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">X_tr</span> <span class="o">@</span> <span class="n">th_nt</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">==</span> <span class="n">y_tr</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">acc_te</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">X_te</span> <span class="o">@</span> <span class="n">th_nt</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">==</span> <span class="n">y_te</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Newton theta : </span><span class="si">{</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">th_nt</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ascent theta : </span><span class="si">{</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">th_ga</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Accuracy     : train = </span><span class="si">{</span><span class="n">acc_tr</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%,  test = </span><span class="si">{</span><span class="n">acc_te</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+
+<span class="c1"># ==================== 2. Locally Weighted Regression (LWR) ====================</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f_true</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">1.4</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.35</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">3.7</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+
+
+<span class="n">x_lwr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">65</span><span class="p">))</span>
+<span class="n">y_lwr</span> <span class="o">=</span> <span class="n">f_true</span><span class="p">(</span><span class="n">x_lwr</span><span class="p">)</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.26</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_lwr</span><span class="p">))</span>
+<span class="n">x_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">2.85</span><span class="p">,</span> <span class="mf">2.85</span><span class="p">,</span> <span class="mi">160</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">lwr_predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">queries</span><span class="p">,</span> <span class="n">tau</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""हर query x के लिए (X^T W X) theta = X^T W y हल करें।"""</span>
+    <span class="n">X_des</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x_train</span><span class="p">),</span> <span class="n">x_train</span><span class="p">]</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx_q</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">queries</span><span class="p">):</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x_train</span> <span class="o">-</span> <span class="n">q</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="n">X_des</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">w</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">X_des</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">X_des</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="n">y_train</span><span class="p">)</span>
+        <span class="n">th_local</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">preds</span><span class="p">[</span><span class="n">idx_q</span><span class="p">]</span> <span class="o">=</span> <span class="n">th_local</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">th_local</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">q</span>
+    <span class="k">return</span> <span class="n">preds</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== Locally Weighted Regression: अलग-अलग bandwidth tau पर MSE ==="</span><span class="p">)</span>
+<span class="n">fits</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">tau</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="p">[(</span><span class="mf">3.0</span><span class="p">,</span> <span class="s2">"underfit (लगभग सीधी रेखा)"</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="s2">"थोड़ा smooth"</span><span class="p">),</span>
+                 <span class="p">(</span><span class="mf">0.28</span><span class="p">,</span> <span class="s2">"संतुलित local fit"</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.06</span><span class="p">,</span> <span class="s2">"overfit (शोर के पीछे)"</span><span class="p">)]:</span>
+    <span class="n">fits</span><span class="p">[</span><span class="n">tau</span><span class="p">]</span> <span class="o">=</span> <span class="n">lwr_predict</span><span class="p">(</span><span class="n">x_lwr</span><span class="p">,</span> <span class="n">y_lwr</span><span class="p">,</span> <span class="n">x_grid</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">fits</span><span class="p">[</span><span class="n">tau</span><span class="p">]</span> <span class="o">-</span> <span class="n">f_true</span><span class="p">(</span><span class="n">x_grid</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  tau = </span><span class="si">{</span><span class="n">tau</span><span class="si">:</span><span class="s2">&lt;5</span><span class="si">}</span><span class="s2">  MSE vs true curve = </span><span class="si">{</span><span class="n">mse</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">   [</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+
+<span class="c1"># ==================== 3. Plots ====================</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">12.2</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">))</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">ll_star</span> <span class="o">-</span> <span class="n">ll_ga</span><span class="p">,</span> <span class="mf">1e-15</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#2563eb"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Gradient Ascent"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">ll_star</span> <span class="o">-</span> <span class="n">ll_nt</span><span class="p">,</span> <span class="mf">1e-15</span><span class="p">),</span> <span class="s2">"o-"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mf">4.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Newton's Method"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"iteration"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="sa">r</span><span class="s2">"$\ell(\theta^*) - \ell(\theta)$"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Convergence to MLE"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_tr</span><span class="p">[</span><span class="n">y_tr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">X_tr</span><span class="p">[</span><span class="n">y_tr</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"#dc2626"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"y = 0"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_tr</span><span class="p">[</span><span class="n">y_tr</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">X_tr</span><span class="p">[</span><span class="n">y_tr</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"#2563eb"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"y = 1"</span><span class="p">)</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">th_nt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">th_nt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">xs</span><span class="p">)</span> <span class="o">/</span> <span class="n">th_nt</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"k-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"h = 0.5 boundary"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"scaled exam 1"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"scaled exam 2"</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">"Logistic Decision Boundary"</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"lower left"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">8.5</span><span class="p">)</span>
+
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_lwr</span><span class="p">,</span> <span class="n">y_lwr</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#6b7280"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"noisy data"</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">f_true</span><span class="p">(</span><span class="n">x_grid</span><span class="p">),</span> <span class="s2">"k--"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"true curve"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">tau</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[(</span><span class="mf">3.0</span><span class="p">,</span> <span class="s2">"#2563eb"</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.28</span><span class="p">,</span> <span class="s2">"#16a34a"</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.06</span><span class="p">,</span> <span class="s2">"#ea580c"</span><span class="p">)]:</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">fits</span><span class="p">[</span><span class="n">tau</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">rf</span><span class="s2">"$\tau = </span><span class="si">{</span><span class="n">tau</span><span class="si">}</span><span class="s2">$"</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa">r</span><span class="s2">"LWR across bandwidth $\tau$"</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"lower left"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">8.2</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"result.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+</pre></div>
+
+<div class="label">OUTPUT</div>
+<pre class="output">=== Logistic Regression: Newton&#x27;s Method (प्रति iteration) ===
+iter    log-likelihood     gap (l* - l)
+   0     -110.90354889        4.40e+01
+   1      -72.21574790        5.34e+00
+   2      -67.38766866        5.15e-01
+   3      -66.88222580        9.18e-03
+   4      -66.87304609        3.90e-06
+   5      -66.87304219        7.39e-13
+   6      -66.87304219        1.42e-14
+   7      -66.87304219        0.00e+00
+
+=== Logistic Regression: Gradient Ascent (चुनिंदा iterations) ===
+iter    log-likelihood     gap (l* - l)
+   0     -110.90354889        4.40e+01
+   1      -90.24511212        2.34e+01
+   2      -81.29152650        1.44e+01
+   5      -72.07713226        5.20e+00
+  15      -67.48091338        6.08e-01
+  50      -66.87682585        3.78e-03
+ 100      -66.87327758        2.35e-04
+ 200      -66.87305204        9.86e-06
+
+Newton theta : [0.14481 1.11612 1.29256]
+Ascent theta : [0.14486 1.118   1.2909 ]
+Accuracy     : train = 78.8%,  test = 75.0%
+
+=== Locally Weighted Regression: अलग-अलग bandwidth tau पर MSE ===
+  tau = 3.0    MSE vs true curve = 0.4959   [underfit (लगभग सीधी रेखा)]
+  tau = 0.8    MSE vs true curve = 0.1730   [थोड़ा smooth]
+  tau = 0.28   MSE vs true curve = 0.0281   [संतुलित local fit]
+  tau = 0.06   MSE vs true curve = 0.0344   [overfit (शोर के पीछे)]</pre>
+<img class="result-img" src="examples/L03_logistic_newton/result.png">
+</section>
+<script src="../vendor/katex/package/dist/katex.min.js"></script>
+<script src="../vendor/katex/package/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [{left: "\\[", right: "\\]", display: true}, {left: "\\(", right: "\\)", display: false}],
+  throwOnError: false, ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+});
+</script>
+</body></html>

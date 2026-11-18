@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<title>Dhruv AI tutorial | Machine Learning हिंदी में</title>
+<link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
+<style>
+@page { size: A4; margin: 16mm 13mm 17mm 13mm;
+        @bottom-center { content: counter(page); font: 9pt "Helvetica Neue", sans-serif; color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Kohinoor Devanagari", "Devanagari Sangam MN", "Helvetica Neue", sans-serif;
+       font-size: 10.6pt; line-height: 1.72; color: #111827; margin: 0; }
+body.screen { max-width: 900px; margin: 0 auto; padding: 24px 28px 80px; font-size: 16px; background: #fff; }
+h1, h2, h3, h4 { line-height: 1.35; break-after: avoid; }
+h2 { font-size: 13.5pt; margin: 1.3em 0 0.4em; color: #1e3a8a; }
+h3 { font-size: 11.5pt; margin: 1.1em 0 0.3em; color: #1f2937; }
+p { margin: 0.45em 0; orphans: 2; widows: 2; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+li { margin: 0.18em 0; }
+a { color: #1d4ed8; text-decoration: none; }
+code { font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace; font-size: 0.88em;
+       background: #f1f5f9; padding: 0.08em 0.3em; border-radius: 3px; }
+blockquote { margin: 0.7em 0; padding: 0.5em 0.9em; border-left: 4px solid #2563eb; background: #eff6ff;
+             border-radius: 0 6px 6px 0; break-inside: avoid; }
+blockquote p { margin: 0.2em 0; }
+table { border-collapse: collapse; margin: 0.7em 0; width: 100%; font-size: 0.93em; break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 0.3em 0.6em; text-align: left; vertical-align: top; }
+th { background: #eef2ff; }
+.math-display { display: block; margin: 0.55em 0; overflow-x: auto; break-inside: avoid; }
+.katex { font-size: 1.04em; }
+
+.cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center;
+         break-after: page; }
+body.screen .cover { height: auto; padding: 70px 0 50px; }
+.cover .kicker { letter-spacing: 0.22em; font-size: 10pt; color: #2563eb; font-weight: 700; }
+.cover h1 { font-size: 34pt; margin: 0.25em 0 0.1em; color: #111827; }
+.cover .sub { font-size: 15pt; color: #374151; }
+.cover .pill { display: inline-block; margin: 2.2em auto 0; padding: 0.5em 1.4em; border-radius: 999px;
+               background: #1e3a8a; color: #fff; font-size: 11.5pt; }
+.cover .note { margin-top: 3em; font-size: 9.5pt; color: #6b7280; }
+
+.front { break-after: page; }
+.toc ol { list-style: none; padding: 0; margin: 0.4em 0; }
+.toc li { display: flex; gap: 0.7em; padding: 0.22em 0; border-bottom: 1px dotted #cbd5e1; }
+.toc .n { flex: 0 0 5.6em; color: #2563eb; font-weight: 700; }
+
+.chapter { break-before: page; }
+.ch-head { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 14px 18px;
+           border-radius: 10px; margin-bottom: 0.9em; break-inside: avoid; }
+.ch-head .n { font-size: 9.5pt; letter-spacing: 0.18em; opacity: 0.85; font-weight: 700; }
+.ch-head h1 { font-size: 17.5pt; margin: 0.1em 0 0; }
+.part { display: flex; align-items: center; gap: 0.6em; margin: 1.5em 0 0.6em; padding-bottom: 0.25em;
+        border-bottom: 2px solid #1e3a8a; break-after: avoid; }
+.part .tag { background: #1e3a8a; color: #fff; border-radius: 5px; padding: 0.05em 0.6em; font-size: 9.5pt;
+             font-weight: 700; }
+.part h2 { margin: 0; font-size: 14pt; }
+
+.anim { border: 1px solid #e5e7eb; border-radius: 9px; padding: 8px 7px 6px; margin: 0.8em 0;
+        break-inside: avoid; background: #fff; }
+.anim-head { font-weight: 700; margin-bottom: 0.3em; }
+.anim-head .badge { background: #ea580c; color: #fff; border-radius: 4px; padding: 0.05em 0.5em;
+                    font-size: 9pt; margin-right: 0.5em; }
+.frames { display: flex; gap: 3px; }
+.frames figure { margin: 0; flex: 1; text-align: center; }
+.frames img { width: 100%; display: block; border: 1px solid #eef0f3; border-radius: 5px; }
+.frames figcaption { font-size: 8pt; color: #6b7280; line-height: 1.3; margin-top: 1px; }
+.anim .gif { display: block; margin: 0 auto; width: 480px; max-width: 100%; }
+.anim .caption { font-size: 0.95em; margin: 0.4em 0 0.15em; }
+.anim .file { font-size: 8pt; color: #6b7280; font-family: "SF Mono", Menlo, monospace; }
+
+.code { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.code pre, pre.output { margin: 0; font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace;
+                        font-size: 8.3pt; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+body.screen .code pre, body.screen pre.output { font-size: 13px; }
+pre.output { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.label { font-size: 9pt; font-weight: 700; color: #475569; margin: 1em 0 0.2em; break-after: avoid; }
+.result-img { display: block; max-width: 88%; margin: 0.6em auto; border: 1px solid #e5e7eb; border-radius: 6px;
+              break-inside: avoid; }
+.run { font-size: 0.93em; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #ffffcc }
+.code { background: #f0f0f0; }
+.code .c { color: #60A0B0; font-style: italic } /* Comment */
+.code .err { border: 1px solid #F00 } /* Error */
+.code .k { color: #007020; font-weight: bold } /* Keyword */
+.code .o { color: #666 } /* Operator */
+.code .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #007020 } /* Comment.Preproc */
+.code .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F00 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #888 } /* Generic.Output */
+.code .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #04D } /* Generic.Traceback */
+.code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code .kp { color: #007020 } /* Keyword.Pseudo */
+.code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #902000 } /* Keyword.Type */
+.code .m { color: #40A070 } /* Literal.Number */
+.code .s { color: #4070A0 } /* Literal.String */
+.code .na { color: #4070A0 } /* Name.Attribute */
+.code .nb { color: #007020 } /* Name.Builtin */
+.code .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code .no { color: #60ADD5 } /* Name.Constant */
+.code .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code .ne { color: #007020 } /* Name.Exception */
+.code .nf { color: #06287E } /* Name.Function */
+.code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code .nv { color: #BB60D5 } /* Name.Variable */
+.code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code .w { color: #BBB } /* Text.Whitespace */
+.code .mb { color: #40A070 } /* Literal.Number.Bin */
+.code .mf { color: #40A070 } /* Literal.Number.Float */
+.code .mh { color: #40A070 } /* Literal.Number.Hex */
+.code .mi { color: #40A070 } /* Literal.Number.Integer */
+.code .mo { color: #40A070 } /* Literal.Number.Oct */
+.code .sa { color: #4070A0 } /* Literal.String.Affix */
+.code .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code .sc { color: #4070A0 } /* Literal.String.Char */
+.code .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #4070A0 } /* Literal.String.Double */
+.code .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code .sx { color: #C65D09 } /* Literal.String.Other */
+.code .sr { color: #235388 } /* Literal.String.Regex */
+.code .s1 { color: #4070A0 } /* Literal.String.Single */
+.code .ss { color: #517918 } /* Literal.String.Symbol */
+.code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code .fm { color: #06287E } /* Name.Function.Magic */
+.code .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
+</head><body class="print">
+<section class="cover"><div class="kicker">DHRUV AI TUTORIAL &middot; SELF-STUDY GUIDE</div><h1>Dhruv AI tutorial<br>Machine Learning हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक की self-study guide है।</div></section>
+<section class="front"><h2>यह guide कैसे पढ़ें</h2>
+<p>यह Dhruv AI tutorial Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक के 20 lectures में व्यवस्थित है। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<table>
+<thead>
+<tr>
+<th>भाग</th>
+<th>क्या है</th>
+<th>कैसे इस्तेमाल करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>भाग 1: Theory</strong></td>
+<td>Idea, notation, maths और algorithm, हिंदी में</td>
+<td>पहले इसे धीरे-धीरे पढ़ें। Equations को कागज़ पर खुद लिखकर देखें।</td>
+</tr>
+<tr>
+<td><strong>भाग 2: 3D Animations</strong></td>
+<td>हर chapter में कम से कम 5 animations</td>
+<td>PDF में हर animation के तीन still frames हैं (शुरुआत, बीच में, अंत)। चलती animation देखने के लिए नीचे बताई files खोलें।</td>
+</tr>
+<tr>
+<td><strong>भाग 3: Python Example</strong></td>
+<td>NumPy से शुरू से लिखा एक चलने वाला example, उसके output के साथ</td>
+<td>Code को खुद चलाएँ, फिर numbers बदलकर देखें कि क्या बदलता है।</td>
+</tr>
+</tbody>
+</table>
+<p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
+<h2>चलती animations कहाँ हैं</h2>
+<ul>
+<li><strong><code>index.html</code></strong> (project का मुख्य page): इसे browser में खोलें। इसमें पूरी guide और सारी animations हैं।</li>
+<li><strong><code>dhruv_ai_tutorial/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
+</ul>
+<h2>Code कैसे चलाएँ</h2>
+<p>हर chapter का code <code>dhruv_ai_tutorial/chapters/&lt;chapter&gt;/example.py</code> में है। Terminal में project root से:</p>
+<pre><code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/chapters/L02_linear_regression/example.py
+</code></pre>
+<p>Animations का code उसी folder की <code>anims.py</code> में है। पूरी guide दोबारा बनाने के लिए: <code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/build.py</code></p>
+<h2>पहले से क्या आना चाहिए</h2>
+<ul>
+<li><strong>Linear Algebra:</strong> vectors, matrices, matrix multiplication, transpose, inverse, eigenvalues / eigenvectors।</li>
+<li><strong>Probability:</strong> random variable, expectation, variance, conditional probability, Bayes rule, Gaussian distribution।</li>
+<li><strong>Calculus:</strong> derivative, partial derivative, gradient, chain rule।</li>
+<li><strong>Python:</strong> NumPy arrays की बुनियादी समझ।</li>
+</ul>
+<h2>पूरे course में चलने वाला notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}, y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वाँ training example: input और target</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या (या input का dimension)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span>, <span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>model के parameters</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis: model का prediction</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(J(\theta)\)</span></td>
+<td>cost function जिसे minimize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\ell(\theta)\)</span></td>
+<td>log-likelihood जिसे maximize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span></td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\nabla_\theta\)</span></td>
+<td><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span></td>
+<td>mean <span class="math-inline">\(\mu\)</span> और covariance <span class="math-inline">\(\Sigma\)</span> वाला Gaussian</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(:=\)</span></td>
+<td>"दाएँ की value बाएँ में रख दो" (assignment)</td>
+</tr>
+</tbody>
+</table><h2>विषय-सूची</h2><div class="toc"><ol><li><span class="n">Lecture 14</span><a href="#L14_factor_analysis">Factor Analysis</a></li></ol></div></section>
+<section class="chapter" id="L14_factor_analysis">
+<div class="ch-head"><div class="n">LECTURE 14</div><h1>Factor Analysis</h1></div>
+<div class="part"><span class="tag">भाग 1</span><h2>Theory</h2></div>
+<blockquote>
+<p><strong>इस lecture में:</strong> High-dimensional data (<span class="math-inline">\(n \gg m\)</span>) में singular sample covariance की समस्या, diagonal और spherical covariance restrictions, Multivariate Gaussian के partitioned marginals और conditionals, Factor Analysis का generative model <span class="math-inline">\(x = \mu + \Lambda z + \epsilon\)</span>, <span class="math-inline">\((z, x)\)</span> का joint distribution और <span class="math-inline">\(x\)</span> का marginal <span class="math-inline">\(\mathcal{N}(\mu, \Lambda\Lambda^T + \Psi)\)</span>, और EM algorithm के E-step तथा M-step का पूरा derivation।</p>
+</blockquote>
+<h2>1. एक line में idea</h2>
+<p>पिछले lecture में आपने देखा कि Mixture of Gaussians और EM बिना labels के data में clusters ढूँढ सकते हैं। पर जब features की संख्या <span class="math-inline">\(n\)</span> हमारे training examples <span class="math-inline">\(m\)</span> से बड़ी हो (<span class="math-inline">\(n \gg m\)</span>, या यहाँ तक कि <span class="math-inline">\(m \le n\)</span>), तो एक अकेला Multivariate Gaussian भी fit नहीं हो पाता: sample covariance matrix <span class="math-inline">\(\Sigma\)</span> <strong>singular</strong> (non-invertible) हो जाता है। अगर हम <span class="math-inline">\(\Sigma\)</span> को जबरदस्ती diagonal या spherical मान लें, तो matrix invertible तो हो जाता है पर features के बीच सारे correlations खत्म हो जाते हैं।</p>
+<p><strong>Factor Analysis</strong> इन दोनों अतियों के बीच का रास्ता है। हम मान लेते हैं कि हर high-dimensional example <span class="math-inline">\(x \in \mathbb{R}^n\)</span> असल में एक छोटे छिपे हुए (<strong>latent</strong>) vector <span class="math-inline">\(z \in \mathbb{R}^k\)</span> (<span class="math-inline">\(k \ll n\)</span>) से बना है: पहले <span class="math-inline">\(z\)</span> को <span class="math-inline">\(\Lambda\)</span> से गुणा करके एक <span class="math-inline">\(k\)</span>-dimensional subspace पर ले जाया जाता है, और फिर हर coordinate में अलग-अलग independent Gaussian noise <span class="math-inline">\(\epsilon\)</span> जुड़ता है। इससे <span class="math-inline">\(\Sigma = \Lambda\Lambda^T + \Psi\)</span> बनता है, जो कम parameters में मुख्य correlations भी पकड़ लेता है और हमेशा invertible भी रहता है।</p>
+<h2>2. Setup और Notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(\{x^{(1)}, \dots, x^{(m)}\}\)</span></td>
+<td>unlabeled training set, हर <span class="math-inline">\(x^{(i)} \in \mathbb{R}^n\)</span></td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m, n\)</span></td>
+<td>examples की संख्या (<span class="math-inline">\(m\)</span>) और observed features की संख्या (<span class="math-inline">\(n\)</span>)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(k\)</span></td>
+<td>latent factors की संख्या, जहाँ <span class="math-inline">\(k &lt; n\)</span> (अक्सर <span class="math-inline">\(k \ll n\)</span>)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(z^{(i)} \in \mathbb{R}^k\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वें example का छिपा हुआ latent vector, <span class="math-inline">\(z^{(i)} \sim \mathcal{N}(0, I)\)</span></td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mu \in \mathbb{R}^n\)</span></td>
+<td><span class="math-inline">\(x\)</span> का mean vector</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\Lambda \in \mathbb{R}^{n \times k}\)</span></td>
+<td><strong>factor loading matrix</strong>, जिसके columns latent subspace तय करते हैं</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\epsilon \in \mathbb{R}^n\)</span></td>
+<td>coordinate-wise independent noise, <span class="math-inline">\(\epsilon \sim \mathcal{N}(0, \Psi)\)</span></td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\Psi \in \mathbb{R}^{n \times n}\)</span></td>
+<td>diagonal noise covariance matrix, <span class="math-inline">\(\Psi = \mathrm{diag}(\psi_1, \dots, \psi_n)\)</span>, <span class="math-inline">\(\psi_j &gt; 0\)</span></td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mu_{z^{(i)}|x^{(i)}}, \Sigma_{z^{(i)}|x^{(i)}}\)</span></td>
+<td><span class="math-inline">\(z^{(i)} \mid x^{(i)}\)</span> के posterior Gaussian का mean और covariance</td>
+</tr>
+</tbody>
+</table>
+<h2>3. जब <span class="math-inline">\(n \gg m\)</span> हो: Singular Covariance और साधारण इलाज</h2>
+<p>मान लीजिए आप किसी बीमारी के study में <span class="math-inline">\(m = 20\)</span> मरीज़ों का data इकट्ठा करते हैं, पर हर मरीज़ के <span class="math-inline">\(n = 3000\)</span> gene expression features नापे गए हैं। यहाँ <span class="math-inline">\(n \gg m\)</span> है। अगर आप इस data पर एक साधारण Gaussian <span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span> को Maximum Likelihood से fit करें, तो formulas ये हैं:</p>
+<p><span class="math-display">\[\mu = \frac{1}{m} \sum_{i=1}^{m} x^{(i)}, \qquad \Sigma = \frac{1}{m} \sum_{i=1}^{m} (x^{(i)} - \mu)(x^{(i)} - \mu)^T\]</span></p>
+<p>यहाँ एक बड़ी गणितीय अड़चन है। हर outer product <span class="math-inline">\((x^{(i)} - \mu)(x^{(i)} - \mu)^T\)</span> की rank ज़्यादा से ज़्यादा <span class="math-inline">\(1\)</span> होती है। साथ ही सभी centered vectors का जोड़ <span class="math-inline">\(\sum_{i=1}^{m} (x^{(i)} - \mu) = 0\)</span> होता है, इसलिए उनमें से कम से कम एक vector बाकी <span class="math-inline">\(m - 1\)</span> vectors पर निर्भर है। नतीजा यह है कि:</p>
+<p><span class="math-display">\[\mathrm{rank}(\Sigma) \le \min(n, m - 1)\]</span></p>
+<p>जब भी <span class="math-inline">\(m \le n\)</span> हो, <span class="math-inline">\(\mathrm{rank}(\Sigma) &lt; n\)</span> होगी। यानी <span class="math-inline">\(\Sigma\)</span> <strong>singular</strong> होगा: उसका determinant <span class="math-inline">\(|\Sigma| = 0\)</span> होगा, कम से कम <span class="math-inline">\(n - m + 1\)</span> eigenvalues शून्य होंगे, और <span class="math-inline">\(\Sigma^{-1}\)</span> मौजूद ही नहीं होगा। Gaussian की density याद कीजिए:</p>
+<p><span class="math-display">\[p(x; \mu, \Sigma) = \frac{1}{(2\pi)^{n/2} |\Sigma|^{1/2}} \exp\!\left( -\frac{1}{2}(x - \mu)^T \Sigma^{-1}(x - \mu) \right)\]</span></p>
+<p>इसमें <span class="math-inline">\(|\Sigma|^{-1/2}\)</span> और <span class="math-inline">\(\Sigma^{-1}\)</span> दोनों चाहिए, इसलिए model पूरी तरह टूट जाता है। Geometric नज़रिए से सोचें: <span class="math-inline">\(\mathbb{R}^3\)</span> में सिर्फ़ <span class="math-inline">\(m = 3\)</span> बिंदु हमेशा एक समतल (2D plane) में आ जाते हैं, और <span class="math-inline">\(m = 2\)</span> बिंदु एक सीधी रेखा (1D line) पर। उस plane या line के बाहर वाली दिशा में sample variance ठीक <span class="math-inline">\(0\)</span> दिखती है, इसलिए Gaussian का ellipsoid पिचककर चपटा हो जाता है।</p>
+<h3>दो सरल restrictions: Diagonal और Spherical <span class="math-inline">\(\Sigma\)</span></h3>
+<p>जब तक हम <span class="math-inline">\(\frac{n(n+1)}{2}\)</span> स्वतंत्र entries वाले पूरे <span class="math-inline">\(\Sigma\)</span> को कम data से सीखने की कोशिश करेंगे, यह दिक्कत रहेगी। दो सीधे तरीके अक्सर आज़माए जाते हैं:</p>
+<ol>
+<li><strong>Diagonal covariance:</strong> हम मान लेते हैं कि सभी off-diagonal entries शून्य हैं (<span class="math-inline">\(\Sigma_{jk} = 0\)</span> जब <span class="math-inline">\(j \neq k\)</span>)। तब Maximum Likelihood से हर diagonal entry बस उस अकेले feature की sample variance होती है:</li>
+</ol>
+<p><span class="math-display">\[\Sigma_{jj} = \frac{1}{m} \sum_{i=1}^{m} \left(x_j^{(i)} - \mu_j\right)^2\]</span></p>
+<p>इसमें सिर्फ़ <span class="math-inline">\(n\)</span> variance parameters हैं। जैसे ही हर feature में थोड़ा भी बदलाव हो (<span class="math-inline">\(\Sigma_{jj} &gt; 0\)</span>), <span class="math-inline">\(\Sigma\)</span> तुरंत invertible हो जाता है, चाहे <span class="math-inline">\(m = 2\)</span> ही क्यों न हो। पर कीमत बड़ी है: diagonal <span class="math-inline">\(\Sigma\)</span> मान लेता है कि सारे features आपस में <strong>independent</strong> हैं। इसके density contours हमेशा coordinate axes के समानांतर (axis-aligned) ellipsoids होते हैं, तिरछे नहीं हो सकते।</p>
+<ol start="2">
+<li><strong>Spherical covariance:</strong> और भी सख़्त शर्त लगाएँ कि <span class="math-inline">\(\Sigma = \sigma^2 I\)</span>। अब पूरे covariance में सिर्फ़ <span class="math-inline">\(1\)</span> parameter <span class="math-inline">\(\sigma^2\)</span> बचता है:</li>
+</ol>
+<p><span class="math-display">\[\sigma^2 = \frac{1}{mn} \sum_{i=1}^{m} \|x^{(i)} - \mu\|^2\]</span></p>
+<p>इसके contours गोल गोले (spheres) होते हैं। यह न सिर्फ़ correlations छोड़ देता है, बल्कि हर feature की variance को भी बराबर मान लेता है।</p>
+<table>
+<thead>
+<tr>
+<th>Covariance Model</th>
+<th>Parameters की संख्या</th>
+<th>Correlations पकड़ता है?</th>
+<th><span class="math-inline">\(m \le n\)</span> पर invertible?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full <span class="math-inline">\(\Sigma\)</span></td>
+<td><span class="math-inline">\(n(n+1)/2\)</span></td>
+<td>हाँ (सारे)</td>
+<td>नहीं (<span class="math-inline">\(\mathrm{rank} \le m-1\)</span>)</td>
+</tr>
+<tr>
+<td>Diagonal <span class="math-inline">\(\Sigma\)</span></td>
+<td><span class="math-inline">\(n\)</span></td>
+<td>नहीं</td>
+<td>हाँ (यदि हर <span class="math-inline">\(\Sigma_{jj} &gt; 0\)</span>)</td>
+</tr>
+<tr>
+<td>Spherical <span class="math-inline">\(\sigma^2 I\)</span></td>
+<td><span class="math-inline">\(1\)</span></td>
+<td>नहीं</td>
+<td>हाँ (यदि <span class="math-inline">\(\sigma^2 &gt; 0\)</span>)</td>
+</tr>
+<tr>
+<td>Factor Analysis <span class="math-inline">\(\Lambda\Lambda^T + \Psi\)</span></td>
+<td><span class="math-inline">\(nk + n\)</span></td>
+<td>हाँ (<span class="math-inline">\(k\)</span> मुख्य दिशाएँ)</td>
+<td>हाँ (यदि हर <span class="math-inline">\(\psi_j &gt; 0\)</span>)</td>
+</tr>
+</tbody>
+</table>
+<p>Factor Analysis हमें diagonal और full के बीच का सटीक संतुलन देता है। उसे समझने से पहले हमें Multivariate Gaussian के दो बुनियादी नियम चाहिए।</p>
+<h2>4. Multivariate Gaussian के Marginals और Conditionals</h2>
+<p>मान लीजिए vector <span class="math-inline">\(x \in \mathbb{R}^{r+s}\)</span> को दो हिस्सों में बाँटा गया है, <span class="math-inline">\(x_1 \in \mathbb{R}^r\)</span> और <span class="math-inline">\(x_2 \in \mathbb{R}^s\)</span>, और इनका joint distribution Gaussian है:</p>
+<p><span class="math-display">\[x = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} \sim \mathcal{N}(\mu, \Sigma), \qquad \mu = \begin{bmatrix} \mu_1 \\ \mu_2 \end{bmatrix}, \qquad \Sigma = \begin{bmatrix} \Sigma_{11} &amp; \Sigma_{12} \\ \Sigma_{21} &amp; \Sigma_{22} \end{bmatrix}\]</span></p>
+<p>यहाँ <span class="math-inline">\(\mu_1 \in \mathbb{R}^r\)</span>, <span class="math-inline">\(\mu_2 \in \mathbb{R}^s\)</span>, <span class="math-inline">\(\Sigma_{11} \in \mathbb{R}^{r \times r}\)</span>, <span class="math-inline">\(\Sigma_{22} \in \mathbb{R}^{s \times s}\)</span>, और covariance की symmetry से <span class="math-inline">\(\Sigma_{21} = \Sigma_{12}^T\)</span> है।</p>
+<h3>Marginal distribution</h3>
+<p>अगर हमें <span class="math-inline">\(x_2\)</span> की परवाह न हो और सिर्फ़ <span class="math-inline">\(x_1\)</span> का marginal distribution चाहिए (<span class="math-inline">\(p(x_1) = \int p(x_1, x_2)\,dx_2\)</span>), तो Gaussian में यह पढ़ना बेहद आसान है। बस उसी हिस्से का mean और covariance block उठा लें:</p>
+<p><span class="math-display">\[x_1 \sim \mathcal{N}(\mu_1, \Sigma_{11}), \qquad x_2 \sim \mathcal{N}(\mu_2, \Sigma_{22})\]</span></p>
+<h3>Conditional distribution</h3>
+<p>अगर <span class="math-inline">\(x_2\)</span> की value दिख गई है, तो <span class="math-inline">\(x_1 \mid x_2\)</span> का distribution भी Gaussian ही रहता है:</p>
+<p><span class="math-display">\[x_1 \mid x_2 \sim \mathcal{N}(\mu_{1|2}, \Sigma_{1|2})\]</span></p>
+<p>जहाँ conditional mean और conditional covariance के partitioned formulas ये हैं:</p>
+<p><span class="math-display">\[\mu_{1|2} = \mu_1 + \Sigma_{12}\Sigma_{22}^{-1}(x_2 - \mu_2), \qquad \Sigma_{1|2} = \Sigma_{11} - \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}\]</span></p>
+<p>इन दोनों सूत्रों का सहज मतलब ज़रूर ध्यान में रखें:</p>
+<ul>
+<li><strong><span class="math-inline">\(\mu_{1|2}\)</span> में linear shift:</strong> अगर <span class="math-inline">\(\Sigma_{12} = 0\)</span> हो (कोई correlation नहीं), तो <span class="math-inline">\(x_2\)</span> जानने से कोई फ़र्क़ नहीं पड़ता और <span class="math-inline">\(\mu_{1|2} = \mu_1\)</span> रहता है। पर अगर <span class="math-inline">\(x_1\)</span> और <span class="math-inline">\(x_2\)</span> correlated हैं, तो जैसे-जैसे <span class="math-inline">\(x_2\)</span> अपने mean <span class="math-inline">\(\mu_2\)</span> से दूर जाता है, <span class="math-inline">\(\mu_{1|2}\)</span> भी <span class="math-inline">\((x_2 - \mu_2)\)</span> के साथ सीधी रेखा में खिसकता है।</li>
+<li><strong><span class="math-inline">\(\Sigma_{1|2}\)</span> में घटी हुई अनिश्चितता:</strong> ध्यान दें कि <span class="math-inline">\(\Sigma_{1|2}\)</span> के सूत्र में <span class="math-inline">\(x_2\)</span> कहीं नहीं आता! यानी <span class="math-inline">\(x_2\)</span> की कोई भी value दिखे, conditional bell की चौड़ाई एक जैसी रहती है, और चूँकि <span class="math-inline">\(\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}\)</span> positive semi-definite है, <span class="math-inline">\(x_2\)</span> को जानने के बाद <span class="math-inline">\(x_1\)</span> की अनिश्चितता पहले (<span class="math-inline">\(\Sigma_{11}\)</span>) से कम हो जाती है।</li>
+</ul>
+<h2>5. Factor Analysis Model</h2>
+<p>Factor Analysis मानता है कि हर observed point <span class="math-inline">\(x^{(i)} \in \mathbb{R}^n\)</span> तीन चरणों की इस कहानी से पैदा हुआ है:</p>
+<p><span class="math-display">\[z \sim \mathcal{N}(0, I), \qquad x \mid z \sim \mathcal{N}(\mu + \Lambda z, \Psi)\]</span></p>
+<p>इसे हम समतुल्य रूप से इस समीकरण से लिख सकते हैं:</p>
+<p><span class="math-display">\[x = \mu + \Lambda z + \epsilon, \qquad \epsilon \sim \mathcal{N}(0, \Psi)\]</span></p>
+<p>जहाँ <span class="math-inline">\(z \in \mathbb{R}^k\)</span> और <span class="math-inline">\(\epsilon \in \mathbb{R}^n\)</span> आपस में <strong>independent</strong> हैं, <span class="math-inline">\(\Lambda \in \mathbb{R}^{n \times k}\)</span> factor loading matrix है, और <span class="math-inline">\(\Psi = \mathrm{diag}(\psi_1, \dots, \psi_n)\)</span> एक diagonal matrix है।</p>
+<p><strong>Geometric चित्र (<span class="math-inline">\(n = 3, k = 2\)</span> के लिए सोचें):</strong></p>
+<ol>
+<li>सबसे पहले <span class="math-inline">\(\mathbb{R}^2\)</span> के एक समतल कागज़ पर मानक Gaussian <span class="math-inline">\(\mathcal{N}(0, I)\)</span> से कुछ बिंदु <span class="math-inline">\(z^{(i)}\)</span> चुनें।</li>
+<li>अब <span class="math-inline">\(\mu + \Lambda z^{(i)}\)</span> की गणना करें। Matrix <span class="math-inline">\(\Lambda \in \mathbb{R}^{3 \times 2}\)</span> उस 2D कागज़ को खींचकर, घुमाकर और <span class="math-inline">\(\mu\)</span> पर खिसकाकर <span class="math-inline">\(\mathbb{R}^3\)</span> के अंदर एक तिरछे 2D समतल (<strong>affine subspace</strong>) में रख देता है। अभी सारे बिंदु ठीक उसी पतली चादर पर चिपके हैं।</li>
+<li>अंत में हर बिंदु में noise <span class="math-inline">\(\epsilon^{(i)} \sim \mathcal{N}(0, \Psi)\)</span> जोड़ें। यह बिंदुओं को उस 2D चादर से थोड़ा ऊपर-नीचे और दाएँ-बाएँ धकेल देता है, जिससे <span class="math-inline">\(\mathbb{R}^3\)</span> में एक चपटा बादल (pancake जैसा point cloud) बन जाता है।</li>
+</ol>
+<p>चूँकि <span class="math-inline">\(\Psi\)</span> diagonal है, अलग-अलग features के बीच जो भी साझा correlation है वह पूरी तरह साझा latent factors <span class="math-inline">\(z\)</span> और matrix <span class="math-inline">\(\Lambda\)</span> से आता है, जबकि हर feature का अपना अलग निजी शोर <span class="math-inline">\(\psi_j\)</span> सँभालता है।</p>
+<h2>6. <span class="math-inline">\((z, x)\)</span> का Joint Distribution और <span class="math-inline">\(x\)</span> का Marginal</h2>
+<p>हमें <span class="math-inline">\(x\)</span> का marginal distribution और <span class="math-inline">\(z \mid x\)</span> का posterior दोनों चाहिए। सबसे साफ़ रास्ता यह है कि हम पहले संयुक्त vector <span class="math-inline">\(\begin{bmatrix} z \\ x \end{bmatrix} \in \mathbb{R}^{k+n}\)</span> का joint distribution निकाल लें। चूँकि <span class="math-inline">\(z\)</span> और <span class="math-inline">\(\epsilon\)</span> स्वतंत्र Gaussians हैं और <span class="math-inline">\(x = \mu + \Lambda z + \epsilon\)</span> उनका एक linear (affine) संयोजन है, <span class="math-inline">\((z, x)\)</span> मिलकर jointly Gaussian होंगे। बस हमें उनका संयुक्त mean और चारों covariance blocks निकालने हैं।</p>
+<p><strong>Mean vector:</strong> <span class="math-inline">\(E[z] = 0\)</span> है, और linearity of expectation से:</p>
+<p><span class="math-display">\[E[x] = E[\mu + \Lambda z + \epsilon] = \mu + \Lambda E[z] + E[\epsilon] = \mu\]</span></p>
+<p><strong>Covariance blocks:</strong> परिभाषा से <span class="math-inline">\(\mathrm{Cov}(u, v) = E[(u - E[u])(v - E[v])^T]\)</span>।</p>
+<ol>
+<li><strong>Top-left block (<span class="math-inline">\(\Sigma_{zz}\)</span>):</strong> चूँकि <span class="math-inline">\(z \sim \mathcal{N}(0, I)\)</span>, सीधे <span class="math-inline">\(\Sigma_{zz} = E[zz^T] = I\)</span>।</li>
+<li><strong>Cross-covariance block (<span class="math-inline">\(\Sigma_{zx}\)</span>):</strong> <span class="math-inline">\(x - E[x] = \Lambda z + \epsilon\)</span> रखें। चूँकि <span class="math-inline">\(z\)</span> और <span class="math-inline">\(\epsilon\)</span> independent हैं, <span class="math-inline">\(E[z\epsilon^T] = E[z]E[\epsilon]^T = 0\)</span>:</li>
+</ol>
+<p><span class="math-display">\[\Sigma_{zx} = E\!\left[(z - E[z])(x - E[x])^T\right] = E\!\left[z(\Lambda z + \epsilon)^T\right] = E[zz^T]\Lambda^T + E[z\epsilon^T] = I\Lambda^T + 0 = \Lambda^T\]</span></p>
+<p>Symmetry से bottom-left block <span class="math-inline">\(\Sigma_{xz} = \Sigma_{zx}^T = \Lambda\)</span> होगा।</p>
+<ol start="3">
+<li><strong>Bottom-right block (<span class="math-inline">\(\Sigma_{xx}\)</span>):</strong> ठीक उसी तरह expand करें और <span class="math-inline">\(E[z\epsilon^T] = 0, E[\epsilon z^T] = 0\)</span> का उपयोग करें:</li>
+</ol>
+<p><span class="math-display">\[\begin{aligned}
+\Sigma_{xx} &amp;= E\!\left[(x - \mu)(x - \mu)^T\right] = E\!\left[(\Lambda z + \epsilon)(\Lambda z + \epsilon)^T\right] \\
+&amp;= \Lambda E[zz^T]\Lambda^T + \Lambda E[z\epsilon^T] + E[\epsilon z^T]\Lambda^T + E[\epsilon\epsilon^T] \\
+&amp;= \Lambda I \Lambda^T + 0 + 0 + \Psi = \Lambda\Lambda^T + \Psi
+\end{aligned}\]</span></p>
+<p>इन चारों टुकड़ों को एक साथ रखने पर <span class="math-inline">\((z, x)\)</span> का पूरा joint distribution मिल जाता है:</p>
+<p><span class="math-display">\[\begin{bmatrix} z \\ x \end{bmatrix} \sim \mathcal{N}\!\left( \begin{bmatrix} 0 \\ \mu \end{bmatrix}, \begin{bmatrix} I &amp; \Lambda^T \\ \Lambda &amp; \Lambda\Lambda^T + \Psi \end{bmatrix} \right)\]</span></p>
+<p>अब Section 4 के marginal नियम से नीचे वाला block पढ़ते ही <span class="math-inline">\(x\)</span> का marginal distribution तुरंत सामने आ जाता है:</p>
+<p><span class="math-display">\[x \sim \mathcal{N}(\mu, \Lambda\Lambda^T + \Psi)\]</span></p>
+<p>ज़रा <span class="math-inline">\(\Sigma = \Lambda\Lambda^T + \Psi\)</span> की बनावट देखिए: <span class="math-inline">\(\Lambda\Lambda^T\)</span> एक rank-<span class="math-inline">\(k\)</span> symmetric matrix है जो सिर्फ़ <span class="math-inline">\(nk\)</span> संख्याओं से पूरे <span class="math-inline">\(n \times n\)</span> matrix में off-diagonal correlations भर देता है, और इसमें जुड़ा धनात्मक diagonal <span class="math-inline">\(\Psi\)</span> यह पक्का करता है कि हर दिशा में variance शून्य से ऊपर रहे (यानी <span class="math-inline">\(\Sigma\)</span> हमेशा strictly positive definite और invertible रहे, चाहे <span class="math-inline">\(m &lt; n\)</span> ही क्यों न हो)।</p>
+<p>हमारे parameters <span class="math-inline">\(\theta = (\mu, \Lambda, \Psi)\)</span> के लिए पूरे training data का log-likelihood यह है:</p>
+<p><span class="math-display">\[\ell(\mu, \Lambda, \Psi) = \sum_{i=1}^{m} \log \frac{1}{(2\pi)^{n/2} |\Lambda\Lambda^T + \Psi|^{1/2}} \exp\!\left( -\frac{1}{2}(x^{(i)} - \mu)^T (\Lambda\Lambda^T + \Psi)^{-1} (x^{(i)} - \mu) \right)\]</span></p>
+<p>अगर आप सीधे <span class="math-inline">\(\nabla_\Lambda \ell = 0\)</span> और <span class="math-inline">\(\nabla_\Psi \ell = 0\)</span> हल करने की कोशिश करेंगे, तो determinant और inverse के अंदर <span class="math-inline">\(\Lambda\)</span> और <span class="math-inline">\(\Psi\)</span> इस तरह उलझे हैं कि कोई closed-form उत्तर नहीं मिलता। पर चूँकि <span class="math-inline">\(z^{(i)}\)</span> एक latent variable है, यहाँ हम <strong>EM Algorithm</strong> लगा सकते हैं!</p>
+<h2>7. Factor Analysis के लिए EM Algorithm</h2>
+<p>Lecture 13 के General EM ढाँचे को याद करें। फर्क बस इतना है कि Mixture of Gaussians में <span class="math-inline">\(z^{(i)}\)</span> discrete था (इसलिए जोड़ <span class="math-inline">\(\sum_z\)</span> आता था), जबकि यहाँ <span class="math-inline">\(z^{(i)} \in \mathbb{R}^k\)</span> continuous है, इसलिए जोड़ की जगह integral <span class="math-inline">\(\int dz^{(i)}\)</span> और expectation आते हैं।</p>
+<h3>E-step का derivation</h3>
+<p>General EM कहता है कि E-step में हर example <span class="math-inline">\(i\)</span> के लिए <span class="math-inline">\(Q_i(z^{(i)}) := p(z^{(i)} \mid x^{(i)}; \mu, \Lambda, \Psi)\)</span> चुनें। हमने अभी Section 6 में <span class="math-inline">\(\begin{bmatrix} z \\ x \end{bmatrix}\)</span> का joint Gaussian निकाला है! उस पर Section 4 का partitioned conditional सूत्र लगाएँ (<span class="math-inline">\(x_1 = z^{(i)}\)</span> और <span class="math-inline">\(x_2 = x^{(i)}\)</span> रखकर):</p>
+<p><span class="math-display">\[z^{(i)} \mid x^{(i)}; \mu, \Lambda, \Psi \;\sim\; \mathcal{N}\!\left(\mu_{z^{(i)}|x^{(i)}}, \, \Sigma_{z^{(i)}|x^{(i)}}\right)\]</span></p>
+<p>जहाँ:</p>
+<p><span class="math-display">\[\mu_{z^{(i)}|x^{(i)}} = \Lambda^T (\Lambda\Lambda^T + \Psi)^{-1} (x^{(i)} - \mu)\]</span></p>
+<p><span class="math-display">\[\Sigma_{z^{(i)}|x^{(i)}} = I - \Lambda^T (\Lambda\Lambda^T + \Psi)^{-1} \Lambda\]</span></p>
+<p>यहाँ एक बहुत काम की बात छिपी है: <span class="math-inline">\(\Sigma_{z^{(i)}|x^{(i)}}\)</span> में <span class="math-inline">\(x^{(i)}\)</span> कहीं नहीं आता, यानी सभी <span class="math-inline">\(m\)</span> examples के लिए यह एक ही <span class="math-inline">\(k \times k\)</span> matrix है। E-step में हमें बस यही एक covariance matrix और हर <span class="math-inline">\(i\)</span> के लिए <span class="math-inline">\(k\)</span>-dimensional vector <span class="math-inline">\(\mu_{z^{(i)}|x^{(i)}}\)</span> निकालना होता है।</p>
+<h3>M-step का derivation और <span class="math-inline">\(E[zz^T]\)</span> की सबसे ज़रूरी सावधानी</h3>
+<p>M-step में हमें <span class="math-inline">\(Q_i\)</span> को स्थिर रखकर lower bound को <span class="math-inline">\((\mu, \Lambda, \Psi)\)</span> के सापेक्ष maximize करना है:</p>
+<p><span class="math-display">\[J(Q, \mu, \Lambda, \Psi) = \sum_{i=1}^{m} \int Q_i(z^{(i)}) \log \frac{p(x^{(i)} \mid z^{(i)}; \mu, \Lambda, \Psi)\, p(z^{(i)})}{Q_i(z^{(i)})} \, dz^{(i)}\]</span></p>
+<p>ध्यान दें कि <span class="math-inline">\(p(z^{(i)}) = \mathcal{N}(0, I)\)</span> और <span class="math-inline">\(Q_i(z^{(i)})\)</span> दोनों में <span class="math-inline">\((\mu, \Lambda, \Psi)\)</span> का कोई parameter नहीं है। उन्हें छोड़ दें तो हमें सिर्फ़ यह राशि maximize करनी है:</p>
+<p><span class="math-display">\[\sum_{i=1}^{m} E_{z^{(i)} \sim Q_i}\!\left[ \log p(x^{(i)} \mid z^{(i)}; \mu, \Lambda, \Psi) \right] = \sum_{i=1}^{m} E_{z^{(i)} \sim Q_i}\!\left[ -\frac{1}{2}\log |\Psi| - \frac{n}{2}\log(2\pi) - \frac{1}{2}(x^{(i)} - \mu - \Lambda z^{(i)})^T \Psi^{-1} (x^{(i)} - \mu - \Lambda z^{(i)}) \right]\]</span></p>
+<p>जब हम इस quadratic पद का expectation लेंगे, तो हमें <span class="math-inline">\(z^{(i)} \sim Q_i\)</span> के तहत दो expectations की ज़रूरत पड़ेगी: एक linear पद <span class="math-inline">\(E[z^{(i)}]\)</span> और दूसरा quadratic पद <span class="math-inline">\(E[z^{(i)} z^{(i)T}]\)</span>। किसी भी random vector <span class="math-inline">\(Y\)</span> के covariance की परिभाषा याद करें: <span class="math-inline">\(\mathrm{Cov}(Y) = E[YY^T] - E[Y]E[Y]^T\)</span>, यानी <span class="math-inline">\(E[YY^T] = E[Y]E[Y]^T + \mathrm{Cov}(Y)\)</span>। चूँकि <span class="math-inline">\(Q_i\)</span> एक Gaussian <span class="math-inline">\(\mathcal{N}(\mu_{z^{(i)}|x^{(i)}}, \Sigma_{z^{(i)}|x^{(i)}})\)</span> है:</p>
+<p><span class="math-display">\[E_{z^{(i)} \sim Q_i}[z^{(i)}] = \mu_{z^{(i)}|x^{(i)}}, \qquad E_{z^{(i)} \sim Q_i}\!\left[z^{(i)} z^{(i)T}\right] = \mu_{z^{(i)}|x^{(i)}} \mu_{z^{(i)}|x^{(i)}T} + \Sigma_{z^{(i)}|x^{(i)}}\]</span></p>
+<blockquote>
+<p><strong>सावधान:</strong> <span class="math-inline">\(E[zz^T]\)</span> और <span class="math-inline">\(E[z]E[z]^T\)</span> बराबर <strong>नहीं</strong> होते! पीछे वाला <span class="math-inline">\(+\Sigma_{z^{(i)}|x^{(i)}}\)</span> पद छोड़ देना सबसे आम गलती है। इसका सहज कारण यह है कि हमें असली <span class="math-inline">\(z^{(i)}\)</span> पता नहीं है, हमारे पास उसका एक धुँधला posterior अंदाज़ा है जिसकी चौड़ाई <span class="math-inline">\(\Sigma_{z^{(i)}|x^{(i)}}\)</span> है। M-step को इस अनिश्चितता का भी पूरा हिसाब रखना पड़ता है।</p>
+</blockquote>
+<p>अब तीनों parameters के updates एक-एक करके निकालते हैं:</p>
+<p><strong>1. <span class="math-inline">\(\mu\)</span> के लिए:</strong> ऊपर वाले objective का <span class="math-inline">\(\mu\)</span> के सापेक्ष gradient शून्य रखने पर <span class="math-inline">\(\sum_{i=1}^{m} \Psi^{-1}(x^{(i)} - \mu - \Lambda \mu_{z^{(i)}|x^{(i)}}) = 0\)</span> मिलता है। अगर हम शुरू से ही sample mean चुन लें:</p>
+<p><span class="math-display">\[\mu := \frac{1}{m} \sum_{i=1}^{m} x^{(i)}\]</span></p>
+<p>तो <span class="math-inline">\(\sum_{i=1}^{m} (x^{(i)} - \mu) = 0\)</span> होने के कारण <span class="math-inline">\(\sum_{i=1}^{m} \mu_{z^{(i)}|x^{(i)}} = 0\)</span> भी अपने आप संतुष्ट हो जाता है। यानी <span class="math-inline">\(\mu\)</span> हमेशा sample mean ही रहता है और हर iteration में बदलता ही नहीं।</p>
+<p><strong>2. <span class="math-inline">\(\Lambda\)</span> के लिए:</strong> ऊपर वाले objective में से केवल <span class="math-inline">\(\Lambda\)</span> पर निर्भर पदों को अलग करें। Scalar राशि अपने trace के बराबर होती है (<span class="math-inline">\(a^T b = \mathrm{tr}(b a^T)\)</span>) और <span class="math-inline">\(\mathrm{tr}(AB) = \mathrm{tr}(BA)\)</span>, इसलिए:</p>
+<p><span class="math-display">\[\begin{aligned}
+&amp;\sum_{i=1}^{m} E_{z^{(i)} \sim Q_i}\!\left[ (x^{(i)} - \mu)^T \Psi^{-1} \Lambda z^{(i)} - \frac{1}{2} z^{(i)T} \Lambda^T \Psi^{-1} \Lambda z^{(i)} \right] \\
+=\; &amp;\sum_{i=1}^{m} \left( \mathrm{tr}\!\left(\Lambda^T \Psi^{-1}(x^{(i)} - \mu) E_{z^{(i)} \sim Q_i}[z^{(i)}]^T\right) - \frac{1}{2}\mathrm{tr}\!\left(\Lambda^T \Psi^{-1} \Lambda E_{z^{(i)} \sim Q_i}\!\left[z^{(i)} z^{(i)T}\right]\right) \right)
+\end{aligned}\]</span></p>
+<p>Matrix calculus के मानक नियमों <span class="math-inline">\(\nabla_\Lambda \mathrm{tr}(\Lambda^T B) = B\)</span> और symmetric <span class="math-inline">\(C, D\)</span> के लिए <span class="math-inline">\(\nabla_\Lambda \mathrm{tr}(\Lambda^T C \Lambda D) = 2 C \Lambda D\)</span> से <span class="math-inline">\(\Lambda\)</span> के सापेक्ष gradient को शून्य रखें:</p>
+<p><span class="math-display">\[\sum_{i=1}^{m} \Psi^{-1}(x^{(i)} - \mu)\mu_{z^{(i)}|x^{(i)}}^T - \Psi^{-1} \Lambda \sum_{i=1}^{m} \left(\mu_{z^{(i)}|x^{(i)}} \mu_{z^{(i)}|x^{(i)}T} + \Sigma_{z^{(i)}|x^{(i)}}\right) = 0\]</span></p>
+<p>बाएँ से <span class="math-inline">\(\Psi\)</span> से गुणा करते ही <span class="math-inline">\(\Psi^{-1}\)</span> कट जाता है, और <span class="math-inline">\(\Lambda\)</span> का M-step सूत्र मिल जाता है:</p>
+<p><span class="math-display">\[\Lambda := \left( \sum_{i=1}^{m} (x^{(i)} - \mu) \mu_{z^{(i)}|x^{(i)}}^T \right) \left( \sum_{i=1}^{m} \left( \mu_{z^{(i)}|x^{(i)}} \mu_{z^{(i)}|x^{(i)}T} + \Sigma_{z^{(i)}|x^{(i)}} \right) \right)^{-1}\]</span></p>
+<p>ज़रा इसकी शक्ल Linear Regression के Normal Equations से मिलाइए! अगर <span class="math-inline">\(z^{(i)}\)</span> हमें सचमुच दिख रहा होता और हम <span class="math-inline">\((x^{(i)} - \mu) \approx \Lambda z^{(i)}\)</span> fit करते, तो least squares का उत्तर <span class="math-inline">\(\left(\sum_i (x^{(i)}-\mu) z^{(i)T}\right)\left(\sum_i z^{(i)}z^{(i)T}\right)^{-1}\)</span> होता। EM बस अनदेखे <span class="math-inline">\(z^{(i)}\)</span> और <span class="math-inline">\(z^{(i)}z^{(i)T}\)</span> की जगह उनके posterior expectations रख देता है।</p>
+<p><strong>3. <span class="math-inline">\(\Psi\)</span> के लिए:</strong> नई <span class="math-inline">\(\Lambda\)</span> के साथ expected residual outer product को <span class="math-inline">\(\Phi\)</span> नाम दें:</p>
+<p><span class="math-display">\[\Phi = \frac{1}{m} \sum_{i=1}^{m} E_{z^{(i)} \sim Q_i}\!\left[ (x^{(i)} - \mu - \Lambda z^{(i)})(x^{(i)} - \mu - \Lambda z^{(i)})^T \right]\]</span></p>
+<p>कोष्ठक खोलकर <span class="math-inline">\(E[z^{(i)}]\)</span> और <span class="math-inline">\(E[z^{(i)} z^{(i)T}]\)</span> के मान रखने पर:</p>
+<p><span class="math-display">\[\Phi = \frac{1}{m} \sum_{i=1}^{m} \left( (x^{(i)} - \mu)(x^{(i)} - \mu)^T - (x^{(i)} - \mu)\mu_{z^{(i)}|x^{(i)}}^T \Lambda^T - \Lambda \mu_{z^{(i)}|x^{(i)}}(x^{(i)} - \mu)^T + \Lambda\!\left(\mu_{z^{(i)}|x^{(i)}} \mu_{z^{(i)}|x^{(i)}T} + \Sigma_{z^{(i)}|x^{(i)}}\right)\!\Lambda^T \right)\]</span></p>
+<p>चूँकि <span class="math-inline">\(\Psi = \mathrm{diag}(\psi_1, \dots, \psi_n)\)</span> diagonal है, <span class="math-inline">\(\log|\Psi| = \sum_{j=1}^{n} \log \psi_j\)</span> और <span class="math-inline">\(\mathrm{tr}(\Psi^{-1}\Phi) = \sum_{j=1}^{n} \frac{\Phi_{jj}}{\psi_j}\)</span> होगा। इसलिए <span class="math-inline">\(\Psi\)</span> पर निर्भर हिस्सा <span class="math-inline">\(-\frac{m}{2}\sum_{j=1}^{n} \left(\log \psi_j + \frac{\Phi_{jj}}{\psi_j}\right)\)</span> है। हर <span class="math-inline">\(\psi_j\)</span> के सापेक्ष derivative <span class="math-inline">\(-\frac{m}{2}\left(\frac{1}{\psi_j} - \frac{\Phi_{jj}}{\psi_j^2}\right) = 0\)</span> रखने पर सीधे मिलता है:</p>
+<p><span class="math-display">\[\Psi_{jj} := \Phi_{jj} \qquad (j = 1, \dots, n)\]</span></p>
+<p>यानी हम matrix <span class="math-inline">\(\Phi\)</span> का सिर्फ़ मुख्य diagonal रख लेते हैं और बाकी off-diagonal entries को शून्य कर देते हैं।</p>
+<h3>पूरा EM Algorithm: एक नज़र में</h3>
+<ol>
+<li><strong>Initialize:</strong> <span class="math-inline">\(\mu := \frac{1}{m}\sum_{i=1}^{m} x^{(i)}\)</span> तय करें। <span class="math-inline">\(\Lambda \in \mathbb{R}^{n \times k}\)</span> को छोटे random numbers से शुरू करें (<span class="math-inline">\(\Lambda = 0\)</span> से नहीं, वरना सममितता नहीं टूटेगी) और <span class="math-inline">\(\Psi\)</span> को sample variances के diagonal से शुरू करें।</li>
+<li><strong>Converge होने तक दोहराएँ</strong> (जब तक log-likelihood <span class="math-inline">\(\ell(\mu, \Lambda, \Psi)\)</span> बढ़ना बंद न हो जाए):<ul>
+<li><strong>E-step:</strong> मौजूदा <span class="math-inline">\((\Lambda, \Psi)\)</span> से <span class="math-inline">\(\Sigma = \Lambda\Lambda^T + \Psi\)</span> बनाएँ, और हर <span class="math-inline">\(i = 1, \dots, m\)</span> के लिए posterior के parameters निकालें: <span class="math-inline">\(\mu_{z^{(i)}|x^{(i)}} = \Lambda^T \Sigma^{-1}(x^{(i)} - \mu)\)</span> तथा साझा <span class="math-inline">\(\Sigma_{z|x} = I - \Lambda^T \Sigma^{-1} \Lambda\)</span>।</li>
+<li><strong>M-step:</strong> ऊपर निकाले गए सूत्रों से पहले नया <span class="math-inline">\(\Lambda\)</span> update करें (ध्यान रहे कि हर पद में <span class="math-inline">\(+\Sigma_{z|x}\)</span> जुड़े), और फिर नए <span class="math-inline">\(\Lambda\)</span> से <span class="math-inline">\(\Phi\)</span> बनाकर <span class="math-inline">\(\Psi := \mathrm{diag}(\Phi)\)</span> update करें।</li>
+</ul>
+</li>
+</ol>
+<p>हर दूसरे EM model की तरह यहाँ भी <span class="math-inline">\(\ell(\mu, \Lambda, \Psi)\)</span> हर iteration में बढ़ता है या स्थिर रहता है, कभी घटता नहीं।</p>
+<h2>8. Practical बातें और आम गलतियाँ</h2>
+<ul>
+<li><strong><span class="math-inline">\(E[zz^T]\)</span> में <span class="math-inline">\(+\Sigma_{z|x}\)</span> भूलना:</strong> यह code लिखते समय सबसे ज़्यादा होने वाली गलती है। अगर आप इसे छोड़ देंगे, तो log-likelihood घट भी सकता है और <span class="math-inline">\(\Psi\)</span> गलत जगह converge करेगा। हमेशा हर iteration पर <span class="math-inline">\(\ell\)</span> जाँचें: वह कभी घटना नहीं चाहिए।</li>
+<li><strong><span class="math-inline">\(\Lambda\)</span> अकेला पहचाना नहीं जा सकता (Rotational ambiguity):</strong> मान लीजिए <span class="math-inline">\(R \in \mathbb{R}^{k \times k}\)</span> कोई भी orthogonal matrix है (<span class="math-inline">\(RR^T = I\)</span>)। अगर हम <span class="math-inline">\(\Lambda\)</span> की जगह <span class="math-inline">\(\tilde{\Lambda} = \Lambda R\)</span> रख दें, तब भी <span class="math-inline">\(\tilde{\Lambda}\tilde{\Lambda}^T = \Lambda RR^T \Lambda^T = \Lambda\Lambda^T\)</span> बिल्कुल वही रहता है! इसका मतलब Factor Analysis सही <span class="math-inline">\(k\)</span>-dimensional subspace और सही <span class="math-inline">\(\Sigma\)</span> तो ढूँढ लेता है, पर subspace के अंदर basis किसी भी घुमाव (rotation) पर रुक सकता है।</li>
+<li><strong>बड़े <span class="math-inline">\(n\)</span> के लिए Woodbury identity:</strong> जब <span class="math-inline">\(n = 10{,}000\)</span> और <span class="math-inline">\(k = 5\)</span> हो, तो <span class="math-inline">\(n \times n\)</span> matrix <span class="math-inline">\((\Lambda\Lambda^T + \Psi)^{-1}\)</span> को सीधे निकालना <span class="math-inline">\(O(n^3)\)</span> समय लेगा। <strong>Woodbury matrix identity</strong> से <span class="math-inline">\((\Lambda\Lambda^T + \Psi)^{-1} = \Psi^{-1} - \Psi^{-1}\Lambda(I + \Lambda^T\Psi^{-1}\Lambda)^{-1}\Lambda^T\Psi^{-1}\)</span> बनता है, जिसमें सिर्फ़ एक <span class="math-inline">\(k \times k\)</span> matrix का inverse लेना पड़ता है और खर्च घटकर <span class="math-inline">\(O(nk^2 + k^3)\)</span> रह जाता है।</li>
+<li><strong>Units बदलने पर असर नहीं (Scale invariance):</strong> अगर आप किसी एक feature को मीटर की जगह सेंटीमीटर में नापें (<span class="math-inline">\(100\)</span> से गुणा करें), तो Factor Analysis में बस <span class="math-inline">\(\Lambda\)</span> की वही row <span class="math-inline">\(100\)</span> गुना और उसी का <span class="math-inline">\(\psi_j\)</span> <span class="math-inline">\(10{,}000\)</span> गुना हो जाता है, latent representations नहीं बिगड़ते। अगले lecture में आप देखेंगे कि PCA में ऐसा नहीं होता, क्योंकि PCA एक तरह से spherical noise <span class="math-inline">\(\Psi = \sigma^2 I\)</span> (जहाँ <span class="math-inline">\(\sigma^2 \to 0\)</span>) के समतुल्य है।</li>
+<li><strong><span class="math-inline">\(\psi_j\)</span> का बहुत छोटा हो जाना:</strong> कभी-कभी कम data पर EM किसी <span class="math-inline">\(\psi_j\)</span> को <span class="math-inline">\(0\)</span> के बेहद पास धकेल देता है (इसे Heywood case कहते हैं)। व्यवहार में <span class="math-inline">\(\psi_j \ge 10^{-6}\)</span> जैसी छोटी निचली सीमा लगाना सुरक्षित रहता है।</li>
+</ul>
+<h2>9. खुद से पूछें</h2>
+<ol>
+<li>अगर आपके पास <span class="math-inline">\(n = 50\)</span> features और सिर्फ़ <span class="math-inline">\(m = 15\)</span> training examples हों, तो sample covariance matrix <span class="math-inline">\(\Sigma\)</span> के कम से कम कितने eigenvalues शून्य होंगे, और क्यों?</li>
+<li>मान लीजिए आप Factor Analysis को <span class="math-inline">\(\Lambda = 0\)</span> से initialize कर दें। पहले E-step में <span class="math-inline">\(\mu_{z^{(i)}|x^{(i)}}\)</span> और <span class="math-inline">\(\Sigma_{z^{(i)}|x^{(i)}}\)</span> क्या निकलेंगे, और उसके बाद M-step में <span class="math-inline">\(\Lambda\)</span> क्यों अटक जाएगा?</li>
+<li>अगर किसी <span class="math-inline">\(k \times k\)</span> orthogonal matrix <span class="math-inline">\(R\)</span> (<span class="math-inline">\(RR^T = I\)</span>) से हम नया latent variable <span class="math-inline">\(\tilde{z} = R^T z\)</span> और नया matrix <span class="math-inline">\(\tilde{\Lambda} = \Lambda R\)</span> परिभाषित करें, तो <span class="math-inline">\(\tilde{z}\)</span> का prior distribution और <span class="math-inline">\(x\)</span> का marginal distribution क्यों नहीं बदलते?</li>
+</ol>
+<div class="part"><span class="tag">भाग 2</span><h2>3D Animations</h2></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 14.1</span>FA: <span class="math-inline">\(\mu + \Lambda z + \epsilon\)</span></div><div class="frames"><figure><img src="anim/L14_1_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L14_1_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L14_1_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ Factor Analysis की तीन-चरणीय कहानी (<span class="math-inline">\(n=3, k=2\)</span>) दिखाई गई है। शुरू में कम-आयामी latent बिंदु <span class="math-inline">\(z^{(i)} \sim \mathcal{N}(0, I)\)</span> एक सपाट 2D चादर पर हैं। पहले चरण में <span class="math-inline">\(\mu + \Lambda z\)</span> इस चादर को खींचकर और घुमाकर 3D space के एक तिरछे 2D subspace में पहुँचा देता है, जहाँ नारंगी और हरे तीर <span class="math-inline">\(\Lambda\)</span> के दो columns हैं। दूसरे चरण में स्वतंत्र diagonal noise <span class="math-inline">\(\epsilon^{(i)} \sim \mathcal{N}(0, \Psi)\)</span> हर बिंदु को उस चादर से बाहर धकेलता है (लाल रेखाएँ यही विस्थापन दिखाती हैं), जिससे एक चपटा 3D बादल बनता है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L14_1.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 14.2</span>Singular covariance as m drops</div><div class="frames"><figure><img src="anim/L14_2_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L14_2_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L14_2_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ <span class="math-inline">\(n = 3\)</span> dimensions में sample covariance matrix <span class="math-inline">\(S\)</span> का <span class="math-inline">\(2\sigma\)</span> ellipsoid दिखाया गया है जब examples की संख्या <span class="math-inline">\(m\)</span> धीरे-धीरे घटती है। जब <span class="math-inline">\(m = 22\)</span> है, तो तीनों दिशाओं में फैलाव है, <span class="math-inline">\(\mathrm{rank}(S) = 3\)</span> है और ellipsoid पूरी तरह फूला हुआ है। जैसे ही <span class="math-inline">\(m\)</span> घटकर <span class="math-inline">\(3\)</span> (<span class="math-inline">\(m = n\)</span>) रह जाता है, तीनों बिंदु एक ही 2D समतल में आ जाते हैं: सबसे छोटा eigenvalue शून्य हो जाता है और ellipsoid पिचककर चपटी तश्तरी बन जाता है। अंत में <span class="math-inline">\(m = 2\)</span> पर यह सिमटकर एक 1D सुई रह जाता है और <span class="math-inline">\(S^{-1}\)</span> पूरी तरह अपरिभाषित हो जाता है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L14_2.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 14.3</span>Full, Diagonal, Spherical <span class="math-inline">\(\Sigma\)</span></div><div class="frames"><figure><img src="anim/L14_3_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L14_3_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L14_3_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> तिरछे फैले हुए 3D data पर तीन अलग-अलग covariance models की तुलना देखिए। शुरू में <strong>Full</strong> <span class="math-inline">\(\Sigma\)</span> (नीला, 6 parameters) सभी correlations पकड़कर बादल की तिरछी दिशा में बिल्कुल फिट बैठता है। बीच में जब off-diagonal entries शून्य होती हैं, तो <strong>Diagonal</strong> <span class="math-inline">\(\Sigma\)</span> (नारंगी, 3 parameters) सीधा होकर coordinate axes के समानांतर फैल जाता है और खाली जगह घेर लेता है। अंत में <strong>Spherical</strong> <span class="math-inline">\(\sigma^2 I\)</span> (बैंगनी, 1 parameter) तीनों दिशाओं की variance भी बराबर कर देता है और गोल गेंद बन जाता है, जिससे log-likelihood और गिर जाता है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L14_3.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 14.4</span>Conditional slice <span class="math-inline">\(p(x_1 | x_2)\)</span></div><div class="frames"><figure><img src="anim/L14_4_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L14_4_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L14_4_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> हरा-नीला टीला दो सह-संबंधित variables <span class="math-inline">\((x_1, x_2)\)</span> की 2D joint Gaussian density <span class="math-inline">\(p(x_1, x_2)\)</span> है। जैसे-जैसे पारदर्शी काट-समतल अलग-अलग <span class="math-inline">\(x_2\)</span> पर खिसकता है, नारंगी वक्र टीले का सीधा अनुप्रस्थ काट <span class="math-inline">\(p(x_1, x_2)\)</span> दिखाता है और ऊँचा नीला वक्र normalize करने के बाद बनी conditional density <span class="math-inline">\(p(x_1 \mid x_2)\)</span> है। फ़र्श की हरी रेखा के साथ नीली घंटी का केंद्र <span class="math-inline">\(\mu_{1|2} = \mu_1 + \Sigma_{12}\Sigma_{22}^{-1}(x_2 - \mu_2)\)</span> सीधी रेखा में खिसकता है, पर घंटी की चौड़ाई और ऊँचाई (<span class="math-inline">\(\Sigma_{1|2}\)</span>) हर <span class="math-inline">\(x_2\)</span> पर बिल्कुल स्थिर रहती है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L14_4.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 14.5</span>EM rotates the latent subspace</div><div class="frames"><figure><img src="anim/L14_5_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L14_5_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L14_5_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ <span class="math-inline">\(n = 3\)</span> observed space में चपटे बादल पर <span class="math-inline">\(k = 2\)</span> factors वाला Factor Analysis EM चल रहा है। शुरू में नीला 2D subspace <span class="math-inline">\(\mu + \Lambda z\)</span> गलत कोण पर खड़ा है, इसलिए बिंदुओं से उनके E-step projections <span class="math-inline">\(\mu + \Lambda \mu_{z|x}\)</span> तक की लाल दूरियाँ बहुत लंबी हैं। हर EM iteration में E-step हर बिंदु का posterior <span class="math-inline">\(\mathcal{N}(\mu_{z|x}, \Sigma_{z|x})\)</span> निकालता है और M-step <span class="math-inline">\(E[zz^T] = \mu_{z|x}\mu_{z|x}^T + \Sigma_{z|x}\)</span> का उपयोग करके <span class="math-inline">\(\Lambda\)</span> और <span class="math-inline">\(\Psi\)</span> को घुमाता व ढालता है। कुछ ही iterations में subspace ठीक असली समतल पर बैठ जाता है और log-likelihood लगातार बढ़ता है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L14_5.gif</div></div>
+<div class="part"><span class="tag">भाग 3</span><h2>Python Example</h2></div>
+<p class="run">इसे खुद चलाएँ: <code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/chapters/L14_factor_analysis/example.py</code></p>
+<div class="code"><pre><span></span><span class="sd">"""Lecture 14 example: Factor Analysis को EM से fit करना, शुरू से (सिर्फ़ NumPy).</span>
+
+<span class="sd">Data एक जाने-पहचाने model से बनता है: x = mu + Lambda z + epsilon, जहाँ z सिर्फ़ k = 3 dimension का है</span>
+<span class="sd">पर x के n = 30 dimension हैं। Training examples सिर्फ़ m = 20 हैं, यानी m &lt; n।</span>
+<span class="sd">दिखाते हैं: (a) साधारण sample covariance singular है, (b) EM में log-likelihood कभी नहीं घटता,</span>
+<span class="sd">(c) Factor Analysis का Sigma = Lambda Lambda^T + Psi invertible है और सच के काफ़ी पास है।</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">FactorAnalysis</span>      <span class="c1"># सिर्फ़ अंत में तुलना के लिए</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span>
+
+<span class="c1"># ---------- 1. सच्चा model और उससे data ----------</span>
+<span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">20</span>
+<span class="n">Lambda_true</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>               <span class="c1"># factor loading matrix (n x k)</span>
+<span class="n">Psi_true</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>                    <span class="c1"># diagonal noise variances</span>
+<span class="n">mu_true</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">Sigma_true</span> <span class="o">=</span> <span class="n">Lambda_true</span> <span class="o">@</span> <span class="n">Lambda_true</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">Psi_true</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>                    <span class="c1"># z ~ N(0, I)</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Psi_true</span><span class="p">)</span>   <span class="c1"># epsilon ~ N(0, Psi)</span>
+    <span class="k">return</span> <span class="n">mu_true</span> <span class="o">+</span> <span class="n">z</span> <span class="o">@</span> <span class="n">Lambda_true</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">eps</span>           <span class="c1"># x = mu + Lambda z + epsilon</span>
+
+
+<span class="n">X</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">avg_loglik</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">Sigma</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""(1/m) sum_i log N(x_i; mu, Sigma)."""</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">mu</span>
+    <span class="n">maha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">"ij,ij-&gt;i"</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">Sigma</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">maha</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">slogdet</span><span class="p">(</span><span class="n">Sigma</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+
+
+<span class="c1"># ---------- 2. Factor Analysis का EM ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">factor_analysis</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>                                <span class="c1"># mu का M-step हर बार यही देता है</span>
+    <span class="n">Xc</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">mu</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">Xc</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Xc</span> <span class="o">/</span> <span class="n">m</span>                                  <span class="c1"># sample covariance</span>
+    <span class="n">Lambda</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+    <span class="n">Psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">):</span>
+        <span class="n">Sigma</span> <span class="o">=</span> <span class="n">Lambda</span> <span class="o">@</span> <span class="n">Lambda</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">Psi</span><span class="p">)</span>       <span class="c1"># x का marginal covariance</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">avg_loglik</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">Sigma</span><span class="p">))</span>
+        <span class="c1"># E-step: z | x ~ N(mu_z, Sigma_z)</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">Lambda</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">Sigma</span><span class="p">)</span>            <span class="c1"># Lambda^T (Lambda Lambda^T + Psi)^-1</span>
+        <span class="n">Mz</span> <span class="o">=</span> <span class="n">Xc</span> <span class="o">@</span> <span class="n">B</span><span class="o">.</span><span class="n">T</span>                                  <span class="c1"># row i = mu_{z|x_i}</span>
+        <span class="n">Sz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">-</span> <span class="n">B</span> <span class="o">@</span> <span class="n">Lambda</span>                    <span class="c1"># Sigma_{z|x}, हर i के लिए एक ही</span>
+        <span class="c1"># M-step: ध्यान दें कि E[z z^T] = mu_z mu_z^T + Sigma_z चाहिए, सिर्फ़ mu_z नहीं</span>
+        <span class="n">Ezz</span> <span class="o">=</span> <span class="n">Mz</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Mz</span> <span class="o">/</span> <span class="n">m</span> <span class="o">+</span> <span class="n">Sz</span>                       <span class="c1"># (1/m) sum_i E[z z^T]</span>
+        <span class="n">Cxz</span> <span class="o">=</span> <span class="n">Xc</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">Mz</span> <span class="o">/</span> <span class="n">m</span>                            <span class="c1"># (1/m) sum_i (x_i - mu) mu_z^T</span>
+        <span class="n">Lambda</span> <span class="o">=</span> <span class="n">Cxz</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">Ezz</span><span class="p">)</span>
+        <span class="n">Phi</span> <span class="o">=</span> <span class="n">S</span> <span class="o">-</span> <span class="n">Cxz</span> <span class="o">@</span> <span class="n">Lambda</span><span class="o">.</span><span class="n">T</span> <span class="o">-</span> <span class="n">Lambda</span> <span class="o">@</span> <span class="n">Cxz</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">Lambda</span> <span class="o">@</span> <span class="n">Ezz</span> <span class="o">@</span> <span class="n">Lambda</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">Psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">Phi</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>                      <span class="c1"># Psi में सिर्फ़ diagonal रखते हैं</span>
+    <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">Lambda</span><span class="p">,</span> <span class="n">Psi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">history</span><span class="p">)</span>
+
+
+<span class="n">mu</span><span class="p">,</span> <span class="n">Lambda</span><span class="p">,</span> <span class="n">Psi</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">factor_analysis</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+<span class="n">Sigma_fa</span> <span class="o">=</span> <span class="n">Lambda</span> <span class="o">@</span> <span class="n">Lambda</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">Psi</span><span class="p">)</span>
+
+<span class="c1"># ---------- 3. Sample covariance singular है ----------</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">eig_S</span><span class="p">,</span> <span class="n">eig_fa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">S</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">Sigma_fa</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"n = </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> dimensions, m = </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2"> examples, k = </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> factors"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sample covariance:   rank = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="si">}</span><span class="s2"> (n = </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> चाहिए),  "</span>
+      <span class="sa">f</span><span class="s2">"सबसे छोटा eigenvalue = </span><span class="si">{</span><span class="n">eig_S</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.1e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Factor Analysis:     rank = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">Sigma_fa</span><span class="p">)</span><span class="si">}</span><span class="s2">,  सबसे छोटा eigenvalue = </span><span class="si">{</span><span class="n">eig_fa</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parameters: full Sigma में </span><span class="si">{</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">2</span><span class="si">}</span><span class="s2">, Factor Analysis (Lambda + Psi) में </span><span class="si">{</span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 4. EM का log-likelihood ----------</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">EM: iteration और average log-likelihood (training data पर)"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">299</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">it</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">   </span><span class="si">{</span><span class="n">history</span><span class="p">[</span><span class="n">it</span><span class="p">]</span><span class="si">:</span><span class="s2">9.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  log-likelihood कभी घटा? </span><span class="si">{</span><span class="s1">'हाँ'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">history</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="o">-</span><span class="mf">1e-10</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'नहीं'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 5. अलग-अलग covariance models की तुलना ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rel_error</span><span class="p">(</span><span class="n">Sigma</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">Sigma</span> <span class="o">-</span> <span class="n">Sigma_true</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">Sigma_true</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_ll</span><span class="p">(</span><span class="n">Sigma</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">avg_loglik</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">Sigma</span><span class="p">)</span>
+
+
+<span class="n">sk</span> <span class="o">=</span> <span class="n">FactorAnalysis</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">models</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"Full (sample cov)"</span><span class="p">,</span> <span class="n">S</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Diagonal"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">S</span><span class="p">))),</span>
+          <span class="p">(</span><span class="s2">"Spherical sigma^2 I"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">S</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Factor Analysis (EM)"</span><span class="p">,</span> <span class="n">Sigma_fa</span><span class="p">),</span>
+          <span class="p">(</span><span class="s2">"sklearn FactorAnalysis"</span><span class="p">,</span> <span class="n">sk</span><span class="o">.</span><span class="n">get_covariance</span><span class="p">()),</span> <span class="p">(</span><span class="s2">"True Sigma"</span><span class="p">,</span> <span class="n">Sigma_true</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Model                     error vs true Sigma    test log-likelihood"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">Sigma</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+    <span class="n">singular</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">Sigma</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">1e-10</span>
+    <span class="n">ll</span> <span class="o">=</span> <span class="s2">"  undefined (singular)"</span> <span class="k">if</span> <span class="n">singular</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">test_ll</span><span class="p">(</span><span class="n">Sigma</span><span class="p">)</span><span class="si">:</span><span class="s2">12.2f</span><span class="si">}</span><span class="s2">"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">rel_error</span><span class="p">(</span><span class="n">Sigma</span><span class="p">)</span><span class="si">:</span><span class="s2">12.3f</span><span class="si">}</span><span class="s2">        </span><span class="si">{</span><span class="n">ll</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">हमारा EM बनाम sklearn, training log-likelihood: </span><span class="si">{</span><span class="n">history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> बनाम </span><span class="si">{</span><span class="n">sk</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 6. Plots ----------</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">),</span> <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">"width_ratios"</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.15</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]})</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"EM iteration"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"average log-likelihood"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"EM never goes down"</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="s2">"symlog"</span><span class="p">)</span>
+<span class="n">vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Sigma_true</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">Sigma</span><span class="p">,</span> <span class="n">title</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">Sigma_true</span><span class="p">,</span> <span class="s2">"True covariance"</span><span class="p">),</span> <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">S</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Sample covariance (m=</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">)"</span><span class="p">),</span>
+                         <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">Sigma_fa</span><span class="p">,</span> <span class="s2">"Factor Analysis"</span><span class="p">)]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">Sigma</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">"RdBu_r"</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="n">vmax</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">xticks</span><span class="o">=</span><span class="p">[],</span> <span class="n">yticks</span><span class="o">=</span><span class="p">[])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"result.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+</pre></div>
+
+<div class="label">OUTPUT</div>
+<pre class="output">n = 30 dimensions, m = 20 examples, k = 3 factors
+Sample covariance:   rank = 19 (n = 30 चाहिए),  सबसे छोटा eigenvalue = -2.8e-15
+Factor Analysis:     rank = 30,  सबसे छोटा eigenvalue = 0.072
+Parameters: full Sigma में 465, Factor Analysis (Lambda + Psi) में 120
+
+EM: iteration और average log-likelihood (training data पर)
+    0    -59.1542
+    1    -48.2006
+    2    -35.4294
+    5    -31.0113
+   10    -30.8991
+   20    -30.8102
+   50    -30.7051
+  100    -30.6610
+  200    -30.6467
+  299    -30.6452
+  log-likelihood कभी घटा? नहीं
+
+Model                     error vs true Sigma    test log-likelihood
+Full (sample cov)                0.464          undefined (singular)
+Diagonal                         0.915              -58.21
+Spherical sigma^2 I              0.940              -61.54
+Factor Analysis (EM)             0.451              -44.27
+sklearn FactorAnalysis           0.462              -44.27
+True Sigma                       0.000              -36.01
+
+हमारा EM बनाम sklearn, training log-likelihood: -30.6452 बनाम -30.6449</pre>
+<img class="result-img" src="examples/L14_factor_analysis/result.png">
+</section>
+<script src="../vendor/katex/package/dist/katex.min.js"></script>
+<script src="../vendor/katex/package/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [{left: "\\[", right: "\\]", display: true}, {left: "\\(", right: "\\)", display: false}],
+  throwOnError: false, ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+});
+</script>
+</body></html>

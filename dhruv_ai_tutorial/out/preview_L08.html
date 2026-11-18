@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<title>Dhruv AI tutorial | Machine Learning हिंदी में</title>
+<link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
+<style>
+@page { size: A4; margin: 16mm 13mm 17mm 13mm;
+        @bottom-center { content: counter(page); font: 9pt "Helvetica Neue", sans-serif; color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Kohinoor Devanagari", "Devanagari Sangam MN", "Helvetica Neue", sans-serif;
+       font-size: 10.6pt; line-height: 1.72; color: #111827; margin: 0; }
+body.screen { max-width: 900px; margin: 0 auto; padding: 24px 28px 80px; font-size: 16px; background: #fff; }
+h1, h2, h3, h4 { line-height: 1.35; break-after: avoid; }
+h2 { font-size: 13.5pt; margin: 1.3em 0 0.4em; color: #1e3a8a; }
+h3 { font-size: 11.5pt; margin: 1.1em 0 0.3em; color: #1f2937; }
+p { margin: 0.45em 0; orphans: 2; widows: 2; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+li { margin: 0.18em 0; }
+a { color: #1d4ed8; text-decoration: none; }
+code { font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace; font-size: 0.88em;
+       background: #f1f5f9; padding: 0.08em 0.3em; border-radius: 3px; }
+blockquote { margin: 0.7em 0; padding: 0.5em 0.9em; border-left: 4px solid #2563eb; background: #eff6ff;
+             border-radius: 0 6px 6px 0; break-inside: avoid; }
+blockquote p { margin: 0.2em 0; }
+table { border-collapse: collapse; margin: 0.7em 0; width: 100%; font-size: 0.93em; break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 0.3em 0.6em; text-align: left; vertical-align: top; }
+th { background: #eef2ff; }
+.math-display { display: block; margin: 0.55em 0; overflow-x: auto; break-inside: avoid; }
+.katex { font-size: 1.04em; }
+
+.cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center;
+         break-after: page; }
+body.screen .cover { height: auto; padding: 70px 0 50px; }
+.cover .kicker { letter-spacing: 0.22em; font-size: 10pt; color: #2563eb; font-weight: 700; }
+.cover h1 { font-size: 34pt; margin: 0.25em 0 0.1em; color: #111827; }
+.cover .sub { font-size: 15pt; color: #374151; }
+.cover .pill { display: inline-block; margin: 2.2em auto 0; padding: 0.5em 1.4em; border-radius: 999px;
+               background: #1e3a8a; color: #fff; font-size: 11.5pt; }
+.cover .note { margin-top: 3em; font-size: 9.5pt; color: #6b7280; }
+
+.front { break-after: page; }
+.toc ol { list-style: none; padding: 0; margin: 0.4em 0; }
+.toc li { display: flex; gap: 0.7em; padding: 0.22em 0; border-bottom: 1px dotted #cbd5e1; }
+.toc .n { flex: 0 0 5.6em; color: #2563eb; font-weight: 700; }
+
+.chapter { break-before: page; }
+.ch-head { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 14px 18px;
+           border-radius: 10px; margin-bottom: 0.9em; break-inside: avoid; }
+.ch-head .n { font-size: 9.5pt; letter-spacing: 0.18em; opacity: 0.85; font-weight: 700; }
+.ch-head h1 { font-size: 17.5pt; margin: 0.1em 0 0; }
+.part { display: flex; align-items: center; gap: 0.6em; margin: 1.5em 0 0.6em; padding-bottom: 0.25em;
+        border-bottom: 2px solid #1e3a8a; break-after: avoid; }
+.part .tag { background: #1e3a8a; color: #fff; border-radius: 5px; padding: 0.05em 0.6em; font-size: 9.5pt;
+             font-weight: 700; }
+.part h2 { margin: 0; font-size: 14pt; }
+
+.anim { border: 1px solid #e5e7eb; border-radius: 9px; padding: 8px 7px 6px; margin: 0.8em 0;
+        break-inside: avoid; background: #fff; }
+.anim-head { font-weight: 700; margin-bottom: 0.3em; }
+.anim-head .badge { background: #ea580c; color: #fff; border-radius: 4px; padding: 0.05em 0.5em;
+                    font-size: 9pt; margin-right: 0.5em; }
+.frames { display: flex; gap: 3px; }
+.frames figure { margin: 0; flex: 1; text-align: center; }
+.frames img { width: 100%; display: block; border: 1px solid #eef0f3; border-radius: 5px; }
+.frames figcaption { font-size: 8pt; color: #6b7280; line-height: 1.3; margin-top: 1px; }
+.anim .gif { display: block; margin: 0 auto; width: 480px; max-width: 100%; }
+.anim .caption { font-size: 0.95em; margin: 0.4em 0 0.15em; }
+.anim .file { font-size: 8pt; color: #6b7280; font-family: "SF Mono", Menlo, monospace; }
+
+.code { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.code pre, pre.output { margin: 0; font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace;
+                        font-size: 8.3pt; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+body.screen .code pre, body.screen pre.output { font-size: 13px; }
+pre.output { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.label { font-size: 9pt; font-weight: 700; color: #475569; margin: 1em 0 0.2em; break-after: avoid; }
+.result-img { display: block; max-width: 88%; margin: 0.6em auto; border: 1px solid #e5e7eb; border-radius: 6px;
+              break-inside: avoid; }
+.run { font-size: 0.93em; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #ffffcc }
+.code { background: #f0f0f0; }
+.code .c { color: #60A0B0; font-style: italic } /* Comment */
+.code .err { border: 1px solid #F00 } /* Error */
+.code .k { color: #007020; font-weight: bold } /* Keyword */
+.code .o { color: #666 } /* Operator */
+.code .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #007020 } /* Comment.Preproc */
+.code .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F00 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #888 } /* Generic.Output */
+.code .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #04D } /* Generic.Traceback */
+.code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code .kp { color: #007020 } /* Keyword.Pseudo */
+.code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #902000 } /* Keyword.Type */
+.code .m { color: #40A070 } /* Literal.Number */
+.code .s { color: #4070A0 } /* Literal.String */
+.code .na { color: #4070A0 } /* Name.Attribute */
+.code .nb { color: #007020 } /* Name.Builtin */
+.code .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code .no { color: #60ADD5 } /* Name.Constant */
+.code .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code .ne { color: #007020 } /* Name.Exception */
+.code .nf { color: #06287E } /* Name.Function */
+.code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code .nv { color: #BB60D5 } /* Name.Variable */
+.code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code .w { color: #BBB } /* Text.Whitespace */
+.code .mb { color: #40A070 } /* Literal.Number.Bin */
+.code .mf { color: #40A070 } /* Literal.Number.Float */
+.code .mh { color: #40A070 } /* Literal.Number.Hex */
+.code .mi { color: #40A070 } /* Literal.Number.Integer */
+.code .mo { color: #40A070 } /* Literal.Number.Oct */
+.code .sa { color: #4070A0 } /* Literal.String.Affix */
+.code .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code .sc { color: #4070A0 } /* Literal.String.Char */
+.code .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #4070A0 } /* Literal.String.Double */
+.code .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code .sx { color: #C65D09 } /* Literal.String.Other */
+.code .sr { color: #235388 } /* Literal.String.Regex */
+.code .s1 { color: #4070A0 } /* Literal.String.Single */
+.code .ss { color: #517918 } /* Literal.String.Symbol */
+.code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code .fm { color: #06287E } /* Name.Function.Magic */
+.code .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
+</head><body class="print">
+<section class="cover"><div class="kicker">DHRUV AI TUTORIAL &middot; SELF-STUDY GUIDE</div><h1>Dhruv AI tutorial<br>Machine Learning हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक की self-study guide है।</div></section>
+<section class="front"><h2>यह guide कैसे पढ़ें</h2>
+<p>यह Dhruv AI tutorial Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक के 20 lectures में व्यवस्थित है। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<table>
+<thead>
+<tr>
+<th>भाग</th>
+<th>क्या है</th>
+<th>कैसे इस्तेमाल करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>भाग 1: Theory</strong></td>
+<td>Idea, notation, maths और algorithm, हिंदी में</td>
+<td>पहले इसे धीरे-धीरे पढ़ें। Equations को कागज़ पर खुद लिखकर देखें।</td>
+</tr>
+<tr>
+<td><strong>भाग 2: 3D Animations</strong></td>
+<td>हर chapter में कम से कम 5 animations</td>
+<td>PDF में हर animation के तीन still frames हैं (शुरुआत, बीच में, अंत)। चलती animation देखने के लिए नीचे बताई files खोलें।</td>
+</tr>
+<tr>
+<td><strong>भाग 3: Python Example</strong></td>
+<td>NumPy से शुरू से लिखा एक चलने वाला example, उसके output के साथ</td>
+<td>Code को खुद चलाएँ, फिर numbers बदलकर देखें कि क्या बदलता है।</td>
+</tr>
+</tbody>
+</table>
+<p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
+<h2>चलती animations कहाँ हैं</h2>
+<ul>
+<li><strong><code>index.html</code></strong> (project का मुख्य page): इसे browser में खोलें। इसमें पूरी guide और सारी animations हैं।</li>
+<li><strong><code>dhruv_ai_tutorial/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
+</ul>
+<h2>Code कैसे चलाएँ</h2>
+<p>हर chapter का code <code>dhruv_ai_tutorial/chapters/&lt;chapter&gt;/example.py</code> में है। Terminal में project root से:</p>
+<pre><code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/chapters/L02_linear_regression/example.py
+</code></pre>
+<p>Animations का code उसी folder की <code>anims.py</code> में है। पूरी guide दोबारा बनाने के लिए: <code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/build.py</code></p>
+<h2>पहले से क्या आना चाहिए</h2>
+<ul>
+<li><strong>Linear Algebra:</strong> vectors, matrices, matrix multiplication, transpose, inverse, eigenvalues / eigenvectors।</li>
+<li><strong>Probability:</strong> random variable, expectation, variance, conditional probability, Bayes rule, Gaussian distribution।</li>
+<li><strong>Calculus:</strong> derivative, partial derivative, gradient, chain rule।</li>
+<li><strong>Python:</strong> NumPy arrays की बुनियादी समझ।</li>
+</ul>
+<h2>पूरे course में चलने वाला notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}, y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वाँ training example: input और target</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या (या input का dimension)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span>, <span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>model के parameters</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis: model का prediction</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(J(\theta)\)</span></td>
+<td>cost function जिसे minimize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\ell(\theta)\)</span></td>
+<td>log-likelihood जिसे maximize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span></td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\nabla_\theta\)</span></td>
+<td><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span></td>
+<td>mean <span class="math-inline">\(\mu\)</span> और covariance <span class="math-inline">\(\Sigma\)</span> वाला Gaussian</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(:=\)</span></td>
+<td>"दाएँ की value बाएँ में रख दो" (assignment)</td>
+</tr>
+</tbody>
+</table><h2>विषय-सूची</h2><div class="toc"><ol><li><span class="n">Lecture 8</span><a href="#L08_bias_variance_regularization">Bias-Variance Tradeoff, Regularization और Model Selection</a></li></ol></div></section>
+<section class="chapter" id="L08_bias_variance_regularization">
+<div class="ch-head"><div class="n">LECTURE 8</div><h1>Bias-Variance Tradeoff, Regularization और Model Selection</h1></div>
+<div class="part"><span class="tag">भाग 1</span><h2>Theory</h2></div>
+<blockquote>
+<p><strong>इस lecture में:</strong> training error और generalization error का फ़र्क, underfitting (high bias) और overfitting (high variance), bias-variance decomposition और उसका derivation, Regularization (L2 यानी ridge, L1 यानी lasso), उसका Bayesian मतलब (Maximum Likelihood बनाम MAP), Model Selection (hold-out, k-fold और leave-one-out cross validation) और Feature Selection (wrapper और filter methods)।</p>
+</blockquote>
+<h2>1. एक line में idea</h2>
+<p>Model का असली इम्तिहान training data पर नहीं, नए data पर होता है। बहुत सरल model data का pattern पकड़ ही नहीं पाता (<strong>underfitting</strong>)। बहुत लचीला model pattern के साथ-साथ noise भी रट लेता है (<strong>overfitting</strong>)। अच्छा model इन दोनों के बीच में कहीं है। इस lecture के सारे औज़ार (regularization, cross validation, feature selection) उसी बीच की जगह को ढूँढने के तरीके हैं।</p>
+<h2>2. Training error बनाम generalization error</h2>
+<p>मान लीजिए हर example <span class="math-inline">\((x, y)\)</span> किसी distribution <span class="math-inline">\(\mathcal{D}\)</span> से आता है। किसी hypothesis <span class="math-inline">\(h\)</span> के लिए दो अलग errors होते हैं:</p>
+<p><span class="math-display">\[\hat{\varepsilon}(h) = \frac{1}{m}\sum_{i=1}^{m}\left(h(x^{(i)}) - y^{(i)}\right)^2, \qquad \varepsilon(h) = E_{(x,y)\sim\mathcal{D}}\left[\left(h(x) - y\right)^2\right]\]</span></p>
+<ul>
+<li><span class="math-inline">\(\hat{\varepsilon}(h)\)</span> <strong>training error</strong> है: उन्हीं <span class="math-inline">\(m\)</span> examples पर औसत error जिनसे model सीखा है।</li>
+<li><span class="math-inline">\(\varepsilon(h)\)</span> <strong>generalization error</strong> (या test error) है: <span class="math-inline">\(\mathcal{D}\)</span> से आए बिल्कुल नए example पर औसत error।</li>
+</ul>
+<p>Training में हम <span class="math-inline">\(\hat{\varepsilon}\)</span> को छोटा करते हैं, पर हमें असल में <span class="math-inline">\(\varepsilon\)</span> छोटा चाहिए। <span class="math-inline">\(\varepsilon(h) - \hat{\varepsilon}(h)\)</span> को <strong>generalization gap</strong> कहते हैं। <span class="math-inline">\(\varepsilon\)</span> को हम सीधे नहीं नाप सकते, इसलिए उसका अंदाज़ा ऐसे data से लगाते हैं जिसे model ने training में कभी नहीं देखा (test set)।</p>
+<h2>3. Underfitting और Overfitting</h2>
+<p>एक feature वाला data लें और उस पर degree <span class="math-inline">\(d\)</span> का polynomial fit करें: <span class="math-inline">\(h_\theta(x) = \theta_0 + \theta_1 x + \dots + \theta_d x^d\)</span>। <span class="math-inline">\(d\)</span> बढ़ाने से model ज़्यादा लचीला (complex) होता जाता है।</p>
+<table>
+<thead>
+<tr>
+<th>Degree <span class="math-inline">\(d\)</span></th>
+<th>क्या होता है</th>
+<th>Training error</th>
+<th>Generalization error</th>
+<th>नाम</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>बहुत छोटा (जैसे 1)</td>
+<td>सीधी line मुड़े हुए pattern को पकड़ नहीं पाती</td>
+<td>बड़ा</td>
+<td>बड़ा</td>
+<td>underfitting, <strong>high bias</strong></td>
+</tr>
+<tr>
+<td>ठीक (जैसे 3)</td>
+<td>pattern पकड़ता है, noise को छोड़ देता है</td>
+<td>छोटा</td>
+<td>छोटा</td>
+<td>अच्छा fit</td>
+</tr>
+<tr>
+<td>बहुत बड़ा (जैसे 10)</td>
+<td>हर training point से गुज़रता है, बीच में झूलता है</td>
+<td>लगभग 0</td>
+<td>बड़ा</td>
+<td>overfitting, <strong>high variance</strong></td>
+</tr>
+</tbody>
+</table>
+<p>याद रखने की बात: <span class="math-inline">\(d\)</span> बढ़ाने पर training error <strong>हमेशा</strong> घटता है (या उतना ही रहता है), पर generalization error पहले घटता है और फिर बढ़ने लगता है। इसलिए training error देखकर model नहीं चुना जा सकता।</p>
+<h2>4. Bias-Variance Decomposition</h2>
+<p>अब इसी बात को maths में लिखते हैं। मान लीजिए data ऐसे बनता है:</p>
+<p><span class="math-display">\[y = h^\star(x) + \xi, \qquad E[\xi] = 0, \quad \mathrm{Var}(\xi) = \sigma^2\]</span></p>
+<p>यहाँ <span class="math-inline">\(h^\star\)</span> असली (अनजान) function है और <span class="math-inline">\(\xi\)</span> noise है। Training set <span class="math-inline">\(S\)</span> random है, इसलिए उस पर सीखा गया model <span class="math-inline">\(\hat{h}_S\)</span> भी random है: नया <span class="math-inline">\(S\)</span> लेंगे तो थोड़ा अलग <span class="math-inline">\(\hat{h}_S\)</span> मिलेगा। एक test point <span class="math-inline">\(x\)</span> तय करें और उस पर औसत squared error देखें (औसत <span class="math-inline">\(S\)</span> और test noise <span class="math-inline">\(\xi\)</span>, दोनों पर):</p>
+<p><span class="math-display">\[\mathrm{MSE}(x) = E_{S,\xi}\left[\left(y - \hat{h}_S(x)\right)^2\right]\]</span></p>
+<p><strong>Step 1: noise को अलग करें।</strong> <span class="math-inline">\(y - \hat{h}_S(x) = \xi + \left(h^\star(x) - \hat{h}_S(x)\right)\)</span> लिखें और square खोलें। Test point का <span class="math-inline">\(\xi\)</span> training set <span class="math-inline">\(S\)</span> से independent है और <span class="math-inline">\(E[\xi] = 0\)</span> है, इसलिए cross term <span class="math-inline">\(2\,E[\xi]\,E_S[h^\star(x) - \hat{h}_S(x)] = 0\)</span> हो जाता है:</p>
+<p><span class="math-display">\[\mathrm{MSE}(x) = \underbrace{E[\xi^2]}_{\sigma^2} + E_S\left[\left(h^\star(x) - \hat{h}_S(x)\right)^2\right]\]</span></p>
+<p><strong>Step 2: औसत model को बीच में लाएँ।</strong> <span class="math-inline">\(h_{\text{avg}}(x) = E_S[\hat{h}_S(x)]\)</span> वह prediction है जो अनगिनत training sets पर सीखे गए models का औसत लेने से मिलता। अब <span class="math-inline">\(h^\star(x) - \hat{h}_S(x) = \left(h^\star(x) - h_{\text{avg}}(x)\right) + \left(h_{\text{avg}}(x) - \hat{h}_S(x)\right)\)</span> लिखें। पहला हिस्सा एक constant है (उसमें <span class="math-inline">\(S\)</span> नहीं है), और दूसरे हिस्से का mean zero है (क्योंकि <span class="math-inline">\(E_S[\hat{h}_S(x)] = h_{\text{avg}}(x)\)</span>)। इसलिए यहाँ भी cross term zero है:</p>
+<p><span class="math-display">\[E_S\left[\left(h^\star(x) - \hat{h}_S(x)\right)^2\right] = \left(h^\star(x) - h_{\text{avg}}(x)\right)^2 + E_S\left[\left(\hat{h}_S(x) - h_{\text{avg}}(x)\right)^2\right]\]</span></p>
+<p>दोनों steps जोड़ने पर:</p>
+<p><span class="math-display">\[E\left[\left(y - \hat{h}(x)\right)^2\right] = \underbrace{\sigma^2}_{\text{noise}} + \underbrace{\left(h^\star(x) - h_{\text{avg}}(x)\right)^2}_{\mathrm{Bias}(\hat{h}(x))^2} + \underbrace{E_S\left[\left(\hat{h}_S(x) - h_{\text{avg}}(x)\right)^2\right]}_{\mathrm{Var}(\hat{h}(x))}\]</span></p>
+<ul>
+<li><strong><span class="math-inline">\(\sigma^2\)</span> (irreducible error):</strong> data का अपना noise। कोई भी model, चाहे <span class="math-inline">\(h^\star\)</span> ही क्यों न हो, इससे नीचे नहीं जा सकता।</li>
+<li><strong>Bias:</strong> औसत model असली function से कितना दूर है। यह model की बनावट की कमी है: अनंत data मिलने पर भी सीधी line किसी curve को fit नहीं कर सकती।</li>
+<li><strong>Variance:</strong> training set बदलने पर prediction कितना हिलता है। यह बताता है कि model इस खास <span class="math-inline">\(S\)</span> के noise को कितना रट रहा है।</li>
+</ul>
+<h2>5. Complexity और data का असर</h2>
+<table>
+<thead>
+<tr>
+<th>आप क्या बदलते हैं</th>
+<th><span class="math-inline">\(\mathrm{Bias}^2\)</span></th>
+<th>Variance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model ज़्यादा complex (degree बड़ी, features ज़्यादा)</td>
+<td>घटता है</td>
+<td>बढ़ता है</td>
+</tr>
+<tr>
+<td>Model ज़्यादा सरल</td>
+<td>बढ़ता है</td>
+<td>घटता है</td>
+</tr>
+<tr>
+<td>Training examples <span class="math-inline">\(m\)</span> ज़्यादा</td>
+<td>लगभग वही रहता है</td>
+<td>घटता है</td>
+</tr>
+<tr>
+<td>Regularization <span class="math-inline">\(\lambda\)</span> बड़ा</td>
+<td>बढ़ता है</td>
+<td>घटता है</td>
+</tr>
+</tbody>
+</table>
+<p>यही <strong>bias-variance tradeoff</strong> है: complexity बढ़ाने से एक term घटता है और दूसरा बढ़ता है, इसलिए दोनों का जोड़ (test error) बीच की किसी complexity पर सबसे छोटा होता है। ध्यान दें कि ज़्यादा data सिर्फ़ variance को ठीक करता है, bias को नहीं।</p>
+<p>Learning theory इन्हीं बातों को पक्का रूप देती है: वह दिखाती है कि <span class="math-inline">\(m\)</span> बढ़ने पर training error और generalization error के बीच का gap सिकुड़ता है, और hypothesis class जितनी बड़ी हो, उतना ही gap पाटने के लिए ज़्यादा data चाहिए। हम यहाँ वे bounds derive नहीं करेंगे।</p>
+<h2>6. Regularization</h2>
+<p>Complexity घटाने का एक तरीका है features हटाना। दूसरा, ज़्यादा महीन तरीका है सारे features रखना पर बड़े <span class="math-inline">\(\theta\)</span> पर जुर्माना (penalty) लगाना:</p>
+<p><span class="math-display">\[J_\lambda(\theta) = J(\theta) + \lambda R(\theta)\]</span></p>
+<p><span class="math-inline">\(R(\theta)\)</span> <strong>regularizer</strong> है और <span class="math-inline">\(\lambda \ge 0\)</span> <strong>regularization parameter</strong> है। <span class="math-inline">\(\lambda = 0\)</span> पर कोई रोक नहीं है (overfitting का खतरा)। <span class="math-inline">\(\lambda\)</span> बहुत बड़ा हो तो <span class="math-inline">\(\theta \to 0\)</span> और model underfit करता है।</p>
+<h3>L2 regularization (ridge)</h3>
+<p>यहाँ <span class="math-inline">\(R(\theta) = \frac{1}{2}\|\theta\|_2^2 = \frac{1}{2}\sum_j \theta_j^2\)</span> है। Lecture 2 का <span class="math-inline">\(J(\theta) = \frac{1}{2}(X\theta - \vec{y})^T(X\theta - \vec{y})\)</span> लें:</p>
+<p><span class="math-display">\[J_\lambda(\theta) = \frac{1}{2}(X\theta - \vec{y})^T(X\theta - \vec{y}) + \frac{\lambda}{2}\theta^T\theta, \qquad \nabla_\theta J_\lambda(\theta) = X^TX\theta - X^T\vec{y} + \lambda\theta\]</span></p>
+<p>Gradient को zero रखने पर <span class="math-inline">\((X^TX + \lambda I)\theta = X^T\vec{y}\)</span>, यानी</p>
+<p><span class="math-display">\[\theta = (X^TX + \lambda I)^{-1}X^T\vec{y}\]</span></p>
+<p>दो बातें ध्यान देने की हैं। पहली: किसी भी <span class="math-inline">\(v \neq 0\)</span> के लिए <span class="math-inline">\(v^T(X^TX + \lambda I)v = \|Xv\|^2 + \lambda\|v\|^2 &gt; 0\)</span> है, इसलिए <span class="math-inline">\(\lambda &gt; 0\)</span> पर यह matrix हमेशा invertible है, चाहे <span class="math-inline">\(m &lt; n\)</span> हो। दूसरी: कई किताबें penalty को <span class="math-inline">\(\lambda\|\theta\|_2^2\)</span> लिखती हैं (<span class="math-inline">\(\frac{1}{2}\)</span> के बिना)। उससे सिर्फ़ <span class="math-inline">\(\lambda\)</span> का पैमाना 2 गुना बदलता है, idea वही रहता है। Gradient Descent में L2 penalty का update <span class="math-inline">\(\theta := (1 - \alpha\lambda)\theta - \alpha\nabla_\theta J(\theta)\)</span> बनता है: हर step में <span class="math-inline">\(\theta\)</span> पहले थोड़ा सिकुड़ता है। इसीलिए इसे <strong>weight decay</strong> भी कहते हैं।</p>
+<h3>L1 regularization (lasso) और sparsity</h3>
+<p>यहाँ <span class="math-inline">\(R(\theta) = \|\theta\|_1 = \sum_j |\theta_j|\)</span> है। L1 की खासियत यह है कि वह कई <span class="math-inline">\(\theta_j\)</span> को <strong>ठीक zero</strong> कर देता है (sparse solution), यानी अपने आप feature selection हो जाता है। ऐसा क्यों होता है, यह एक parameter वाले उदाहरण से दिखता है। मान लीजिए penalty के बिना सबसे अच्छा मान <span class="math-inline">\(a\)</span> है:</p>
+<p><span class="math-display">\[\begin{aligned}
+\text{L2:}\quad &amp; \min_\theta \tfrac{1}{2}(\theta - a)^2 + \tfrac{\lambda}{2}\theta^2 &amp;&amp;\Longrightarrow\quad \theta = \frac{a}{1 + \lambda} \\
+\text{L1:}\quad &amp; \min_\theta \tfrac{1}{2}(\theta - a)^2 + \lambda|\theta| &amp;&amp;\Longrightarrow\quad \theta = \mathrm{sign}(a)\,\max(|a| - \lambda,\ 0)
+\end{aligned}\]</span></p>
+<p>L1 वाला जवाब ऐसे निकलता है: <span class="math-inline">\(\theta &gt; 0\)</span> पर derivative <span class="math-inline">\(\theta - a + \lambda = 0\)</span> से <span class="math-inline">\(\theta = a - \lambda\)</span> मिलता है, जो तभी valid है जब <span class="math-inline">\(a &gt; \lambda\)</span> हो। इसी तरह <span class="math-inline">\(\theta &lt; 0\)</span> पर <span class="math-inline">\(\theta = a + \lambda\)</span>, जो तभी valid है जब <span class="math-inline">\(a &lt; -\lambda\)</span> हो। अगर <span class="math-inline">\(|a| \le \lambda\)</span> है तो दोनों में से कोई valid नहीं, और minimum नोक <span class="math-inline">\(\theta = 0\)</span> पर ही है। यानी L2 हर <span class="math-inline">\(\theta_j\)</span> को एक अनुपात में छोटा करता है पर zero कभी नहीं करता, जबकि L1 हर <span class="math-inline">\(\theta_j\)</span> में से <span class="math-inline">\(\lambda\)</span> घटा देता है और छोटे वालों को पूरा zero कर देता है।</p>
+<p><strong>Geometric मतलब:</strong> penalty लगाना वैसा ही है जैसे <span class="math-inline">\(J(\theta)\)</span> को एक budget <span class="math-inline">\(R(\theta) \le t\)</span> के अंदर minimize करना। L2 का budget region एक गोल घेरा (circle) है, L1 का एक diamond जिसके कोने axes पर हैं। <span class="math-inline">\(J\)</span> के contours diamond को अक्सर किसी कोने पर ही सबसे पहले छूते हैं, और कोने पर कोई न कोई <span class="math-inline">\(\theta_j = 0\)</span> होता है। L1 का closed form नहीं होता, उसे iterative तरीकों से solve करते हैं।</p>
+<h2>7. Bayesian नज़रिया: Maximum Likelihood बनाम MAP</h2>
+<p>अब तक (frequentist नज़रिया) <span class="math-inline">\(\theta\)</span> एक अनजान पर तय संख्या थी, और हम उसे <strong>Maximum Likelihood</strong> से निकालते थे:</p>
+<p><span class="math-display">\[\theta_{\text{MLE}} = \arg\max_\theta \prod_{i=1}^{m} p(y^{(i)} \mid x^{(i)}; \theta)\]</span></p>
+<p>Bayesian नज़रिए में <span class="math-inline">\(\theta\)</span> खुद एक random variable है। Data देखने से पहले उसके बारे में हमारी मान्यता <strong>prior</strong> <span class="math-inline">\(p(\theta)\)</span> है। Data <span class="math-inline">\(S\)</span> देखने के बाद Bayes rule से <strong>posterior</strong> मिलता है: <span class="math-inline">\(p(\theta \mid S) \propto \left(\prod_{i=1}^{m} p(y^{(i)} \mid x^{(i)}, \theta)\right) p(\theta)\)</span>। पूरा Bayesian prediction posterior पर integral माँगता है, जो आम तौर पर बहुत महँगा है। इसलिए posterior का सबसे ऊँचा बिंदु ले लेते हैं, जिसे <strong>MAP (maximum a posteriori)</strong> estimate कहते हैं:</p>
+<p><span class="math-display">\[\theta_{\text{MAP}} = \arg\max_\theta \left(\prod_{i=1}^{m} p(y^{(i)} \mid x^{(i)}, \theta)\right) p(\theta)\]</span></p>
+<p>फ़र्क बस आख़िर के <span class="math-inline">\(p(\theta)\)</span> का है। अब Linear Regression का Gaussian noise model (<span class="math-inline">\(y^{(i)} = \theta^Tx^{(i)} + \epsilon^{(i)}\)</span>, <span class="math-inline">\(\epsilon^{(i)} \sim \mathcal{N}(0, \sigma^2)\)</span>) और prior <span class="math-inline">\(\theta \sim \mathcal{N}(0, \tau^2 I)\)</span> लें। Log लेने पर:</p>
+<p><span class="math-display">\[\log\left[\prod_{i=1}^{m} p(y^{(i)} \mid x^{(i)}, \theta)\; p(\theta)\right] = -\frac{1}{2\sigma^2}\sum_{i=1}^{m}\left(y^{(i)} - \theta^Tx^{(i)}\right)^2 - \frac{1}{2\tau^2}\|\theta\|_2^2 + \text{const}\]</span></p>
+<p>इसे maximize करना, <span class="math-inline">\(-\sigma^2\)</span> से गुणा करने के बाद, इसे minimize करने के बराबर है:</p>
+<p><span class="math-display">\[\theta_{\text{MAP}} = \arg\min_\theta\ \frac{1}{2}\sum_{i=1}^{m}\left(y^{(i)} - \theta^Tx^{(i)}\right)^2 + \frac{\lambda}{2}\|\theta\|_2^2, \qquad \lambda = \frac{\sigma^2}{\tau^2}\]</span></p>
+<p>यह ठीक ridge regression है। यानी <strong>L2 regularization = Gaussian prior के साथ MAP</strong>। <span class="math-inline">\(\tau\)</span> छोटा होने का मतलब है "मुझे पक्का लगता है कि <span class="math-inline">\(\theta\)</span> zero के पास है", और तब <span class="math-inline">\(\lambda\)</span> बड़ा होता है। इसी तरह Laplace prior <span class="math-inline">\(p(\theta_j) \propto \exp(-|\theta_j|/b)\)</span> लेने पर L1 regularization मिलता है।</p>
+<h2>8. Model Selection: Cross Validation</h2>
+<p>Degree <span class="math-inline">\(d\)</span>, <span class="math-inline">\(\lambda\)</span>, या features का set कैसे चुनें? Training error से नहीं (वह हमेशा सबसे complex model को जिताएगा)। तरीका यह है कि कुछ data अलग रखें और उस पर error नापें।</p>
+<p><strong>Hold-out cross validation:</strong></p>
+<ol>
+<li><span class="math-inline">\(S\)</span> को random तरीके से दो हिस्सों में बाँटें: <span class="math-inline">\(S_{\text{train}}\)</span> (लगभग 70%) और <span class="math-inline">\(S_{\text{cv}}\)</span> (लगभग 30%)।</li>
+<li>हर candidate model <span class="math-inline">\(M_i\)</span> को सिर्फ़ <span class="math-inline">\(S_{\text{train}}\)</span> पर train करें और hypothesis <span class="math-inline">\(h_i\)</span> पाएँ।</li>
+<li>हर <span class="math-inline">\(h_i\)</span> का error <span class="math-inline">\(S_{\text{cv}}\)</span> पर नापें और सबसे छोटे error वाला model चुनें।</li>
+<li>चाहें तो चुने हुए model को पूरे <span class="math-inline">\(S\)</span> पर दोबारा train कर लें।</li>
+</ol>
+<p><strong>k-fold cross validation:</strong> hold-out में 30% data training के काम नहीं आता। इसे सुधारने के लिए:</p>
+<ol>
+<li><span class="math-inline">\(S\)</span> को <span class="math-inline">\(k\)</span> बराबर हिस्सों <span class="math-inline">\(S_1, \dots, S_k\)</span> में बाँटें।</li>
+<li>हर model <span class="math-inline">\(M_i\)</span> के लिए, <span class="math-inline">\(j = 1, \dots, k\)</span> पर: <span class="math-inline">\(S_j\)</span> को छोड़कर बाकी सब पर train करें और <span class="math-inline">\(S_j\)</span> पर error नापें। इन <span class="math-inline">\(k\)</span> errors का औसत उस model का score है।</li>
+<li>सबसे छोटे औसत error वाला model चुनें और उसे पूरे <span class="math-inline">\(S\)</span> पर दोबारा train करें।</li>
+</ol>
+<p><strong>Leave-one-out cross validation (LOOCV):</strong> यह <span class="math-inline">\(k = m\)</span> वाला k-fold है। हर बार सिर्फ़ एक example बाहर रखते हैं और <span class="math-inline">\(m\)</span> बार train करते हैं।</p>
+<table>
+<thead>
+<tr>
+<th>तरीका</th>
+<th>हर model के लिए training runs</th>
+<th>कब use करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hold-out</td>
+<td>1</td>
+<td>data बहुत है, या training बहुत महँगी है</td>
+</tr>
+<tr>
+<td>k-fold (<span class="math-inline">\(k = 5\)</span> या <span class="math-inline">\(10\)</span>)</td>
+<td><span class="math-inline">\(k\)</span></td>
+<td>बीच का data, यही आम पसंद है</td>
+</tr>
+<tr>
+<td>Leave-one-out</td>
+<td><span class="math-inline">\(m\)</span></td>
+<td>data बहुत कम है (जैसे <span class="math-inline">\(m \le 50\)</span>)</td>
+</tr>
+</tbody>
+</table>
+<h2>9. Feature Selection</h2>
+<p>अगर <span class="math-inline">\(n\)</span> बहुत बड़ा है और <span class="math-inline">\(m\)</span> छोटा, तो कुछ ही features रखना variance घटाता है। <span class="math-inline">\(n\)</span> features के <span class="math-inline">\(2^n\)</span> subsets होते हैं, इसलिए सबको आज़माना मुमकिन नहीं।</p>
+<p><strong>Wrapper methods</strong> learning algorithm को ही बार-बार चलाकर subsets परखते हैं। <strong>Forward search:</strong></p>
+<ol>
+<li><span class="math-inline">\(\mathcal{F} = \emptyset\)</span> से शुरू करें।</li>
+<li>हर ऐसे feature <span class="math-inline">\(i\)</span> के लिए जो <span class="math-inline">\(\mathcal{F}\)</span> में नहीं है, <span class="math-inline">\(\mathcal{F} \cup \{i\}\)</span> पर model train करें और cross validation से उसका error नापें। जो feature सबसे ज़्यादा फ़ायदा दे, उसे <span class="math-inline">\(\mathcal{F}\)</span> में जोड़ दें।</li>
+<li>Step 2 दोहराएँ, जब तक सारे features न आ जाएँ या तय संख्या पूरी न हो जाए। पूरे search में जो subset सबसे अच्छा रहा, वही जवाब है।</li>
+</ol>
+<p><strong>Backward search</strong> उल्टा चलता है: सारे features से शुरू करें और हर बार वह feature हटाएँ जिसके जाने से सबसे कम नुकसान हो। दोनों में लगभग <span class="math-inline">\(O(n^2)\)</span> training runs लगते हैं, जो महँगा है।</p>
+<p><strong>Filter methods</strong> model train किए बिना हर feature को एक score <span class="math-inline">\(S(j)\)</span> देते हैं कि <span class="math-inline">\(x_j\)</span> अकेला <span class="math-inline">\(y\)</span> के बारे में कितना बताता है, और ऊपर के <span class="math-inline">\(k\)</span> features रख लेते हैं। Score के लिए <span class="math-inline">\(x_j\)</span> और <span class="math-inline">\(y\)</span> का correlation ले सकते हैं, या (discrete features के लिए) <strong>mutual information</strong>:</p>
+<p><span class="math-display">\[\mathrm{MI}(x_j, y) = \sum_{x_j}\sum_{y} p(x_j, y)\,\log\frac{p(x_j, y)}{p(x_j)\,p(y)}\]</span></p>
+<p>ये probabilities training set की गिनती से निकलती हैं। अगर <span class="math-inline">\(x_j\)</span> और <span class="math-inline">\(y\)</span> independent हैं तो <span class="math-inline">\(p(x_j, y) = p(x_j)p(y)\)</span> और score zero है। जितना ज़्यादा score, feature उतना काम का। कितने features रखें (<span class="math-inline">\(k\)</span>), यह फिर cross validation से तय करें। Filter methods सस्ते हैं, पर वे features को अकेले-अकेले देखते हैं और उनका आपसी मेल नहीं पकड़ते।</p>
+<h2>10. Practical बातें और आम गलतियाँ</h2>
+<ul>
+<li><strong>Test set को model चुनने में कभी न लगाएँ।</strong> <span class="math-inline">\(\lambda\)</span> या degree cross validation से चुनें, और test set सिर्फ़ आख़िर में एक बार देखें। नहीं तो test error भी झूठा अच्छा दिखेगा।</li>
+<li><strong>हर preprocessing fold के अंदर करें।</strong> Feature scaling या feature selection पूरे data पर करके फिर cross validation करना data leakage है। Statistics सिर्फ़ उस fold के training हिस्से से निकालें।</li>
+<li><strong>Intercept <span class="math-inline">\(\theta_0\)</span> को regularize न करें</strong>, और regularization से पहले features को scale करें। Penalty <span class="math-inline">\(\theta_j\)</span> के size पर लगती है, और वह size feature की unit पर निर्भर करता है।</li>
+<li><strong><span class="math-inline">\(\lambda\)</span> को log scale पर खोजें:</strong> <span class="math-inline">\(0.001, 0.01, 0.1, 1, 10\)</span>। बराबर दूरी वाले मान समय बर्बाद करते हैं।</li>
+<li><strong>पहले पहचानें, फिर इलाज करें।</strong> High bias हो तो ज़्यादा data जुटाने से कुछ नहीं होगा; बड़ा model या नए features चाहिए। High variance हो तो ज़्यादा data, बड़ा <span class="math-inline">\(\lambda\)</span> या कम features काम आएँगे (Lecture 12)।</li>
+</ul>
+<h2>11. खुद से पूछें</h2>
+<ol>
+<li>Bias-variance derivation के Step 1 में cross term zero क्यों हुआ? अगर test point खुद training set का हिस्सा होता, तो क्या यह तर्क चलता?</li>
+<li>Ridge के closed form में <span class="math-inline">\(\lambda \to \infty\)</span> करने पर <span class="math-inline">\(\theta\)</span> का क्या होता है, और तब bias और variance का क्या होता है?</li>
+<li>आपके पास <span class="math-inline">\(m = 40\)</span> examples और <span class="math-inline">\(n = 500\)</span> features हैं। आप कौन सा cross validation और कौन सा feature selection तरीका चुनेंगे, और क्यों?</li>
+</ol>
+<div class="part"><span class="tag">भाग 2</span><h2>3D Animations</h2></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 8.1</span>Polynomial degree: underfit to overfit</div><div class="frames"><figure><img src="anim/L08_1_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L08_1_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L08_1_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> काले बिंदु noisy training data हैं: दो features <span class="math-inline">\(x_1, x_2\)</span> और ऊँचाई पर target <span class="math-inline">\(y\)</span>। रंगीन surface उन पर fit किया गया polynomial है, जिसकी degree 1 से 6 तक चढ़ती है। Degree 1 का सपाट plane मोड़ों को पकड़ नहीं पाता (underfitting), इसलिए लाल residuals लंबे हैं। Degree 3 के आस-पास surface असली आकार पकड़ लेती है। Degree 6 पर surface हर बिंदु से गुज़रने के लिए बुरी तरह मुड़ती है (overfitting): status line में training error लगभग zero हो जाता है पर test error उछल जाता है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L08_1.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 8.2</span>Variance: refit on new training sets</div><div class="frames"><figure><img src="anim/L08_2_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L08_2_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L08_2_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> स्लेटी जाली असली function <span class="math-inline">\(h^\star\)</span> है। हर frame में उसी distribution से एक <strong>नया</strong> training set लिया जाता है और model दोबारा fit होता है। पहले आधे हिस्से में model सरल है (degree 1, नीला): surface लगभग नहीं हिलती, पर जाली से दूर रहती है (high bias, low variance)। दूसरे आधे में model complex है (degree 5, लाल): surface हर बार बुरी तरह बदलती है (high variance)। चार खंभों पर जमा होते बिंदु हर fit का prediction हैं और काला निशान सच है: नीले बिंदु सटे हुए पर सच से हटे हुए हैं, लाल बिंदु सच के आस-पास दूर-दूर बिखरे हैं।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L08_2.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 8.3</span>L2 penalty pulls <span class="math-inline">\(\theta\)</span> to the origin</div><div class="frames"><figure><img src="anim/L08_3_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L08_3_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L08_3_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> ज़मीन पर दो parameters <span class="math-inline">\(\theta_1, \theta_2\)</span> हैं और ऊँचाई cost है। स्लेटी जाली बिना regularization का <span class="math-inline">\(J(\theta)\)</span> है, जिसका minimum हरे तारे पर है। रंगीन surface regularized cost <span class="math-inline">\(J(\theta) + \frac{\lambda}{2}\|\theta\|_2^2\)</span> है। जैसे-जैसे <span class="math-inline">\(\lambda\)</span> बढ़ता है, origin पर टिका penalty का कटोरा surface को हर तरफ़ से ऊपर उठाता है, बस origin पर नहीं। इसलिए minimum (लाल गेंद) हरे तारे से खिंचकर origin की ओर सरकता जाता है: <span class="math-inline">\(\|\theta\|\)</span> छोटा होता है, पर कभी ठीक zero नहीं होता।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L08_3.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 8.4</span>L1 vs L2: where the minimum lands</div><div class="frames"><figure><img src="anim/L08_4_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L08_4_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L08_4_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ भी ऊँचाई cost <span class="math-inline">\(J(\theta)\)</span> है, पर अब <span class="math-inline">\(\theta\)</span> को एक budget के अंदर रहना है। फ़र्श पर नीला diamond L1 budget <span class="math-inline">\(\|\theta\|_1 \le t\)</span> है और नारंगी गोल घेरा L2 budget <span class="math-inline">\(\|\theta\|_2 \le t\)</span> है। दोनों की सीमा को surface पर उठाकर भी खींचा गया है: budget के अंदर सबसे नीचा बिंदु ही constrained minimum है। जैसे-जैसे <span class="math-inline">\(t\)</span> घटता है, L1 का बिंदु diamond के किनारे पर फिसलकर <strong>कोने</strong> पर पहुँचता है और वहीं अटक जाता है, यानी <span class="math-inline">\(\theta_1\)</span> ठीक zero (sparsity)। L2 का बिंदु घेरे पर सरकता रहता है और उसके दोनों coordinates non-zero रहते हैं।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L08_4.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 8.5</span>Model selection over (degree, <span class="math-inline">\(\lambda\)</span>)</div><div class="frames"><figure><img src="anim/L08_5_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L08_5_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L08_5_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> ज़मीन पर दो hyperparameters हैं: polynomial की degree और <span class="math-inline">\(\log_{10}\lambda\)</span>। नीली surface training error है और नारंगी surface validation error (कई random training sets पर नापा गया)। पहले marker सबसे छोटे <span class="math-inline">\(\lambda\)</span> पर degree बढ़ाता है: नीला बिंदु लगातार नीचे जाता है, पर लाल बिंदु पहले गिरता है और फिर ऊपर चढ़ जाता है (overfitting)। दोनों के बीच की खड़ी रेखा generalization gap है। फिर marker <span class="math-inline">\(\lambda\)</span> बढ़ाता है और validation error दोबारा गिरता है। अंत में वह validation surface के सबसे निचले बिंदु (हरा तारा) पर रुकता है: model वहीं चुना जाता है, वहाँ नहीं जहाँ training error सबसे कम है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L08_5.gif</div></div>
+<div class="part"><span class="tag">भाग 3</span><h2>Python Example</h2></div>
+<p class="run">इसे खुद चलाएँ: <code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/chapters/L08_bias_variance_regularization/example.py</code></p>
+<div class="code"><pre><span></span><span class="sd">"""Lecture 8 example: Ridge Regression, k-fold Cross Validation और Bias-Variance (सिर्फ़ NumPy).</span>
+
+<span class="sd">1D data पर polynomial regression करते हैं। पहले k-fold cross validation से degree और lambda</span>
+<span class="sd">चुनते हैं। फिर सैकड़ों training sets बनाकर bias^2 और variance को सीधे नापते हैं और देखते हैं कि</span>
+<span class="sd">sigma^2 + bias^2 + variance सचमुच test error के बराबर आता है।</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">SIGMA</span> <span class="o">=</span> <span class="mf">0.3</span>                                       <span class="c1"># noise का standard deviation</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">h_star</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""असली function, जो model को पता नहीं है।"""</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">3.5</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">make_data</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">rng</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">h_star</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">SIGMA</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+
+<span class="c1"># ---------- 1. Polynomial features और ridge का closed form ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">poly_features</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">degree</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Columns: 1, x, x^2, ..., x^degree"""</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vander</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">increasing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ridge_fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">degree</span><span class="p">,</span> <span class="n">lam</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""theta = (X^T X + lam*I)^-1 X^T y, पर intercept theta_0 पर penalty नहीं।"""</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">poly_features</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">degree</span><span class="p">)</span>
+    <span class="n">penalty</span> <span class="o">=</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">penalty</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span> <span class="o">+</span> <span class="n">penalty</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">poly_features</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">@</span> <span class="n">theta</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">mse</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">predict</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="c1"># ---------- 2. k-fold cross validation ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">kfold_error</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">degree</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""हर fold को एक बार बाहर रखें, बाकी पर train करें, बाहर वाले पर error नापें।"""</span>
+    <span class="n">folds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">k</span><span class="p">)</span>  <span class="c1"># data पहले से random क्रम में है</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">held_out</span> <span class="ow">in</span> <span class="n">folds</span><span class="p">:</span>
+        <span class="n">train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">setdiff1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">held_out</span><span class="p">)</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">ridge_fit</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">train</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train</span><span class="p">],</span> <span class="n">degree</span><span class="p">,</span> <span class="n">lam</span><span class="p">)</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mse</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">held_out</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">held_out</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">make_data</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+<span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">make_data</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>             <span class="c1"># सिर्फ़ आख़िरी जाँच के लिए</span>
+
+<span class="n">degrees</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+<span class="n">lambdas</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="n">cv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">kfold_error</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">lam</span><span class="p">)</span> <span class="k">for</span> <span class="n">lam</span> <span class="ow">in</span> <span class="n">lambdas</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">degrees</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"1) 5-fold CV error (m = 40). Rows: degree, columns: lambda"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"degree "</span> <span class="o">+</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="sa">f</span><span class="s1">'lam=</span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s1">g</span><span class="si">}</span><span class="s1">'</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">lam</span> <span class="ow">in</span> <span class="n">lambdas</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"   train MSE (lam=0)"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="n">cv</span><span class="p">):</span>
+    <span class="n">train_err</span> <span class="o">=</span> <span class="n">mse</span><span class="p">(</span><span class="n">ridge_fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">&gt;6</span><span class="si">}</span><span class="s2"> "</span> <span class="o">+</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">e</span><span class="si">:</span><span class="s2">12.4f</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"   </span><span class="si">{</span><span class="n">train_err</span><span class="si">:</span><span class="s2">10.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">best_d</span><span class="p">,</span> <span class="n">best_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">cv</span><span class="p">),</span> <span class="n">cv</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">d_cv</span><span class="p">,</span> <span class="n">lam_cv</span> <span class="o">=</span> <span class="n">degrees</span><span class="p">[</span><span class="n">best_d</span><span class="p">],</span> <span class="n">lambdas</span><span class="p">[</span><span class="n">best_l</span><span class="p">]</span>
+<span class="n">theta_cv</span> <span class="o">=</span> <span class="n">ridge_fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">d_cv</span><span class="p">,</span> <span class="n">lam_cv</span><span class="p">)</span>          <span class="c1"># चुने हुए model को पूरे data पर train करें</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">CV ने चुना: degree = </span><span class="si">{</span><span class="n">d_cv</span><span class="si">}</span><span class="s2">, lambda = </span><span class="si">{</span><span class="n">lam_cv</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">  (CV error </span><span class="si">{</span><span class="n">cv</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Test MSE (2000 नए examples पर):"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">lam</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">"CV का चुना हुआ model"</span><span class="p">,</span> <span class="n">d_cv</span><span class="p">,</span> <span class="n">lam_cv</span><span class="p">),</span> <span class="p">(</span><span class="s2">"degree 1  (underfit)"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s2">"degree 12, lam=0 (overfit)"</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s2">"degree 12, lam=0.01"</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">)]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">mse</span><span class="p">(</span><span class="n">ridge_fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span><span class="w"> </span><span class="n">y_train</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">lam</span><span class="p">),</span><span class="w"> </span><span class="n">x_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"(noise का sigma^2 = </span><span class="si">{</span><span class="n">SIGMA</span><span class="o">**</span><span class="mi">2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">: इससे नीचे कोई model नहीं जा सकता)"</span><span class="p">)</span>
+
+
+<span class="c1"># ---------- 3. Bias-variance simulation: बहुत सारे training sets, हर एक पर नया model ----------</span>
+<span class="c1"># हर training set में x की वही m जगहें हैं (बराबर दूरी पर) और y का noise नया है, जैसे वही</span>
+<span class="c1"># experiment बार-बार दोहराया गया हो। इससे सिर्फ़ noise से पैदा हुआ variance साफ़ दिखता है।</span>
+<span class="n">x_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>                  <span class="c1"># test points</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">bias_variance</span><span class="p">(</span><span class="n">degree</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">trials</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_grid</span><span class="p">)))</span>
+    <span class="n">test_err</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">trials</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">h_star</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">sim</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">SIGMA</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>                        <span class="c1"># नया training set</span>
+        <span class="n">preds</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">ridge_fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">degree</span><span class="p">,</span> <span class="n">lam</span><span class="p">),</span> <span class="n">x_grid</span><span class="p">)</span>
+        <span class="n">y_new</span> <span class="o">=</span> <span class="n">h_star</span><span class="p">(</span><span class="n">x_grid</span><span class="p">)</span> <span class="o">+</span> <span class="n">sim</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">SIGMA</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_grid</span><span class="p">))</span>     <span class="c1"># नए noisy test targets</span>
+        <span class="n">test_err</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">y_new</span> <span class="o">-</span> <span class="n">preds</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">trials</span>
+    <span class="n">h_avg</span> <span class="o">=</span> <span class="n">preds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>                                <span class="c1"># औसत model</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">preds</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+    <span class="c1"># trials सीमित हैं, इसलिए h_avg में थोड़ा noise बचता है (लगभग variance / trials): उसे घटा दें</span>
+    <span class="n">bias2</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">h_avg</span> <span class="o">-</span> <span class="n">h_star</span><span class="p">(</span><span class="n">x_grid</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">variance</span> <span class="o">/</span> <span class="n">trials</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bias2</span><span class="p">,</span> <span class="n">variance</span><span class="p">,</span> <span class="n">test_err</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">2) Bias-variance tradeoff (m = 15, 1000 training sets, lambda = 0)"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"degree    bias^2   variance   sigma^2+bias^2+var   measured test MSE"</span><span class="p">)</span>
+<span class="n">sim_degrees</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="n">table</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">sim_degrees</span><span class="p">:</span>
+    <span class="n">b2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">bias_variance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">b2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">err</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">&gt;6</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">b2</span><span class="si">:</span><span class="s2">9.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">var</span><span class="si">:</span><span class="s2">10.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">SIGMA</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">var</span><span class="si">:</span><span class="s2">20.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">err</span><span class="si">:</span><span class="s2">19.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">3) Degree 10 पर lambda और m का असर"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"setting                 bias^2   variance"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">"lam=0,    m=15"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="p">(</span><span class="s2">"lam=0.01, m=15"</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
+                      <span class="p">(</span><span class="s2">"lam=1,    m=15"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="p">(</span><span class="s2">"lam=0,    m=150"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">150</span><span class="p">)]:</span>
+    <span class="n">b2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">bias_variance</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">m</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">label</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">b2</span><span class="si">:</span><span class="s2">9.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">var</span><span class="si">:</span><span class="s2">10.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 4. Plots ----------</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mf">3.9</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"training data"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">h_star</span><span class="p">(</span><span class="n">x_grid</span><span class="p">),</span> <span class="s2">"k--"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"true function"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">"tab:blue"</span><span class="p">),</span> <span class="p">(</span><span class="n">d_cv</span><span class="p">,</span> <span class="n">lam_cv</span><span class="p">,</span> <span class="s2">"tab:green"</span><span class="p">),</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">"tab:red"</span><span class="p">)]:</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_grid</span><span class="p">,</span> <span class="n">predict</span><span class="p">(</span><span class="n">ridge_fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">lam</span><span class="p">),</span> <span class="n">x_grid</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">col</span><span class="p">,</span>
+                 <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"degree </span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">, lambda=</span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">),</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Underfit, chosen by CV, overfit"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">lam</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lambdas</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">degrees</span><span class="p">,</span> <span class="n">cv</span><span class="p">[:,</span> <span class="n">j</span><span class="p">],</span> <span class="s2">"o-"</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"lambda=</span><span class="si">{</span><span class="n">lam</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">yscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"degree"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"5-fold CV error"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Model selection"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">b2s</span><span class="p">,</span> <span class="n">variances</span><span class="p">,</span> <span class="n">errs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">table</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim_degrees</span><span class="p">,</span> <span class="n">b2s</span><span class="p">,</span> <span class="s2">"o-"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"bias^2"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim_degrees</span><span class="p">,</span> <span class="n">variances</span><span class="p">,</span> <span class="s2">"o-"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"variance"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim_degrees</span><span class="p">,</span> <span class="n">errs</span><span class="p">,</span> <span class="s2">"k^-"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"test MSE"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">SIGMA</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">":"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"sigma^2 (noise)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"degree"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Bias-variance tradeoff"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"result.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+</pre></div>
+
+<div class="label">OUTPUT</div>
+<pre class="output">1) 5-fold CV error (m = 40). Rows: degree, columns: lambda
+degree        lam=0  lam=0.0001    lam=0.01       lam=1   train MSE (lam=0)
+     1       0.6644      0.6644      0.6641      0.6449       0.5149
+     2       0.3549      0.3549      0.3544      0.3611       0.2513
+     3       0.2378      0.2377      0.2336      0.3385       0.1291
+     4       0.1028      0.1028      0.1096      0.3606       0.0702
+     5       0.1201      0.1203      0.1354      0.3282       0.0699
+     7       0.2137      0.1836      0.1253      0.3209       0.0672
+     9       0.6869      0.2359      0.1290      0.3133       0.0660
+    12     330.5123      1.2816      0.1567      0.3047       0.0501
+
+CV ने चुना: degree = 4, lambda = 0  (CV error 0.1028)
+Test MSE (2000 नए examples पर):
+  0.1251  CV का चुना हुआ model
+  0.4352  degree 1  (underfit)
+  0.2234  degree 12, lam=0 (overfit)
+  0.1299  degree 12, lam=0.01
+(noise का sigma^2 = 0.0900: इससे नीचे कोई model नहीं जा सकता)
+
+2) Bias-variance tradeoff (m = 15, 1000 training sets, lambda = 0)
+degree    bias^2   variance   sigma^2+bias^2+var   measured test MSE
+     1    0.3475     0.0113               0.4487              0.4493
+     2    0.1233     0.0158               0.2291              0.2293
+     3    0.0411     0.0203               0.1514              0.1511
+     4    0.0015     0.0254               0.1169              0.1169
+     6    0.0000     0.0367               0.1267              0.1267
+     8    0.0000     0.0514               0.1414              0.1413
+    10    0.0000     0.0854               0.1754              0.1756
+
+3) Degree 10 पर lambda और m का असर
+setting                 bias^2   variance
+lam=0,    m=15          0.0000     0.0854
+lam=0.01, m=15          0.0038     0.0302
+lam=1,    m=15          0.1530     0.0142
+lam=0,    m=150         0.0000     0.0065</pre>
+<img class="result-img" src="examples/L08_bias_variance_regularization/result.png">
+</section>
+<script src="../vendor/katex/package/dist/katex.min.js"></script>
+<script src="../vendor/katex/package/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [{left: "\\[", right: "\\]", display: true}, {left: "\\(", right: "\\)", display: false}],
+  throwOnError: false, ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+});
+</script>
+</body></html>

@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8">
+<title>Dhruv AI tutorial | Machine Learning हिंदी में</title>
+<link rel="stylesheet" href="../vendor/katex/package/dist/katex.min.css">
+<style>
+@page { size: A4; margin: 16mm 13mm 17mm 13mm;
+        @bottom-center { content: counter(page); font: 9pt "Helvetica Neue", sans-serif; color: #6b7280; } }
+@page :first { @bottom-center { content: none; } }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Kohinoor Devanagari", "Devanagari Sangam MN", "Helvetica Neue", sans-serif;
+       font-size: 10.6pt; line-height: 1.72; color: #111827; margin: 0; }
+body.screen { max-width: 900px; margin: 0 auto; padding: 24px 28px 80px; font-size: 16px; background: #fff; }
+h1, h2, h3, h4 { line-height: 1.35; break-after: avoid; }
+h2 { font-size: 13.5pt; margin: 1.3em 0 0.4em; color: #1e3a8a; }
+h3 { font-size: 11.5pt; margin: 1.1em 0 0.3em; color: #1f2937; }
+p { margin: 0.45em 0; orphans: 2; widows: 2; }
+ul, ol { margin: 0.4em 0; padding-left: 1.5em; }
+li { margin: 0.18em 0; }
+a { color: #1d4ed8; text-decoration: none; }
+code { font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace; font-size: 0.88em;
+       background: #f1f5f9; padding: 0.08em 0.3em; border-radius: 3px; }
+blockquote { margin: 0.7em 0; padding: 0.5em 0.9em; border-left: 4px solid #2563eb; background: #eff6ff;
+             border-radius: 0 6px 6px 0; break-inside: avoid; }
+blockquote p { margin: 0.2em 0; }
+table { border-collapse: collapse; margin: 0.7em 0; width: 100%; font-size: 0.93em; break-inside: avoid; }
+th, td { border: 1px solid #d1d5db; padding: 0.3em 0.6em; text-align: left; vertical-align: top; }
+th { background: #eef2ff; }
+.math-display { display: block; margin: 0.55em 0; overflow-x: auto; break-inside: avoid; }
+.katex { font-size: 1.04em; }
+
+.cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center;
+         break-after: page; }
+body.screen .cover { height: auto; padding: 70px 0 50px; }
+.cover .kicker { letter-spacing: 0.22em; font-size: 10pt; color: #2563eb; font-weight: 700; }
+.cover h1 { font-size: 34pt; margin: 0.25em 0 0.1em; color: #111827; }
+.cover .sub { font-size: 15pt; color: #374151; }
+.cover .pill { display: inline-block; margin: 2.2em auto 0; padding: 0.5em 1.4em; border-radius: 999px;
+               background: #1e3a8a; color: #fff; font-size: 11.5pt; }
+.cover .note { margin-top: 3em; font-size: 9.5pt; color: #6b7280; }
+
+.front { break-after: page; }
+.toc ol { list-style: none; padding: 0; margin: 0.4em 0; }
+.toc li { display: flex; gap: 0.7em; padding: 0.22em 0; border-bottom: 1px dotted #cbd5e1; }
+.toc .n { flex: 0 0 5.6em; color: #2563eb; font-weight: 700; }
+
+.chapter { break-before: page; }
+.ch-head { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 14px 18px;
+           border-radius: 10px; margin-bottom: 0.9em; break-inside: avoid; }
+.ch-head .n { font-size: 9.5pt; letter-spacing: 0.18em; opacity: 0.85; font-weight: 700; }
+.ch-head h1 { font-size: 17.5pt; margin: 0.1em 0 0; }
+.part { display: flex; align-items: center; gap: 0.6em; margin: 1.5em 0 0.6em; padding-bottom: 0.25em;
+        border-bottom: 2px solid #1e3a8a; break-after: avoid; }
+.part .tag { background: #1e3a8a; color: #fff; border-radius: 5px; padding: 0.05em 0.6em; font-size: 9.5pt;
+             font-weight: 700; }
+.part h2 { margin: 0; font-size: 14pt; }
+
+.anim { border: 1px solid #e5e7eb; border-radius: 9px; padding: 8px 7px 6px; margin: 0.8em 0;
+        break-inside: avoid; background: #fff; }
+.anim-head { font-weight: 700; margin-bottom: 0.3em; }
+.anim-head .badge { background: #ea580c; color: #fff; border-radius: 4px; padding: 0.05em 0.5em;
+                    font-size: 9pt; margin-right: 0.5em; }
+.frames { display: flex; gap: 3px; }
+.frames figure { margin: 0; flex: 1; text-align: center; }
+.frames img { width: 100%; display: block; border: 1px solid #eef0f3; border-radius: 5px; }
+.frames figcaption { font-size: 8pt; color: #6b7280; line-height: 1.3; margin-top: 1px; }
+.anim .gif { display: block; margin: 0 auto; width: 480px; max-width: 100%; }
+.anim .caption { font-size: 0.95em; margin: 0.4em 0 0.15em; }
+.anim .file { font-size: 8pt; color: #6b7280; font-family: "SF Mono", Menlo, monospace; }
+
+.code { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.code pre, pre.output { margin: 0; font-family: "SF Mono", Menlo, Consolas, "Kohinoor Devanagari", monospace;
+                        font-size: 8.3pt; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+body.screen .code pre, body.screen pre.output { font-size: 13px; }
+pre.output { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 9px 12px; margin: 0.6em 0; }
+.label { font-size: 9pt; font-weight: 700; color: #475569; margin: 1em 0 0.2em; break-after: avoid; }
+.result-img { display: block; max-width: 88%; margin: 0.6em auto; border: 1px solid #e5e7eb; border-radius: 6px;
+              break-inside: avoid; }
+.run { font-size: 0.93em; }
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.code .hll { background-color: #ffffcc }
+.code { background: #f0f0f0; }
+.code .c { color: #60A0B0; font-style: italic } /* Comment */
+.code .err { border: 1px solid #F00 } /* Error */
+.code .k { color: #007020; font-weight: bold } /* Keyword */
+.code .o { color: #666 } /* Operator */
+.code .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.code .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.code .cp { color: #007020 } /* Comment.Preproc */
+.code .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.code .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.code .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.code .gd { color: #A00000 } /* Generic.Deleted */
+.code .ge { font-style: italic } /* Generic.Emph */
+.code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.code .gr { color: #F00 } /* Generic.Error */
+.code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.code .gi { color: #00A000 } /* Generic.Inserted */
+.code .go { color: #888 } /* Generic.Output */
+.code .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.code .gs { font-weight: bold } /* Generic.Strong */
+.code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.code .gt { color: #04D } /* Generic.Traceback */
+.code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.code .kp { color: #007020 } /* Keyword.Pseudo */
+.code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.code .kt { color: #902000 } /* Keyword.Type */
+.code .m { color: #40A070 } /* Literal.Number */
+.code .s { color: #4070A0 } /* Literal.String */
+.code .na { color: #4070A0 } /* Name.Attribute */
+.code .nb { color: #007020 } /* Name.Builtin */
+.code .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.code .no { color: #60ADD5 } /* Name.Constant */
+.code .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.code .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.code .ne { color: #007020 } /* Name.Exception */
+.code .nf { color: #06287E } /* Name.Function */
+.code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.code .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.code .nv { color: #BB60D5 } /* Name.Variable */
+.code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.code .w { color: #BBB } /* Text.Whitespace */
+.code .mb { color: #40A070 } /* Literal.Number.Bin */
+.code .mf { color: #40A070 } /* Literal.Number.Float */
+.code .mh { color: #40A070 } /* Literal.Number.Hex */
+.code .mi { color: #40A070 } /* Literal.Number.Integer */
+.code .mo { color: #40A070 } /* Literal.Number.Oct */
+.code .sa { color: #4070A0 } /* Literal.String.Affix */
+.code .sb { color: #4070A0 } /* Literal.String.Backtick */
+.code .sc { color: #4070A0 } /* Literal.String.Char */
+.code .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.code .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.code .s2 { color: #4070A0 } /* Literal.String.Double */
+.code .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.code .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.code .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.code .sx { color: #C65D09 } /* Literal.String.Other */
+.code .sr { color: #235388 } /* Literal.String.Regex */
+.code .s1 { color: #4070A0 } /* Literal.String.Single */
+.code .ss { color: #517918 } /* Literal.String.Symbol */
+.code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.code .fm { color: #06287E } /* Name.Function.Magic */
+.code .vc { color: #BB60D5 } /* Name.Variable.Class */
+.code .vg { color: #BB60D5 } /* Name.Variable.Global */
+.code .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.code .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.code .il { color: #40A070 } /* Literal.Number.Integer.Long */</style>
+</head><body class="print">
+<section class="cover"><div class="kicker">DHRUV AI TUTORIAL &middot; SELF-STUDY GUIDE</div><h1>Dhruv AI tutorial<br>Machine Learning हिंदी में</h1><div class="sub">Lecture 1 से Lecture 20 तक</div><div class="pill">Theory &nbsp;&bull;&nbsp; 3D Animations &nbsp;&bull;&nbsp; Python Examples</div><div class="note">यह Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक की self-study guide है।</div></section>
+<section class="front"><h2>यह guide कैसे पढ़ें</h2>
+<p>यह Dhruv AI tutorial Machine Learning के मूल सिद्धांतों से लेकर Reinforcement Learning तक के 20 lectures में व्यवस्थित है। हर lecture का एक chapter है, और हर chapter के तीन भाग हैं:</p>
+<table>
+<thead>
+<tr>
+<th>भाग</th>
+<th>क्या है</th>
+<th>कैसे इस्तेमाल करें</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>भाग 1: Theory</strong></td>
+<td>Idea, notation, maths और algorithm, हिंदी में</td>
+<td>पहले इसे धीरे-धीरे पढ़ें। Equations को कागज़ पर खुद लिखकर देखें।</td>
+</tr>
+<tr>
+<td><strong>भाग 2: 3D Animations</strong></td>
+<td>हर chapter में कम से कम 5 animations</td>
+<td>PDF में हर animation के तीन still frames हैं (शुरुआत, बीच में, अंत)। चलती animation देखने के लिए नीचे बताई files खोलें।</td>
+</tr>
+<tr>
+<td><strong>भाग 3: Python Example</strong></td>
+<td>NumPy से शुरू से लिखा एक चलने वाला example, उसके output के साथ</td>
+<td>Code को खुद चलाएँ, फिर numbers बदलकर देखें कि क्या बदलता है।</td>
+</tr>
+</tbody>
+</table>
+<p><strong>भाषा के बारे में:</strong> समझाने की भाषा हिंदी है, पर AI और Maths के शब्द (जैसे Gradient Descent, likelihood, kernel, variance) अंग्रेज़ी में ही रखे गए हैं, ताकि आप वही शब्द सीखें जो papers, courses और code में मिलते हैं।</p>
+<h2>चलती animations कहाँ हैं</h2>
+<ul>
+<li><strong><code>index.html</code></strong> (project का मुख्य page): इसे browser में खोलें। इसमें पूरी guide और सारी animations हैं।</li>
+<li><strong><code>dhruv_ai_tutorial/out/anim/</code></strong>: हर animation की अलग GIF file। नाम <code>L02_3.gif</code> का मतलब है Lecture 2 की तीसरी animation।</li>
+</ul>
+<h2>Code कैसे चलाएँ</h2>
+<p>हर chapter का code <code>dhruv_ai_tutorial/chapters/&lt;chapter&gt;/example.py</code> में है। Terminal में project root से:</p>
+<pre><code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/chapters/L02_linear_regression/example.py
+</code></pre>
+<p>Animations का code उसी folder की <code>anims.py</code> में है। पूरी guide दोबारा बनाने के लिए: <code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/build.py</code></p>
+<h2>पहले से क्या आना चाहिए</h2>
+<ul>
+<li><strong>Linear Algebra:</strong> vectors, matrices, matrix multiplication, transpose, inverse, eigenvalues / eigenvectors।</li>
+<li><strong>Probability:</strong> random variable, expectation, variance, conditional probability, Bayes rule, Gaussian distribution।</li>
+<li><strong>Calculus:</strong> derivative, partial derivative, gradient, chain rule।</li>
+<li><strong>Python:</strong> NumPy arrays की बुनियादी समझ।</li>
+</ul>
+<h2>पूरे course में चलने वाला notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}, y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वाँ training example: input और target</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या (या input का dimension)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span>, <span class="math-inline">\(w\)</span>, <span class="math-inline">\(b\)</span></td>
+<td>model के parameters</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis: model का prediction</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(J(\theta)\)</span></td>
+<td>cost function जिसे minimize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\ell(\theta)\)</span></td>
+<td>log-likelihood जिसे maximize करना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span></td>
+<td>learning rate</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\nabla_\theta\)</span></td>
+<td><span class="math-inline">\(\theta\)</span> के सापेक्ष gradient</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\mathcal{N}(\mu, \Sigma)\)</span></td>
+<td>mean <span class="math-inline">\(\mu\)</span> और covariance <span class="math-inline">\(\Sigma\)</span> वाला Gaussian</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(:=\)</span></td>
+<td>"दाएँ की value बाएँ में रख दो" (assignment)</td>
+</tr>
+</tbody>
+</table><h2>विषय-सूची</h2><div class="toc"><ol><li><span class="n">Lecture 2</span><a href="#L02_linear_regression">Supervised Learning Setup और Linear Regression</a></li></ol></div></section>
+<section class="chapter" id="L02_linear_regression">
+<div class="ch-head"><div class="n">LECTURE 2</div><h1>Supervised Learning Setup और Linear Regression</h1></div>
+<div class="part"><span class="tag">भाग 1</span><h2>Theory</h2></div>
+<blockquote>
+<p><strong>इस lecture में:</strong> Supervised Learning का पूरा ढाँचा (training set, hypothesis, cost function), Linear Regression, Gradient Descent (Batch और Stochastic), Normal Equations, और यह कि Least Squares असल में Maximum Likelihood क्यों है।</p>
+</blockquote>
+<h2>1. एक line में idea</h2>
+<p>हमारे पास कुछ उदाहरण हैं जिनमें input <span class="math-inline">\(x\)</span> और सही जवाब <span class="math-inline">\(y\)</span> दोनों दिए हैं। हमें ऐसा function <span class="math-inline">\(h\)</span> सीखना है जो नए <span class="math-inline">\(x\)</span> के लिए <span class="math-inline">\(y\)</span> का अच्छा अंदाज़ा लगा सके। जब <span class="math-inline">\(y\)</span> एक continuous संख्या हो (जैसे घर की कीमत), तो इस problem को <strong>regression</strong> कहते हैं। जब <span class="math-inline">\(y\)</span> कुछ गिनी-चुनी categories में से एक हो (जैसे spam / not spam), तो इसे <strong>classification</strong> कहते हैं।</p>
+<p>Linear Regression सबसे सरल regression model है: हम मान लेते हैं कि <span class="math-inline">\(y\)</span> लगभग <span class="math-inline">\(x\)</span> के features का एक weighted sum है, और फिर data से सबसे अच्छे weights ढूँढते हैं।</p>
+<h2>2. Setup और Notation</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>मतलब</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(x^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वें training example के input features (एक vector)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(y^{(i)}\)</span></td>
+<td><span class="math-inline">\(i\)</span>-वें example का target (सही जवाब)</td>
+</tr>
+<tr>
+<td><span class="math-inline">\((x^{(i)}, y^{(i)})\)</span></td>
+<td>एक training example</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(m\)</span></td>
+<td>training examples की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span></td>
+<td>features की संख्या</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(\theta\)</span></td>
+<td>parameters (weights), जिन्हें हमें सीखना है</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(h_\theta(x)\)</span></td>
+<td>hypothesis, यानी model का prediction</td>
+</tr>
+</tbody>
+</table>
+<p>Linear Regression में hypothesis यह है (हम <span class="math-inline">\(x_0 = 1\)</span> मान लेते हैं ताकि intercept <span class="math-inline">\(\theta_0\)</span> भी उसी formula में आ जाए):</p>
+<p><span class="math-display">\[h_\theta(x) = \theta_0 + \theta_1 x_1 + \dots + \theta_n x_n = \sum_{j=0}^{n} \theta_j x_j = \theta^T x\]</span></p>
+<p>एक feature हो तो यह एक line है, दो features हों तो एक plane, और ज़्यादा हों तो hyperplane।</p>
+<h2>3. Cost Function</h2>
+<p><span class="math-inline">\(\theta\)</span> कितना अच्छा है, यह नापने के लिए हम देखते हैं कि predictions असली <span class="math-inline">\(y\)</span> से कितनी दूर हैं। इसी दूरी के squares का जोड़ <strong>cost function</strong> है:</p>
+<p><span class="math-display">\[J(\theta) = \frac{1}{2} \sum_{i=1}^{m} \left( h_\theta(x^{(i)}) - y^{(i)} \right)^2\]</span></p>
+<p><span class="math-inline">\(J(\theta)\)</span> जितना छोटा, fit उतना अच्छा। Linear Regression के लिए <span class="math-inline">\(J\)</span> एक <strong>convex</strong> कटोरे (bowl) जैसा होता है, इसलिए इसका सिर्फ़ एक ही global minimum है और कोई local minimum नहीं।</p>
+<h2>4. Gradient Descent</h2>
+<p>कटोरे की तली तक पहुँचने का तरीका: जहाँ खड़े हैं वहाँ से सबसे तेज़ ढलान की दिशा में छोटा कदम लें, और यही बार-बार दोहराएँ।</p>
+<p><span class="math-display">\[\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta)\]</span></p>
+<p>यहाँ <span class="math-inline">\(\alpha\)</span> <strong>learning rate</strong> है, यानी कदम का size। एक example के लिए derivative निकालें तो:</p>
+<p><span class="math-display">\[\frac{\partial}{\partial \theta_j} \frac{1}{2}\left(h_\theta(x) - y\right)^2 = \left(h_\theta(x) - y\right) x_j\]</span></p>
+<p>इससे <strong>LMS (Least Mean Squares) update rule</strong> मिलता है, जिसे Widrow-Hoff rule भी कहते हैं:</p>
+<p><span class="math-display">\[\theta_j := \theta_j + \alpha \left( y^{(i)} - h_\theta(x^{(i)}) \right) x_j^{(i)}\]</span></p>
+<p>ध्यान दें कि update error <span class="math-inline">\((y - h_\theta(x))\)</span> के अनुपात में है: prediction लगभग सही हो तो बदलाव छोटा, बहुत गलत हो तो बदलाव बड़ा।</p>
+<h3>Batch बनाम Stochastic</h3>
+<ul>
+<li><strong>Batch Gradient Descent:</strong> हर step में पूरे training set का जोड़ लेते हैं: <span class="math-inline">\(\theta_j := \theta_j + \alpha \sum_{i=1}^{m} (y^{(i)} - h_\theta(x^{(i)}))\, x_j^{(i)}\)</span>। रास्ता smooth होता है, पर <span class="math-inline">\(m\)</span> बड़ा हो तो हर step महँगा पड़ता है।</li>
+<li><strong>Stochastic Gradient Descent (SGD):</strong> हर step में सिर्फ़ एक example देखकर update कर देते हैं। रास्ता टेढ़ा-मेढ़ा (noisy) होता है और minimum के आस-पास घूमता रहता है, पर बड़े data पर यह बहुत जल्दी अच्छे <span class="math-inline">\(\theta\)</span> के पास पहुँच जाता है।</li>
+</ul>
+<h3>Learning rate का असर</h3>
+<ul>
+<li><span class="math-inline">\(\alpha\)</span> बहुत छोटा: सही दिशा, पर बहुत धीमा।</li>
+<li><span class="math-inline">\(\alpha\)</span> ठीक-ठाक: तेज़ी से minimum तक।</li>
+<li><span class="math-inline">\(\alpha\)</span> बहुत बड़ा: कदम minimum के पार निकल जाते हैं, <span class="math-inline">\(J\)</span> घटने की जगह उछलता है या बढ़ता ही जाता है (diverge)।</li>
+</ul>
+<h2>5. Normal Equations</h2>
+<p>Linear Regression में minimum सीधे formula से भी निकल सकता है। सारे examples को matrix <span class="math-inline">\(X\)</span> (हर row एक <span class="math-inline">\(x^{(i)T}\)</span>) और vector <span class="math-inline">\(\vec{y}\)</span> में रखें। तब</p>
+<p><span class="math-display">\[J(\theta) = \frac{1}{2} (X\theta - \vec{y})^T (X\theta - \vec{y}), \qquad \nabla_\theta J(\theta) = X^T X \theta - X^T \vec{y}\]</span></p>
+<p>Gradient को zero रखने पर <strong>Normal Equations</strong> मिलती हैं:</p>
+<p><span class="math-display">\[X^T X \theta = X^T \vec{y} \quad\Longrightarrow\quad \theta = (X^T X)^{-1} X^T \vec{y}\]</span></p>
+<p><strong>Geometric मतलब:</strong> <span class="math-inline">\(X\theta\)</span> हमेशा <span class="math-inline">\(X\)</span> के columns के span (एक plane) में रहता है। सबसे अच्छा <span class="math-inline">\(\theta\)</span> वह है जिसके लिए <span class="math-inline">\(X\theta\)</span>, <span class="math-inline">\(\vec{y}\)</span> का उस plane पर <strong>projection</strong> हो। तब residual <span class="math-inline">\(\vec{y} - X\theta\)</span> plane के perpendicular होता है, यानी <span class="math-inline">\(X^T(\vec{y} - X\theta) = 0\)</span>। यही Normal Equation है।</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Gradient Descent</th>
+<th>Normal Equations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math-inline">\(\alpha\)</span> चुनना</td>
+<td>ज़रूरी</td>
+<td>नहीं</td>
+</tr>
+<tr>
+<td>Iterations</td>
+<td>बहुत</td>
+<td>एक ही बार में</td>
+</tr>
+<tr>
+<td><span class="math-inline">\(n\)</span> बहुत बड़ा हो</td>
+<td>ठीक चलता है</td>
+<td><span class="math-inline">\((X^TX)^{-1}\)</span> लगभग <span class="math-inline">\(O(n^3)\)</span>, धीमा</td>
+</tr>
+<tr>
+<td>दूसरे models</td>
+<td>लगभग हर जगह चलता है</td>
+<td>सिर्फ़ Linear Regression जैसे cases</td>
+</tr>
+</tbody>
+</table>
+<h2>6. Probabilistic Interpretation: squared error ही क्यों?</h2>
+<p>मान लीजिए <span class="math-inline">\(y^{(i)} = \theta^T x^{(i)} + \epsilon^{(i)}\)</span>, जहाँ noise <span class="math-inline">\(\epsilon^{(i)} \sim \mathcal{N}(0, \sigma^2)\)</span> है और सारे examples i.i.d. हैं। तब</p>
+<p><span class="math-display">\[p(y^{(i)} \mid x^{(i)}; \theta) = \frac{1}{\sqrt{2\pi}\,\sigma} \exp\left( -\frac{(y^{(i)} - \theta^T x^{(i)})^2}{2\sigma^2} \right)\]</span></p>
+<p>पूरे data का log-likelihood:</p>
+<p><span class="math-display">\[\ell(\theta) = \sum_{i=1}^{m} \log p(y^{(i)} \mid x^{(i)}; \theta) = m \log \frac{1}{\sqrt{2\pi}\,\sigma} - \frac{1}{\sigma^2} \cdot \frac{1}{2} \sum_{i=1}^{m} \left(y^{(i)} - \theta^T x^{(i)}\right)^2\]</span></p>
+<p><span class="math-inline">\(\ell(\theta)\)</span> को maximize करना ठीक वही है जो <span class="math-inline">\(J(\theta)\)</span> को minimize करना। यानी <strong>Gaussian noise की assumption के साथ, Least Squares ही Maximum Likelihood Estimate है</strong>। जवाब <span class="math-inline">\(\sigma^2\)</span> पर निर्भर नहीं करता।</p>
+<h2>7. Practical बातें और आम गलतियाँ</h2>
+<ul>
+<li><strong>Feature scaling:</strong> अगर एक feature हज़ारों में है और दूसरा इकाइयों में, तो <span class="math-inline">\(J\)</span> का कटोरा बहुत लंबा-पतला हो जाता है और Gradient Descent zig-zag करता है। हर feature को mean 0 और standard deviation 1 पर ले आएँ।</li>
+<li><strong><span class="math-inline">\(J\)</span> को हर iteration पर plot करें:</strong> सही <span class="math-inline">\(\alpha\)</span> पर <span class="math-inline">\(J\)</span> हर step में घटना चाहिए। बढ़ रहा है तो <span class="math-inline">\(\alpha\)</span> छोटा करें।</li>
+<li><strong><span class="math-inline">\(X^TX\)</span> invertible न हो</strong> (जैसे duplicate features या <span class="math-inline">\(m &lt; n\)</span>): pseudo-inverse या regularization लगाएँ (Lecture 8)।</li>
+<li><strong>Linear का मतलब parameters में linear:</strong> <span class="math-inline">\(x^2\)</span>, <span class="math-inline">\(\log x\)</span> जैसे नए features जोड़कर यही model curves भी fit कर सकता है।</li>
+</ul>
+<h2>8. खुद से पूछें</h2>
+<ol>
+<li><span class="math-inline">\(J(\theta)\)</span> में <span class="math-inline">\(\frac{1}{2}\)</span> क्यों रखा गया है? (संकेत: derivative लेते समय क्या होता है?)</li>
+<li>अगर सारे examples के लिए <span class="math-inline">\(h_\theta(x^{(i)}) = y^{(i)}\)</span> हो जाए, तो LMS update क्या करेगा?</li>
+<li>SGD minimum पर पूरी तरह रुकता क्यों नहीं, और इसे रोकने के लिए <span class="math-inline">\(\alpha\)</span> के साथ क्या किया जा सकता है?</li>
+</ol>
+<div class="part"><span class="tag">भाग 2</span><h2>3D Animations</h2></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 2.1</span>Fitting a plane with GD</div><div class="frames"><figure><img src="anim/L02_1_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L02_1_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L02_1_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> दो features <span class="math-inline">\(x_1, x_2\)</span> और target <span class="math-inline">\(y\)</span> वाले data points 3D में बिखरे हैं। नीला plane hypothesis <span class="math-inline">\(h_\theta(x) = \theta_0 + \theta_1 x_1 + \theta_2 x_2\)</span> है। शुरू में <span class="math-inline">\(\theta = 0\)</span> है, इसलिए plane सपाट है। हर iteration में Gradient Descent plane को थोड़ा घुमाता और उठाता है। लाल रेखाएँ residuals (errors) हैं: देखिए कैसे वे छोटी होती जाती हैं और <span class="math-inline">\(J(\theta)\)</span> गिरता जाता है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L02_1.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 2.2</span>Gradient Descent on J(<span class="math-inline">\(\theta\)</span>)</div><div class="frames"><figure><img src="anim/L02_2_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L02_2_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L02_2_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> अब हम data की जगह <strong>parameter space</strong> देख रहे हैं: ज़मीन पर <span class="math-inline">\(\theta_0\)</span> और <span class="math-inline">\(\theta_1\)</span>, और ऊँचाई <span class="math-inline">\(J(\theta)\)</span>। Surface एक convex कटोरा है। लाल गेंद वर्तमान <span class="math-inline">\(\theta\)</span> है। हर step में वह सबसे तेज़ ढलान की दिशा में चलती है: पहले तेज़ी से घाटी में उतरती है, फिर लंबी-पतली घाटी के साथ धीरे-धीरे minimum (हरा तारा) की ओर बढ़ती है। नीचे फ़र्श पर contours और रास्ते की परछाईं भी दिख रही है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L02_2.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 2.3</span>Learning rate <span class="math-inline">\(\alpha\)</span>: small / good / large</div><div class="frames"><figure><img src="anim/L02_3_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L02_3_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L02_3_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> एक ही जगह से तीन गेंदें छोड़ी गई हैं, बस <span class="math-inline">\(\alpha\)</span> अलग है। <strong>नीली</strong> (<span class="math-inline">\(\alpha\)</span> छोटा) सही दिशा में है पर रेंग रही है। <strong>हरी</strong> (<span class="math-inline">\(\alpha\)</span> ठीक) जल्दी तली तक पहुँच जाती है। <strong>लाल</strong> (<span class="math-inline">\(\alpha\)</span> बड़ा) हर कदम में घाटी के पार कूद जाती है और दीवारों के बीच zig-zag करती रहती है। <span class="math-inline">\(\alpha\)</span> इससे थोड़ा और बड़ा हो तो यही उछाल हर step में बढ़ेगा और algorithm diverge कर जाएगा।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L02_3.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 2.4</span>Batch GD vs Stochastic GD</div><div class="frames"><figure><img src="anim/L02_4_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L02_4_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L02_4_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> <strong>नीला</strong> रास्ता Batch Gradient Descent है: हर step में पूरे data का gradient, इसलिए रास्ता smooth है। <strong>नारंगी</strong> रास्ता SGD है: हर update सिर्फ़ एक random example से, इसलिए रास्ता लड़खड़ाता है। फिर भी वह उसी घाटी में पहुँचता है और अंत में minimum के आस-पास मँडराता रहता है, पूरी तरह रुकता नहीं। यहाँ एक frame में Batch का एक step और SGD के चार सस्ते updates दिखाए गए हैं।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L02_4.gif</div></div>
+<div class="anim"><div class="anim-head"><span class="badge">Animation 2.5</span>Normal Equations = projection</div><div class="frames"><figure><img src="anim/L02_5_k0.png"><figcaption>शुरुआत</figcaption></figure><figure><img src="anim/L02_5_k1.png"><figcaption>बीच में</figcaption></figure><figure><img src="anim/L02_5_k2.png"><figcaption>अंत</figcaption></figure></div><p class="caption"><b>क्या देखें:</b> यहाँ axes तीन training examples हैं (<span class="math-inline">\(m=3\)</span>), इसलिए <span class="math-inline">\(\vec{y}\)</span> 3D में एक vector है (काला)। नीला plane <span class="math-inline">\(X\)</span> के दो columns का span है: <span class="math-inline">\(X\theta\)</span> हमेशा इसी plane में रहता है। नारंगी बिंदु <span class="math-inline">\(X\theta\)</span> plane पर चलते हुए उस जगह पहुँचता है जहाँ लाल residual <span class="math-inline">\(\vec{y} - X\theta\)</span> सबसे छोटा है। उस पल residual plane के ठीक <strong>perpendicular</strong> हो जाता है: <span class="math-inline">\(X^T(\vec{y} - X\theta) = 0\)</span>। यही Normal Equation है।</p><div class="file">चलती animation: dhruv_ai_tutorial/out/anim/L02_5.gif</div></div>
+<div class="part"><span class="tag">भाग 3</span><h2>Python Example</h2></div>
+<p class="run">इसे खुद चलाएँ: <code>dhruv_ai_tutorial/.venv/bin/python dhruv_ai_tutorial/chapters/L02_linear_regression/example.py</code></p>
+<div class="code"><pre><span></span><span class="sd">"""Lecture 2 example: Linear Regression शुरू से (सिर्फ़ NumPy).</span>
+
+<span class="sd">घर के size और bedrooms से कीमत का अंदाज़ा। तीन तरीकों से theta निकालते हैं:</span>
+<span class="sd">Batch Gradient Descent, Stochastic Gradient Descent, और Normal Equations।</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># ---------- 1. Data बनाएँ: price = 50 + 0.12*size + 15*bedrooms + noise ----------</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">size</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">3500</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>                 <span class="c1"># square feet</span>
+<span class="n">bedrooms</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">price</span> <span class="o">=</span> <span class="mi">50</span> <span class="o">+</span> <span class="mf">0.12</span> <span class="o">*</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">15</span> <span class="o">*</span> <span class="n">bedrooms</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>   <span class="c1"># हज़ार dollars में</span>
+
+<span class="c1"># ---------- 2. Train / test split ----------</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[:</span><span class="mi">160</span><span class="p">],</span> <span class="n">idx</span><span class="p">[</span><span class="mi">160</span><span class="p">:]</span>
+
+<span class="c1"># ---------- 3. Feature scaling (mean 0, std 1), सिर्फ़ training data के statistics से ----------</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">size</span><span class="p">,</span> <span class="n">bedrooms</span><span class="p">]</span>
+<span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="n">train</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">features</span><span class="p">[</span><span class="n">train</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">design_matrix</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Scale करें और x0 = 1 वाला column जोड़ें।"""</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="p">)),</span> <span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">]</span>
+
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">design_matrix</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">train</span><span class="p">]),</span> <span class="n">price</span><span class="p">[</span><span class="n">train</span><span class="p">]</span>
+<span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">design_matrix</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">test</span><span class="p">]),</span> <span class="n">price</span><span class="p">[</span><span class="n">test</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cost</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""J(theta) = (1/2m) * sum (h(x) - y)^2"""</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">X</span> <span class="o">@</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="c1"># ---------- 4. Batch Gradient Descent ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">batch_gd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iters</span><span class="p">):</span>
+        <span class="n">gradient</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>    <span class="c1"># पूरे data का gradient</span>
+        <span class="n">theta</span> <span class="o">-=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">gradient</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cost</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">theta</span><span class="p">,</span> <span class="n">history</span>
+
+
+<span class="c1"># ---------- 5. Stochastic Gradient Descent (LMS rule, एक बार में एक example) ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sgd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)):</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">@</span> <span class="n">theta</span>
+            <span class="n">theta</span> <span class="o">+=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">error</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>            <span class="c1"># theta_j := theta_j + alpha * error * x_j</span>
+        <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cost</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">theta</span><span class="p">,</span> <span class="n">history</span>
+
+
+<span class="c1"># ---------- 6. Normal Equations: X^T X theta = X^T y ----------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">normal_equations</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span><span class="p">)</span>
+
+
+<span class="n">theta_gd</span><span class="p">,</span> <span class="n">hist_gd</span> <span class="o">=</span> <span class="n">batch_gd</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">theta_sgd</span><span class="p">,</span> <span class="n">hist_sgd</span> <span class="o">=</span> <span class="n">sgd</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">theta_ne</span> <span class="o">=</span> <span class="n">normal_equations</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">r2</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">@</span> <span class="n">theta</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Method             theta0   theta1   theta2   train J    test R^2"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">th</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">"Batch GD"</span><span class="p">,</span> <span class="n">theta_gd</span><span class="p">),</span> <span class="p">(</span><span class="s2">"SGD"</span><span class="p">,</span> <span class="n">theta_sgd</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Normal Equations"</span><span class="p">,</span> <span class="n">theta_ne</span><span class="p">)]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;17</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">th</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">th</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">th</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s2">8.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cost</span><span class="p">(</span><span class="n">th</span><span class="p">,</span><span class="w"> </span><span class="n">X_train</span><span class="p">,</span><span class="w"> </span><span class="n">y_train</span><span class="p">)</span><span class="si">:</span><span class="s2">9.2f</span><span class="si">}</span><span class="s2"> "</span>
+          <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r2</span><span class="p">(</span><span class="n">th</span><span class="p">,</span><span class="w"> </span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">10.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Scaled theta को वापस असली units में बदलें ताकि मतलब समझ आए</span>
+<span class="n">slope</span> <span class="o">=</span> <span class="n">theta_ne</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">/</span> <span class="n">sigma</span>
+<span class="n">intercept</span> <span class="o">=</span> <span class="n">theta_ne</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">theta_ne</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">mu</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">असली units में: price = </span><span class="si">{</span><span class="n">intercept</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">slope</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">*size + </span><span class="si">{</span><span class="n">slope</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">*bedrooms"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"(data बनाते समय सच यह था: price = 50 + 0.120*size + 15*bedrooms)"</span><span class="p">)</span>
+
+<span class="n">new_house</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">2000.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">2000 sq ft, 3 bedrooms वाले घर का prediction: </span><span class="si">{</span><span class="p">(</span><span class="n">design_matrix</span><span class="p">(</span><span class="n">new_house</span><span class="p">)</span><span class="w"> </span><span class="o">@</span><span class="w"> </span><span class="n">theta_ne</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> हज़ार"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 7. Learning rate का असर ----------</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">अलग-अलग alpha पर 50 iterations के बाद J:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">batch_gd</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">iters</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">note</span> <span class="o">=</span> <span class="s2">"  &lt;- diverge!"</span> <span class="k">if</span> <span class="n">h</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="s2">""</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  alpha = </span><span class="si">{</span><span class="n">alpha</span><span class="si">:</span><span class="s2">&lt;6</span><span class="si">}</span><span class="s2"> J = </span><span class="si">{</span><span class="n">h</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4g</span><span class="si">}{</span><span class="n">note</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ---------- 8. Plots ----------</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hist_gd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Batch GD (per iteration)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hist_gd</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">hist_sgd</span><span class="p">)),</span> <span class="n">hist_sgd</span><span class="p">,</span> <span class="s2">"o-"</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"SGD (per epoch, rescaled)"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">cost</span><span class="p">(</span><span class="n">theta_ne</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">"gray"</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">"--"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Normal Equations"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">yscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"iteration"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"J(theta)"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Cost during training"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">X_test</span> <span class="o">@</span> <span class="n">theta_ne</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">lims</span> <span class="o">=</span> <span class="p">[</span><span class="n">y_test</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">y_test</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lims</span><span class="p">,</span> <span class="n">lims</span><span class="p">,</span> <span class="s2">"r--"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"perfect prediction"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"actual price"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"predicted price"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Test set: predicted vs actual"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"result.png"</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
+</pre></div>
+
+<div class="label">OUTPUT</div>
+<pre class="output">Method             theta0   theta1   theta2   train J    test R^2
+Batch GD            329.80   101.82    23.79    321.58     0.9431
+SGD                 329.88   101.20    25.90    324.09     0.9429
+Normal Equations    329.80   101.82    23.79    321.58     0.9431
+
+असली units में: price = 49.0 + 0.120*size + 15.6*bedrooms
+(data बनाते समय सच यह था: price = 50 + 0.120*size + 15*bedrooms)
+
+2000 sq ft, 3 bedrooms वाले घर का prediction: 336.8 हज़ार
+
+अलग-अलग alpha पर 50 iterations के बाद J:
+  alpha = 0.001  J = 5.43e+04
+  alpha = 0.01   J = 2.222e+04
+  alpha = 0.1    J = 323.3
+  alpha = 1.0    J = 321.6
+  alpha = 2.1    J = 6.684e+13  &lt;- diverge!</pre>
+<img class="result-img" src="examples/L02_linear_regression/result.png">
+</section>
+<script src="../vendor/katex/package/dist/katex.min.js"></script>
+<script src="../vendor/katex/package/dist/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [{left: "\\[", right: "\\]", display: true}, {left: "\\(", right: "\\)", display: false}],
+  throwOnError: false, ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+});
+</script>
+</body></html>
